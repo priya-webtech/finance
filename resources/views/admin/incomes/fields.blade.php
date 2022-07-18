@@ -487,8 +487,8 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Mode of Payment</label><br>
-                    <select name="student[0][mode_of_payment]" class="form-control mode_of_payment"
-                            aria-required="true" aria-invalid="false" onclick=modeOfPay(this) required>
+                    <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment"
+                            aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)" required>
                         <option value="">--Select Mode of Payment--</option>
 
                         @foreach ($modeOfPayment as $key=>$value)
@@ -516,7 +516,7 @@
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1 gst0" style="display: none;">
                 <div class="form-group">
                     <br>
                     <br>
@@ -704,6 +704,9 @@
                 $('.both').hide();
             }
         }
+        // function ChangePaymentMode() {
+        //     console.log('changes');
+        // }
         $("#mob").keyup(function(){
             var mobile = $('#mob').val();
             var no_len = mobile.length;
@@ -765,7 +768,7 @@
                 '<div class="col-sm-4">\n' +
                 '<div class="form-group">\n' +
                 '<label>Mode of Payment</label><br>\n' +
-                '<select  name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this) aria-required="true" aria-invalid="false" required >\n' +
+                '<select  id="batch'+mindex+'" name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this,'+mindex+') aria-required="true" aria-invalid="false" required >\n' +
                 '<option value="">--Select Mode of Payment--</option>\n' +
                 @php
                     $mode = '';
@@ -796,7 +799,7 @@
                 '<span class="error-is_required" style="color:red"></span> \n' +
             '</div> \n' +
             '</div> \n' +
-            '<div class="col-sm-1"> \n' +
+            '<div class="col-sm-1 gst'+mindex+'" style="display:none;"> \n' +
             ' <div class="form-group"> \n' +
             ' <br> \n' +
             ' <br> \n' +
@@ -1031,16 +1034,22 @@
 
         }
 
-        function modeOfPay(el) {
-            var batch = $('#batch option:selected').val();
+        function modeOfPay(el,index) {
+            var batch = $('#batch'+index+' option:selected').val();
             if(batch){
+                $('.gst'+index).show();
+
                 $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {
                     if(data){
                         $('.badge').text(data);
                     }
                 });
+            } else {
+                $('.gst'+index).hide();
+
             }
         }
+        
         // function checkText() {
         //     alert('okay');
         //     event.preventDefault();
