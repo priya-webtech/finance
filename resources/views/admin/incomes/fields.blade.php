@@ -532,7 +532,7 @@
                     <br>
                     <label>Batch Not Yet</label>
                     <input id="value" step=".01" name="student[0][no_batch]"
-                           value="1" type="checkbox">
+                           value="1" type="checkbox" onchange="batchDisplay(this.checked, 0)">
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
@@ -567,6 +567,7 @@
 
 
         </div>
+        <span class="batch_table0">
         <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">
             Add Batch
         </button>
@@ -643,6 +644,7 @@
                 </div>
             </div>
         </div>
+    </span>
 
         {{--        @endif--}}
     </div>
@@ -704,9 +706,15 @@
                 $('.both').hide();
             }
         }
-        // function ChangePaymentMode() {
-        //     console.log('changes');
-        // }
+        function batchDisplay(value, index) {
+            if(value) {
+                $('.batch_table'+ index).hide();
+
+            } else {
+                $('.batch_table'+ index).show();
+
+            }
+        }
         $("#mob").keyup(function(){
             var mobile = $('#mob').val();
             var no_len = mobile.length;
@@ -813,14 +821,14 @@
                 ' <br> \n' +
                 '<br> \n' +
                 '<label>Batch Not Yet</label> \n' +
-                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox"> \n' +
+                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +
                 '  </div> \n' +
                 ' </div> \n' +
 
                 '                            <br><br>\n' +
                 '                        </div>\n' +
-                '                        <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(' + mindex + ')">Add New Row</button>\n' +
+                '                               <span class="batch_table'+mindex+'"> <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(' + mindex + ')">Add New Row</button>\n' +
                 '                        <br><br>\n' +
                 '\n' +
                 '                        <div id="addNewTableRow" class="batch-row">\n' +
@@ -888,7 +896,7 @@
                 '                                    </table>\n' +
                 '                                </div>\n' +
                 '                            </div>\n' +
-                '                        </div>\n' +
+                '                        </div></span>\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
                 '                <br><br>');
