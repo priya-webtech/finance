@@ -107,4 +107,7 @@ class Student extends Model
     public function studDetail(){
         return $this->hasMany(StudentDetail::class,'student_id');
     }
+    public function studFeesCollection(){
+        return $this->hasMany(StudentFessCollection::class,'student_id');
+    }
 }

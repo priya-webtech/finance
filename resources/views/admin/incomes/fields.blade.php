@@ -1,4 +1,13 @@
 
+<div class="container-fluid p-0">
+    <div class="row pb-4">
+        <div class="col-lg-12" style="background-color: #f4f6f9">
+            <hr class="m-0">
+            <h4>Income and Student Detail:</h4>
+            <hr class="m-0">
+        </div>
+    </div>
+</div>
 <div class="form-group col-sm-6">
     {!! Form::label('branch_id', 'Branch:') !!}
     {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
@@ -853,6 +862,7 @@
                 '\n' +
                 '                                            <td>\n' +
                 '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<option value="">--Select Batch --</option>\n' +
                 @php
                     $option = '';
                     foreach ($batch as $key=>$value)
@@ -866,6 +876,7 @@
                 '                                            </td>\n' +
                 '                                            <td>\n' +
                 '<select  name="student[' + mindex + '][course][0][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<option value="">--Select Trainer --</option>\n' +
                 @php
                     $op = '';
                     foreach ($trainer as $key=>$value)
@@ -1057,7 +1068,7 @@
 
             }
         }
-        
+
         // function checkText() {
         //     alert('okay');
         //     event.preventDefault();

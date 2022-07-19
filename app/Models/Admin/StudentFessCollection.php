@@ -27,7 +27,8 @@ class StudentFessCollection extends Model
         'student_id',
         'income_id',
         'gst',
-        'course_id'
+        'course_id',
+        'student_detail_id',
     ];
 
     /**
@@ -55,5 +56,7 @@ class StudentFessCollection extends Model
     public function student(){
         return $this->belongsTo(Student::class,'student_id');
     }
-
+    public function getIncome(){
+        return $this->belongsTo(Income::class,'income_id');
+    }
 }

@@ -104,4 +104,7 @@ class StudentDetail extends Model
     public function studBatchDetail(){
         return $this->hasMany(StudentBatchDetail::class,'student_detail_id');
     }
+    public function studFeesColl(){
+        return $this->hasOne(StudentFessCollection::class,'student_detail_id');
+    }
 }
