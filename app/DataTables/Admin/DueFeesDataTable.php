@@ -35,8 +35,17 @@ class DueFeesDataTable extends DataTable
                  $paying_amount = StudentFessCollection::where('student_id',$record->id)->pluck('income_id')->toArray();
                  $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
                  return $payAmount + $gst;
+            })->addColumn('due_fees', function ($record){
+                 $stud_id=$record->id;
+                $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
+                $gst = StudentFessCollection::where('student_id',$record->id)->sum('gst');
+                 $paying_amount = StudentFessCollection::where('student_id',$record->id)->pluck('income_id')->toArray();
+                 $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
+                 $total = $payAmount + $gst;
+                 $dueFees = $agreed_amount - $total;
+                 return $dueFees;
             })
-            ->rawColumns(['agreed_amount','total_amount','action']);
+            ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
     }
 
     /**
@@ -89,6 +98,7 @@ class DueFeesDataTable extends DataTable
             'mobile_no',
             'agreed_amount',
             'total_amount',
+            'due_fees',
         ];
     }
 
