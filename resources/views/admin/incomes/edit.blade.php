@@ -157,11 +157,11 @@
                     {{--    {!! Form::select('trainer_name',$trainer, null, ['class' => 'form-control']) !!}--}}
                     {{--    <span class="error text-danger">{{ $errors->first('trainer_name') }}</span>--}}
                     {{--    </div>--}}
-                    <div class="form-group col-sm-6 corpo">
-                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}
-                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>
-                    </div>
+{{--                    <div class="form-group col-sm-6 corpo">--}}
+{{--                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
+{{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
+{{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
+{{--                    </div>--}}
                     <div class="form-group col-sm-6 franchises" style="display: none;">
                         {!! Form::label('franchises_id', 'Franchises:') !!}
                         {!! Form::select('franchises_id', $franchise, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Franchises']) !!}

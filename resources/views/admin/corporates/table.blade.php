@@ -2,21 +2,12 @@
     <table class="table" id="corporates-table">
         <thead>
         <tr>
-            <th>Company Name</th>
+        <th>Company Name</th>
         <th>Contact No</th>
         <th>Email</th>
         <th>Web Site</th>
-{{--        <th>Address</th>--}}
-{{--        <th>State</th>--}}
-{{--        <th>City</th>--}}
         <th>Status</th>
         <th>Branch</th>
-{{--        <th>Batch</th>--}}
-{{--        <th>Trainer Amount</th>--}}
-{{--        <th>Agreed Amount</th>--}}
-{{--        <th>Gst Amount</th>--}}
-        <th>Reg For Month</th>
-{{--        <th>Remark</th>--}}
         <th>Enquiry Type</th>
         <th>Lead Source</th>
             <th colspan="3">Action</th>
@@ -29,17 +20,8 @@
             <td>{{ $corporate->contact_no }}</td>
             <td>{{ $corporate->email }}</td>
             <td>{{ $corporate->web_site }}</td>
-{{--            <td>{{ $corporate->address }}</td>--}}
-{{--            <td>{{ $corporate->state }}</td>--}}
-{{--            <td>{{ $corporate->city }}</td>--}}
-                <td><span class='badge @if($corporate->status == 1)badge-success @else badge-danger @endif'>{{ $corporate->status == 1 ? "Active" : "Block" }}</span></td>
+           <td><span class='badge @if($corporate->status == 1)badge-success @else badge-danger @endif'>{{ $corporate->status == 1 ? "Active" : "Block" }}</span></td>
             <td>{{ $corporate->branch->title }}</td>
-{{--            <td>{{ $corporate->batch->name }}</td>--}}
-{{--            <td>{{ $corporate->trainer_amount }}</td>--}}
-{{--            <td>{{ $corporate->agreed_amount }}</td>--}}
-{{--            <td>{{ $corporate->gst_amount }}</td>--}}
-            <td>{{ $corporate->reg_for_month }}</td>
-{{--            <td>{{ $corporate->remark }}</td>--}}
             <td>{{ $corporate->enquiry->title }}</td>
             <td>{{ $corporate->lead->title }}</td>
                 <td width="120">

@@ -51,7 +51,8 @@ class IncomeController extends AppBaseController
     {
         $incomes = $this->incomeRepository->paginate(10);
         $student = Student::get();
-        return view('admin.incomes.index',compact('student','incomes'));
+        $corporate = Corporate::get();
+        return view('admin.incomes.index',compact('student','incomes','corporate'));
     }
 
     /**
@@ -213,10 +214,17 @@ class IncomeController extends AppBaseController
      */
     public function edit($student_id)
     {
-
+        if (\request('type') == 'corporate') {
+            $students = Corporate::findorfail($student_id);
+            $students['name'] = $students['company_name'];
+            $students['mobile_no'] = $students['contact_no'];
+            $students['enquiry_type'] = $students['enquiry_type_id'];
+            $students['income_type_id']= $students->corporateDetail[0]->corpoFeesColl->getIncome->income_type_id;
+        } else {
         $students = Student::findorfail($student_id);
         $students['income_type_id'] = $students->studDetail[0]->studFeesColl->getIncome->income_type_id;
         $students['branch_id'] = $students->studDetail[0]->branch_id;
+    }
         $course =  Course::where('status',1)->pluck('course_name','id');
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
         $student =  Student::where('status',1)->pluck('name','id');

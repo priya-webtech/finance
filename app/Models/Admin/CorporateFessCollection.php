@@ -57,5 +57,7 @@ class CorporateFessCollection extends Model
     public function corporate(){
         return $this->belongsTo(Corporate::class,'corporate_id');
     }
-
+    public function getIncome(){
+        return $this->belongsTo(Income::class,'income_id');
+    }
 }
