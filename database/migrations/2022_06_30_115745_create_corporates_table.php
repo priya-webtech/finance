@@ -25,17 +25,12 @@ class CreateCorporatesTable extends Migration
             $table->string('city');
             $table->integer('status');
             $table->integer('branch_id')->unsigned();;
-            $table->integer('batch_id')->unsigned();;
-            $table->decimal('trainer_amount');
-            $table->decimal('agreed_amount');
-            $table->decimal('gst_amount');
             $table->string('reg_for_month');
             $table->string('remark');
             $table->integer('enquiry_type_id')->unsigned();;
             $table->integer('lead_source_id')->unsigned();;
             $table->timestamps();
             $table->foreign('branch_id')->references('id')->on('branches');
-            $table->foreign('batch_id')->references('id')->on('batches');
             $table->foreign('enquiry_type_id')->references('id')->on('enquiry_types');
             $table->foreign('lead_source_id')->references('id')->on('lead_sources');
         });

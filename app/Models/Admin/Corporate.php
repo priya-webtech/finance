@@ -113,16 +113,13 @@ class Corporate extends Model
     public function branch(){
         return $this->belongsTo(Branch::class,'branch_id');
     }
-    public function batch(){
-        return $this->belongsTo(Batch::class,'batch_id');
-    }
     public function enquiry(){
         return $this->belongsTo(EnquiryType::class,'enquiry_type_id');
     }
     public function lead(){
         return $this->belongsTo(LeadSources::class,'lead_source_id');
     }
-    public function income(){
-        return $this->hasMany(Income::class,'corporate_id');
+    public function corporateDetail(){
+        return $this->hasMany(CorporateDetail::class,'corporate_id');
     }
 }

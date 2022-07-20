@@ -11,12 +11,12 @@
 {{--        <th>City</th>--}}
         <th>Status</th>
         <th>Branch</th>
-        <th>Batch</th>
-        <th>Trainer Amount</th>
-        <th>Agreed Amount</th>
-        <th>Gst Amount</th>
+{{--        <th>Batch</th>--}}
+{{--        <th>Trainer Amount</th>--}}
+{{--        <th>Agreed Amount</th>--}}
+{{--        <th>Gst Amount</th>--}}
         <th>Reg For Month</th>
-        <th>Remark</th>
+{{--        <th>Remark</th>--}}
         <th>Enquiry Type</th>
         <th>Lead Source</th>
             <th colspan="3">Action</th>
@@ -34,12 +34,12 @@
 {{--            <td>{{ $corporate->city }}</td>--}}
                 <td><span class='badge @if($corporate->status == 1)badge-success @else badge-danger @endif'>{{ $corporate->status == 1 ? "Active" : "Block" }}</span></td>
             <td>{{ $corporate->branch->title }}</td>
-            <td>{{ $corporate->batch->name }}</td>
-            <td>{{ $corporate->trainer_amount }}</td>
-            <td>{{ $corporate->agreed_amount }}</td>
-            <td>{{ $corporate->gst_amount }}</td>
+{{--            <td>{{ $corporate->batch->name }}</td>--}}
+{{--            <td>{{ $corporate->trainer_amount }}</td>--}}
+{{--            <td>{{ $corporate->agreed_amount }}</td>--}}
+{{--            <td>{{ $corporate->gst_amount }}</td>--}}
             <td>{{ $corporate->reg_for_month }}</td>
-            <td>{{ $corporate->remark }}</td>
+{{--            <td>{{ $corporate->remark }}</td>--}}
             <td>{{ $corporate->enquiry->title }}</td>
             <td>{{ $corporate->lead->title }}</td>
                 <td width="120">

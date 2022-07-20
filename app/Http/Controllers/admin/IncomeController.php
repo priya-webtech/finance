@@ -66,7 +66,6 @@ class IncomeController extends AppBaseController
         $student =  Student::where('status',1)->pluck('name','id');
         $batch =  Batch::where('status',1)->pluck('name','id');
         $branch = Branch::where('status',1)->pluck('title','id');
-        //$bankAccount = BankAccount::where('status',1)->pluck('name','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
         $corporate = Corporate::where('status',1)->pluck('company_name','id');
         $franchise = Franchise::where('status',1)->pluck('title','id');
@@ -134,48 +133,51 @@ class IncomeController extends AppBaseController
 //            $val['gst'] = $input['gst'];
 //            $income->incomeStudFees()->create($val);
         }
-//        elseif ($incomeType->title == 'Corporate Training'){
-//            $request->validate([
-//                'name' => 'required',
-//                'email' => 'required',
-//                'mobile_no' => 'required|unique:corporates,contact_no,',
-//                'batch_id'=> 'required',
-//                'lead_source'=> 'required',
-//                'enquiry_type'=> 'required',
-//                'web_site'=> 'required',
-//                'trainer_amount'=> 'required',
-//                'address'=> 'required',
-//                'state'=> 'required',
-//                'city'=> 'required',
-//                'agreed_amount'=> 'required',
-//                'reg_for_month'=> 'required',
-//                'trainer_name'=> 'required',
-//                'paying_amount'=> 'required',
-//            ]);
-//            $input['company_name'] = $input['name'];
-//            $input['trainer_id'] = $input['trainer_name'];
-//            $input['contact_no'] = $input['mobile_no'];
-//            $input['lead_source_id'] = $input['lead_source'];
-//            $input['enquiry_type_id'] = $input['enquiry_type'];
-//            $input['status'] = 1;
-//            $corporate = Corporate::create($input);
-//            $totalPay = $input['paying_amount'];
-//            if (isset($input['gst'])){
-//                $gst =  site_setting()->gst_per/100+1;
-//                $data['gst'] = $input['paying_amount'] - $input['paying_amount']/$gst;
-//                $input['paying_amount'] = $input['paying_amount']/$gst;
-//                $input['gst'] = $data['gst'];
-//            }else{
-//                $input['gst'] = 0;
-//            }
-//            $bank = ModeOfPayment::where('id',$input['mode_of_payment'])->first();
-//            $old_balance = $bank->opening_balance;
-//            $bank->opening_balance = $old_balance+$totalPay;
-//            $bank->save();
-//            $input['bank_acc_id'] = $input['mode_of_payment'];
-//            $input['registration_taken_by'] = Auth::id();
-//            $corporate->income()->create($input);
-//        }
+        elseif ($incomeType->title == 'Corporate Training'){
+            $corporate = Corporate::where('contact_no',$input['mobile_no'])->first();
+            if(empty($student)){
+                $input['company_name'] = $input['name'];
+                $input['contact_no'] = $input['mobile_no'];
+                $input['enquiry_type_id'] = $input['enquiry_type'];
+                $input['status'] = 1;$now = Carbon::now();
+                $input['reg_for_month'] = $now->month.'/'.$now->year;
+                $corporate = Corporate::create($input);
+            }
+            foreach ($input['student'] as $studBatch){
+                $studBatch['branch_id'] = $input['branch_id'];
+                $studBatch['reg_taken_id'] = Auth::id();
+                $studBatch['reg_for_month'] = $now->month.'/'.$now->year;
+                $corporateDetail = $corporate->corporateDetail()->create($studBatch);
+                $totalPay = $studBatch['pay_amount'];
+                if (isset($studBatch['gst'])){
+                    $gst =  site_setting()->gst_per/100+1;
+                    $data['gst'] = $studBatch['pay_amount'] - $studBatch['pay_amount']/$gst;
+                    $input['paying_amount'] = $studBatch['pay_amount']/$gst;
+                    // $input['gst'] = $data['gst'];
+                }else{
+                    $data['gst'] = 0;
+                    $input['paying_amount'] = $totalPay;
+                }
+                $bank = ModeOfPayment::where('id',$studBatch['mode_of_payment'])->first();
+                $old_balance = $bank->opening_balance;
+                $bank->opening_balance = $old_balance+$totalPay;
+                $bank->save();
+                $input['bank_acc_id'] = $studBatch['mode_of_payment'];
+                $input['course_id'] = $studBatch['course_id'];
+                $input['register_date'] = Carbon::now();
+                $input['registration_taken_by'] = Auth::id();
+                $income = Income::create($input);
+                $val['corporate_id'] = $corporate->id;
+                $val['course_id'] = $studBatch['course_id'];
+                $val['gst'] = $data['gst'];
+                $val['corporate_detail_id'] = $corporateDetail->id;
+                $income->corporateStudFees()->create($val);
+                if (empty($studBatch['no_batch'])){
+                    $studentBatchDetail = $corporateDetail->corporateBatchDetail()->createMany($studBatch['course']);
+                }
+//                $studentBatchDetail->batchTrainerDetail()->createMany($studBatch['batch']);
+            }
+        }
 
         Flash::success('Income saved successfully.');
 
@@ -228,6 +230,7 @@ class IncomeController extends AppBaseController
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
+        $path = asset('country.json');
         $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
         return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','bankAccount','country','incomeType','student','batch','modeOfPayment','corporate','franchise'));
     }

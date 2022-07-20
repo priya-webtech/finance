@@ -25,9 +25,10 @@ class CorporateFessCollection extends Model
 
     public $fillable = [
         'corporate_id',
-        'batch_id',
+        'course_id',
         'gst',
-        'income_id'
+        'income_id',
+        'corporate_detail_id',
     ];
 
     /**
@@ -39,7 +40,8 @@ class CorporateFessCollection extends Model
         'id' => 'integer',
         'corporate_id' => 'string',
         'income_id' => 'integer',
-        'batch_id' => 'integer'
+        'course_id' => 'integer',
+        'corporate_detail_id' => 'integer',
     ];
 
     /**
@@ -50,7 +52,7 @@ class CorporateFessCollection extends Model
     public static $rules = [
         'corporate_id' => 'required',
         'income_id' => 'required',
-        'batch_id'  => 'required',
+        'course_id'  => 'required',
     ];
     public function corporate(){
         return $this->belongsTo(Corporate::class,'corporate_id');

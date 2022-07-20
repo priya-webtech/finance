@@ -2,19 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateBatchDetail.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2022_07_19_043303_add_student_detail_id_to_student_fees_collections_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Student.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/StudentDetail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/StudentDetail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/StudentFessCollection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/StudentFessCollection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/CorporateFessCollection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateFessCollection.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_06_30_115745_create_corporates_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_06_30_115745_create_corporates_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/show_fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/show_fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +46,11 @@
     <favorites_list name="fundoo-app" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
@@ -193,16 +198,16 @@
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Models/Admin" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\finance\app\Models\Admin" />
       <recent name="C:\xampp\htdocs\finance" />
       <recent name="C:\xampp\htdocs\finance-app\public\storage" />
       <recent name="C:\xampp\htdocs\finance-app\resources\views\admin\due-fees" />
       <recent name="C:\xampp\htdocs\finance-app\public" />
-      <recent name="C:\xampp\htdocs\finance-app\app\Models\Admin" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -274,8 +279,17 @@
       <workItem from="1657946043699" duration="22654000" />
       <workItem from="1658119470991" duration="9321000" />
       <workItem from="1658136475477" duration="10825000" />
-      <workItem from="1658204612583" duration="19409000" />
+      <workItem from="1658204612583" duration="24302000" />
+      <workItem from="1658291497611" duration="10475000" />
     </task>
+    <task id="LOCAL-00001" summary="19/07/22">
+      <created>1658231712512</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1658231712512</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,6 +308,10 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="19/07/22" />
+    <option name="LAST_COMMIT_MESSAGE" value="19/07/22" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -309,7 +327,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php</url>
-          <line>965</line>
+          <line>782</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
