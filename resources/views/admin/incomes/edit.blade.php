@@ -23,347 +23,194 @@
  @else
                 {!! Form::model($income, ['route' => ['admin.incomes.update', $income->id], 'method' => 'patch']) !!}
             @endif
-            <div class="card-body">
-                <div class="row">
-{{--                    @include('admin.incomes.fields')--}}
+    <div class="card-body">
+        <div class="row">
+            {{--                    @include('admin.incomes.fields')--}}
 
 
-                    <div class="container-fluid p-0">
-                        <div class="row pb-4">
-                            <div class="col-lg-12" style="background-color: #f4f6f9">
-                                <hr class="m-0">
-                                <h4>Income and Student Detail:</h4>
-                                <hr class="m-0">
-                            </div>
-                        </div>
+            <div class="container-fluid p-0">
+                <div class="row pb-4">
+                    <div class="col-lg-12" style="background-color: #f4f6f9">
+                        <hr class="m-0">
+                        <h4>Income and Student Detail:</h4>
+                        <hr class="m-0">
                     </div>
-                    <div class="form-group col-sm-6">
-                        {!! Form::label('branch_id', 'Branch:') !!}
-                        {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
-                        <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
-                    </div>
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}--}}
-                    {{--    {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>--}}
-                    {{--</div>--}}
-                <!-- Income Type Id Field -->
-                    <div class="form-group col-sm-6">
-                        {!! Form::label('income_type_id', 'Income Type:') !!}
-                        {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
-                        <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
-                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                {!! Form::label('branch_id', 'Branch:') !!}
+                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
+                <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
+            </div>
+            <!-- Income Type Id Field -->
+            <div class="form-group col-sm-6">
+                {!! Form::label('income_type_id', 'Income Type:') !!}
+                {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
+                <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
+            </div>
 
 
-                    <!-- Mobile No Field -->
-                    <div class="form-group col-sm-6 both">
-                        {!! Form::label('mobile_no', 'Mobile No:') !!}
-                        {!! Form::text('mobile_no', null, ['class' => 'form-control','id'=>'mob']) !!}
-                        <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
-                    </div>
-                    <!-- Name Field -->
+            <!-- Mobile No Field -->
+            <div class="form-group col-sm-6 both">
+                {!! Form::label('mobile_no', 'Mobile No:') !!}
+                {!! Form::text('mobile_no', null, ['class' => 'form-control','id'=>'mob']) !!}
+                <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
+            </div>
+            <!-- Name Field -->
 
-                    <div class="form-group col-sm-6 both">
-                        {!! Form::label('name', 'Name:') !!}
-                        {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('name') }}</span>
-                    </div>
-                    <!-- Email Field -->
-                    <div class="form-group col-sm-6 both">
-                        {!! Form::label('email', 'Email:') !!}
-                        {!! Form::text('email', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('email') }}</span>
-                    </div>
+            <div class="form-group col-sm-6 both">
+                {!! Form::label('name', 'Name:') !!}
+                {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('name') }}</span>
+            </div>
+            <!-- Email Field -->
+            <div class="form-group col-sm-6 both">
+                {!! Form::label('email', 'Email:') !!}
+                {!! Form::text('email', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('email') }}</span>
+            </div>
 
-                    {{--    <!-- Batch Id Field -->--}}
-                    {{--    <div class="form-group col-sm-6 both">--}}
-                    {{--        {!! Form::label('batch_id', 'Batch:') !!}--}}
-                    {{--        {!! Form::select('batch_id',$batch, null, ['class' => 'form-control','onchange'=>'bath()','id'=>'batch','placeholder'=>'Select Batch']) !!}--}}
-                    {{--        <span class="error text-danger">{{ $errors->first('batch_id') }}</span>--}}
-                    {{--    </div>--}}
-                <!-- Student Type Field -->
-                    <div class="form-group col-sm-6 stud">
-                        {!! Form::label('student_type', 'Student Type:') !!}
-                        {!! Form::select('student_type',$studentType, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
-                        <span class="error text-danger">{{ $errors->first('student_type') }}</span>
-                    </div>
-                    <div class="form-group col-sm-6 both">
-                        {!! Form::label('lead_source_id', 'Lead Source :') !!}
-                        {!! Form::select('lead_source_id',$leadSources, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
-                        <span class="error text-danger">{{ $errors->first('lead_source') }}</span>
-                    </div>
-                    <div class="form-group col-sm-6 both">
-                        {!! Form::label('enquiry_type', 'Enquiry Type:') !!}
-                        {!! Form::select('enquiry_type',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
-                        <span class="error text-danger">{{ $errors->first('enquiry_type') }}</span>
-                    </div>
-                    <!-- State Field -->
-                    <div class="form-group col-sm-6 both">
-                        {!! Form::label('state', 'State:') !!}
-                        {!! Form::select('state', $country, null,['class' => 'form-control', 'placeholder'=> '--Please Select State--']) !!}
-                        <span class="error text-danger">{{ $errors->first('state') }}</span>
-                    </div>
-                    {{--<!-- Course Id Field -->--}}
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('course_id', 'Course:') !!}--}}
-                    {{--    {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('course_id') }}</span>--}}
-                    {{--</div>--}}
-                <!-- Agreed Amount Field -->
-                    {{--<div class="form-group col-sm-6 both">--}}
-                    {{--    {!! Form::label('agreed_amount', 'Agreed Amount:') !!}--}}
-                    {{--    {!! Form::text('agreed_amount', null, ['class' => 'form-control']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('agreed_amount') }}</span>--}}
-                    {{--</div>--}}
+            {{--    <!-- Batch Id Field -->--}}
+            {{--    <div class="form-group col-sm-6 both">--}}
+            {{--        {!! Form::label('batch_id', 'Batch:') !!}--}}
+            {{--        {!! Form::select('batch_id',$batch, null, ['class' => 'form-control','onchange'=>'bath()','id'=>'batch','placeholder'=>'Select Batch']) !!}--}}
+            {{--        <span class="error text-danger">{{ $errors->first('batch_id') }}</span>--}}
+            {{--    </div>--}}
+        <!-- Student Type Field -->
+            <div class="form-group col-sm-6 stud">
+                {!! Form::label('student_type', 'Student Type:') !!}
+                {!! Form::select('student_type',$studentType, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
+                <span class="error text-danger">{{ $errors->first('student_type') }}</span>
+            </div>
+            <div class="form-group col-sm-6 both">
+                {!! Form::label('lead_source_id', 'Lead Source :') !!}
+                {!! Form::select('lead_source_id',$leadSources, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
+                <span class="error text-danger">{{ $errors->first('lead_source') }}</span>
+            </div>
+            <div class="form-group col-sm-6 both">
+                {!! Form::label('enquiry_type', 'Enquiry Type:') !!}
+                {!! Form::select('enquiry_type',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
+                <span class="error text-danger">{{ $errors->first('enquiry_type') }}</span>
+            </div>
+            <!-- State Field -->
+            <div class="form-group col-sm-6 both">
+                {!! Form::label('state', 'State:') !!}
+                {!! Form::select('state', $country, null,['class' => 'form-control', 'placeholder'=> '--Please Select State--']) !!}
+                <span class="error text-danger">{{ $errors->first('state') }}</span>
+            </div>
+            {{--<!-- Course Id Field -->--}}
+            {{--<div class="form-group col-sm-6">--}}
+            {{--    {!! Form::label('course_id', 'Course:') !!}--}}
+            {{--    {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}--}}
+            {{--    <span class="error text-danger">{{ $errors->first('course_id') }}</span>--}}
+            {{--</div>--}}
+        <!-- Agreed Amount Field -->
+            {{--<div class="form-group col-sm-6 both">--}}
+            {{--    {!! Form::label('agreed_amount', 'Agreed Amount:') !!}--}}
+            {{--    {!! Form::text('agreed_amount', null, ['class' => 'form-control']) !!}--}}
+            {{--    <span class="error text-danger">{{ $errors->first('agreed_amount') }}</span>--}}
+            {{--</div>--}}
 
-                <!-- Placement Field -->
-                    <div class="form-group col-sm-6 stud">
-                        {!! Form::label('placement', 'Placement:') !!}
-                        {!! Form::select('placement',['yes'=>'YES','no'=>'NO'], null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('placement') }}</span>
-                    </div>
-                    <!-- Remark Field -->
-                    {{--<div class="form-group col-sm-6 stud">--}}
-                    {{--    {!! Form::label('reg_taken_id', 'Registration Taken:') !!}--}}
-                    {{--    {!! Form::select('reg_taken_id',$user, null, ['class' => 'form-control','placeholder'=>'Please Select']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('reg_taken_id') }}</span>--}}
-                    {{--</div>--}}
-                    {{--<!-- Reg For Month Field -->--}}
-                    {{--<div class="form-group col-sm-6 both">--}}
-                    {{--    {!! Form::label('reg_for_month', 'Reg For Month:') !!}--}}
-                    {{--    {!! Form::select('reg_for_month',['1month'=> '1 Month','2month'=> '2 Month','3month'=>'3 Month','4month'=>'4 Month','5month'=>'5 Month','6month'=>'6 Month','7month'=>'7 Month','8month'=>'8 Month','9month'=>'9 Month','10month'=>'10 Month','11month'=>'11 Month','12month'=>'12 Month'], null, ['class' => 'form-control']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('reg_for_month') }}</span>--}}
-                    {{--</div>--}}
+        <!-- Placement Field -->
+            <div class="form-group col-sm-6 stud">
+                {!! Form::label('placement', 'Placement:') !!}
+                {!! Form::select('placement',['yes'=>'YES','no'=>'NO'], null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('placement') }}</span>
+            </div>
+            <!-- Remark Field -->
+            {{--<div class="form-group col-sm-6 stud">--}}
+            {{--    {!! Form::label('reg_taken_id', 'Registration Taken:') !!}--}}
+            {{--    {!! Form::select('reg_taken_id',$user, null, ['class' => 'form-control','placeholder'=>'Please Select']) !!}--}}
+            {{--    <span class="error text-danger">{{ $errors->first('reg_taken_id') }}</span>--}}
+            {{--</div>--}}
+            {{--<!-- Reg For Month Field -->--}}
+            {{--<div class="form-group col-sm-6 both">--}}
+            {{--    {!! Form::label('reg_for_month', 'Reg For Month:') !!}--}}
+            {{--    {!! Form::select('reg_for_month',['1month'=> '1 Month','2month'=> '2 Month','3month'=>'3 Month','4month'=>'4 Month','5month'=>'5 Month','6month'=>'6 Month','7month'=>'7 Month','8month'=>'8 Month','9month'=>'9 Month','10month'=>'10 Month','11month'=>'11 Month','12month'=>'12 Month'], null, ['class' => 'form-control']) !!}--}}
+            {{--    <span class="error text-danger">{{ $errors->first('reg_for_month') }}</span>--}}
+            {{--</div>--}}
 
-                <!-- Student End Field -->
+        <!-- Student End Field -->
 
-                    <!-- Corporate Start Field -->
-                    {{--<div class="row ">--}}
-                <!-- Company Name Field -->
-                    <div class="form-group col-sm-6 corpo">
-                        {!! Form::label('web_site', 'Web Site:') !!}
-                        {!! Form::text('web_site', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('web_site') }}</span>
-                    </div>
-                    <div class="form-group col-sm-6 corpo">
-                        {!! Form::label('address', 'Address:') !!}
-                        {!! Form::text('address', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('address') }}</span>
-                    </div>
-                    <div class="form-group col-sm-6 corpo">
-                        {!! Form::label('city', 'city:') !!}
-                        {!! Form::text('city', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('address') }}</span>
-                    </div>
-                    {{--<!-- Trainer Name Field -->--}}
-                    {{--   <div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('trainer_name', 'Trainer Name:') !!}<span class="badge badge-success">0</span>--}}
-                    {{--    {!! Form::select('trainer_name',$trainer, null, ['class' => 'form-control']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('trainer_name') }}</span>--}}
-                    {{--    </div>--}}
-{{--                    <div class="form-group col-sm-6 corpo">--}}
-{{--                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
-{{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
-{{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group col-sm-6 franchises" style="display: none;">--}}
-{{--                        {!! Form::label('franchises_id', 'Franchises:') !!}--}}
-{{--                        {!! Form::select('franchises_id', $franchise, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Franchises']) !!}--}}
-{{--                        <span class="error text-danger">{{ $errors->first('student_id') }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group col-sm-6 corpo">--}}
-{{--                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
-{{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
-{{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
-{{--                    </div>--}}
-                    <div class="form-group col-sm-6 franchises" style="display: none;">
-                        {!! Form::label('title', 'Franchises Name:') !!}
-                        {!! Form::text('title',null, ['class' => 'form-control custom-select','placeholder'=>'Please Enter Franchises Name','readonly'=>true]) !!}
-                        <span class="error text-danger">{{ $errors->first('student_id') }}</span>
-                    </div>
-                    <div class="form-group col-sm-6 other">
-                        {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
-                        {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
-                        <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
-                    </div>
-                    <!-- Paying  Amount Field -->
-                    <div class="form-group col-sm-3 other">
-                        {!! Form::label('paying_amount', 'Paying  Amount:') !!}
-                        {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
-                    </div>
-                    <div class="form-group col-sm-3 other" style="margin-top: 37px;">
-                        {!! Form::label('gst', 'Gst:') !!}
-                        <input type="checkbox" id="vehicle1" name="gst" @if($income != ' ') {{$income->gst > 0 ? 'checked' : ' '}} @endif>
-                        <span class="error text-danger">{{ $errors->first('gst') }}</span>
-                    </div>
+            <!-- Corporate Start Field -->
+            {{--<div class="row ">--}}
+        <!-- Company Name Field -->
+            <div class="form-group col-sm-6 corpo">
+                {!! Form::label('web_site', 'Web Site:') !!}
+                {!! Form::text('web_site', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('web_site') }}</span>
+            </div>
+            <div class="form-group col-sm-6 corpo">
+                {!! Form::label('address', 'Address:') !!}
+                {!! Form::text('address', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('address') }}</span>
+            </div>
+            <div class="form-group col-sm-6 corpo">
+                {!! Form::label('city', 'city:') !!}
+                {!! Form::text('city', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('address') }}</span>
+            </div>
+            {{--<!-- Trainer Name Field -->--}}
+            {{--   <div class="form-group col-sm-6">--}}
+            {{--    {!! Form::label('trainer_name', 'Trainer Name:') !!}<span class="badge badge-success">0</span>--}}
+            {{--    {!! Form::select('trainer_name',$trainer, null, ['class' => 'form-control']) !!}--}}
+            {{--    <span class="error text-danger">{{ $errors->first('trainer_name') }}</span>--}}
+            {{--    </div>--}}
+            {{--                    <div class="form-group col-sm-6 corpo">--}}
+            {{--                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
+            {{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
+            {{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
+            {{--                    </div>--}}
+            {{--                    <div class="form-group col-sm-6 franchises" style="display: none;">--}}
+            {{--                        {!! Form::label('franchises_id', 'Franchises:') !!}--}}
+            {{--                        {!! Form::select('franchises_id', $franchise, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Franchises']) !!}--}}
+            {{--                        <span class="error text-danger">{{ $errors->first('student_id') }}</span>--}}
+            {{--                    </div>--}}
+            {{--                    <div class="form-group col-sm-6 corpo">--}}
+            {{--                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
+            {{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
+            {{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
+            {{--                    </div>--}}
+            <div class="form-group col-sm-6 franchises" style="display: none;">
+                {!! Form::label('title', 'Franchises Name:') !!}
+                {!! Form::text('title',null, ['class' => 'form-control custom-select','placeholder'=>'Please Enter Franchises Name','readonly'=>true]) !!}
+                <span class="error text-danger">{{ $errors->first('student_id') }}</span>
+            </div>
+            <div class="form-group col-sm-6 other">
+                {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
+                {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+                <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
+            </div>
+            <!-- Paying  Amount Field -->
+            <div class="form-group col-sm-3 other">
+                {!! Form::label('paying_amount', 'Paying  Amount:') !!}
+                {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
+            </div>
+            <div class="form-group col-sm-3 other" style="margin-top: 37px;">
+                {!! Form::label('gst', 'Gst:') !!}
+                <input type="checkbox" id="vehicle1"
+                       name="gst" @if($income != ' ') {{$income->gst > 0 ? 'checked' : ' '}} @endif>
+                <span class="error text-danger">{{ $errors->first('gst') }}</span>
+            </div>
 
-                    <!-- Register Date Field -->
-                    <div class="form-group col-sm-6 other">
-                        {!! Form::label('register_date', 'Register Date:') !!}
-                        {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
-                        <span class="error text-danger">{{ $errors->first('register_date') }}</span>
-                    </div>
-
-                    {{--<!-- Comment Field -->--}}
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('comment', 'Comment:') !!}--}}
-                    {{--    {!! Form::text('comment', null, ['class' => 'form-control']) !!}--}}
-                    {{--      <span class="error text-danger">{{ $errors->first('comment') }}</span>--}}
-                    {{--</div>--}}
-                    <div class="form-group col-sm-6 other">
-                        {!! Form::label('description', 'Description:') !!}
-                        {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-                        <span class="error text-danger">{{ $errors->first('description') }}</span>
-                    </div>
-
-                    {{--<!-- Paying  Amount Field -->--}}
-                    {{--<div class="form-group col-sm-3">--}}
-                    {{--    {!! Form::label('paying_amount', 'Paying  Amount:') !!}--}}
-                    {{--    {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}--}}
-                    {{--      <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group col-sm-3" style="margin-top: 37px;">--}}
-                    {{--    {!! Form::label('gst', 'Gst:') !!}--}}
-                    {{--     <input type="checkbox" id="vehicle1" name="gst" >--}}
-                    {{--      <span class="error text-danger">{{ $errors->first('gst') }}</span>--}}
-                    {{--</div>--}}
-
-                <!-- Register Date Field -->
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('register_date', 'Register Date:') !!}--}}
-                    {{--    {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}--}}
-                    {{--    {!! Form::date('register_date', null, ['class' => 'form-control']) !!}--}}
-                    {{--      <span class="error text-danger">{{ $errors->first('register_date') }}</span>--}}
-                    {{--</div>--}}
-
-                    {{--<!-- Comment Field -->--}}
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('comment', 'Comment:') !!}--}}
-                    {{--    {!! Form::text('comment', null, ['class' => 'form-control']) !!}--}}
-                    {{--      <span class="error text-danger">{{ $errors->first('comment') }}</span>--}}
-                    {{--</div>--}}
-                    {{--<div class="form-group col-sm-6">--}}
-                    {{--    {!! Form::label('description', 'Description:') !!}--}}
-                    {{--    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}--}}
-                    {{--    <span class="error text-danger">{{ $errors->first('description') }}</span>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="form-group col-sm-12">--}}
-                    {{--    <div class="nav-tabs-custom">--}}
-                    {{--        <div class="tab-content">--}}
-                    {{--            <div class="tab-pane active" id="categories">--}}
-                    {{--                <div class="row">--}}
-                    {{--                    <div class="col-sm-2">--}}
-                    {{--                        <button type="button" class="btn btn-primary btn-sm" id="addNew" type="button"><span--}}
-                    {{--                                class="fa fa-plus"></span> Add New--}}
-                    {{--                        </button>--}}
-                    {{--                    </div>--}}
-                    {{--                </div>--}}
-
-                    {{--                <div id="itemDetails">--}}
-                    {{--                    @if(isset($setattribute) && !$setattribute->isEmpty())--}}
-
-                    {{--                        @foreach($setattribute as $row)--}}
-
-                    {{--                            <div class="row product">--}}
-                    {{--                                <div class="col-sm-3">--}}
-                    {{--                                    <div class="form-group">--}}
-                    {{--                                        <label class="required">Attribute</label><span class="error-attribute"style="color: red"></span>--}}
-                    {{--                                        <select  name="product[{{ $loop->index }}][Attribute]" onchange="changeCompany(this)" type="text" class="form-control attribute"--}}
-                    {{--                                                 aria-required="true" aria-invalid="false" required >--}}
-                    {{--                                            <option value=" ">--Select Attribute--</option>--}}
-
-                    {{--                                            @foreach ($attributes as $key=>$value)--}}
-                    {{--                                                <option value="{{ $key }}" @if($key == $row->attribute_id) selected @endif>{{ $value }}</option>--}}
-                    {{--                                            @endforeach--}}
-                    {{--                                        </select>--}}
-                    {{--                                    </div>--}}
-                    {{--                                </div>--}}
-
-                    {{--                                <div class="col-sm-6">--}}
-                    {{--                                    <div class="form-group">--}}
-                    {{--                                        <label class="required">Value</label><span class="error-value"--}}
-                    {{--                                                                                   style="color: red"></span><br>--}}
-
-                    {{--                                        <select  step=".01"  class="form-control input-sm value multiple"--}}
-                    {{--                                                  name="product[{{ $loop->index }}][value][]"  type="text" multiple="multiple" required--}}
-                    {{--                                        >--}}
-                    {{--                                            <option value=" ">--Select Value--</option>--}}
-
-                    {{--                                            @foreach ($row->Attribute->attributeValue->pluck('value','id')->toArray() as $key=>$value)--}}
-                    {{--                                                <option value="{{ $key }}" @if(in_array($key,$row->productAttValue->pluck('attribute_value_id')->toArray())) selected @endif>{{ $value }}</option>--}}
-                    {{--                                            @endforeach--}}
-                    {{--                                        </select>--}}
-
-                    {{--                                    </div>--}}
-                    {{--                                </div>--}}
-
-                    {{--                                @if($loop->index !=0)--}}
-                    {{--                                    <div class="col-sm-1" style="text-align: center;">--}}
-                    {{--                                        <button type="button" class="btn btn-danger btn-sm" style="margin-top: 25px;"--}}
-                    {{--                                                onclick="removeItem(this)">--}}
-                    {{--                                            <span class="fa fa-trash"></span>--}}
-                    {{--                                        </button>--}}
-                    {{--                                    </div>--}}
-
-                    {{--                                @endif--}}
-
-                    {{--                            </div>--}}
-                    {{--                        @endforeach--}}
-                    {{--                    @else--}}
-
-                    {{--                        <div class="row product">--}}
-                    {{--                            <div class="form-group col-sm-3">--}}
-                    {{--                                <div class="form-group">--}}
-                    {{--                                    <label class="required">Batch</label><span class="error-attribute"style="color: red"></span>--}}
-                    {{--                                    <select  name="student[0][batch_id]"  type="text" class="form-control attribute"--}}
-                    {{--                                             aria-required="true" aria-invalid="false" required >--}}
-                    {{--                                        <option value=" ">--Select Batch--</option>--}}
-
-                    {{--                                        @foreach ($batch as $key=>$value)--}}
-                    {{--                                            <option value="{{ $key }}">{{ $value }}</option>--}}
-                    {{--                                        @endforeach--}}
-                    {{--                                    </select>--}}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                            <div class="col-sm-3">--}}
-                    {{--                                <div class="form-group">--}}
-                    {{--                                    <label class="required">Trainer Name</label><span class="error-value"style="color: red"></span><br>--}}
-                    {{--                                    <select   step=".01" id="item__index__"  class="form-control input-sm value"--}}
-                    {{--                                              name="student[0][trainer_id]"  type="text" required>--}}
-                    {{--                                        @foreach ($trainer as $key=>$value)--}}
-                    {{--                                            <option value="{{ $key }}">{{ $value }}</option>--}}
-                    {{--                                        @endforeach--}}
-                    {{--                                    </select>--}}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                            <div class="col-sm-3">--}}
-                    {{--                                <div class="form-group">--}}
-                    {{--                                    <label class="required">Trainer Fees</label><span class="error-value"style="color: red"></span><br>--}}
-                    {{--                                    <input   step=".01" id="item__index__"  class="form-control input-sm value"--}}
-                    {{--                                              name="student[0][trainer_fees]"  type="text" required>--}}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    @endif--}}
-                    {{--                    <hr style='margin-top: 0.1rem;margin-bottom: 0.1rem;'>--}}
-
-                    {{--                </div>--}}
-
-
-                    {{--            </div>--}}
-                    {{--        </div>--}}
-                    {{--    </div>--}}
-                    {{--</div>--}}
-
-
+            <!-- Register Date Field -->
+            <div class="form-group col-sm-6 other">
+                {!! Form::label('register_date', 'Register Date:') !!}
+                {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
+                <span class="error text-danger">{{ $errors->first('register_date') }}</span>
+            </div>
+            <div class="form-group col-sm-6 other">
+                {!! Form::label('description', 'Description:') !!}
+                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('description') }}</span>
+            </div>
                 <!-- Test -->
                     <br>
                     <br>
                     <br>
                     <br>
-                    <div class="container-fluid p-0">
+                    <div class="container-fluid p-0 reg-detail">
                         <div class="row pb-4">
                             <div class="col-lg-12" style="background-color: #f4f6f9">
                                 <hr class="m-0">
@@ -690,12 +537,6 @@
                                                                             </select><span class="error-trainer"style="color: red"></span>
 
                                                                         </td>
-{{--                                                                        <td>--}}
-{{--                                                                            <input id="price" step=".01" name="student[{{$keys}}][course][{{ $loop->index }}][trainer_fees]"--}}
-{{--                                                                                   value="{{ $batchDetail->trainer_fees }}"--}}
-{{--                                                                                   class="form-control input-sm trainer_fees" type="text"--}}
-{{--                                                                                   placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>--}}
-{{--                                                                        </td>--}}
                                                                         <td>
                                                                             <button type="button"
                                                                                     class="btn btn-danger btn-sm btn-delete"  onclick="return remove_item(this);">
@@ -954,7 +795,7 @@
                 $('.corpo').hide();
                 $('.stud').hide();
                 $('.both').hide();
-            } else if (IncomeType == 'Others') {
+            } else if (IncomeType == 'Others' || IncomeType == 'Digital Marketing' || IncomeType == 'HR Consultancy') {
 
                 $('.other').show();
                 $('.franchises').hide();
@@ -1185,28 +1026,12 @@
                 '                                                <td>\n' +
                 '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Batch--</option>\n' +
-                {{--                @php--}}
-                    {{--                    $op = '';--}}
-                    {{--                    foreach ($trainer as $key=>$value)--}}
-                    {{--                 {--}}
-
-                    {{--                     $op .= '<option value="' . $key . '">' . $value. "</option>";--}}
-                    {{--                 }--}}
-                    {{--                @endphp--}}
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
                 '                                                </td>\n' +
                 '                                                <td>\n' +
                 '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Trainer--</option>\n' +
-                {{--                @php--}}
-                    {{--                    $op = '';--}}
-                    {{--                    foreach ($trainer as $key=>$value)--}}
-                    {{--                 {--}}
-
-                    {{--                     $op .= '<option value="' . $key . '">' . $value. "</option>";--}}
-                    {{--                 }--}}
-                    {{--                @endphp--}}
                     '<?php echo $op; ?>\n' +
                 '</select>\n' +
                 '                                                </td>\n' +

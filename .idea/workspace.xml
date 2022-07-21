@@ -3,20 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="19/07/22">
       <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Helpers/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Franchise.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Franchise.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Income.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Income.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Student.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/create.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -338,12 +329,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php</url>
-          <line>782</line>
+          <line>768</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
+          <line>359</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
+          <line>679</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
+          <line>299</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Models/Admin/Income.php</url>
-          <line>104</line>
+          <line>106</line>
           <properties>
             <option name="className" value="\App\Models\Admin\Income" />
             <option name="methodName" value="branch" />
