@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\DataTables\Admin\DueFeesDataTable;
+use App\DataTables\Admin\CorporateDueFeesDataTable;
+
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\Student;
@@ -26,9 +28,12 @@ class DueFeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DueFeesDataTable $dueFeesDataTable)
+    public function index(DueFeesDataTable $dueFeesDataTable, CorporateDueFeesDataTable $corporateDueFeesDataTable)
     {
+
         return $dueFeesDataTable->render('admin.due-fees.index');
+        // return $corporateDueFeesDataTable->render('admin.due-fees.index');
+
     }
     public function searchRecord()
     {
