@@ -16,9 +16,13 @@
 {{--        @include('adminlte-templates::common.errors')--}}
 
         <div class="card">
-
-            {!! Form::model($students, ['route' => ['admin.incomes.update', $students->id], 'method' => 'patch']) !!}
-
+@if($corporate != ' ')
+                {!! Form::model($corporate, ['route' => ['admin.incomes.update', $corporate->id], 'method' => 'patch']) !!}
+@elseif($students != ' ')
+                {!! Form::model($students, ['route' => ['admin.incomes.update', $students->id], 'method' => 'patch']) !!}
+ @else
+                {!! Form::model($income, ['route' => ['admin.incomes.update', $income->id], 'method' => 'patch']) !!}
+            @endif
             <div class="card-body">
                 <div class="row">
 {{--                    @include('admin.incomes.fields')--}}
@@ -162,12 +166,56 @@
 {{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
 {{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
 {{--                    </div>--}}
+{{--                    <div class="form-group col-sm-6 franchises" style="display: none;">--}}
+{{--                        {!! Form::label('franchises_id', 'Franchises:') !!}--}}
+{{--                        {!! Form::select('franchises_id', $franchise, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Franchises']) !!}--}}
+{{--                        <span class="error text-danger">{{ $errors->first('student_id') }}</span>--}}
+{{--                    </div>--}}
+{{--                    <div class="form-group col-sm-6 corpo">--}}
+{{--                        {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
+{{--                        {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
+{{--                        <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
+{{--                    </div>--}}
                     <div class="form-group col-sm-6 franchises" style="display: none;">
-                        {!! Form::label('franchises_id', 'Franchises:') !!}
-                        {!! Form::select('franchises_id', $franchise, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Franchises']) !!}
+                        {!! Form::label('title', 'Franchises Name:') !!}
+                        {!! Form::text('title',null, ['class' => 'form-control custom-select','placeholder'=>'Please Enter Franchises Name','readonly'=>true]) !!}
                         <span class="error text-danger">{{ $errors->first('student_id') }}</span>
                     </div>
+                    <div class="form-group col-sm-6 other">
+                        {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
+                        {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+                        <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
+                    </div>
+                    <!-- Paying  Amount Field -->
+                    <div class="form-group col-sm-3 other">
+                        {!! Form::label('paying_amount', 'Paying  Amount:') !!}
+                        {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}
+                        <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
+                    </div>
+                    <div class="form-group col-sm-3 other" style="margin-top: 37px;">
+                        {!! Form::label('gst', 'Gst:') !!}
+                        <input type="checkbox" id="vehicle1" name="gst" @if($income != ' ') {{$income->gst > 0 ? 'checked' : ' '}} @endif>
+                        <span class="error text-danger">{{ $errors->first('gst') }}</span>
+                    </div>
 
+                    <!-- Register Date Field -->
+                    <div class="form-group col-sm-6 other">
+                        {!! Form::label('register_date', 'Register Date:') !!}
+                        {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
+                        <span class="error text-danger">{{ $errors->first('register_date') }}</span>
+                    </div>
+
+                    {{--<!-- Comment Field -->--}}
+                    {{--<div class="form-group col-sm-6">--}}
+                    {{--    {!! Form::label('comment', 'Comment:') !!}--}}
+                    {{--    {!! Form::text('comment', null, ['class' => 'form-control']) !!}--}}
+                    {{--      <span class="error text-danger">{{ $errors->first('comment') }}</span>--}}
+                    {{--</div>--}}
+                    <div class="form-group col-sm-6 other">
+                        {!! Form::label('description', 'Description:') !!}
+                        {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+                        <span class="error text-danger">{{ $errors->first('description') }}</span>
+                    </div>
 
                     {{--<!-- Paying  Amount Field -->--}}
                     {{--<div class="form-group col-sm-3">--}}
@@ -324,29 +372,26 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12">
+                    <div class="form-group col-sm-12 reg-detail">
                         <button type="button" class="btn btn-success" id="addNew" ><span
                                 class="fa fa-plus"></span> Add Course
                         </button>
                     </div>
                     <br><br>
 
-                    <div id="itemDetails" class="main0 row-course">
+                    <div id="itemDetails" class="main0 row-course reg-detail">
                         <div class="parent options[0]">
                             <div class="row product">
 
                                             @if(!empty($students->studDetail))
-
                                                 @foreach($students->studDetail as $keys=>$studDetail)
-
-                                {{--                    @foreach($product_option->productMultiOption as $option)--}}
 <br>                                    <input type="hidden" name="student[{{$keys}}][studDetail_id]" value="{{$studDetail->id}}" >
 <br>                                    <input type="hidden" name="student[{{$keys}}][in_id]" value="{{$studDetail->studFeesColl->income_id}}" >
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
                                                 <select name="student[{{$keys}}][course_id]" class="form-control course"
-                                                        aria-required="true" aria-invalid="false" onchange="changeCourse(this)" required>
+                                                        aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                                                     <option value="">--Select Course--</option>
 
                                                     @foreach ($course as $key=>$value)
@@ -359,7 +404,7 @@
                                             <div class="form-group">
                                                 <label>Mode of Payment</label><br>
                                                 <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
-                                                        aria-required="true" aria-invalid="false" onclick=modeOfPay(this) required>
+                                                        aria-required="true" aria-invalid="false" onclick=modeOfPay(this)>
                                                     <option value="">--Select Mode of Payment--</option>
 
                                                     @foreach ($modeOfPayment as $key=>$value)
@@ -405,65 +450,6 @@
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
-{{--                                                        <div class="col-sm-3">--}}
-{{--                                                            <div class="form-group">--}}
-{{--                                                                <label class="required">Label</label>--}}
-{{--                                                                <input id="value" step=".01" name="option[{{ $optionkey }}][lable]"--}}
-{{--                                                                       value="{{$option->lable}}"--}}
-{{--                                                                       class="form-control input-sm value"--}}
-{{--                                                                       type="text"--}}
-{{--                                                                       placeholder="Enter Label">--}}
-{{--                                                                <span class="error-lable" style="color: red"></span>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="col-sm-3">--}}
-{{--                                                            <div class="form-group">--}}
-{{--                                                                <label>Type</label>--}}
-{{--                                                                <select step=".01" id="item__index__"--}}
-{{--                                                                        name="option[{{ $optionkey}}][type]"--}}
-{{--                                                                        class="custom-select custom_select_category">--}}
-{{--                                                                    <optgroup label="Text">--}}
-{{--                                                                        <option--}}
-{{--                                                                            value="field" {{($option->type == 'field') ? 'Selected' : ''}}>--}}
-{{--                                                                            Field--}}
-{{--                                                                        </option>--}}
-{{--                                                                        <option--}}
-{{--                                                                            value="textarea" {{($option->type == 'textarea') ? 'Selected' : ''}}>--}}
-{{--                                                                            Textarea--}}
-{{--                                                                        </option>--}}
-{{--                                                                    </optgroup>--}}
-{{--                                                                    <optgroup label="Select">--}}
-{{--                                                                        <option--}}
-{{--                                                                            value="dropdown" {{($option->type == 'dropdown') ? 'Selected' : ''}}>--}}
-{{--                                                                            Dropdown--}}
-{{--                                                                        </option>--}}
-{{--                                                                        <option--}}
-{{--                                                                            value="checkbox" {{($option->type == 'checkbox') ? 'Selected' : ''}}>--}}
-{{--                                                                            Checkbox--}}
-{{--                                                                        </option>--}}
-{{--                                                                        <option--}}
-{{--                                                                            value="radio" {{($option->type == 'radio') ? 'Selected' : ''}}>--}}
-{{--                                                                            Radio Button--}}
-{{--                                                                        </option>--}}
-{{--                                                                        <option--}}
-{{--                                                                            value="multiple_select" {{($option->type == 'multiple_select') ? 'Selected' : ''}}>--}}
-{{--                                                                            Multiple Select--}}
-{{--                                                                        </option>--}}
-{{--                                                                    </optgroup>--}}
-{{--                                                                </select>--}}
-{{--                                                                <span class="error-type" style="color:red"></span>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="col-sm-3 mt-3 ml-5">--}}
-{{--                                                            <div class="form-group">--}}
-{{--                                                                <label></label><br>--}}
-{{--                                                                <input id="value" step=".01"--}}
-{{--                                                                       name="option[{{ $optionkey}}][is_required]"--}}
-{{--                                                                       value="1" {{($option->is_required == 1) ? 'checked' : ''}} type="checkbox">--}}
-{{--                                                                &nbsp; Required--}}
-{{--                                                                <span class="error-is_required" style="color:red"></span>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
                                                         @if(!empty($studDetail->studBatchDetail))
 
                                                             <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
@@ -471,16 +457,16 @@
                                                                 Add New Row
                                                             </button>
                                                             <br><br>
-
-                                                            <div id="addNewTableRow">
+{{--                            </div>--}}
+                                                            <div id="addNewTableRow" style="margin-left: 17px;">
                                                                 <div class="row product">
                                                                     <div class="table-responsive">
                                                                         <table class="options table table-bordered table-striped">
                                                                             <thead>
                                                                             <tr>
                                                                                 <th></th>
-                                                                                <th style="width: 300px;">Batch Name</th>
-                                                                                <th style="width: 300px;">Trainer Name</th>
+                                                                                <th style="width: 400px;">Batch Name</th>
+                                                                                <th style="width: 400px;">Trainer Name</th>
                                                                                 <th style="width: 300px;">Fees</th>
                                                                                 <th></th>
                                                                             </tr>
@@ -506,12 +492,6 @@
                                                                                                 <option value="{{ $key }}" {{ $key == $batchDetail->batch_id ? "selected" : " " }}>{{ $value }}</option>
                                                                                             @endforeach
                                                                                         </select><span class="error-trainer"style="color: red"></span>
-{{--                                                                                        <input id="lable" step=".01"--}}
-{{--                                                                                               name="option[{{$keys}}][values][{{ $loop->index }}][lable]"--}}
-{{--                                                                                               value="{{$value->lable}}"--}}
-{{--                                                                                               class="form-control input-sm value"--}}
-{{--                                                                                               type="text"--}}
-{{--                                                                                               placeholder="Enter Label Name">--}}
                                                                                     </td>
                                                                                     <td>
                                                                                         <select  name="student[{{$keys}}][course][{{ $loop->index }}][trainer_id]" class="form-control trainer"
@@ -522,50 +502,14 @@
                                                                                                 <option value="{{ $key }}" {{ $key == $batchDetail->trainer_id ? "selected" : " " }}>{{ $value }}</option>
                                                                                             @endforeach
                                                                                         </select><span class="error-trainer"style="color: red"></span>
-{{--                                                                                        <input id="price" step=".01"--}}
-{{--                                                                                               name="option[{{$keys}}][values][{{ $loop->index }}][price]"--}}
-{{--                                                                                               value="{{$value->price}}"--}}
-{{--                                                                                               class="form-control input-sm value"--}}
-{{--                                                                                               type="text"--}}
-{{--                                                                                               placeholder="Enter Price">--}}
+
                                                                                     </td>
                                                                                     <td>
                                                                                         <input id="price" step=".01" name="student[{{$keys}}][course][{{ $loop->index }}][trainer_fees]"
                                                                                                value="{{ $batchDetail->trainer_fees }}"
                                                                                                class="form-control input-sm trainer_fees" type="text"
                                                                                                placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>
-{{--                                                                                        <select id="price_type" step=".01"--}}
-{{--                                                                                                name="option[{{$optionkey}}][values][{{ $loop->index }}][price_type]"--}}
-{{--                                                                                                value=""--}}
-{{--                                                                                                is=""--}}
-{{--                                                                                                class="custom-select custom_select_category">--}}
-{{--                                                                                            <option--}}
-{{--                                                                                                value="Fixed" {{($value->price_type == 'Fixed') ? 'Selected' : ''}}>--}}
-{{--                                                                                                Fixed--}}
-{{--                                                                                            </option>--}}
-{{--                                                                                            <option--}}
-{{--                                                                                                value="Percent" {{($value->price_type == 'Percent') ? 'Selected' : ''}}>--}}
-{{--                                                                                                Percent--}}
-{{--                                                                                            </option>--}}
-{{--                                                                                        </select>--}}
                                                                                     </td>
-{{--                                                                                    <td><input id="position" step=".01"--}}
-{{--                                                                                               name="option[{{$optionkey}}][values][{{ $loop->index }}][position]"--}}
-{{--                                                                                               value="{{$value->position}}"--}}
-{{--                                                                                               class="form-control input-sm value"--}}
-{{--                                                                                               type="text"--}}
-{{--                                                                                               placeholder="Enter Position">--}}
-{{--                                                                                    </td>--}}
-
-{{--                                                                                    <td><input id="image" step=".01"--}}
-{{--                                                                                               name="option[{{$optionkey}}][values][{{ $loop->index }}][image]"--}}
-{{--                                                                                               value="{{$value->image}}"--}}
-{{--                                                                                               class="form-control input-sm value"--}}
-{{--                                                                                               type="file">--}}
-{{--                                                                                        <input type="hidden" value="{{$value->image}}" name="option[{{$optionkey}}][values][{{ $loop->index }}][oldimage]">--}}
-{{--                                                                                        <img style="width: 60px;height:60px"--}}
-{{--                                                                                             src="{{asset('public/storage/image/'.$value->image)}}"/>--}}
-{{--                                                                                    </td>--}}
                                                                                     <td>
                                                                                         <button type="button"
                                                                                                 class="btn btn-danger btn-sm btn-delete"  onclick="return remove_item(this);">
@@ -612,22 +556,6 @@
                                                                                                placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>
                                                                                     </td>
                                                                                     <td></td>
-                                                                                    {{--                            <td><select id="price_type" step=".01"--}}
-                                                                                    {{--                                        name="option[0][values][0][price_type]"--}}
-                                                                                    {{--                                        value=""--}}
-                                                                                    {{--                                        is="" class="custom-select custom_select_category">--}}
-                                                                                    {{--                                    <option>Fixed</option>--}}
-                                                                                    {{--                                    <option>Percent</option>--}}
-                                                                                    {{--                                </select></td>--}}
-                                                                                    {{--                            <td><input id="position" step=".01"--}}
-                                                                                    {{--                                       name="option[0][values][0][position]"--}}
-                                                                                    {{--                                       value=""--}}
-                                                                                    {{--                                       class="form-control input-sm value" type="text"--}}
-                                                                                    {{--                                       placeholder="Enter Position">--}}
-                                                                                    {{--                            </td>--}}
-                                                                                    {{--                            <td><input id="image" step=".01" name="option[0][values][0][image]"--}}
-                                                                                    {{--                                       value="" class="form-control input-sm value" type="file">--}}
-                                                                                    {{--                            </td>--}}
                                                                                 </tr>
                                                                                 <tr id="ltr0"></tr>
                                                                             @endif
@@ -640,12 +568,199 @@
                                                         @endif
 {{--                                                    @endforeach--}}
                                                 @endforeach
+                                            @elseif(!empty($corporate->corporateDetail))
+
+                                    @foreach($corporate->corporateDetail as $keys=>$corpoDetail)
+                                        <br>                                    <input type="hidden" name="student[{{$keys}}][corpoDetail_id]" value="{{$corpoDetail->id}}" >
+                                        <br>                                    <input type="hidden" name="student[{{$keys}}][in_id]" value="{{$corpoDetail->corpoFeesColl->income_id}}" >
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
+                                                <select name="student[{{$keys}}][course_id]" class="form-control course"
+                                                        aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
+                                                    <option value="">--Select Course--</option>
+
+                                                    @foreach ($course as $key=>$value)
+                                                        <option value="{{ $key }}" {{ $key == $corpoDetail->course_id ? "selected" : " " }}>{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Mode of Payment</label><br>
+                                                <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
+                                                        aria-required="true" aria-invalid="false" onclick=modeOfPay(this)>
+                                                    <option value="">--Select Mode of Payment--</option>
+
+                                                    @foreach ($modeOfPayment as $key=>$value)
+                                                        <option value="{{ $key }}" {{ $key == $corpoDetail->corpoFeesColl->getIncome->bank_acc_id ? "selected" : " " }}>{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="error-mode_of_payment" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Agreed Amount</label><br>
+                                                <input id="value" step=".01" name="student[{{$keys}}][agreed_amount]"
+                                                       class="form-control" type="text" value="{{$corpoDetail->agreed_amount}}">
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Pay Amount</label><br>
+                                                <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
+                                                       class="form-control" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount + $corpoDetail->corpoFeesColl->gst}}">
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <br>
+                                                <br>
+                                                <label>Gst</label>
+                                                <input id="value" step=".01" name="student[{{$keys}}][gst]"
+                                                       value="1" type="checkbox" {{$corpoDetail->corpoFeesColl->gst > 0 ? "checked" : " " }}>
+                                                <span class="error-is_required" style="color:red" ></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <br>
+                                                <br>
+                                                <label>Batch Not Yet</label>
+                                                <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
+                                                       value="1" type="checkbox" {{count($corpoDetail->corporateBatchDetail) == 0 ? "checked" : " " }}>
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        @if(!empty($corpoDetail->corporateBatchDetail))
+
+                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
+                                                    onclick="addnewrow({{$keys}})">
+                                                Add New Row
+                                            </button>
+                                            <br><br>
+
+                                            <div id="addNewTableRow" style="margin-left: 17px;">
+                                                <div class="row product">
+                                                    <div class="table-responsive">
+                                                        <table class="options table table-bordered table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th style="width: 400px;">Batch Name</th>
+                                                                <th style="width: 400px;">Trainer Name</th>
+{{--                                                                <th style="width: 300px;">Fees</th>--}}
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+
+                                                            <tbody>
+
+                                                            @if(count($corpoDetail->corporateBatchDetail)>0)
+                                                                @foreach($corpoDetail->corporateBatchDetail as $batchDetail)
+                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
+                                                                    <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
+                                                                        <td class="text-center"><span class="drag-icon"> <i
+                                                                                    class="fa"></i> <i
+                                                                                    class="fa"></i> </span>
+                                                                        </td>
+                                                                        {{--                                                                                    <input type="hidden" name="option[{{ $optionkey }}][values][{{ $loop->index }}][optionvalue_id]" value="{{$value->id}}">--}}
+                                                                        <td>
+                                                                            <select  name="student[{{$keys}}][course][{{ $loop->index }}][batch_id]" class="form-control batch"
+                                                                                     aria-required="true" aria-invalid="false" onchange="changeBatch(this)" >
+                                                                                <option value="">--Select Batch--</option>
+
+                                                                                @foreach ($batch as $key=>$value)
+                                                                                    <option value="{{ $key }}" {{ $key == $batchDetail->batch_id ? "selected" : " " }}>{{ $value }}</option>
+                                                                                @endforeach
+                                                                            </select><span class="error-trainer"style="color: red"></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select  name="student[{{$keys}}][course][{{ $loop->index }}][trainer_id]" class="form-control trainer"
+                                                                                     aria-required="true" aria-invalid="false" >
+                                                                                <option value="">--Select Trainer--</option>
+
+                                                                                @foreach ($trainer as $key=>$value)
+                                                                                    <option value="{{ $key }}" {{ $key == $batchDetail->trainer_id ? "selected" : " " }}>{{ $value }}</option>
+                                                                                @endforeach
+                                                                            </select><span class="error-trainer"style="color: red"></span>
+
+                                                                        </td>
+{{--                                                                        <td>--}}
+{{--                                                                            <input id="price" step=".01" name="student[{{$keys}}][course][{{ $loop->index }}][trainer_fees]"--}}
+{{--                                                                                   value="{{ $batchDetail->trainer_fees }}"--}}
+{{--                                                                                   class="form-control input-sm trainer_fees" type="text"--}}
+{{--                                                                                   placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>--}}
+{{--                                                                        </td>--}}
+                                                                        <td>
+                                                                            <button type="button"
+                                                                                    class="btn btn-danger btn-sm btn-delete"  onclick="return remove_item(this);">
+                                                                                <span class="fa fa-trash"></span>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @php
+                                                                        $hello =$loop->count-1;
+                                                                    @endphp
+                                                                    @if($loop->index==$hello)
+                                                                        <tr id="ltr{{$keys}}"></tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                <tr id="tr0_0" class="addrowbellow sub_0">
+                                                                    <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i
+                                                                                class="fa"></i> </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select  name="student[0][course][0][batch_id]"class="form-control batch"
+                                                                                 aria-required="true" aria-invalid="false" onchange="changeBatch(this)" >
+                                                                            <option value="">--Select Batch--</option>
+
+                                                                            @foreach ($batch as $key=>$value)
+                                                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                                            @endforeach
+                                                                        </select><span class="error-trainer"style="color: red"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select  name="student[0][course][0][trainer_id]"class="form-control trainer"
+                                                                                 aria-required="true" aria-invalid="false" >
+                                                                            <option value="">--Select Trainer--</option>
+
+                                                                            @foreach ($trainer as $key=>$value)
+                                                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                                            @endforeach
+                                                                        </select><span class="error-trainer"style="color: red"></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="price" step=".01" name="student[0][course][0][trainer_fees]"
+                                                                               value=""
+                                                                               class="form-control input-sm trainer_fees" type="text"
+                                                                               placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>
+                                                                    </td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr id="ltr0"></tr>
+                                                            @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                        @endif
+                                        {{--                                                    @endforeach--}}
+                                    @endforeach
                                             @else
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
                                         <select name="student[0][course_id]" class="form-control course"
-                                                aria-required="true" aria-invalid="false" onchange="changeCourse(this)" required>
+                                                aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                                             <option value="">--Select Course--</option>
 
                                             @foreach ($course as $key=>$value)
@@ -658,7 +773,7 @@
                                     <div class="form-group">
                                         <label>Mode of Payment</label><br>
                                         <select name="student[0][mode_of_payment]" class="form-control mode_of_payment"
-                                                aria-required="true" aria-invalid="false" onclick=modeOfPay(this) required>
+                                                aria-required="true" aria-invalid="false" onclick=modeOfPay(this)>
                                             <option value="">--Select Mode of Payment--</option>
 
                                             @foreach ($modeOfPayment as $key=>$value)
@@ -706,36 +821,6 @@
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
-                                {{--                <div class="col-sm-3">--}}
-                                {{--                    <div class="form-group">--}}
-                                {{--                        <label>Type</label>--}}
-                                {{--                        <select step=".01" id="item__index__" name="option[0][type]"--}}
-                                {{--                                class="custom-select custom_select_category">--}}
-                                {{--                            <option value=""> Please Select</option>--}}
-                                {{--                            <optgroup label="Text">--}}
-                                {{--                                <option value="field"> Field</option>--}}
-                                {{--                                <option value="textarea"> Textarea</option>--}}
-                                {{--                            </optgroup>--}}
-                                {{--                            <optgroup label="Select">--}}
-                                {{--                                <option value="dropdown"> Dropdown</option>--}}
-                                {{--                                <option value="checkbox"> Checkbox</option>--}}
-                                {{--                                <option value="radio" selected=""> Radio Button</option>--}}
-                                {{--                                <option value="multiple_select"> Multiple Select</option>--}}
-                                {{--                            </optgroup>--}}
-                                {{--                        </select>--}}
-                                {{--                        <span class="error-type" style="color:red"></span>--}}
-                                {{--                    </div>--}}
-                                {{--                </div>--}}
-                                {{--                <div class="col-sm-3 mt-3 ml-5">--}}
-                                {{--                    <div class="form-group">--}}
-                                {{--                        <label></label><br>--}}
-                                {{--                        <input id="value" step=".01" name="option[0][is_required]"--}}
-                                {{--                               value="1" type="checkbox"> &nbsp; Required--}}
-                                {{--                        <span class="error-is_required" style="color:red"></span>--}}
-                                {{--                    </div>--}}
-                                {{--                </div>--}}
-
-
                             </div>
                             <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">
                                 Add Batch
@@ -752,9 +837,6 @@
                                                 <th>Batch Name</th>
                                                 <th>Trainer Name</th>
                                                 <th>Fees</th>
-                                                {{--                            <th>Price Type</th>--}}
-                                                {{--                            <th>Position</th>--}}
-                                                {{--                            <th>Image</th>--}}
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -791,22 +873,6 @@
                                                            placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>
                                                 </td>
                                                 <td></td>
-                                                {{--                            <td><select id="price_type" step=".01"--}}
-                                                {{--                                        name="option[0][values][0][price_type]"--}}
-                                                {{--                                        value=""--}}
-                                                {{--                                        is="" class="custom-select custom_select_category">--}}
-                                                {{--                                    <option>Fixed</option>--}}
-                                                {{--                                    <option>Percent</option>--}}
-                                                {{--                                </select></td>--}}
-                                                {{--                            <td><input id="position" step=".01"--}}
-                                                {{--                                       name="option[0][values][0][position]"--}}
-                                                {{--                                       value=""--}}
-                                                {{--                                       class="form-control input-sm value" type="text"--}}
-                                                {{--                                       placeholder="Enter Position">--}}
-                                                {{--                            </td>--}}
-                                                {{--                            <td><input id="image" step=".01" name="option[0][values][0][image]"--}}
-                                                {{--                                       value="" class="form-control input-sm value" type="file">--}}
-                                                {{--                            </td>--}}
                                             </tr>
                                             <tr id="ltr0"></tr>
                                             </tbody>
@@ -816,6 +882,7 @@
                             </div>
 
                                     @endif
+                    </div>
                         </div>
                     </div>
                     <hr>
@@ -866,27 +933,42 @@
         });
         function ChangeIncomeType() {
             var IncomeType = $('#income_type option:selected').text();
-            if(IncomeType == 'Retail Training'){
+            if (IncomeType == 'Retail Training') {
                 $('.stud').show();
                 $('.both').show();
                 $('.corpo').hide();
                 $('.franchises').hide();
-            }else if(IncomeType == 'Corporate Training'){
+                $('.reg-detail').show();
+                $('.other').hide();
+            } else if (IncomeType == 'Corporate Training') {
                 $('.corpo').show();
+                $('.reg-detail').show();
                 $('.both').show();
                 $('.stud').hide();
                 $('.franchises').hide();
-            }else if(IncomeType == 'Franchise Royalty'){
+                $('.other').hide();
+            } else if (IncomeType == 'Franchise Royalty') {
                 $('.franchises').show();
+                $('.other').show();
+                $('.reg-detail').hide();
                 $('.corpo').hide();
                 $('.stud').hide();
+                $('.both').hide();
+            } else if (IncomeType == 'Others') {
 
-                $('.both').hide();
-            }else {
+                $('.other').show();
                 $('.franchises').hide();
+                $('.reg-detail').hide();
                 $('.corpo').hide();
                 $('.stud').hide();
                 $('.both').hide();
+            } else {
+                $('.franchises').hide();
+                $('.reg-detail').hide();
+                $('.corpo').hide();
+                $('.stud').hide();
+                $('.both').hide();
+                $('.other').hide();
             }
         }
         $("#mob").keyup(function(){
@@ -927,13 +1009,13 @@
         $("#addNew").click(function () {
             mindex += 1;
             // alert(mindex)
-            $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course">\n' +
+            $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course reg-detail">\n' +
                 '                    <div class="parent options[' + mindex + ']">\n' +
                 '                        <div class="row product">\n' +
                 '                            <div class="col-sm-4">\n' +
                 '                                <div class="form-group">\n' +
                 '                                    <label class="required">Course Name</label><span class="error-course"style="color: red"></span>\n' +
-                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)" required >\n' +
+                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)">\n' +
                 '<option value="">--Select Course--</option>\n' +
                 @php
                     $courses = '';
@@ -950,7 +1032,7 @@
                 '<div class="col-sm-4">\n' +
                 '<div class="form-group">\n' +
                 '<label>Mode of Payment</label><br>\n' +
-                '<select  name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this) aria-required="true" aria-invalid="false" required >\n' +
+                '<select  name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this) aria-required="true" aria-invalid="false">\n' +
                 '<option value="">--Select Mode of Payment--</option>\n' +
                 @php
                     $mode = '';
@@ -1014,7 +1096,7 @@
                 '                                            <th></th>\n' +
                 '                                            <th>Batch Name</th>\n' +
                 '                                            <th>Trainer Name</th>\n' +
-                '                                            <th>Fees</th>\n' +
+                '                                            <th class="retail_col">Fees</th>\n' +
                 '                                            <th></th>\n' +
                 '                                        </tr>\n' +
                 '                                        </thead>\n' +
@@ -1026,7 +1108,7 @@
                 '                                            </td>\n' +
                 '\n' +
                 '                                            <td>\n' +
-                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Batch--</option>\n' +
                 @php
                     $option = '';
@@ -1053,7 +1135,7 @@
                     '<?php echo $op; ?>\n' +
                 '</select>\n' +
                 '                                            </td>\n' +
-                '                                            <td><input id="price" step=".01" name="student[' + mindex + '][course][0][trainer_fees]"\n' +
+                '                                            <td class="retail_col"><input id="price" step=".01" name="student[' + mindex + '][course][0][trainer_fees]"\n' +
                 '                                                       value=""\n' +
                 '                                                       class="form-control input-sm trainer_fees" type="text"\n' +
                 '                                                       placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
@@ -1076,6 +1158,12 @@
                 '                    </div>\n' +
                 '                </div>\n' +
                 '                <br><br>');
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Corporate Training') {
+                $('.retail_col').hide();
+            }else{
+                $('.retail_col').show();
+            }
         });
     </script>
 
@@ -1095,7 +1183,7 @@
                 '                                                </td>\n' +
                 '\n' +
                 '                                                <td>\n' +
-                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Batch--</option>\n' +
                 {{--                @php--}}
                     {{--                    $op = '';--}}
@@ -1109,7 +1197,7 @@
                 '</select>\n' +
                 '                                                </td>\n' +
                 '                                                <td>\n' +
-                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Trainer--</option>\n' +
                 {{--                @php--}}
                     {{--                    $op = '';--}}
@@ -1122,7 +1210,7 @@
                     '<?php echo $op; ?>\n' +
                 '</select>\n' +
                 '                                                </td>\n' +
-                '                                                <td><input id="price" step=".01" name="student[' + mindex1 + '][course][' + subindx + '][trainer_fees]"\n' +
+                '                                                <td class="retail_col"><input id="price" step=".01" name="student[' + mindex1 + '][course][' + subindx + '][trainer_fees]"\n' +
                 '                                                           value=""\n' +
                 '                                                           class="form-control input-sm trainer_fees" type="text"\n' +
                 '                                                           placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
@@ -1137,7 +1225,12 @@
 
                 '                                            </tr>';
             $('#ltr' + mindex1).before(html);
-            // $('.course').trigger('change');
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Corporate Training') {
+                $('.retail_col').hide();
+            }else{
+                $('.retail_col').show();
+            }
         }
 
     </script>

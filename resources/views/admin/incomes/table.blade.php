@@ -54,26 +54,36 @@
     <table class="table" id="incomes-table">
         <thead>
         <tr>
-            <th>Student Name</th>
+            <th>Name</th>
             <th>Email</th>
+            <th>Income Type</th>
             <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($student as $stud)
+{{--        @dd($merge)--}}
+        @foreach($merge as $record)
             <tr>
+                <td>@if(isset($record['name'])) {{ $record['name'] }} @elseif(isset($record['company_name'])) {{$record['company_name']}} @else {{"N/A"}} @endif </td>
+                <td>{{ $record['email']  ?? 'N/A'}}</td>
+                <td> @if(isset($record['student_income'])) {{ getIncomeType($record['student_income'][0]['income_id']) }} @elseif(isset($record['corporate_income'])) {{getIncomeType($record['corporate_income'][0]['income_id'])}} @else {{getIncomeType($record['id'])}} @endif </td>
+                <td width="120">
+                    {!! Form::open(['route' => ['admin.incomes.destroy', $record['id']], 'method' => 'delete']) !!}
+                    <div class='btn-group'>
+                        <a href="{{ route('admin.incomes.show', [$record['id']]) }}?type=student"
+                           class='btn btn-default action-btn btn-sm'>
+                            <i class="far fa-eye"></i>
+                        </a>
 
-                <td>{{ $stud->name }}</td>
-                <td>{{ $stud->email }}</td>
-                <td width="120">
-                    {!! Form::open(['route' => ['admin.incomes.destroy', $stud->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                        <a href="{{ route('admin.incomes.show', [$stud->id]) }}"
-                           class='btn btn-default action-btn btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('admin.incomes.edit', [$stud->id]) }}"
+                        @if(isset($record['student_income'])) <a href="{{ route('admin.incomes.edit', [$record['id']]) }}?type=student"
                            class='btn btn-primary action-btn btn-sm'>
+                            @elseif(isset($record['corporate_income']))
+                                <a href="{{ route('admin.incomes.edit', [$record['id']]) }}?type=corporate"
+                                   class='btn btn-primary action-btn btn-sm'>
+                                    @else
+                                        <a href="{{ route('admin.incomes.edit', [$record['id']]) }}"
+                                           class='btn btn-primary action-btn btn-sm'>
+                                            @endif
                             <i class="far fa-edit"></i>
                         </a>
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
@@ -82,27 +92,27 @@
                 </td>
             </tr>
         @endforeach
-        @foreach($corporate as $corpo)
-            <tr>
-                <td>{{ $corpo->company_name }}</td>
-                <td>{{ $corpo->email }}</td>
-                <td width="120">
-                    {!! Form::open(['route' => ['admin.incomes.destroy', $corpo->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                        <a href="{{ route('admin.incomes.show', [$corpo->id]) }}"
-                           class='btn btn-default action-btn btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('admin.incomes.edit', [$corpo->id]) }}?type=corporate"
-                           class='btn btn-primary action-btn btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
-                    {!! Form::close() !!}
-                </td>
-            </tr>
-        @endforeach
+{{--        @foreach($corporate as $corpo)--}}
+{{--            <tr>--}}
+{{--                <td>{{ $corpo->company_name }}</td>--}}
+{{--                <td>{{ $corpo->email }}</td>--}}
+{{--                <td width="120">--}}
+{{--                    {!! Form::open(['route' => ['admin.incomes.destroy', $corpo->id], 'method' => 'delete']) !!}--}}
+{{--                    <div class='btn-group'>--}}
+{{--                        <a href="{{ route('admin.incomes.show', [$corpo->id]) }}"--}}
+{{--                           class='btn btn-default action-btn btn-sm'>--}}
+{{--                            <i class="far fa-eye"></i>--}}
+{{--                        </a>--}}
+{{--                        <a href="{{ route('admin.incomes.edit', [$corpo->id]) }}?type=corporate"--}}
+{{--                           class='btn btn-primary action-btn btn-sm'>--}}
+{{--                            <i class="far fa-edit"></i>--}}
+{{--                        </a>--}}
+{{--                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}--}}
+{{--                    </div>--}}
+{{--                    {!! Form::close() !!}--}}
+{{--                </td>--}}
+{{--            </tr>--}}
+{{--        @endforeach--}}
         </tbody>
     </table>
 </div>

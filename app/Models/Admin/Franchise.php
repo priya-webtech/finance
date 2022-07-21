@@ -19,7 +19,7 @@ class Franchise extends Model
 
 
     public $table = 'franchises';
-    
+
 
 
 
@@ -48,5 +48,9 @@ class Franchise extends Model
         'title' => 'required'
     ];
 
-    
+    public function franchiseIncome()
+    {
+        return $this->hasOne(Income::class,'franchises_id');
+    }
+
 }

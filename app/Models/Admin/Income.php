@@ -49,6 +49,7 @@ class Income extends Model
         'mode_of_payment',
         'student_id',
         'corporate_id',
+        'description',
     ];
 
     /**
@@ -119,5 +120,8 @@ class Income extends Model
     public function corporateStudFees()
     {
         return $this->hasOne(CorporateFessCollection::class,'income_id');
+    }
+    public function franchise(){
+        return $this->belongsTo(Franchise::class,'franchises_id');
     }
 }

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateBatchDetail.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" afterDir="false" />
+    <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="19/07/22">
       <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helpers/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helpers/helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/CorporateFessCollection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateFessCollection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Franchise.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Franchise.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Income.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Income.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Student.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_06_30_115745_create_corporates_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_06_30_115745_create_corporates_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/show_fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/show_fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +50,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="paresh" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -198,7 +200,7 @@
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Models/Admin" />
+    <property name="last_opened_file_path" value="X:/adviserbazaar" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -281,6 +283,7 @@
       <workItem from="1658136475477" duration="10825000" />
       <workItem from="1658204612583" duration="24302000" />
       <workItem from="1658291497611" duration="10475000" />
+      <workItem from="1658378268281" duration="18977000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -289,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658231712512</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="20/07/22">
+      <created>1658308575404</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1658308575404</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -310,7 +320,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="19/07/22" />
-    <option name="LAST_COMMIT_MESSAGE" value="19/07/22" />
+    <MESSAGE value="20/07/22" />
+    <option name="LAST_COMMIT_MESSAGE" value="20/07/22" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

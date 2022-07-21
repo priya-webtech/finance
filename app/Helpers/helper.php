@@ -5,6 +5,10 @@ function removeSession($session){
     }
     return true;
 }
+function getIncomeType($id){
+   $income = \App\Models\Admin\Income::find($id);
+   return $income->incomeType->title ?? 'N/A';
+}
 function changeTableStatus($id, $table_name, $status)
 {
     if ($status==1){

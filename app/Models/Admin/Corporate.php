@@ -122,4 +122,7 @@ class Corporate extends Model
     public function corporateDetail(){
         return $this->hasMany(CorporateDetail::class,'corporate_id');
     }
+    public function corporateIncome(){
+        return $this->hasMany(CorporateFessCollection::class,'corporate_id');
+    }
 }

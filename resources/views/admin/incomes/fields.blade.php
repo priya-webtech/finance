@@ -102,31 +102,34 @@
     <span class="error text-danger">{{ $errors->first('address') }}</span>
 </div>
 <div class="form-group col-sm-6 franchises" style="display: none;">
-    {!! Form::label('franchises_id', 'Franchises:') !!}
-    {!! Form::select('franchises_id', $franchise, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Franchises']) !!}
+    {!! Form::label('title', 'Franchises Name:') !!}
+    {!! Form::text('title', null, ['class' => 'form-control custom-select','placeholder'=>'Please Enter Franchises Name']) !!}
     <span class="error text-danger">{{ $errors->first('student_id') }}</span>
 </div>
 
-
-{{--<!-- Paying  Amount Field -->--}}
-{{--<div class="form-group col-sm-3">--}}
-{{--    {!! Form::label('paying_amount', 'Paying  Amount:') !!}--}}
-{{--    {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}--}}
-{{--      <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>--}}
-{{--</div>--}}
-{{--<div class="form-group col-sm-3" style="margin-top: 37px;">--}}
-{{--    {!! Form::label('gst', 'Gst:') !!}--}}
-{{--     <input type="checkbox" id="vehicle1" name="gst" >--}}
-{{--      <span class="error text-danger">{{ $errors->first('gst') }}</span>--}}
-{{--</div>--}}
+<div class="form-group col-sm-6 other">
+    {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
+    {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+    <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
+</div>
+<!-- Paying  Amount Field -->
+<div class="form-group col-sm-3 other">
+    {!! Form::label('paying_amount', 'Paying  Amount:') !!}
+    {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}
+      <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
+</div>
+<div class="form-group col-sm-3 other" style="margin-top: 37px;">
+    {!! Form::label('gst', 'Gst:') !!}
+     <input type="checkbox" id="vehicle1" name="gst" >
+      <span class="error text-danger">{{ $errors->first('gst') }}</span>
+</div>
 
 <!-- Register Date Field -->
-{{--<div class="form-group col-sm-6">--}}
-{{--    {!! Form::label('register_date', 'Register Date:') !!}--}}
-{{--    {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}--}}
-{{--    {!! Form::date('register_date', null, ['class' => 'form-control']) !!}--}}
-{{--      <span class="error text-danger">{{ $errors->first('register_date') }}</span>--}}
-{{--</div>--}}
+<div class="form-group col-sm-6 other">
+    {!! Form::label('register_date', 'Register Date:') !!}
+    {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
+      <span class="error text-danger">{{ $errors->first('register_date') }}</span>
+</div>
 
 {{--<!-- Comment Field -->--}}
 {{--<div class="form-group col-sm-6">--}}
@@ -134,18 +137,18 @@
 {{--    {!! Form::text('comment', null, ['class' => 'form-control']) !!}--}}
 {{--      <span class="error text-danger">{{ $errors->first('comment') }}</span>--}}
 {{--</div>--}}
-{{--<div class="form-group col-sm-6">--}}
-{{--    {!! Form::label('description', 'Description:') !!}--}}
-{{--    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}--}}
-{{--    <span class="error text-danger">{{ $errors->first('description') }}</span>--}}
-{{--</div>--}}
+<div class="form-group col-sm-6 other">
+    {!! Form::label('description', 'Description:') !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+    <span class="error text-danger">{{ $errors->first('description') }}</span>
+</div>
 
 <!-- Test -->
 <br>
 <br>
 <br>
 <br>
-<div class="container-fluid p-0">
+<div class="container-fluid p-0 reg-detail" >
     <div class="row pb-4">
         <div class="col-lg-12" style="background-color: #f4f6f9">
             <hr class="m-0">
@@ -154,14 +157,14 @@
         </div>
     </div>
 </div>
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-12 reg-detail">
     <button type="button" class="btn btn-success" id="addNew" ><span
             class="fa fa-plus"></span> Add Course
     </button>
 </div>
 <br><br>
 
-<div id="itemDetails" class="main0 row-course">
+<div id="itemDetails" class="main0 row-course reg-detail">
     <div class="parent options[0]">
         <div class="row product">
 
@@ -339,7 +342,7 @@
                 <div class="form-group">
                     <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
                     <select name="student[0][course_id]" class="form-control course"
-                            aria-required="true" aria-invalid="false" onchange="changeCourse(this)" required>
+                            aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                         <option value="">--Select Course--</option>
 
                         @foreach ($course as $key=>$value)
@@ -352,9 +355,8 @@
                 <div class="form-group">
                     <label>Mode of Payment</label><br>
                     <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment"
-                            aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)" required>
+                            aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)" >
                         <option value="">--Select Mode of Payment--</option>
-
                         @foreach ($modeOfPayment as $key=>$value)
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
@@ -504,26 +506,40 @@
             if(IncomeType == 'Retail Training'){
                 $('.stud').show();
                 $('.both').show();
+                $('.reg-detail').show();
                 $('.corpo').hide();
                 $('.franchises').hide();
                 $('.retail_col').show();
+                $('.other').hide();
             }else if(IncomeType == 'Corporate Training'){
+                $('.reg-detail').show();
                 $('.corpo').show();
                 $('.both').show();
                 $('.stud').hide();
                 $('.retail_col').hide();
                 $('.franchises').hide();
+                $('.other').hide();
             }else if(IncomeType == 'Franchise Royalty'){
                 $('.franchises').show();
                 $('.corpo').hide();
                 $('.stud').hide();
-
+                $('.reg-detail').hide();
                 $('.both').hide();
-            }else {
+                $('.other').show();
+            }else if(IncomeType == 'Others'){
+                $('.other').show();
                 $('.franchises').hide();
+                $('.reg-detail').hide();
                 $('.corpo').hide();
                 $('.stud').hide();
                 $('.both').hide();
+            }else{
+                $('.franchises').hide();
+                $('.reg-detail').hide();
+                $('.corpo').hide();
+                $('.stud').hide();
+                $('.both').hide();
+                $('.other').hide();
             }
         }
         function batchDisplay(value, index) {
@@ -573,13 +589,13 @@
         $("#addNew").click(function () {
             mindex += 1;
             // alert(mindex)
-            $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course">\n' +
+            $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course reg-detail">\n' +
                 '                    <div class="parent options[' + mindex + ']">\n' +
                 '                        <div class="row product">\n' +
                 '                            <div class="col-sm-4">\n' +
                 '                                <div class="form-group">\n' +
                 '                                    <label class="required">Course Name</label><span class="error-course"style="color: red"></span>\n' +
-                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)" required >\n' +
+                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)" >\n' +
                 '<option value="">--Select Course--</option>\n' +
                 @php
                     $courses = '';
@@ -596,7 +612,7 @@
                 '<div class="col-sm-4">\n' +
                 '<div class="form-group">\n' +
                 '<label>Mode of Payment</label><br>\n' +
-                '<select  id="batch'+mindex+'" name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this,'+mindex+') aria-required="true" aria-invalid="false" required >\n' +
+                '<select  id="batch'+mindex+'" name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this,'+mindex+') aria-required="true" aria-invalid="false" >\n' +
                 '<option value="">--Select Mode of Payment--</option>\n' +
                 @php
                     $mode = '';
@@ -672,7 +688,7 @@
                 '                                            </td>\n' +
                 '\n' +
                 '                                            <td>\n' +
-                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Batch --</option>\n' +
                 @php
                     $option = '';
@@ -686,7 +702,7 @@
                 '</select>\n' +
                 '                                            </td>\n' +
                 '                                            <td>\n' +
-                '<select  name="student[' + mindex + '][course][0][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex + '][course][0][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" ><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Trainer --</option>\n' +
                 @php
                     $op = '';
@@ -747,7 +763,7 @@
                 '                                                </td>\n' +
                 '\n' +
                 '                                                <td>\n' +
-                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false" ><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Batch--</option>\n' +
                 {{--                @php--}}
                     {{--                    $op = '';--}}
@@ -761,7 +777,7 @@
                 '</select>\n' +
                 '                                                </td>\n' +
                 '                                                <td>\n' +
-                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
                 '<option value="">--Select Trainer--</option>\n' +
                 {{--                @php--}}
                     {{--                    $op = '';--}}
