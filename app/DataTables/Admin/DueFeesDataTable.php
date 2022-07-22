@@ -4,6 +4,8 @@ namespace App\DataTables\Admin;
 
 use App\Models\Admin\Carcompany;
 use App\Models\Admin\Corporate;
+use App\Models\Admin\CorporateDetail;
+use App\Models\Admin\CorporateFessCollection;
 use App\Models\Admin\Income;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
@@ -22,35 +24,56 @@ class DueFeesDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $a = Student::select('name','email', DB::raw("'Student' AS `type`"));
-        $b = Corporate::select('company_name','email', DB::raw("'Corporate' AS `type`"));
-        //$a->union($b)->orderBy('type')->limit(20);
-//        dd($a->union($b)->orderBy('type')->get());
-        $dataTable = new EloquentDataTable($a->union($b)->orderBy('type'));
-//        return $dataTable->addColumn('action', 'admin.due-fees.datatables_actions');
-//        $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', ' ')
+        $dataTable = new EloquentDataTable($query);
+        return $dataTable
             ->addColumn('agreed_amount', function ($record){
-                $stud_id=$record->id;
-                return $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
+               if($record->type == 'Student'){
+                   $stud_id=$record->id;
+                   return $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
+               }elseif ($record->type == 'Corporate'){
+                   $corporate_id=$record->id;
+                   return $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
+               }
             })
             ->addColumn('total_amount', function ($record){
-                $gst = StudentFessCollection::where('student_id',$record->id)->sum('gst');
-                $paying_amount = StudentFessCollection::where('student_id',$record->id)->pluck('income_id')->toArray();
-                $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
-                return $payAmount + $gst;
+                if($record->type == 'Student') {
+                    $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
+                    $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
+                    $payAmount = Income::whereIn('id', $paying_amount)->sum('paying_amount');
+                    return $payAmount + $gst;
+                }
+                elseif ($record->type == 'Corporate'){
+                    $corporate_id=$record->id;
+                    $gst = CorporateFessCollection::where('corporate_id',$corporate_id)->sum('gst');
+                    $paying_amount = CorporateFessCollection::where('corporate_id',$corporate_id)->pluck('income_id')->toArray();
+                    $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
+                    $total_amount = $payAmount + $gst;
+                    return round($total_amount, 2);
+                }
             })->addColumn('due_fees', function ($record){
-                $stud_id=$record->id;
-                $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
-                $gst = StudentFessCollection::where('student_id',$record->id)->sum('gst');
-                $paying_amount = StudentFessCollection::where('student_id',$record->id)->pluck('income_id')->toArray();
-                $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
-                $total = $payAmount + $gst;
-                $dueFees = $agreed_amount - $total;
-                return $dueFees;
+                if($record->type == 'Student') {
+                    $stud_id = $record->id;
+                    $agreed_amount = StudentDetail::where('student_id', $stud_id)->sum('agreed_amount');
+                    $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
+                    $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
+                    $payAmount = Income::whereIn('id', $paying_amount)->sum('paying_amount');
+                    $total = $payAmount + $gst;
+                    $dueFees = $agreed_amount - $total;
+                    return $dueFees;
+                }
+                elseif ($record->type == 'Corporate'){
+                    $corporate_id=$record->id;
+                    $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
+                    $gst = CorporateFessCollection::where('corporate_id',$record->id)->sum('gst');
+                    $paying_amount = CorporateFessCollection::where('corporate_id',$record->id)->pluck('income_id')->toArray();
+                    $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
+                    $total = $payAmount + $gst;
+                    $dueFees = $agreed_amount - $total;
+                    return $dueFees;
+                }
             })
-            ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
+            ->rawColumns(['agreed_amount','total_amount','due_fees']);
     }
 
     /**
@@ -59,9 +82,11 @@ class DueFeesDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Student $model)
+    public function query()
     {
-        return $model->newQuery();
+        $a = Student::select('id','name','email','mobile_no', DB::raw("'Student' AS `type`"));
+        $b = Corporate::select('id','company_name','email','contact_no', DB::raw("'Corporate' AS `type`"));
+        return $a->union($b)->orderBy('type');
     }
 
     /**
@@ -97,13 +122,14 @@ class DueFeesDataTable extends DataTable
     protected function getColumns()
     {
         return [
-//            'id' => ['searchable' => false],
+            'id' => ['searchable' => false],
             'name',
-//            'email',
-//            'mobile_no',
-//            'agreed_amount',
-//            'total_amount',
-//            'due_fees',
+            'email',
+            'mobile_no',
+            'agreed_amount'  => ['searchable' => false],
+            'total_amount' => ['searchable' => false],
+            'due_fees' => ['searchable' => false],
+            'type' => ['searchable' => false],
         ];
     }
 

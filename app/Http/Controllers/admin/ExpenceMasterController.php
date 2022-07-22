@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateExpenceMasterRequest;
 use App\Http\Requests\Admin\UpdateExpenceMasterRequest;
 use App\Models\Admin\BankAccount;
+use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
 use App\Models\Admin\ExpenseTypes;
+use App\Models\Admin\ModeOfPayment;
+use App\Models\Admin\Trainer;
 use App\Repositories\Admin\ExpenceMasterRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -45,10 +48,12 @@ class ExpenceMasterController extends AppBaseController
      */
     public function create()
     {
-        $bankAccounts = BankAccount::where('status',1)->pluck('name','id');
-        $expenseTypes = ExpenseTypes::where('status',1)->pluck('title','id');
-        $branch       = Branch::where('status',1)->pluck('title','id');
-        return view('admin.expence_masters.create',compact('bankAccounts','expenseTypes','branch'));
+        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
+        $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
+        $branch        = Branch::where('status',1)->pluck('title','id');
+        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
+        $batch       = Batch::where('status',1)->pluck('name','id');
+        return view('admin.expence_masters.create',compact('bankAccounts','expenseTypes','branch','trainer','batch'));
     }
 
     /**
@@ -165,5 +170,11 @@ class ExpenceMasterController extends AppBaseController
         Flash::success('Expense Master deleted successfully.');
 
         return redirect(route('admin.expenceMasters.index'));
+    }
+
+    public function trainerBatch()
+    {
+      $batch  = Batch::where('trainer_id',\request('trainerID'))->pluck('name','id');
+      return response()->json($batch);
     }
 }

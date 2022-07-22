@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('dashboard');
     // Route::get('/profile', [App\Http\Controllers\admin\ProfileController::class, 'profile'])->name('profile');
     Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'profile'])->name('profile');
+    Route::get('/get-trainer-batch', [App\Http\Controllers\Admin\ExpenceMasterController::class, 'trainerBatch'])->name('get-trainer-batch');
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
     Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate');
     Route::get('/search-record', [App\Http\Controllers\Admin\DueFeesController::class, 'searchRecord'])->name('search-record');

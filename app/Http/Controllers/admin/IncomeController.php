@@ -315,15 +315,6 @@ class IncomeController extends AppBaseController
         $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
         return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','bankAccount','country','incomeType','student','batch','modeOfPayment','corporate','franchise','income'));
     }
-
-    /**
-     * Update the specified Income in storage.
-     *
-     * @param int $id
-     * @param UpdateIncomeRequest $request
-     *
-     * @return Response
-     */
     public function update($id, UpdateIncomeRequest $request)
     {
        $input = $request->all();
@@ -331,7 +322,7 @@ class IncomeController extends AppBaseController
         $incomeType = IncomeType::where('id',$input['income_type_id'])->first();
         if($incomeType->title == 'Retail Training') {
             $student = Student::findorfail($id);
-            $this->validator($request->all())->validate();
+        //    $this->validator($request->all())->validate();
 //            $student = Student::where('mobile_no', $input['mobile_no'])->first();
             $student->update($input);
             foreach ($input['student'] as $studBatch){
@@ -354,14 +345,14 @@ class IncomeController extends AppBaseController
                     $input['paying_amount'] = $totalPay;
                 }
                 if (isset($studBatch['in_id'])){
-                    $income = Income::findorfail($studBatch['in_id']);
-                    $old_amount = $income->paying_amount + $income->incomeStudFees->gst;
-                }else{
-                    $old_amount = 0;
+                     $income = Income::findorfail($studBatch['in_id']);
+                     $old_amount = $income->paying_amount + $income->incomeStudFees->gst;
+                     $setBank = ModeOfPayment::where('id',$income->bank_acc_id)->first();
+                     $setBank->opening_balance =  $setBank->opening_balance - $old_amount;
+                     $setBank->save();
                 }
-
                 $bank = ModeOfPayment::where('id', $studBatch['mode_of_payment'])->first();
-                $old_balance = $bank->opening_balance-$old_amount;
+                $old_balance = $bank->opening_balance;
                 $bank->opening_balance = $old_balance + $totalPay;
                 $bank->save();
                 $input['bank_acc_id'] = $studBatch['mode_of_payment'];
@@ -428,8 +419,9 @@ class IncomeController extends AppBaseController
                 if (isset($studBatch['in_id'])){
                     $income = Income::findorfail($studBatch['in_id']);
                     $old_amount = $income->paying_amount + $income->corporateStudFees->gst;
-                }else{
-                    $old_amount = 0;
+                    $setBank = ModeOfPayment::where('id',$income->bank_acc_id)->first();
+                    $setBank->opening_balance =  $setBank->opening_balance - $old_amount;
+                    $setBank->save();
                 }
 
                 $bank = ModeOfPayment::where('id', $studBatch['mode_of_payment'])->first();
@@ -482,8 +474,11 @@ class IncomeController extends AppBaseController
                 $input['paying_amount'] = $totalPay;
             }
             $old_amount = $income->paying_amount + $income->gst;
+            $setBank = ModeOfPayment::where('id',$income->bank_acc_id)->first();
+            $setBank->opening_balance =  $setBank->opening_balance - $old_amount;
+            $setBank->save();
             $bank = ModeOfPayment::where('id',$input['mode_of_payment'])->first();
-            $old_balance = $bank->opening_balance - $old_amount;
+            $old_balance = $bank->opening_balance;
             $bank->opening_balance = $old_balance+$totalPay;
             $bank->save();
             $input['bank_acc_id'] = $input['mode_of_payment'];
