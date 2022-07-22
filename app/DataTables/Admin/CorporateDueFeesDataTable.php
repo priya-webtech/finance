@@ -7,6 +7,8 @@ use App\Models\Admin\Income;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\CorporateDetail;
 use App\Models\Admin\CorporateFessCollection;
+use App\Models\Admin\StudentDetail;
+use App\Models\Admin\StudentFessCollection;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -39,8 +41,17 @@ class CorporateDueFeesDataTable extends DataTable
                  $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
                  $total_amount = $payAmount + $gst;
                  return round($total_amount, 2);
+            })->addColumn('due_fees', function ($record){
+                $corporate_id=$record->id;
+                $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
+                $gst = CorporateFessCollection::where('corporate_id',$record->id)->sum('gst');
+                $paying_amount = CorporateFessCollection::where('corporate_id',$record->id)->pluck('income_id')->toArray();
+                $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
+                $total = $payAmount + $gst;
+                $dueFees = $agreed_amount - $total;
+                return $dueFees;
             })
-            ->rawColumns(['agreed_amount','total_amount','action']);
+            ->rawColumns(['agreed_amount','total_amount','action','due_fees']);
     }
 
     /**
@@ -94,6 +105,7 @@ class CorporateDueFeesDataTable extends DataTable
             'contact_no',
             'agreed_amount',
             'total_amount',
+            'due_fees',
         ];
     }
 

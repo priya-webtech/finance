@@ -3,6 +3,7 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Admin\Carcompany;
+use App\Models\Admin\Corporate;
 use App\Models\Admin\Income;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
@@ -21,11 +22,15 @@ class DueFeesDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $dataTable = new EloquentDataTable($query);
+        $a = Student::select('name','email', DB::raw("'Student' AS `type`"));
+        $b = Corporate::select('company_name','email', DB::raw("'Corporate' AS `type`"));
+        //$a->union($b)->orderBy('type')->limit(20);
+//        dd($a->union($b)->orderBy('type')->get());
+        $dataTable = new EloquentDataTable($a->union($b)->orderBy('type'));
 //        return $dataTable->addColumn('action', 'admin.due-fees.datatables_actions');
 //        $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'admin.due-fees.datatables_actions')
+        return $dataTable->addColumn('action', ' ')
             ->addColumn('agreed_amount', function ($record){
                 $stud_id=$record->id;
                 return $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
@@ -92,13 +97,13 @@ class DueFeesDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id' => ['searchable' => false],
+//            'id' => ['searchable' => false],
             'name',
-            'email',
-            'mobile_no',
-            'agreed_amount',
-            'total_amount',
-            'due_fees',
+//            'email',
+//            'mobile_no',
+//            'agreed_amount',
+//            'total_amount',
+//            'due_fees',
         ];
     }
 

@@ -3,11 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="19/07/22">
       <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/copro-table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDueFeesDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/due-fees/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/due-fees/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -191,16 +196,16 @@
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="X:/adviserbazaar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin/due-fees" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\finance\resources\views\admin\due-fees" />
       <recent name="C:\xampp\htdocs\finance\app\Models\Admin" />
       <recent name="C:\xampp\htdocs\finance" />
       <recent name="C:\xampp\htdocs\finance-app\public\storage" />
       <recent name="C:\xampp\htdocs\finance-app\resources\views\admin\due-fees" />
-      <recent name="C:\xampp\htdocs\finance-app\public" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -275,6 +280,8 @@
       <workItem from="1658204612583" duration="24302000" />
       <workItem from="1658291497611" duration="10475000" />
       <workItem from="1658378268281" duration="18977000" />
+      <workItem from="1658463392285" duration="8005000" />
+      <workItem from="1658471929009" duration="1711000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -290,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658308575404</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="21/07/22">
+      <created>1658403270173</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1658403270173</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,7 +326,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="19/07/22" />
     <MESSAGE value="20/07/22" />
-    <option name="LAST_COMMIT_MESSAGE" value="20/07/22" />
+    <MESSAGE value="21/07/22" />
+    <option name="LAST_COMMIT_MESSAGE" value="21/07/22" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

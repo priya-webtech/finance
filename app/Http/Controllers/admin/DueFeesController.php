@@ -28,12 +28,13 @@ class DueFeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DueFeesDataTable $dueFeesDataTable, CorporateDueFeesDataTable $corporateDueFeesDataTable)
+    public function index(DueFeesDataTable $dueFeesDataTable)
     {
-
         return $dueFeesDataTable->render('admin.due-fees.index');
-        // return $corporateDueFeesDataTable->render('admin.due-fees.index');
-
+    }
+    public function corpodatatable(CorporateDueFeesDataTable $corporateDueFeesDataTable)
+    {
+        return $corporateDueFeesDataTable->render('admin.due-fees.copro-table');
     }
     public function searchRecord()
     {
