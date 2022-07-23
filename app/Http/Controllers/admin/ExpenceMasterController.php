@@ -15,6 +15,7 @@ use App\Repositories\Admin\ExpenceMasterRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Nette\Utils\DateTime;
 use phpDocumentor\Reflection\Types\Null_;
 use Response;
 
@@ -70,7 +71,6 @@ class ExpenceMasterController extends AppBaseController
     {
         $input = $request->all();
         $expenceType = ExpenseTypes::findorfail($input['expence_type_id']);
-
         $bankAc = $input['bank_ac_id'];
         $ReqDebitAmount = $input['amount'];
         $Bank = ModeOfPayment::findorfail($bankAc);
@@ -83,6 +83,13 @@ class ExpenceMasterController extends AppBaseController
         } elseif ($expenceType->title != "Student Refund") {
             $input['student_id'] = null;
         }
+        if ($expenceType->title == "Trainer Fees"){
+            if(isset($input['tds'])){
+                $input['tds'] = site_setting()->tds_per*$input['amount']/100;
+                $input['amount'] =$input['amount']-$input['tds'];
+            }
+        }
+
         $expenceMaster = $this->expenceMasterRepository->create($input);
 //        }else{
 //
@@ -132,17 +139,20 @@ class ExpenceMasterController extends AppBaseController
     public function edit($id)
     {
         $expenceMaster = $this->expenceMasterRepository->find($id);
+        $expenceMaster['amount'] = $expenceMaster->amount + $expenceMaster->tds;
         if (empty($expenceMaster)) {
             Flash::error('Expense Master not found');
 
             return redirect(route('admin.expenceMasters.index'));
         }
+
         $bankAccounts=ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes=ExpenseTypes::where('status',1)->pluck('title','id');
         $branch = Branch::where('status',1)->pluck('title','id');
         $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
         $batch       = Batch::where('status',1)->pluck('name','id');
         $student       = Student::where('status',1)->pluck('name','id');
+
         return view('admin.expence_masters.edit',compact('expenceMaster','bankAccounts','expenseTypes','branch','trainer','batch','student'));
     }
 
@@ -163,12 +173,12 @@ class ExpenceMasterController extends AppBaseController
             return redirect(route('admin.expenceMasters.index'));
         }
         $expenceType = ExpenseTypes::findorfail($input['expence_type_id']);
-        $Bank = BankAccount::findorfail($expenceMaster->bank_ac_id);
-        $remainAmount = $Bank->opening_balance + $expenceMaster->amount;
+        $Bank = ModeOfPayment::findorfail($expenceMaster->bank_ac_id);
+        $remainAmount = $Bank->opening_balance + $expenceMaster->amount+$expenceMaster->tds;
         $Bank->opening_balance = $remainAmount;
         $Bank->save();
         $ReqDebitAmount = $input['amount'];
-        $debitAmoutBank = BankAccount::findorfail($input['bank_ac_id']);
+        $debitAmoutBank = ModeOfPayment::findorfail($input['bank_ac_id']);
         $remainAmount = $debitAmoutBank->opening_balance - $ReqDebitAmount;
         $debitAmoutBank->opening_balance = $remainAmount;
         $debitAmoutBank->save();
@@ -177,6 +187,14 @@ class ExpenceMasterController extends AppBaseController
             $input['trainer_id'] = null;
         } elseif ($expenceType->title != "Student Refund") {
             $input['student_id'] = null;
+        }
+        if ($expenceType->title == "Trainer Fees"){
+            if(isset($input['tds'])){
+                $input['tds'] = site_setting()->tds_per*$input['amount']/100;
+                $input['amount'] =$input['amount']-$input['tds'];
+            }else{
+                $input['tds'] = 0;
+            }
         }
         $expenceMaster = $this->expenceMasterRepository->update($input, $id);
 

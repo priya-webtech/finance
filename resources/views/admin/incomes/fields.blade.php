@@ -123,10 +123,7 @@
 </div>
 
 <!-- Test -->
-<br>
-<br>
-<br>
-<br>
+<br><br><br><br>
 <div class="container-fluid p-0 reg-detail" >
     <div class="row pb-4">
         <div class="col-lg-12" style="background-color: #f4f6f9">
@@ -332,7 +329,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Mode of Payment</label><br>
+                    <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
                     <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment"
                             aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)">
                         <option value="">--Select Mode of Payment--</option>
@@ -340,25 +337,25 @@
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
                     </select>
-                    <span class="error-mode_of_payment" style="color:red"></span>
+
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Agreed Amount</label><br>
+                    <label>Agreed Amount</label><span class="error-agreed_amount" style="color:red"></span><br>
                     <input id="value" step=".01" name="student[0][agreed_amount]"
-                           class="form-control" type="text">
-                    <span class="error-is_required" style="color:red"></span>
+                           class="form-control agreed_amount" type="number">
+{{--                    <span class="error-agreed_amount" style="color:red"></span>--}}
                 </div>
             </div>
 
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Pay Amount</label><br>
+                    <label>Pay Amount</label> <span class="error-pay_amount" style="color:red"></span><br>
                     <input id="value" step=".01" name="student[0][pay_amount]"
-                           class="form-control" type="text">
-                    <span class="error-is_required" style="color:red"></span>
+                           class="form-control pay_amount" type="number">
+
                 </div>
             </div>
             <div class="col-sm-1 gst0" style="display: none;">
@@ -415,7 +412,7 @@
                                     @foreach ($batch as $key=>$value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
-                                </select><span class="error-trainer" style="color: red"></span>
+                                </select><span class="error-batch" style="color: red"></span>
                             </td>
                             <td>
                                 <select name="student[0][course][0][trainer_id]" class="form-control trainer"
@@ -430,7 +427,7 @@
                             <td class="retail_col"><input id="price" step=".01"
                                                           name="student[0][course][0][trainer_fees]"
                                                           value=""
-                                                          class="form-control input-sm trainer_fees" type="text"
+                                                          class="form-control input-sm trainer_fees" type="number"
                                                           placeholder="Enter Price"><span class="error-trainer_fees"
                                                                                           style="color: red"></span>
                             </td>
@@ -532,7 +529,6 @@
         function batchDisplay(value, index) {
             if(value) {
                 $('.batch_table'+ index).hide();
-
             } else {
                 $('.batch_table'+ index).show();
 
@@ -598,7 +594,7 @@
                 '                            </div>\n' +
                 '<div class="col-sm-4">\n' +
                 '<div class="form-group">\n' +
-                '<label>Mode of Payment</label><br>\n' +
+                '<label>Mode of Payment</label><span class="error-mode_of_payment" style="color:red"></span><br>\n' +
                 '<select  id="batch'+mindex+'" name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this,'+mindex+') aria-required="true" aria-invalid="false" >\n' +
                 '<option value="">--Select Mode of Payment--</option>\n' +
                 @php
@@ -611,23 +607,20 @@
                 @endphp
                     '<?php echo $mode; ?>\n' +
                 '</select>\n' +
-                '<span class="error-is_required" style="color:red"></span>\n' +
                 '</div> \n' +
                 ' </div> \n' +
                 ' <div class="col-sm-4">\n' +
             ' <div class="form-group">\n' +
-            '<label>Agreed Amount</label><br>\n' +
-            '<input id="value" step=".01" name="student[' + mindex + '][agreed_amount]" class="form-control agreed_amount" type="text">\n' +
-                ' <span class="error-is_required" style="color:red"></span>\n' +
+            '<label>Agreed Amount</label><span class="error-agreed_amount" style="color:red"></span><br>\n' +
+            '<input id="value" step=".01" name="student[' + mindex + '][agreed_amount]" class="form-control agreed_amount" type="number">\n' +
             '</div>\n' +
             '</div>\n' +
 
 
             '<div class="col-sm-4"> \n' +
             '<div class="form-group"> \n' +
-            '<label>Pay Amount</label><br> \n' +
-            '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="text"> \n' +
-                '<span class="error-is_required" style="color:red"></span> \n' +
+            '<label>Pay Amount</label><span class="error-pay_amount" style="color:red"></span><br> \n' +
+            '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="number"> \n' +
             '</div> \n' +
             '</div> \n' +
             '<div class="col-sm-1 gst'+mindex+'" style="display:none;"> \n' +
@@ -646,9 +639,15 @@
                 '<label>Batch Not Yet</label> \n' +
                 '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +
+
                 '  </div> \n' +
                 ' </div> \n' +
-
+                '<div class="col-sm-2"> \n' +
+                '                       <button type="button" class="btn btn-danger btn-sm" \n' +
+                '                           onclick="return remove_course_item(this);" style="margin-top:40px">\n' +
+                '                          <span class="fa fa-trash" ></span>\n' +
+                '                      </button>\n' +
+                ' </div> \n' +
                 '                            <br><br>\n' +
                 '                        </div>\n' +
                 '                               <span class="batch_table'+mindex+'"> <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(' + mindex + ')">Add New Row</button>\n' +
@@ -675,7 +674,7 @@
                 '                                            </td>\n' +
                 '\n' +
                 '                                            <td>\n' +
-                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-batch"style="color: red"></span>\n' +
                 '<option value="">--Select Batch --</option>\n' +
                 @php
                     $option = '';
@@ -687,9 +686,10 @@
                 @endphp
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
+                '<span class="error-batch"style="color: red"></span>\n'+
                 '                                            </td>\n' +
                 '                                            <td>\n' +
-                '<select  name="student[' + mindex + '][course][0][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex + '][course][0][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" >\n' +
                 '<option value="">--Select Trainer --</option>\n' +
                 @php
                     $op = '';
@@ -701,10 +701,11 @@
                 @endphp
                     '<?php echo $op; ?>\n' +
                 '</select>\n' +
+                '<span class="error-trainer"style="color: red"></span>\n'+
                 '                                            </td>\n' +
                 '                                            <td class="retail_col"><input id="price" step=".01" name="student[' + mindex + '][course][0][trainer_fees]"\n' +
                 '                                                       value=""\n' +
-                '                                                       class="form-control input-sm trainer_fees" type="text"\n' +
+                '                                                       class="form-control input-sm trainer_fees" type="number"\n' +
                 '                                                       placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
                 '                                            </td>\n' +
                 '                   <td>\n' +
@@ -740,7 +741,6 @@
 
     <script>
 
-
         function addnewrow(mindex1) {
             subindx = $('.sub_' + mindex1).length;
             var html = '<tr id="tr' + mindex1 + '_' + subindx + '" class="addrowbellow sub_' + mindex1 + '">\n' +
@@ -749,20 +749,22 @@
                 '                                                </td>\n' +
                 '\n' +
                 '                                                <td>\n' +
-                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false" ><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false" >\n' +
                 '<option value="">--Select Batch--</option>\n' +
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
+                '<span class="error-batch"style="color: red"></span>\n'+
                 '                                                </td>\n' +
                 '                                                <td>\n' +
-                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false">\n' +
                 '<option value="">--Select Trainer--</option>\n' +
                     '<?php echo $op; ?>\n' +
                 '</select>\n' +
+                '<span class="error-trainer"style="color: red"></span>\n'+
                 '                                                </td>\n' +
                 '                                                <td class="retail_col"><input id="price" step=".01" name="student[' + mindex1 + '][course][' + subindx + '][trainer_fees]"\n' +
                 '                                                           value=""\n' +
-                '                                                           class="form-control input-sm trainer_fees" type="text"\n' +
+                '                                                           class="form-control input-sm trainer_fees" type="number"\n' +
                 '                                                           placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
                 '                                                </td>\n' +
                 '<td>\n' +
@@ -790,6 +792,9 @@
         function remove_item(mi) {
             $(mi).closest('.addrowbellow').remove();
             // $('#tr'+mi+'_'+si).remove();
+        }
+        function remove_course_item(gi){
+            $(gi).closest('#itemDetails').remove();
         }
 
         $("#tr0_0").on('click', '.btn-delete', function () {
@@ -877,51 +882,86 @@
             }
         }
 
-        // function checkText() {
-        //     alert('okay');
-        //     event.preventDefault();
-        //     var t = 0;
-        //     $(".product").each(function () {
-        //         var batch = $(this).find(".batch").val();
-        //         var trainer = $(this).find(".trainer").val();
-        //         var trainer_fees = $(this).find(".trainer_fees").val();
-        //
-        //
-        //         if (batch == "") {
-        //             t++;
-        //             $(this).find(".error-batch").text('*requied');
-        //
-        //         } else {
-        //             $(this).find(".error-batch").text('');
-        //         }
-        //         if (trainer == "") {
-        //             t++;
-        //             $(this).find(".error-trainer").text('*requied');
-        //
-        //         } else {
-        //             $(this).find(".error-trainer").text('');
-        //         }
-        //         if (trainer_fees == "") {
-        //             t++;
-        //             $(this).find(".error-trainer_fees").text('*requied');
-        //
-        //         } else {
-        //             $(this).find(".error-trainer_fees").text('');
-        //         }
-        //
-        //
-        //     });
-        //     if (t == 0) {
-        //         alert('success');
-        //         $('#create-form').submit();
-        //         $('#edit-form').submit();
-        //         return true;
-        //     } else {
-        //         alert('Enter Data Properly');
-        //         return false;
-        //     }
-        //
-        // }
+        function checkText() {
+
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
+                event.preventDefault();
+                var t = 0;
+                $(".parent").each(function () {
+                    var course = $(this).find(".course").val();
+                    var mode_of_payment = $(this).find(".mode_of_payment").val();
+                    var agreed_amount = $(this).find(".agreed_amount").val();
+                    var pay_amount = $(this).find(".pay_amount").val();
+
+                    if (course == "") {
+                        t++;
+                        $(this).find(".error-course").text('*requied');
+
+                    } else {
+                        $(this).find(".error-course").text('');
+                    }
+                    if (mode_of_payment == "") {
+                        t++;
+                        $(this).find(".error-mode_of_payment").text('*requied');
+
+                    } else {
+                        $(this).find(".error-mode_of_payment").text('');
+                    }
+                    if (agreed_amount == "") {
+                        t++;
+                        $(this).find(".error-agreed_amount").text('*requied');
+
+                    } else {
+                        $(this).find(".error-agreed_amount").text('');
+                    }
+                    if (pay_amount == "") {
+                        t++;
+                        $(this).find(".error-pay_amount").text('*requied');
+
+                    } else {
+                        $(this).find(".error-pay_amount").text('');
+                    }
+                    $(this).find(".addrowbellow").each(function () {
+                        var batch = $(this).find(".batch").val();
+                        var trainer = $(this).find(".trainer").val();
+                        var trainer_fees = $(this).find(".trainer_fees").val();
+                        if (batch == "") {
+                            t++;
+                            $(this).find(".error-batch").text('*requied');
+
+                        } else {
+                            $(this).find(".error-batch").text('');
+                        }
+                        if (trainer == "") {
+                            t++;
+                            $(this).find(".error-trainer").text('*requied');
+
+                        } else {
+                            $(this).find(".error-trainer").text('');
+                        }
+                       if(IncomeType == 'Retail Training') {
+                           if (trainer_fees == "") {
+                               t++;
+                               $(this).find(".error-trainer_fees").text('*requied');
+
+                           } else {
+                               $(this).find(".error-trainer_fees").text('');
+                           }
+                       }
+                    });
+                });
+                if (t == 0) {
+                    alert('success');
+                    $('#create-form').submit();
+                   // $('#edit-form').submit();
+                    return true;
+                } else {
+                    alert('Enter Data Properly');
+                    return false;
+                }
+            }
+        }
     </script>
 
     @endpush

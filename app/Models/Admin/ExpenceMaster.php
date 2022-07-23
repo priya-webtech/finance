@@ -37,6 +37,7 @@ class ExpenceMaster extends Model
         'student_id',
         'batch_id',
         'trainer_id',
+        'tds',
     ];
 
     /**

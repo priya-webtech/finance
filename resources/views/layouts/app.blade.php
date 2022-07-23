@@ -152,6 +152,13 @@
             minViewMode: "months"
         });
     });
+    $( document ).ready(function() {
+        $("#datetimepicker").datepicker( {
+            format: 'yyyy-mm-dd',
+            // startView: "months",
+            minViewMode: "date"
+        });
+    });
 </script>
 
 

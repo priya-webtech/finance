@@ -33,15 +33,19 @@
     {!! Form::select('student_id', $student, null, ['class' => 'form-control custom-select select2search','id'=>'student','placeholder'=>'Please Select Student']) !!}
 </div>
 <!-- Amount Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-5">
     {!! Form::label('amount', 'Amount:') !!}
     {!! Form::number('amount', null, ['class' => 'form-control']) !!}
 </div>
-
+<div class="form-group col-sm-1 trainer" style="margin-top: 37px;">
+    {!! Form::label('tds', 'TDS:') !!}
+    <input type="checkbox" id="vehicle1" name="tds">
+    <span class="error text-danger">{{ $errors->first('gst') }}</span>
+</div>
 <!-- Date Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('date', 'Date:') !!}
-    {!! Form::date('date', null, ['class' => 'form-control']) !!}
+    {!! Form::text('date', null, ['class' => 'form-control','id'=>'datetimepicker']) !!}
 </div>
 
 <!-- Remark Field -->
