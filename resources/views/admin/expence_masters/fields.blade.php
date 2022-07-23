@@ -28,7 +28,10 @@
     {!! Form::select('bank_ac_id', $bankAccounts, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Bank']) !!}
 </div>
 
-
+<div class="form-group col-sm-6 student">
+    {!! Form::label('student_id', 'Student  Name:') !!}
+    {!! Form::select('student_id', $student, null, ['class' => 'form-control custom-select select2search','id'=>'student','placeholder'=>'Please Select Student']) !!}
+</div>
 <!-- Amount Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('amount', 'Amount:') !!}
@@ -47,13 +50,24 @@
     {!! Form::text('remark', null, ['class' => 'form-control']) !!}
 </div>
 @push('third_party_scripts')
+
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>--}}
     <script>
+        $(document).ready(function() {
+            $("#expense_type").trigger('change');
+        });
 function ChangeExpenseType() {
     var ExpenseType = $('#expense_type option:selected').text();
     if (ExpenseType == 'Trainer Fees') {
         $('.trainer').show();
-    }else{
+        $('.student').hide();
+    }else if(ExpenseType == 'Student Refund'){
+        $('.student').show();
         $('.trainer').hide();
+    }
+    else{
+        $('.trainer').hide();
+        $('.student').hide();
     }
 }
 
