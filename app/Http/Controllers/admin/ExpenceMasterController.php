@@ -235,4 +235,17 @@ class ExpenceMasterController extends AppBaseController
       return response()->json($batch);
     }
 
+    public function expenseVerify(Request $request)
+    {
+        $input = $request->all();
+        $input['bank_Acc'];
+        $input['amount'];
+        $bankAcc = ModeOfPayment::findorfail($input['bank_Acc']);
+        $allbank = ModeOfPayment::where('id','!=',$input['bank_Acc'])->get();
+        $bankAcc['remain_balance'] = $bankAcc->opening_balance-$input['amount'];
+        $verify = view('admin.expence_masters.verify',compact('bankAcc','allbank'))->render();
+        return response()->json(["verify"=>$verify]);
+
+    }
+
 }

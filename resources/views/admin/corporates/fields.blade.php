@@ -7,11 +7,11 @@
 </div>
 
 <!-- Batch Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('batch_id', 'Batch:') !!}
-    {!! Form::select('batch_id',$batch, null, ['class' => 'form-control','placeholder'=>'Select Batch']) !!}
-    <span class="error text-danger">{{ $errors->first('batch_id') }}</span>
-</div>
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('batch_id', 'Batch:') !!}--}}
+{{--    {!! Form::select('batch_id',$batch, null, ['class' => 'form-control','placeholder'=>'Select Batch']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('batch_id') }}</span>--}}
+{{--</div>--}}
 
 <!-- Enquiry Type Id Field -->
 <div class="form-group col-sm-6">
@@ -77,19 +77,19 @@
 
 
 
-<!-- Trainer Amount Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('trainer_amount', 'Trainer Amount:') !!}
-    {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}
-    <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>
-</div>
+{{--<!-- Trainer Amount Field -->--}}
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('trainer_amount', 'Trainer Amount:') !!}--}}
+{{--    {!! Form::text('trainer_amount', null, ['class' => 'form-control']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('trainer_amount') }}</span>--}}
+{{--</div>--}}
 
-<!-- Agreed Amount Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('agreed_amount', 'Agreed Amount:') !!}
-    {!! Form::text('agreed_amount', null, ['class' => 'form-control']) !!}
-    <span class="error text-danger">{{ $errors->first('agreed_amount') }}</span>
-</div>
+{{--<!-- Agreed Amount Field -->--}}
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('agreed_amount', 'Agreed Amount:') !!}--}}
+{{--    {!! Form::text('agreed_amount', null, ['class' => 'form-control']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('agreed_amount') }}</span>--}}
+{{--</div>--}}
 
 {{--<!-- Gst Amount Field -->--}}
 {{--<div class="form-group col-sm-6">--}}
@@ -104,10 +104,10 @@
     <span class="error text-danger">{{ $errors->first('reg_for_month') }}</span>
 </div>
 
-<!-- Remark Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('remark', 'Remark:') !!}
-    {!! Form::text('remark', null, ['class' => 'form-control']) !!}
-    <span class="error text-danger">{{ $errors->first('remark') }}</span>
-</div>
+{{--<!-- Remark Field -->--}}
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('remark', 'Remark:') !!}--}}
+{{--    {!! Form::text('remark', null, ['class' => 'form-control']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('remark') }}</span>--}}
+{{--</div>--}}
 

@@ -35,7 +35,7 @@
 <!-- Amount Field -->
 <div class="form-group col-sm-5">
     {!! Form::label('amount', 'Amount:') !!}
-    {!! Form::number('amount', null, ['class' => 'form-control']) !!}
+    {!! Form::number('amount', null, ['class' => 'form-control','id'=>'amount']) !!}
 </div>
 <div class="form-group col-sm-1 trainer" style="margin-top: 37px;">
     {!! Form::label('tds', 'TDS:') !!}
@@ -53,6 +53,12 @@
     {!! Form::label('remark', 'Remark:') !!}
     {!! Form::text('remark', null, ['class' => 'form-control']) !!}
 </div>
+<div class="form-group col-sm-12">
+<a class="btn btn-warning float-left"
+   href="#" onclick="verify()">
+    verify
+</a>
+<div id="show_verify" ></div>
 @push('third_party_scripts')
 
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>--}}
@@ -100,7 +106,26 @@ function changeTrainer(el) {
     } else {
         $(".batch").empty();
     }
+}
+function verify() {
+    var BankAccount = $('#bank_ac_id option:selected').val();
+    var Amount = $('#amount').val();
 
+    if(BankAccount != "" && Amount != ""){
+        $.ajax({
+            type: 'GET',
+            url: "{{route('expense-verify')}}",
+            data: {'bank_Acc': BankAccount,'amount': Amount},
+            dataTypes: 'json',
+            success: function (res) {
+                if (res) {
+                     $('#show_verify').html(res.verify).css('color','black');
+                }
+            }
+        });
+    }else{
+        $('#show_verify').html('Please Select Bank Account And Enter Amount').css('color','red');
+    }
 }
 </script>
     @endpush

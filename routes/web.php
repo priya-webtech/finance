@@ -45,11 +45,14 @@ Route::post(
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashBoardController::class, 'index'])->name('dashboard');
+
     // Route::get('/profile', [App\Http\Controllers\admin\ProfileController::class, 'profile'])->name('profile');
     Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'profile'])->name('profile');
     Route::get('/get-trainer-batch', [App\Http\Controllers\Admin\ExpenceMasterController::class, 'trainerBatch'])->name('get-trainer-batch');
+    Route::get('/expense-verify', [App\Http\Controllers\Admin\ExpenceMasterController::class, 'expenseVerify'])->name('expense-verify');
 //    Route::get('/student/find', [App\Http\Controllers\Admin\ExpenceMasterController::class, 'find']);
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
+    Route::get('/due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'edit'])->name('due-fees-edit');
     Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate');
     Route::get('/search-record', [App\Http\Controllers\Admin\DueFeesController::class, 'searchRecord'])->name('search-record');
     Route::get('/count-batch-student', [App\Http\Controllers\Admin\IncomeController::class, 'countStud'])->name('count-batch-student');

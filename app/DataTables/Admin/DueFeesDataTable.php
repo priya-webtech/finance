@@ -26,7 +26,7 @@ class DueFeesDataTable extends DataTable
     {
 
         $dataTable = new EloquentDataTable($query);
-        return $dataTable
+        return $dataTable->addColumn('action', 'admin.due-fees.datatables_actions')
             ->addColumn('agreed_amount', function ($record){
                if($record->type == 'Student'){
                    $stud_id=$record->id;
@@ -73,7 +73,7 @@ class DueFeesDataTable extends DataTable
                     return $dueFees;
                 }
             })
-            ->rawColumns(['agreed_amount','total_amount','due_fees']);
+            ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
     }
 
     /**

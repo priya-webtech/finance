@@ -18,7 +18,6 @@
     {!! Form::label('app_title', 'App Title:') !!}
     {!! Form::text('app_title', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('app_title') }}</span>
-
 </div>
 
 <!-- Gst Per Field -->
