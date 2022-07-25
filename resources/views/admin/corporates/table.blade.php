@@ -48,15 +48,21 @@
                         <a href="{{ route('table.status', [ $corporate->id,"corporates", $corporate->status]) }}" class='btn @if($corporate->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($corporate->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @can('corporates_view')
                         <a href="{{ route('admin.corporates.show', [$corporate->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('corporates_edit')
                         <a href="{{ route('admin.corporates.edit', [$corporate->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('corporates_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

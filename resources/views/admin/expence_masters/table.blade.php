@@ -23,15 +23,21 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.expenceMasters.destroy', $expenceMaster->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                         @can('expence_view')
                         <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                         @can('expence_edit')
                         <a href="{{ route('admin.expenceMasters.edit', [$expenceMaster->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                         @can('expence_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

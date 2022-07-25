@@ -18,15 +18,21 @@
                         <a href="{{ route('table.status', [ $franchise->id,"franchises", $franchise->status]) }}" class='btn @if($franchise->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($franchise->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @can('franchises_view')
                         <a href="{{ route('admin.franchises.show', [$franchise->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('franchises_edit')
                         <a href="{{ route('admin.franchises.edit', [$franchise->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('franchises_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

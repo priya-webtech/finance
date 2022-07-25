@@ -30,15 +30,21 @@
                         <a href="{{ route('table.status', [ $batch->id,"batches", $batch->status]) }}" class='btn @if($batch->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($batch->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @can('batches_view')
                         <a href="{{ route('admin.batches.show', [$batch->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('batches_edit')
                         <a href="{{ route('admin.batches.edit', [$batch->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('batches_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

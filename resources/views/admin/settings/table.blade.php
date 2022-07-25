@@ -29,15 +29,21 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.settings.destroy', $setting->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('settings_view')
                         <a href="{{ route('admin.settings.show', [$setting->id]) }}"
                            class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('settings_edit')
                         <a href="{{ route('admin.settings.edit', [$setting->id]) }}"
                            class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('settings_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

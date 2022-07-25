@@ -28,15 +28,21 @@
                         <a href="{{ route('table.status', [ $modeOfPayment->id,"mode_of_payments", $modeOfPayment->status]) }}" class='btn @if($modeOfPayment->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($modeOfPayment->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @can('payments_view')
                         <a href="{{ route('admin.modeOfPayments.show', [$modeOfPayment->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('payments_edit')
                         <a href="{{ route('admin.modeOfPayments.edit', [$modeOfPayment->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('payments_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

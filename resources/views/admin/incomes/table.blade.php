@@ -68,15 +68,21 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.incomes.destroy', $stud->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('incomes_view')
                         <a href="{{ route('admin.incomes.show', [$stud->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('incomes_edit')
                         <a href="{{ route('admin.incomes.edit', [$stud->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('incomes_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

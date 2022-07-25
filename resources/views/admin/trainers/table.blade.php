@@ -26,15 +26,21 @@
                         <a href="{{ route('table.status', [ $trainer->id,"trainers", $trainer->status]) }}" class='btn @if($trainer->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($trainer->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @can('trainers_view')
                         <a href="{{ route('admin.trainers.show', [$trainer->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('trainers_edit')
                         <a href="{{ route('admin.trainers.edit', [$trainer->id]) }}"
                            class='btn btn-primary action-btn btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('trainers_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

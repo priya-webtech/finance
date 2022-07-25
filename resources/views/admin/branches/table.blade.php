@@ -15,15 +15,21 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.branches.destroy', $branch->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('branch_view')
                         <a href="{{ route('admin.branches.show', [$branch->id]) }}"
                            class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
+                        @endcan
+                        @can('branch_edit')
                         <a href="{{ route('admin.branches.edit', [$branch->id]) }}"
                            class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
+                        @endcan
+                        @can('branch_delete')
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        @endcan
                     </div>
                     {!! Form::close() !!}
                 </td>

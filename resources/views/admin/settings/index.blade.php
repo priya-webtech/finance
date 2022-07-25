@@ -8,12 +8,14 @@
                     <h1>Settings</h1>
                 </div>
                 @if(count($settings) == 0)
+                @can('settings_create')
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
                        href="{{ route('admin.settings.create') }}">
                         Add New
                     </a>
                 </div>
+                @endcan
                 @endif
             </div>
         </div>

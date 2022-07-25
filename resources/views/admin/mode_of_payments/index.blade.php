@@ -7,12 +7,14 @@
                 <div class="col-sm-6">
                     <h1>Mode Of Payments</h1>
                 </div>
+                @can('payments_create')
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
                        href="{{ route('admin.modeOfPayments.create') }}">
                         Add New
                     </a>
                 </div>
+                @endcan
             </div>
         </div>
     </section>

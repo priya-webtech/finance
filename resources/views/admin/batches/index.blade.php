@@ -7,12 +7,14 @@
                 <div class="col-sm-6">
                     <h1>Batches</h1>
                 </div>
+                @can('batches_create')
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
                        href="{{ route('admin.batches.create') }}">
                         Add New
                     </a>
                 </div>
+                @endcan
             </div>
         </div>
     </section>
