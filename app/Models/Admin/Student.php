@@ -92,8 +92,8 @@ class Student extends Model
     public function studentType(){
         return $this->belongsTo(StudentType::class,'student_type');
     }
-    public function income(){
-        return $this->hasMany(Income::class,'student_id');
+    public function StudentIncome(){
+        return $this->hasMany(StudentFessCollection::class,'student_id');
     }
 
     public function getDuePaymentAttribute()

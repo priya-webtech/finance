@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateBatchDetail.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
+    <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="23/07/22">
+      <change afterPath="$PROJECT_DIR$/database.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/verify.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarcompanyAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarmodelAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCaryearAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCityAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateOffercodeAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreatePagesAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateSettingAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateStateAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateStaticdataAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateCarcompanyAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateCarmodelAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateCaryearAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateCityAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateOffercodeAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdatePagesAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateSettingAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStateAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStaticdataAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/CorporateFessCollection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateFessCollection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2022_06_30_115745_create_corporates_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_06_30_115745_create_corporates_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/show_fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/show_fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/due-fees/datatables_actions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/datatables_actions.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/settings/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/settings/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +71,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="paresh" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -193,21 +216,22 @@
       <path value="$PROJECT_DIR$/vendor/league/fractal" />
       <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/vendor/anhskohbo/no-captcha" />
     </include_path>
   </component>
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Models/Admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin/due-fees" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\finance\resources\views\admin\due-fees" />
       <recent name="C:\xampp\htdocs\finance\app\Models\Admin" />
       <recent name="C:\xampp\htdocs\finance" />
       <recent name="C:\xampp\htdocs\finance-app\public\storage" />
       <recent name="C:\xampp\htdocs\finance-app\resources\views\admin\due-fees" />
-      <recent name="C:\xampp\htdocs\finance-app\public" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -281,6 +305,11 @@
       <workItem from="1658136475477" duration="10825000" />
       <workItem from="1658204612583" duration="24302000" />
       <workItem from="1658291497611" duration="10475000" />
+      <workItem from="1658378268281" duration="18977000" />
+      <workItem from="1658463392285" duration="8005000" />
+      <workItem from="1658471929009" duration="1711000" />
+      <workItem from="1658549098678" duration="3816000" />
+      <workItem from="1658722467729" duration="18986000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -289,7 +318,28 @@
       <option name="project" value="LOCAL" />
       <updated>1658231712512</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="20/07/22">
+      <created>1658308575404</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1658308575404</updated>
+    </task>
+    <task id="LOCAL-00003" summary="21/07/22">
+      <created>1658403270173</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1658403270173</updated>
+    </task>
+    <task id="LOCAL-00004" summary="23/07/22">
+      <created>1658580491157</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1658580491157</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,8 +359,11 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="20/07/22" />
+    <MESSAGE value="21/07/22" />
     <MESSAGE value="19/07/22" />
-    <option name="LAST_COMMIT_MESSAGE" value="19/07/22" />
+    <MESSAGE value="23/07/22" />
+    <option name="LAST_COMMIT_MESSAGE" value="23/07/22" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -327,12 +380,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php</url>
-          <line>782</line>
+          <line>770</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
+          <line>359</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
+          <line>679</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
+          <line>299</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Models/Admin/Income.php</url>
-          <line>104</line>
+          <line>106</line>
           <properties>
             <option name="className" value="\App\Models\Admin\Income" />
             <option name="methodName" value="branch" />

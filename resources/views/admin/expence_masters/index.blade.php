@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Expence Masters</h1>
+                    <h1>Expense</h1>
                 </div>
                 @can('expence_create')
                 <div class="col-sm-6">

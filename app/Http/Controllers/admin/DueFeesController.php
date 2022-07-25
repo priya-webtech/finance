@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\DataTables\Admin\DueFeesDataTable;
+use App\DataTables\Admin\CorporateDueFeesDataTable;
+
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\Student;
@@ -30,30 +32,29 @@ class DueFeesController extends Controller
     {
         return $dueFeesDataTable->render('admin.due-fees.index');
     }
+
+    public function edit($id,$type)
+    {
+        if ($type == 'Corporate'){
+         $user =  Corporate::findorfail($id);
+        }elseif($type == 'Student'){
+         $user = Student::findorfail($id);
+        }
+     return view('admin.due-fees.edit',compact('user','type'));
+    }
+    public function corpodatatable(CorporateDueFeesDataTable $corporateDueFeesDataTable)
+    {
+        return $corporateDueFeesDataTable->render('admin.due-fees.copro-table');
+    }
     public function searchRecord()
     {
       if(\request('type') == 'Retail Training'){
         $student = Student::where('mobile_no',\request('mobile'))->first();
-
-//        if ($student){
-//            if ($student->due_payment > 0){
-//                $duePay = true;
-//            }else{
-//                $duePay = false;
-//            }
-            return response()->json(['student'=>$student]);
-//        }
+        return response()->json(['student'=>$student]);
       }
         if(\request('type') == 'Corporate Training'){
-            $corporate = Corporate::where('contact_no',\request('mobile'))->first();
-            if ($corporate){
-                if ($corporate->due_payment > 0){
-                    $duePay = true;
-                }else{
-                    $duePay = false;
-                }
-                return response()->json(['student'=>$student,'duePay'=>$duePay]);
-            }
+            $student = Corporate::where('contact_no',\request('mobile'))->first();
+            return response()->json(['student'=>$student]);
         }
     }
 

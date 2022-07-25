@@ -83,4 +83,7 @@ class CorporateDetail extends Model
     public function course(){
         return $this->belongsTo(Course::class,'course_id');
     }
+    public function corpoFeesColl(){
+        return $this->hasOne(CorporateFessCollection::class,'corporate_detail_id');
+    }
 }

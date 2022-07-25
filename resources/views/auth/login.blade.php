@@ -79,7 +79,15 @@
                     @enderror
 
                 </div>
-
+{{--                <div class="row">--}}
+{{--                    <div class="col-xs-12 col-sm-12 col-md-6">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <strong>Recaptcha:</strong>--}}
+{{--                            {!! NoCaptcha::renderJs() !!}--}}
+{{--                            {!! NoCaptcha::display() !!}--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
@@ -121,6 +129,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"
         integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>--}}
 
 </body>
 </html>

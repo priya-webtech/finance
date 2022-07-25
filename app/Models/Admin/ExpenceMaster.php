@@ -33,7 +33,11 @@ class ExpenceMaster extends Model
         'bank_ac_id',
         'amount',
         'date',
-        'remark'
+        'remark',
+        'student_id',
+        'batch_id',
+        'trainer_id',
+        'tds',
     ];
 
     /**
@@ -64,12 +68,21 @@ class ExpenceMaster extends Model
         'date' => 'required'
     ];
     public function bankAcc(){
-        return $this->belongsTo(BankAccount::class,'bank_ac_id');
+        return $this->belongsTo(ModeOfPayment::class,'bank_ac_id');
     }
     public function branch(){
         return $this->belongsTo(Branch::class,'branch_id');
     }
     public function expenceType(){
         return $this->belongsTo(ExpenseTypes::class,'expence_type_id');
+    }
+    public function student(){
+        return $this->belongsTo(Student::class,'student_id');
+    }
+    public function batch(){
+        return $this->belongsTo(Batch::class,'batch_id');
+    }
+    public function trainer(){
+        return $this->belongsTo(Trainer::class,'trainer_id');
     }
 }
