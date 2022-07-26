@@ -37,21 +37,6 @@ class DueFeesDataTable extends DataTable
                }
             })
             ->addColumn('total_amount', function ($record){
-<<<<<<< HEAD
-                $gst = StudentFessCollection::where('student_id',$record->id)->sum('gst');
-                 $paying_amount = StudentFessCollection::where('student_id',$record->id)->pluck('income_id')->toArray();
-                 $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
-                 return $payAmount + $gst;
-            })->addColumn('due_fees', function ($record){
-                 $stud_id=$record->id;
-                $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
-                $gst = StudentFessCollection::where('student_id',$record->id)->sum('gst');
-                 $paying_amount = StudentFessCollection::where('student_id',$record->id)->pluck('income_id')->toArray();
-                 $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
-                 $total = $payAmount + $gst;
-                 $dueFees = $agreed_amount - $total;
-                 return $dueFees;
-=======
                 if($record->type == 'Student') {
                     $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
                     $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
@@ -87,7 +72,6 @@ class DueFeesDataTable extends DataTable
                     $dueFees = $agreed_amount - $total;
                     return $dueFees;
                 }
->>>>>>> b105d7b638fc283b6260d92a867d35bf2d1ec867
             })
             ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
     }
@@ -142,16 +126,10 @@ class DueFeesDataTable extends DataTable
             'name',
             'email',
             'mobile_no',
-<<<<<<< HEAD
-            'agreed_amount',
-            'total_amount',
-            'due_fees',
-=======
             'agreed_amount'  => ['searchable' => false],
             'total_amount' => ['searchable' => false],
             'due_fees' => ['searchable' => false],
             'type' => ['searchable' => false],
->>>>>>> b105d7b638fc283b6260d92a867d35bf2d1ec867
         ];
     }
 
