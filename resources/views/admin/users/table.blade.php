@@ -12,6 +12,7 @@
         </thead>
         <tbody>
         @foreach($users as $user)
+        <?php $new = array_diff($user->branch_id,auth()->user()->branch_id); if(!$new){ ?>
             <tr>
                 <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
@@ -39,6 +40,7 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
+            <?php } ?>
         @endforeach
         </tbody>
     </table>

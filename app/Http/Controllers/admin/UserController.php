@@ -38,7 +38,10 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
+        //dd(auth()->user()->branch_id);
         $users = User::where('role_id','!=',0)->paginate(10);
+
+        
         return view('admin.users.index')
             ->with('users', $users);
     }

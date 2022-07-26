@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\DataTables\Admin\CarmodelDataTable;
 use App\Http\Requests\Admin;
+use App\Models\User;
+use App\Models\Admin\Branch;
 use App\Http\Requests\Admin\CreateCarmodelRequest;
 use App\Http\Requests\Admin\UpdateCarmodelRequest;
 use App\Repositories\Admin\CarmodelRepository;
@@ -32,7 +34,9 @@ class DashBoardController extends AppBaseController
     {
        // dd(auth()->user()->role_id);
         if(auth()->user()->role_id == 1){
-             return view('admin.dashboard.dashboard');
+            $user =  User::count();
+            $branch =  Branch::count();
+             return view('admin.dashboard.dashboard',compact('user','branch'));
         }elseif (auth()->user()->role_id == 2) {
             return view('admin.dashboard.dashboard-admin');
         }elseif (auth()->user()->role_id == 3) {
@@ -43,6 +47,10 @@ class DashBoardController extends AppBaseController
             return view('admin.dashboard.dashboard-internal-auditor');
         }elseif (auth()->user()->role_id == 6) {
             return view('admin.dashboard.dashboard-student-co-ordinator');
+        }elseif (auth()->user()->role_id == 0) {
+            $user =  User::count();
+            $branch =  Branch::count();
+            return view('admin.dashboard.dashboard',compact('user','branch'));
         }else{
             return view('admin.dashboard.dashboard');
         }
