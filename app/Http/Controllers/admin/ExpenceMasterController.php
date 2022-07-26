@@ -69,6 +69,15 @@ class ExpenceMasterController extends AppBaseController
      */
     public function store(CreateExpenceMasterRequest $request)
     {
+
+        $request->validate([
+            'expence_type_id' => ['required', 'string'],
+            'branch_id' => ['required', 'string'],
+            'bank_ac_id' => ['required', 'string'],
+            'amount' => ['required', 'string'],
+            'date' => ['required', 'string'],
+        ]);
+
         $input = $request->all();
         $expenceType = ExpenseTypes::findorfail($input['expence_type_id']);
         $bankAc = $input['bank_ac_id'];
@@ -166,6 +175,14 @@ class ExpenceMasterController extends AppBaseController
      */
     public function update($id, UpdateExpenceMasterRequest $request)
     {
+
+        $request->validate([
+            'expence_type_id' => ['required', 'string'],
+            'branch_id' => ['required', 'string'],
+            'bank_ac_id' => ['required', 'string'],
+            'amount' => ['required', 'string'],
+            'date' => ['required', 'string'],
+        ]);
         $input = $request->all();
         $expenceMaster = $this->expenceMasterRepository->find($id);
         if (empty($expenceMaster)) {

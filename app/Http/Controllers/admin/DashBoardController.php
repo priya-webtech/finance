@@ -30,7 +30,22 @@ class DashBoardController extends AppBaseController
      */
     public function index()
     {
-        return view('admin.dashboard.dashboard');
+       // dd(auth()->user()->role_id);
+        if(auth()->user()->role_id == 1){
+             return view('admin.dashboard.dashboard');
+        }elseif (auth()->user()->role_id == 2) {
+            return view('admin.dashboard.dashboard-admin');
+        }elseif (auth()->user()->role_id == 3) {
+            return view('admin.dashboard.dashboard-branch-manager');
+        }elseif (auth()->user()->role_id == 4) {
+            return view('admin.dashboard.dashboard-counsellor');
+        }elseif (auth()->user()->role_id == 5) {
+            return view('admin.dashboard.dashboard-internal-auditor');
+        }elseif (auth()->user()->role_id == 6) {
+            return view('admin.dashboard.dashboard-student-co-ordinator');
+        }else{
+            return view('admin.dashboard.dashboard');
+        }
     }
 
 

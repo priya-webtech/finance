@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('expence_type_id', 'Expence Type:') !!}
     {!! Form::select('expence_type_id', $expenseTypes, null, ['class' => 'form-control custom-select','onchange'=>'ChangeExpenseType()','id'=>'expense_type','placeholder'=>'Please Select Expense Type']) !!}
+     <span class="error text-danger">{{ $errors->first('expence_type_id') }}</span>
 </div>
 
 
@@ -9,6 +10,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('branch_id', 'Branch:') !!}
     {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
+    <span class="error text-danger">{{ $errors->first('bank_ac_id') }}</span>
 </div>
 
 <!-- Branch Id Field -->
@@ -26,6 +28,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('bank_ac_id', 'Bank Ac:') !!}
     {!! Form::select('bank_ac_id', $bankAccounts, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Bank']) !!}
+    <span class="error text-danger">{{ $errors->first('expence_type_id') }}</span>
 </div>
 
 <div class="form-group col-sm-6 student">
@@ -36,6 +39,7 @@
 <div class="form-group col-sm-5">
     {!! Form::label('amount', 'Amount:') !!}
     {!! Form::number('amount', null, ['class' => 'form-control','id'=>'amount']) !!}
+    <span class="error text-danger">{{ $errors->first('amount') }}</span>
 </div>
 <div class="form-group col-sm-1 trainer" style="margin-top: 37px;">
     {!! Form::label('tds', 'TDS:') !!}
@@ -46,6 +50,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('date', 'Date:') !!}
     {!! Form::text('date', null, ['class' => 'form-control','id'=>'datetimepicker']) !!}
+    <span class="error text-danger">{{ $errors->first('date') }}</span>
 </div>
 
 <!-- Remark Field -->

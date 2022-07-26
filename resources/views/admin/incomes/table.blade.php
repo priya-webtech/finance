@@ -70,23 +70,16 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.incomes.destroy', $record['id']], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-<<<<<<< HEAD
                         @can('incomes_view')
-                        <a href="{{ route('admin.incomes.show', [$stud->id]) }}"
+                        <a href="{{ route('admin.incomes.show', [$record['id']]) }}?type=student"
                            class='btn btn-default action-btn btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
                         @endcan
                         @can('incomes_edit')
-                        <a href="{{ route('admin.incomes.edit', [$stud->id]) }}"
-=======
-                        <a href="{{ route('admin.incomes.show', [$record['id']]) }}?type=student"
-                           class='btn btn-default action-btn btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
+                        @if(isset($record['student_income']))
+                         <a href="{{ route('admin.incomes.edit', [$record['id']]) }}?type=student"
 
-                        @if(isset($record['student_income'])) <a href="{{ route('admin.incomes.edit', [$record['id']]) }}?type=student"
->>>>>>> b105d7b638fc283b6260d92a867d35bf2d1ec867
                            class='btn btn-primary action-btn btn-sm'>
                             @elseif(isset($record['corporate_income']))
                                 <a href="{{ route('admin.incomes.edit', [$record['id']]) }}?type=corporate"

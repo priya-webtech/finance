@@ -8,12 +8,12 @@
                     <h1>Corporates</h1>
                 </div>
                 @can('corporates_create')
-                <div class="col-sm-6">
+                {{-- <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
                        href="{{ route('admin.corporates.create') }}">
                         Add New
                     </a>
-                </div>
+                </div>--}}
                 @endcan
             </div>
         </div>

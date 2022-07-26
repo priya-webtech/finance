@@ -58,7 +58,7 @@ class StudentController extends AppBaseController
       $leadSource =  LeadSources::where('status',1)->pluck('title','id');
       $enquiryType =  EnquiryType::where('status',1)->pluck('title','id');
       $studentType =  StudentType::where('status',1)->pluck('title','id');
-        $user = User::where('role_id',constant('student_co-ordinator'))->pluck('name','id');
+        $user = User::where('role_id',6)->pluck('name','id');
       return view('admin.students.create',compact('leadSource','enquiryType','studentType','branch','batch','user'));
     }
 
@@ -119,7 +119,7 @@ class StudentController extends AppBaseController
         $leadSource =  LeadSources::where('status',1)->pluck('title','id');
         $enquiryType =  EnquiryType::where('status',1)->pluck('title','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
-       $user = User::where('role_id',constant('student_co-ordinator'))->pluck('name','id');
+       $user = User::where('role_id',6)->pluck('name','id');
         return view('admin.students.edit',compact('branch','batch','leadSource','enquiryType','studentType','student','user'));
     }
 

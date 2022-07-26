@@ -19,8 +19,8 @@
         @foreach($expenceMasters as $expenceMaster)
             <tr>
                 <td>{{ $expenceMaster->expenceType->title }}</td>
-            <td>{{ $expenceMaster->branch->title }}</td>
-                <td>{{ $expenceMaster->bankAcc->name }}</td>
+            <td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>
+                <td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>
             <td>{{ $expenceMaster->batch->name ?? 'N/A' }}</td>
             <td>{{ $expenceMaster->trainer->trainer_name ?? 'N/A'}}</td>
             <td>{{ $expenceMaster->student->name ?? 'N/A' }}</td>

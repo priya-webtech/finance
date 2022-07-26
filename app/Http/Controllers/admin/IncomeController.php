@@ -75,7 +75,7 @@ class IncomeController extends AppBaseController
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
         $corporate = Corporate::where('status',1)->pluck('company_name','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
-        $user = User::where('role_id',constant('student_co-ordinator'))->pluck('name','id');
+        $user = User::where('role_id',6)->pluck('name','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
