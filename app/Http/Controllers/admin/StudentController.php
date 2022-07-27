@@ -11,6 +11,7 @@ use App\Models\Admin\EnquiryType;
 use App\Models\Admin\LeadSources;
 use App\Models\Admin\StudentType;
 use App\Models\Admin\Student;
+use App\Models\Admin\StudentDetail;
 use App\Models\User;
 use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
@@ -42,6 +43,7 @@ class StudentController extends AppBaseController
     {
         $students = $this->studentRepository->paginate(10);
 
+       
         return view('admin.students.index')
             ->with('students', $students);
     }

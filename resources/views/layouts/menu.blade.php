@@ -4,13 +4,14 @@
         <p>Dashboard</p>
     </a>
 </li>
-
+@if(auth()->user()->role_id == 0 || auth()->user()->role_id == 1)
 <li class="nav-item ">
     <a href="{{route('role.permission.list')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/role-permission*') ? 'active' : ''}}">
         <i class="nav-icon fas fa-lock"></i>
         <p>Role-Permission</p>
     </a>
 </li>
+@endif
 <li class="nav-item">
     <a href="{{ route('admin.users.index') }}"
        class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
@@ -93,6 +94,7 @@
 
 
 {{--<li class="nav-header">PAGES</li>--}}
+@if(auth()->user()->role_id == 0 || auth()->user()->role_id == 1)
 <li class="nav-header">SYSTEM SETTING</li>
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -225,4 +227,5 @@
         </li>
     </ul>
 </li>
+@endif
 </li>

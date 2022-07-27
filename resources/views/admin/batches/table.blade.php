@@ -15,6 +15,7 @@
         </thead>
         <tbody>
         @foreach($batches as $batch)
+         @if((isset(auth()->user()->branch_id) && in_array($batch['course']['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
             <tr>
                 <td>{{ $batch->course->course_name }}</td>
             <td>{{ $batch->batchMode->title }}</td>
@@ -49,6 +50,7 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
+            @endif
         @endforeach
         </tbody>
     </table>

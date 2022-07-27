@@ -55,9 +55,9 @@ class IncomeController extends AppBaseController
         $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
 
         $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-        $incomes = Income::doesntHave('incomeStudFees')->doesntHave('corporateStudFees')->get()->toArray();
+        $incomes = Income::get()->toArray();
         $merge = array_merge($student, $corporate,$incomes);
-
+        
         return view('admin.incomes.index',compact('student','incomes','corporate','merge'));
     }
 

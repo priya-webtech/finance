@@ -13,6 +13,7 @@
         </thead>
         <tbody>
         @foreach($students as $student)
+        @if((isset($student['branch_id'])) && in_array($student['branch_id'], auth()->user()->branch_id))
             <tr>
 
                 <td>{{ $student->name }}</td>
@@ -46,6 +47,7 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
+            @endif
         @endforeach
         </tbody>
     </table>

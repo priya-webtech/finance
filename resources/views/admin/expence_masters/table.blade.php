@@ -17,6 +17,7 @@
         </thead>
         <tbody>
         @foreach($expenceMasters as $expenceMaster)
+          @if((isset(auth()->user()->branch_id) && in_array($expenceMaster['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
             <tr>
                 <td>{{ $expenceMaster->expenceType->title }}</td>
             <td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>
@@ -50,6 +51,7 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
+            @endif
         @endforeach
         </tbody>
     </table>
