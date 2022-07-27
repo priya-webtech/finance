@@ -11,9 +11,9 @@
         </tr>
         </thead>
         <tbody>
-        @if($users && auth()->user()->branch_id != '' && auth()->user()->role_id == 0)
+        @if($users && auth()->user()->branch_id != '')
         @foreach($users as $user)
-        <?php  $new = array_diff($user->branch_id,auth()->user()->branch_id); if((!$new) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0)){ ?>
+        <?php  $new = array_intersect($user->branch_id,auth()->user()->branch_id); if(($new) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0)){ ?>
             <tr>
                 <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
