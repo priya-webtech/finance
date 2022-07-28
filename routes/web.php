@@ -53,9 +53,10 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 //    Route::get('/student/find', [App\Http\Controllers\Admin\ExpenceMasterController::class, 'find']);
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
     Route::get('/due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'edit'])->name('due-fees-edit');
+    Route::post('/pay-due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'update'])->name('pay-due-fees');
     Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate');
 
-    
+
     Route::get('/search-record', [App\Http\Controllers\Admin\DueFeesController::class, 'searchRecord'])->name('search-record');
     Route::get('/count-batch-student', [App\Http\Controllers\Admin\IncomeController::class, 'countStud'])->name('count-batch-student');
     Route::post('/profile-update', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile-update');
@@ -68,7 +69,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::resource('role', RoleController::class);
     Route::get('role-delete/{id}',[\App\Http\Controllers\Security\RoleController::class, 'destroy'])->name('role-delete');
     // Route::resource('settings', App\Http\Controllers\admin\SettingController::class, ["as" => 'admin']);
-    
+
     //Route::resource('leadSources', App\Http\Controllers\Admin\LeadSourcesController::class, ["as" => 'admin']);
     Route::get('leadSources', ['as' => 'admin.leadSources.index', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@index']);
     Route::get('leadSources/create', ['as' => 'admin.leadSources.create', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@create', 'middleware' => 'can:leadsources_create']);
@@ -176,7 +177,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('batchTypes/{id}/edit', ['as' => 'admin.batchTypes.edit', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@edit', 'middleware' => 'can:batchtypes_edit']);
     Route::patch('batchTypes/{id}', ['as' => 'admin.batchTypes.update', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@update', 'middleware' => 'can:batchtypes_edit']);
     Route::delete('batchTypes/{id}', ['as' => 'admin.batchTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@destroy', 'middleware' => 'can:batchtypes_delete']);
- 
+
     //Route::resource('modeOfPayments', App\Http\Controllers\Admin\ModeOfPaymentController::class, ["as" => 'admin']);
     Route::get('modeOfPayments', ['as' => 'admin.modeOfPayments.index', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@index']);
     Route::get('modeOfPayments/create', ['as' => 'admin.modeOfPayments.create', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@create', 'middleware' => 'can:payments_view']);
@@ -185,7 +186,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('modeOfPayments/{id}/edit', ['as' => 'admin.modeOfPayments.edit', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@edit', 'middleware' => 'can:payments_edit']);
     Route::patch('modeOfPayments/{id}', ['as' => 'admin.modeOfPayments.update', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@update', 'middleware' => 'can:payments_edit']);
     Route::delete('modeOfPayments/{id}', ['as' => 'admin.modeOfPayments.destroy', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@destroy', 'middleware' => 'can:payments_delete']);
-  
+
     //Route::resource('branches', App\Http\Controllers\Admin\BranchController::class, ["as" => 'admin']);
     Route::get('branches', ['as' => 'admin.branches.index', 'uses' => 'App\Http\Controllers\Admin\BranchController@index']);
     Route::get('branches/create', ['as' => 'admin.branches.create', 'uses' => 'App\Http\Controllers\Admin\BranchController@create', 'middleware' => 'can:branch_create']);
@@ -194,7 +195,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('branches/{id}/edit', ['as' => 'admin.branches.edit', 'uses' => 'App\Http\Controllers\Admin\BranchController@edit', 'middleware' => 'can:branch_edit']);
     Route::patch('branches/{id}', ['as' => 'admin.branches.update', 'uses' => 'App\Http\Controllers\Admin\BranchController@update', 'middleware' => 'can:branch_edit']);
     Route::delete('branches/{id}', ['as' => 'admin.branches.destroy', 'uses' => 'App\Http\Controllers\Admin\BranchController@destroy', 'middleware' => 'can:branch_delete']);
-  
+
     //Route::resource('franchises', App\Http\Controllers\Admin\FranchiseController::class, ["as" => 'admin']);
     Route::get('franchises', ['as' => 'admin.franchises.index', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@index']);
     Route::get('franchises/create', ['as' => 'admin.franchises.create', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@create', 'middleware' => 'can:franchises_create']);

@@ -51,7 +51,7 @@
 <li class="nav-item">
     <a href="{{route('due-fees')}}"
        class="nav-link {{ Request::is('admin/due-fees*') ? 'active' : '' }}">
-        <i class="nav-icon fa fa-users" aria-hidden="true"></i>
+        <i class="fa fa-area-chart"  aria-hidden="true"></i>
         <p>Due Fees</p>
     </a>
 </li>

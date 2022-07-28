@@ -107,4 +107,7 @@ class StudentDetail extends Model
     public function studFeesColl(){
         return $this->hasOne(StudentFessCollection::class,'student_detail_id');
     }
+    public function StudentCoruseWisePayment(){
+        return $this->hasMany(StudentFessCollection::class,'student_id','student_id');
+    }
 }

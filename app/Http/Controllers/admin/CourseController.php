@@ -45,7 +45,7 @@ class CourseController extends AppBaseController
     public function create()
     {
       $branch =  Branch::where('status',1)->pluck('title','id');
-        return view('admin.courses.create',compact('branch'));
+      return view('admin.courses.create',compact('branch'));
     }
 
     /**

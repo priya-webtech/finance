@@ -86,4 +86,7 @@ class CorporateDetail extends Model
     public function corpoFeesColl(){
         return $this->hasOne(CorporateFessCollection::class,'corporate_detail_id');
     }
+    public function coruseWisePayment(){
+        return $this->hasMany(CorporateFessCollection::class,'corporate_id','corporate_id');
+    }
 }

@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="23/07/22">
+      <change afterPath="$PROJECT_DIR$/bootstrap.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/database.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/verify.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarcompanyAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarmodelAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCaryearAPIRequest.php" beforeDir="false" />
@@ -27,16 +29,12 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateSettingAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStateAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStaticdataAPIRequest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Corporate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Income.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Income.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/StudentDetail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/StudentDetail.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/due-fees/datatables_actions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/datatables_actions.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/expence_masters/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/expence_masters/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/settings/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/settings/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/due-fees/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -222,7 +220,7 @@
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin/due-fees" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tranqula" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -310,6 +308,9 @@
       <workItem from="1658471929009" duration="1711000" />
       <workItem from="1658549098678" duration="3816000" />
       <workItem from="1658722467729" duration="18986000" />
+      <workItem from="1658809625956" duration="16686000" />
+      <workItem from="1658914720198" duration="10896000" />
+      <workItem from="1658982455207" duration="5988000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>

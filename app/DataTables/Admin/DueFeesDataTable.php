@@ -24,19 +24,32 @@ class DueFeesDataTable extends DataTable
      */
     public function dataTable($query)
     {
-
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', 'admin.due-fees.datatables_actions')
             ->addColumn('agreed_amount', function ($record){
-               if($record->type == 'Student'){
-                   $stud_id=$record->id;
-                   return $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
-               }elseif ($record->type == 'Corporate'){
-                   $corporate_id=$record->id;
-                   return $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
-               }
+                if($record->type == 'Student'){
+                    $stud_id=$record->id;
+                    return $agreed_amount=StudentDetail::where('student_id',$stud_id)->sum('agreed_amount');
+                }elseif ($record->type == 'Corporate'){
+                    $corporate_id=$record->id;
+                    return $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
+                }
             })
             ->addColumn('total_amount', function ($record){
+                if($record->type == 'Student') {
+                    $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
+                    $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
+                    $payAmount = Income::whereIn('id', $paying_amount)->sum('paying_amount');
+                    return $payAmount + $gst;
+                }else{
+                    $gst = CorporateFessCollection::where('corporate_id', $record->id)->sum('gst');
+                    $paying_amount = CorporateFessCollection::where('corporate_id', $record->id)->pluck('income_id')->toArray();
+                    $payAmount = Income::whereIn('id', $paying_amount)->sum('paying_amount');
+                    return $payAmount + $gst;
+                }
+            })
+            ->addColumn('due_fees', function ($record){
+                $stud_id=$record->id;
                 if($record->type == 'Student') {
                     $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
                     $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
@@ -46,12 +59,13 @@ class DueFeesDataTable extends DataTable
                 elseif ($record->type == 'Corporate'){
                     $corporate_id=$record->id;
                     $gst = CorporateFessCollection::where('corporate_id',$corporate_id)->sum('gst');
-                    $paying_amount = CorporateFessColblection::where('corporate_id',$corporate_id)->pluck('income_id')->toArray();
+                    $paying_amount = CorporateFessCollection::where('corporate_id',$corporate_id)->pluck('income_id')->toArray();
                     $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
                     $total_amount = $payAmount + $gst;
                     return round($total_amount, 2);
                 }
-            })->addColumn('due_fees', function ($record){
+            })
+            ->addColumn('due_fees', function ($record){
                 if($record->type == 'Student') {
                     $stud_id = $record->id;
                     $agreed_amount = StudentDetail::where('student_id', $stud_id)->sum('agreed_amount');

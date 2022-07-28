@@ -112,7 +112,7 @@ class Income extends Model
         return $this->belongsTo(Course::class,'course_id');
     }
     public function bankAcc(){
-        return $this->belongsTo(BankAccount::class,'bank_acc_id');
+        return $this->belongsTo(ModeOfPayment::class,'bank_acc_id');
     }
     public function registration_take(){
         return $this->belongsTo(User::class,'registration_taken_by');
