@@ -13,9 +13,8 @@
         </thead>
         <tbody>
         @foreach($students as $student)
-        @if((isset($student['branch_id'])) && in_array($student['branch_id'], auth()->user()->branch_id))
+        @if((isset($student['branch_id'])) && $student['branch_id'] == auth()->user()->branch_id)
             <tr>
-
                 <td>{{ $student->name }}</td>
             <td>{{ $student->email }}</td>
             <td>{{ $student->mobile_no }}</td>

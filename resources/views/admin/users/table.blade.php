@@ -13,7 +13,8 @@
         <tbody>
         @if($users && auth()->user()->branch_id != '')
         @foreach($users as $user)
-        <?php  $new = array_intersect($user->branch_id,auth()->user()->branch_id); if(($new) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0)){ ?>
+        @if(((isset(auth()->user()->branch_id) && isset($user['branch_id'])) && ($user['branch_id'] == auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
+
             <tr>
                 <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
@@ -41,7 +42,7 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
-            <?php } ?>
+            @endif
         @endforeach
 
         @else

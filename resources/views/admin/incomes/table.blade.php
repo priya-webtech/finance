@@ -64,7 +64,7 @@
 {{--        @dd($merge)--}}
         @foreach($merge as $record)
         @php // dd($record); @endphp
-         @if(((isset(auth()->user()->branch_id) && isset($record['branch_id'])) && in_array($record['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
+         @if(((isset(auth()->user()->branch_id) && isset($record['branch_id'])) && $record['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
             <tr>
                 <td>@if(isset($record['name'])) {{ $record['name'] }} @elseif(isset($record['company_name'])) {{$record['company_name']}} @else {{"N/A"}} @endif </td>
                 <td>{{ $record['email']  ?? 'N/A'}}</td>

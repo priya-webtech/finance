@@ -135,8 +135,9 @@ class StudentController extends AppBaseController
      */
     public function update($id, UpdateStudentRequest $request)
     {
+      
         $student = $this->studentRepository->find($id);
-
+        
         if (empty($student)) {
             Flash::error('Student not found');
 

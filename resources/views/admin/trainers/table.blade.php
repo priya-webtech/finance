@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         @foreach($trainers as $trainer)
-        @if((isset(auth()->user()->branch_id) && in_array($trainer['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
+        @if((isset(auth()->user()->branch_id) && $trainer['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
       
             <tr>
                 <td>{{ $trainer->trainer_name }}</td>

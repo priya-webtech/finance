@@ -39,7 +39,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'branch_id'=>'json'
     ];
 
     public function role(){

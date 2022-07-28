@@ -78,34 +78,7 @@ class Role
             }
         }
            
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.users.edit"){
 
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.trainers.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.corporates.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.courses.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.batches.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.incomes.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.expenceMasters.edit"){
-
-           return $next($request);
-        }
 
 
         return $next($request);

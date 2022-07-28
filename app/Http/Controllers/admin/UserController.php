@@ -73,6 +73,7 @@ class UserController extends AppBaseController
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
         $input = $request->all();
+
         $role = Role::findorfail($input['role_id']);
         if ($role){
             $input['status'] = 1;
@@ -137,6 +138,8 @@ class UserController extends AppBaseController
      */
     public function update($id, Request $request)
     {
+
+
          $users= User::find($id);
 
         if (empty($users)) {
@@ -155,6 +158,7 @@ class UserController extends AppBaseController
          }else{
              $input['password'] = Hash::make($input['password']);
          }
+         $input['branch_id'] = $input['branch_id'];
         $users = $users->update($input);
 
         Flash::success('Users updated successfully.');
