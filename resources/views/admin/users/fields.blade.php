@@ -7,7 +7,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('branch_id', 'Branch:') !!}
-    {!! Form::select('branch_id[]',$branch, null, ['class' => 'form-control select2','multiple'=>'multiple']) !!}
+    {!! Form::select('branch_id',$branch, null, ['class' => 'form-control select2']) !!}
     <span class="error text-danger">{{ $errors->first('name') }}</span>
 </div>
 <!-- Email Field -->
