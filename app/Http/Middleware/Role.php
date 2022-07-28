@@ -8,6 +8,13 @@ use App\Models\EmployeeRegDetail;
 use App\Models\ReviewSetting;
 use App\Models\User;
 use Closure;
+use App\Models\Admin\Trainer;
+use App\Models\Admin\Corporate;
+use App\Models\Admin\Course;
+use App\Models\Admin\Income;
+use App\Models\Admin\ExpenceMaster;
+use App\Models\Admin\Batch;
+use App\Repositories\Admin\TrainerRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,23 +43,35 @@ class Role
                         $bypass = true;
                     }
                     break;
-                case "campaign":
-                    $modal = Campaign::class;
-                    $entity=$modal::where('vendor_id',Auth::id())->where('id',$id)->first();
+                case "trainers":
+                    $modal = Trainer::class;
+                    $entity = $modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
-                case "review":
-                    $modal = ReviewSetting::class;
-                    $entity=$modal::where('vendor_id',Auth::id())->where('id',$id)->first();
-
+                case "corporates":
+                    $modal = Corporate::class;
+                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
-                case "call-task":
-                    $modal = Campaign::class;
-                    $camp =$modal::where('vendor_id',Auth::id())->pluck('id');
-                    $entity = CallTask::where('id',$id)->whereIn('campaign_id',$camp)->first();
+                case "courses":
+                    $modal = Course::class;
+                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    break;
+                case "batches":
+                    $modal = Batch::class;
+                    $coureid=$modal::where('id',$id)->first();
+                    $entity=Course::whereIn('branch_id',$auth->branch_id)->where('branch_id',$coureid->course_id)->first();
+                    break;
+                case "incomes":
+                    $modal = Income::class;
+                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    break;
+                case "expenceMasters":
+                    $modal = ExpenceMaster::class;
+                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
                 default:
                     $entity='';
             }
+
 
             if (empty($entity) && $bypass==false) {
                 abort(401);
@@ -61,8 +80,31 @@ class Role
            
         if ($auth->hasRole('admin') && $request->route()->getName() == "admin.users.edit"){
 
-           // dd($next($request));
-          //  return redirect()->route('admin.users.edit',$entity->id)->withErrors('Your Plan is expired please update');
+           return $next($request);
+        }
+        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.trainers.edit"){
+
+           return $next($request);
+        }
+        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.corporates.edit"){
+
+           return $next($request);
+        }
+        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.courses.edit"){
+
+           return $next($request);
+        }
+        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.batches.edit"){
+
+           return $next($request);
+        }
+        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.incomes.edit"){
+
+           return $next($request);
+        }
+        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.expenceMasters.edit"){
+
+           return $next($request);
         }
 
 

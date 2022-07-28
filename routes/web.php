@@ -110,7 +110,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('courses/create', ['as' => 'admin.courses.create', 'uses' => 'App\Http\Controllers\Admin\CourseController@create', 'middleware' => 'can:courses_create']);
     Route::post('courses/store', ['as' => 'admin.courses.store', 'uses' => 'App\Http\Controllers\Admin\CourseController@store', 'middleware' => 'can:courses_create']);
     Route::get('courses/{id}', ['as' => 'admin.courses.show', 'uses' => 'App\Http\Controllers\Admin\CourseController@show', 'middleware' => 'can:courses_view']);
-    Route::get('courses/{id}/edit', ['as' => 'admin.courses.edit', 'uses' => 'App\Http\Controllers\Admin\CourseController@edit', 'middleware' => 'can:courses_edit']);
+    Route::get('courses/{id}/edit', ['as' => 'admin.courses.edit', 'uses' => 'App\Http\Controllers\Admin\CourseController@edit', 'middleware' => ['can:courses_edit','role']]);
     Route::patch('courses/{id}', ['as' => 'admin.courses.update', 'uses' => 'App\Http\Controllers\Admin\CourseController@update', 'middleware' => 'can:courses_edit']);
     Route::delete('courses/{id}', ['as' => 'admin.courses.destroy', 'uses' => 'App\Http\Controllers\Admin\CourseController@destroy', 'middleware' => 'can:courses_delete']);
 
@@ -119,7 +119,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
     Route::post('batches/store', ['as' => 'admin.batches.store', 'uses' => 'App\Http\Controllers\Admin\BatchController@store', 'middleware' => 'can:batches_create']);
     Route::get('batches/{id}', ['as' => 'admin.batches.show', 'uses' => 'App\Http\Controllers\Admin\BatchController@show', 'middleware' => 'can:batches_view']);
-    Route::get('batches/{id}/edit', ['as' => 'admin.batches.edit', 'uses' => 'App\Http\Controllers\Admin\BatchController@edit', 'middleware' => 'can:batches_edit']);
+    Route::get('batches/{id}/edit', ['as' => 'admin.batches.edit', 'uses' => 'App\Http\Controllers\Admin\BatchController@edit', 'middleware' => ['can:batches_edit','role']]);
     Route::patch('batches/{id}', ['as' => 'admin.batches.update', 'uses' => 'App\Http\Controllers\Admin\BatchController@update', 'middleware' => 'can:batches_edit']);
     Route::delete('batches/{id}', ['as' => 'admin.batches.destroy', 'uses' => 'App\Http\Controllers\Admin\BatchController@destroy', 'middleware' => 'can:batches_delete']);
 
@@ -128,7 +128,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('incomes/create', ['as' => 'admin.incomes.create', 'uses' => 'App\Http\Controllers\Admin\IncomeController@create', 'middleware' => 'can:incomes_create']);
     Route::post('incomes/store', ['as' => 'admin.incomes.store', 'uses' => 'App\Http\Controllers\Admin\IncomeController@store', 'middleware' => 'can:incomes_create']);
     Route::get('incomes/{id}', ['as' => 'admin.incomes.show', 'uses' => 'App\Http\Controllers\Admin\IncomeController@show', 'middleware' => 'can:incomes_view']);
-    Route::get('incomes/{id}/edit', ['as' => 'admin.incomes.edit', 'uses' => 'App\Http\Controllers\Admin\IncomeController@edit', 'middleware' => 'can:incomes_edit']);
+    Route::get('incomes/{id}/edit', ['as' => 'admin.incomes.edit', 'uses' => 'App\Http\Controllers\Admin\IncomeController@edit', 'middleware' => ['can:incomes_edit','role']]);
     Route::patch('incomes/{id}', ['as' => 'admin.incomes.update', 'uses' => 'App\Http\Controllers\Admin\IncomeController@update', 'middleware' => 'can:incomes_edit']);
     Route::delete('incomes/{id}', ['as' => 'admin.incomes.destroy', 'uses' => 'App\Http\Controllers\Admin\IncomeController@destroy', 'middleware' => 'can:incomes_delete']);
 
@@ -137,7 +137,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('trainers/create', ['as' => 'admin.trainers.create', 'uses' => 'App\Http\Controllers\Admin\TrainerController@create', 'middleware' => 'can:trainers_create']);
     Route::post('trainers/store', ['as' => 'admin.trainers.store', 'uses' => 'App\Http\Controllers\Admin\TrainerController@store', 'middleware' => 'can:trainers_create']);
     Route::get('trainers/{id}', ['as' => 'admin.trainers.show', 'uses' => 'App\Http\Controllers\Admin\TrainerController@show', 'middleware' => 'can:trainers_view']);
-    Route::get('trainers/{id}/edit', ['as' => 'admin.trainers.edit', 'uses' => 'App\Http\Controllers\Admin\TrainerController@edit', 'middleware' => 'can:trainers_edit']);
+    Route::get('trainers/{id}/edit', ['as' => 'admin.trainers.edit', 'uses' => 'App\Http\Controllers\Admin\TrainerController@edit', 'middleware' => ['can:trainers_edit','role']]);
     Route::patch('trainers/{id}', ['as' => 'admin.trainers.update', 'uses' => 'App\Http\Controllers\Admin\TrainerController@update', 'middleware' => 'can:trainers_edit']);
     Route::delete('trainers/{id}', ['as' => 'admin.trainers.destroy', 'uses' => 'App\Http\Controllers\Admin\TrainerController@destroy', 'middleware' => 'can:trainers_delete']);
 
@@ -229,7 +229,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('corporates/create', ['as' => 'admin.corporates.create', 'uses' => 'App\Http\Controllers\Admin\CorporateController@create', 'middleware' => 'can:corporates_create']);
     Route::post('corporates/store', ['as' => 'admin.corporates.store', 'uses' => 'App\Http\Controllers\Admin\CorporateController@store', 'middleware' => 'can:corporates_create']);
     Route::get('corporates/{id}', ['as' => 'admin.corporates.show', 'uses' => 'App\Http\Controllers\Admin\CorporateController@show', 'middleware' => 'can:corporates_view']);
-    Route::get('corporates/{id}/edit', ['as' => 'admin.corporates.edit', 'uses' => 'App\Http\Controllers\Admin\CorporateController@edit', 'middleware' => 'can:corporates_edit']);
+    Route::get('corporates/{id}/edit', ['as' => 'admin.corporates.edit', 'uses' => 'App\Http\Controllers\Admin\CorporateController@edit', 'middleware' => ['can:corporates_edit','role']]);
     Route::patch('corporates/{id}', ['as' => 'admin.corporates.update', 'uses' => 'App\Http\Controllers\Admin\CorporateController@update', 'middleware' => 'can:corporates_edit']);
     Route::delete('corporates/{id}', ['as' => 'admin.corporates.destroy', 'uses' => 'App\Http\Controllers\Admin\CorporateController@destroy', 'middleware' => 'can:corporates_delete']);
  //  Route::group(['middleware' => 'role'], function () {
@@ -248,7 +248,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('expenceMasters/create', ['as' => 'admin.expenceMasters.create', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@create', 'middleware' => 'can:expence_create']);
     Route::post('expenceMasters/store', ['as' => 'admin.expenceMasters.store', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@store', 'middleware' => 'can:expence_create']);
     Route::get('expenceMasters/{id}', ['as' => 'admin.expenceMasters.show', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@show', 'middleware' => 'can:expence_view']);
-    Route::get('expenceMasters/{id}/edit', ['as' => 'admin.expenceMasters.edit', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@edit', 'middleware' => 'can:expence_edit']);
+    Route::get('expenceMasters/{id}/edit', ['as' => 'admin.expenceMasters.edit', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@edit', 'middleware' => ['can:expence_edit','role']]);
     Route::patch('expenceMasters/{id}', ['as' => 'admin.expenceMasters.update', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@update', 'middleware' => 'can:expence_edit']);
     Route::delete('expenceMasters/{id}', ['as' => 'admin.expenceMasters.destroy', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@destroy', 'middleware' => 'can:expence_delete']);
 
