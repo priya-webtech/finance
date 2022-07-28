@@ -24,36 +24,32 @@ class Role
     public function handle(Request $request, Closure $next)
     {
         $auth=Auth::user();
-       $bypass = false;
-        if ($auth->hasRole('super-admin') ) {
+        $bypass = false;
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')) {
             return $next($request);
         }
-
-        if ($request->route('id') && $auth->hasRole('admin')) {
-
+        if ($request->route('id') && $auth->hasRole('branch_manager')) {
             $slug = $request->segment(2);
-    
             $id = $request->route('id');
             switch ($slug) {
                 case "users":
-              
                     $modal = User::class;
-                    $entity = $modal::whereJsonContains('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    $entity = $modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     if ($auth->id == $id){
                         $bypass = true;
                     }
                     break;
                 case "trainers":
                     $modal = Trainer::class;
-                    $entity = $modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    $entity = $modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
                 case "corporates":
                     $modal = Corporate::class;
-                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
                 case "courses":
                     $modal = Course::class;
-                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
                 case "batches":
                     $modal = Batch::class;
@@ -62,11 +58,11 @@ class Role
                     break;
                 case "incomes":
                     $modal = Income::class;
-                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
                 case "expenceMasters":
                     $modal = ExpenceMaster::class;
-                    $entity=$modal::whereIn('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
                 default:
                     $entity='';
@@ -77,35 +73,35 @@ class Role
                 abort(401);
             }
         }
-           
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.users.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.trainers.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.corporates.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.courses.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.batches.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.incomes.edit"){
-
-           return $next($request);
-        }
-        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.expenceMasters.edit"){
-
-           return $next($request);
-        }
+//dd($request);
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.users.edit"){
+//
+//           return $next($request);
+//        }
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.trainers.edit"){
+//
+//           return $next($request);
+//        }
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.corporates.edit"){
+//
+//           return $next($request);
+//        }
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.courses.edit"){
+//
+//           return $next($request);
+//        }
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.batches.edit"){
+//
+//           return $next($request);
+//        }
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.incomes.edit"){
+//
+//           return $next($request);
+//        }
+//        if ($auth->hasRole('admin') && $request->route()->getName() == "admin.expenceMasters.edit"){
+//
+//           return $next($request);
+//        }
 
 
         return $next($request);

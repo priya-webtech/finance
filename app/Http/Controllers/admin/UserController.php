@@ -14,6 +14,7 @@ use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Response;
@@ -38,12 +39,13 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        
-        $users = User::where('role_id','!=',0)->paginate(10);
-
-        
-        return view('admin.users.index')
-            ->with('users', $users);
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $users = User::where('role_id','!=',0)->paginate(10);
+        }elseif ($auth->hasRole('branch_manager')){
+            $users = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->paginate(10);
+        }
+        return view('admin.users.index')->with('users', $users);
     }
 
     /**

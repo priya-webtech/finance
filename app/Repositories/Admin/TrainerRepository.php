@@ -36,7 +36,7 @@ class TrainerRepository extends BaseRepository
      * Configure the Model
      **/
     public function model()
-    {
+    {   
         return Trainer::class;
     }
 }

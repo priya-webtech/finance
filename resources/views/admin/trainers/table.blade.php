@@ -12,9 +12,8 @@
         </tr>
         </thead>
         <tbody>
+        @if(count($trainers) > 0)
         @foreach($trainers as $trainer)
-        @if((isset(auth()->user()->branch_id) && in_array($trainer['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
-      
             <tr>
                 <td>{{ $trainer->trainer_name }}</td>
                 <td>{{ $trainer->branch->title }}</td>
@@ -47,8 +46,8 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
-        @endif
         @endforeach
+            @endif
         </tbody>
     </table>
 </div>

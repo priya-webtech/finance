@@ -12,6 +12,7 @@ use App\Models\Admin\LeadSources;
 use App\Models\Admin\StudentType;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
+use App\Models\Admin\Trainer;
 use App\Models\User;
 use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
@@ -20,6 +21,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Response;
 
 class StudentController extends AppBaseController
@@ -41,11 +43,15 @@ class StudentController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $students = $this->studentRepository->paginate(10);
+        //$students = $this->studentRepository->paginate(10);
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $students = Student::paginate(10);
+        }elseif ($auth->hasRole('branch_manager')){
+            $students = Student::where('branch_id',$auth->branch_id)->paginate(10);
+        }
 
-       
-        return view('admin.students.index')
-            ->with('students', $students);
+        return view('admin.students.index')->with('students', $students);
     }
 
     /**

@@ -14,8 +14,8 @@
         </tr>
         </thead>
         <tbody>
+        @if(count($corporates) >0)
         @foreach($corporates as $corporate)
-        @if((isset(auth()->user()->branch_id) && in_array($corporate['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
             <tr>
                 <td>{{ $corporate->company_name }}</td>
             <td>{{ $corporate->contact_no }}</td>
@@ -50,8 +50,9 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
-            @endif
+
         @endforeach
+            @endif
         </tbody>
     </table>
 </div>

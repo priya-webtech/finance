@@ -38,6 +38,7 @@ class Student extends Model
         'mobile_no',
         'student_type',
         'enquiry_type',
+        'branch_id',
         'state',
         'status',
         'remark',

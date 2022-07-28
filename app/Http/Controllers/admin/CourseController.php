@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateCourseRequest;
 use App\Http\Requests\Admin\UpdateCourseRequest;
+use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
+use App\Models\Admin\Course;
 use App\Repositories\Admin\CourseRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -32,7 +34,12 @@ class CourseController extends AppBaseController
     public function index(Request $request)
     {
         $courses = $this->courseRepository->paginate(10);
-
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $courses = Course::paginate(10);
+        }elseif ($auth->hasRole('branch_manager')){
+            $courses = Course::where('branch_id',$auth->branch_id)->paginate(10);
+        }
         return view('admin.courses.index')
             ->with('courses', $courses);
     }

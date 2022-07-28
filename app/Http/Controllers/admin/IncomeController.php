@@ -51,13 +51,19 @@ class IncomeController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+            $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+            $incomes = Income::get()->toArray();
+        }elseif ($auth->hasRole('branch_manager')){
+            $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+            $corporate = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+            $incomes = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+        }
 
-        $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-
-        $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-        $incomes = Income::get()->toArray();
         $merge = array_merge($student, $corporate,$incomes);
-        
+
         return view('admin.incomes.index',compact('student','incomes','corporate','merge'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\CreateBatchRequest;
 use App\Http\Requests\Admin\UpdateBatchRequest;
+use App\Models\Admin\Batch;
 use App\Models\Admin\BatchMode;
 use App\Models\Admin\BatchType;
 use App\Models\Admin\Course;
@@ -12,6 +13,7 @@ use App\Repositories\Admin\BatchRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Response;
 
 class BatchController extends AppBaseController
@@ -33,8 +35,15 @@ class BatchController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $batches = $this->batchRepository->paginate(10);
-
+       // $batches = $this->batchRepository->paginate(10);
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $batches = Batch::paginate(10);
+        }elseif ($auth->hasRole('branch_manager')){
+            $batches = Batch::whereHas('course', function($q) use($auth){
+                $q->where('branch_id', $auth->branch_id);
+            })->paginate(10);
+        }
         return view('admin.batches.index')
             ->with('batches', $batches);
     }

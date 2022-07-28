@@ -6,12 +6,15 @@ use App\Http\Requests\Admin\CreateCorporateRequest;
 use App\Http\Requests\Admin\UpdateCorporateRequest;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
+use App\Models\Admin\Corporate;
 use App\Models\Admin\EnquiryType;
 use App\Models\Admin\LeadSources;
+use App\Models\Admin\Trainer;
 use App\Repositories\Admin\CorporateRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Response;
 
 class CorporateController extends AppBaseController
@@ -33,8 +36,13 @@ class CorporateController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $corporates = $this->corporateRepository->paginate(10);
-
+//        $corporates = $this->corporateRepository->paginate(10);
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $corporates = Corporate::paginate(10);
+        }elseif ($auth->hasRole('branch_manager')){
+            $corporates = Corporate::where('branch_id',$auth->branch_id)->paginate(10);
+        }
         return view('admin.corporates.index')
             ->with('corporates', $corporates);
     }

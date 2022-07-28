@@ -10,9 +10,10 @@
         </tr>
         </thead>
         <tbody>
+        @if(count($courses) >0 )
         @foreach($courses as $course)
-         @if((isset(auth()->user()->branch_id) && in_array($course['branch_id'], auth()->user()->branch_id)) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
-         
+
+
             <tr>
                 <td>{{ $course->course_name }}</td>
 
@@ -43,8 +44,8 @@
                     {!! Form::close() !!}
                 </td>
             </tr>
-            @endif
         @endforeach
+            @endif
         </tbody>
     </table>
 </div>

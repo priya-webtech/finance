@@ -6,6 +6,8 @@ use App\Http\Requests\Admin\CreateTrainerRequest;
 use App\Http\Requests\Admin\UpdateTrainerRequest;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
+use App\Models\Admin\Trainer;
+use App\Models\User;
 use App\Repositories\Admin\TrainerRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -33,8 +35,13 @@ class TrainerController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $trainers = $this->trainerRepository->paginate(10);
-
+//        $trainers = $this->trainerRepository->paginate(10);
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $trainers = Trainer::paginate(10);
+        }elseif ($auth->hasRole('branch_manager')){
+            $trainers = Trainer::where('branch_id',$auth->branch_id)->paginate(10);
+        }
         return view('admin.trainers.index')
             ->with('trainers', $trainers);
     }

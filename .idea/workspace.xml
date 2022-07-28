@@ -8,9 +8,14 @@
       <change afterPath="$PROJECT_DIR$/public.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/BatchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/BatchController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/CorporateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/CorporateController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/StudentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/StudentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/TrainerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/TrainerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Role.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarcompanyAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarmodelAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCaryearAPIRequest.php" beforeDir="false" />
@@ -29,13 +34,16 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateSettingAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStateAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStaticdataAPIRequest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/CorporateDetail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Income.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Income.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/StudentDetail.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/StudentDetail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Student.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/Admin/TrainerRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/Admin/TrainerRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/due-fees/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/due-fees/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/batches/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/batches/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/courses/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/courses/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/students/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/students/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/trainers/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/trainers/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/users/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users/table.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +77,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="paresh" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
