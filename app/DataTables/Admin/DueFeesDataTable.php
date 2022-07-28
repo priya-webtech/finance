@@ -46,7 +46,7 @@ class DueFeesDataTable extends DataTable
                 elseif ($record->type == 'Corporate'){
                     $corporate_id=$record->id;
                     $gst = CorporateFessCollection::where('corporate_id',$corporate_id)->sum('gst');
-                    $paying_amount = CorporateFessCollection::where('corporate_id',$corporate_id)->pluck('income_id')->toArray();
+                    $paying_amount = CorporateFessColblection::where('corporate_id',$corporate_id)->pluck('income_id')->toArray();
                     $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
                     $total_amount = $payAmount + $gst;
                     return round($total_amount, 2);

@@ -24,10 +24,10 @@
     <span class="error text-danger">{{ $errors->first('contact_no') }}</span>
 </div>
 <!-- Contact Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('profile_pic', 'Profile Pic:') !!}
     {!! Form::file('profile_pic', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('profile_pic') }}</span>
-</div>
+</div> -->
 
 

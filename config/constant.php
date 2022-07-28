@@ -1,7 +1,4 @@
 <?php
-
-
-
 define('super_admin', 0);
 define('admin', 2);
 define('branch_manager', 3);

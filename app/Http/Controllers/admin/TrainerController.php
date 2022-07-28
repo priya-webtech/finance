@@ -63,11 +63,11 @@ class TrainerController extends AppBaseController
         $input = $request->all();
         $input['status'] = 1;
 
-        if ($request->hasFile("profile_pic")) {
+        /*if ($request->hasFile("profile_pic")) {
             $img = $request->file("profile_pic");
             $img->store('public/trainer');
             $input['profile_pic'] = $img->hashName();
-        }
+        }*/
         $input['created_by'] = Auth::id();
         $trainer = $this->trainerRepository->create($input);
 
@@ -133,14 +133,14 @@ class TrainerController extends AppBaseController
 
             return redirect(route('admin.trainers.index'));
         }
-        if ($request->hasFile("profile_pic")) {
+        /*if ($request->hasFile("profile_pic")) {
             $img = $request->file("profile_pic");
             if (Storage::exists('/public/trainer/' . $trainer->profile_pic)) {
                 Storage::delete('/public/trainer/' . $trainer->profile_pic);
             }
             $img->store('public/trainer');
             $input['profile_pic'] = $img->hashName();
-        }
+        }*/
         $input['updated_by'] = Auth::id();
         $trainer = $this->trainerRepository->update($input, $id);
 

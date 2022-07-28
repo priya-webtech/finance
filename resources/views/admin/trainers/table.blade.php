@@ -4,7 +4,7 @@
         <tr>
             <th>Trainer Name</th>
             <th>Batch</th>
-            <th>Image</th>
+           <!--  <th>Image</th> -->
             <th>Email</th>
             <th>Contact No.</th>
             <th>Status</th>
@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $trainer->trainer_name }}</td>
                 <td>{{ $trainer->branch->title }}</td>
-                <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th>
+               <!--  <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th> -->
             <td>{{ $trainer->email }}</td>
             <td>{{ $trainer->contact_no }}</td>
                 <td><span class='badge @if($trainer->status == 1)badge-success @else badge-danger @endif'>{{ $trainer->status == 1 ? "Active" : "Block" }}</span></td>
