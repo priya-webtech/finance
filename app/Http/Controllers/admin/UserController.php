@@ -42,7 +42,7 @@ class UserController extends AppBaseController
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $users = User::where('role_id','!=',0)->paginate(10);
-        }elseif ($auth->hasRole('branch_manager')){
+        }else{
             $users = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->paginate(10);
         }
         return view('admin.users.index')->with('users', $users);

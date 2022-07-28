@@ -39,7 +39,7 @@ class BatchController extends AppBaseController
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $batches = Batch::paginate(10);
-        }elseif ($auth->hasRole('branch_manager')){
+        }else{
             $batches = Batch::whereHas('course', function($q) use($auth){
                 $q->where('branch_id', $auth->branch_id);
             })->paginate(10);

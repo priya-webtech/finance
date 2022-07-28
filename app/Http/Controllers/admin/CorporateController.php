@@ -40,7 +40,7 @@ class CorporateController extends AppBaseController
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $corporates = Corporate::paginate(10);
-        }elseif ($auth->hasRole('branch_manager')){
+        }else{
             $corporates = Corporate::where('branch_id',$auth->branch_id)->paginate(10);
         }
         return view('admin.corporates.index')

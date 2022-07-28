@@ -47,7 +47,7 @@ class StudentController extends AppBaseController
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $students = Student::paginate(10);
-        }elseif ($auth->hasRole('branch_manager')){
+        }else{
             $students = Student::where('branch_id',$auth->branch_id)->paginate(10);
         }
 

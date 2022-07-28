@@ -39,7 +39,7 @@ class TrainerController extends AppBaseController
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $trainers = Trainer::paginate(10);
-        }elseif ($auth->hasRole('branch_manager')){
+        }else{
             $trainers = Trainer::where('branch_id',$auth->branch_id)->paginate(10);
         }
         return view('admin.trainers.index')

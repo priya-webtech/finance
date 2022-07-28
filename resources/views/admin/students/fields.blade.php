@@ -20,7 +20,7 @@
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', 'Email:') !!}
-    {!! Form::text('email', null, ['class' => 'form-control']) !!}
+    {!! Form::email('email', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('email') }}</span>
 </div>
 
@@ -33,7 +33,7 @@
 <!-- Mobile No Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('mobile_no', 'Mobile No:') !!}
-    {!! Form::text('mobile_no', null, ['class' => 'form-control']) !!}
+    {!! Form::number('mobile_no', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
 </div>
 
