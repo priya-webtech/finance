@@ -239,8 +239,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('users/create', ['as' => 'admin.users.create', 'uses' => 'App\Http\Controllers\Admin\UserController@create', 'middleware' => 'can:user_create']);
     Route::post('users/store', ['as' => 'admin.users.store', 'uses' => 'App\Http\Controllers\Admin\UserController@store', 'middleware' => 'can:user_create']);
     Route::get('users/{id}', ['as' => 'admin.users.show', 'uses' => 'App\Http\Controllers\Admin\UserController@show', 'middleware' => 'can:user_view']);
-    Route::get('users/{id}/edit', ['as' => 'admin.users.edit', 'uses' => 'App\Http\Controllers\Admin\UserController@edit', 'middleware' => 'role']);
-    Route::patch('users/{id}', ['as' => 'admin.users.update', 'uses' => 'App\Http\Controllers\Admin\UserController@update', 'middleware' => 'user_edit']);
+    Route::get('users/{id}/edit', ['as' => 'admin.users.edit', 'uses' => 'App\Http\Controllers\Admin\UserController@edit', 'middleware' => ['can:user_edit','role']]);
+    Route::patch('users/{id}', ['as' => 'admin.users.update', 'uses' => 'App\Http\Controllers\Admin\UserController@update', 'middleware' => 'can:user_edit']);
     Route::delete('users/{id}', ['as' => 'admin.users.destroy', 'uses' => 'App\Http\Controllers\Admin\UserController@destroy', 'middleware' => 'can:user_delete']);
 //     });
 
