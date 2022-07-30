@@ -35,7 +35,12 @@ class BatchController extends AppBaseController
      */
     public function index(Request $request)
     {
-       // $batches = $this->batchRepository->paginate(10);
+        $batches = $this->batchRepository->paginate(10);
+        $course =  Course::where('status',1)->pluck('course_name','id');
+        $batchMode =  BatchMode::where('status',1)->pluck('title','id');
+        $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
+        $batchType = BatchType::where('status',1)->pluck('title','id');
+
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $batches = Batch::paginate(10);
@@ -44,7 +49,27 @@ class BatchController extends AppBaseController
                 $q->where('branch_id', $auth->branch_id);
             })->paginate(10);
         }
-        return view('admin.batches.index')
+        return view('admin.batches.index',compact('course','batchMode','trainer','batchType'))
+            ->with('batches', $batches);
+    }
+
+    public function filter(Request $request)
+    {
+       // $batches = $this->batchRepository->paginate(10);
+        $course =  Course::where('status',1)->pluck('course_name','id');
+        $batchMode =  BatchMode::where('status',1)->pluck('title','id');
+        $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
+        $batchType = BatchType::where('status',1)->pluck('title','id');
+        
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $batches = Batch::orWhere('course_id',$request->course_id)->orWhere('batch_mode_id',$request->batch_mode_id)->orWhere('trainer_id',$request->trainer_id)->orWhere('batch_type_id',$request->batch_type_id)->paginate(10);
+        }else{
+            $batches = Batch::orWhere('course_id',$request->course_id)->orWhere('batch_mode_id',$request->batch_mode_id)->orWhere('trainer_id',$request->trainer_id)->orWhere('batch_type_id',$request->batch_type_id)->whereHas('course', function($q) use($auth){
+                $q->where('branch_id', $auth->branch_id);
+            })->paginate(10);
+        }
+        return view('admin.batches.index',compact('course','batchMode','trainer','batchType'))
             ->with('batches', $batches);
     }
 

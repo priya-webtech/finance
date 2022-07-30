@@ -53,8 +53,9 @@ class Role
                     break;
                 case "batches":
                     $modal = Batch::class;
-                    $coureid=$modal::where('id',$id)->first();
-                    $entity=Course::whereIn('branch_id',$auth->branch_id)->where('branch_id',$coureid->course_id)->first();
+                    $entity = $modal::whereHas('course', function($q) use($auth){
+                        $q->where('branch_id', $auth->branch_id);
+                    })->first();
                     break;
                 case "incomes":
                     $modal = Income::class;

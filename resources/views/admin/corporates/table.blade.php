@@ -1,4 +1,19 @@
 <div class="table-responsive">
+    <form action="{{ route('admin.corporatesFilter.filter') }}" method="post" style="margin-top: 20px;">
+        @csrf
+    <div class="form-group col-sm-6">
+      {!! Form::label('enquiry_type_id', 'Enquiry Type:') !!}
+      {!! Form::select('enquiry_type_id',$leadsouce, null, ['class' => 'form-control','placeholder'=>'Select Enquiry Type']) !!}
+         
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('lead_source_id', 'Lead Source:') !!}
+        {!! Form::select('lead_source_id',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Select Lead Source']) !!}
+    
+    </div>
+    <input type="submit" class="btn btn-danger btn-sm" value="Filter">
+    <a href="{{ route('admin.corporates.index') }}">clear</a>
+    </form>
     <table class="table" id="corporates-table">
         <thead>
         <tr>

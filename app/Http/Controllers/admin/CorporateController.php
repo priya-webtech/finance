@@ -36,15 +36,41 @@ class CorporateController extends AppBaseController
      */
     public function index(Request $request)
     {
-//        $corporates = $this->corporateRepository->paginate(10);
+        //$corporates = $this->corporateRepository->paginate(10);
+        $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
+        $leadsouce =LeadSources::where('status',1)->pluck('title','id');
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $corporates = Corporate::paginate(10);
         }else{
             $corporates = Corporate::where('branch_id',$auth->branch_id)->paginate(10);
         }
-        return view('admin.corporates.index')
+        return view('admin.corporates.index',compact('leadsouce','enquiryType'))
             ->with('corporates', $corporates);
+    }
+
+    public function filter(Request $request)
+    {
+        // dd($request->enquiry_type_id);
+       // $batches = $this->batchRepository->paginate(10);
+        //$corporates = $this->corporateRepository->paginate(10);
+        $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
+        $leadsouce =LeadSources::where('status',1)->pluck('title','id');
+        $auth =Auth::user();
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $corporates = Corporate::orWhere('enquiry_type_id',$request->enquiry_type_id)->orWhere('lead_source_id',$request->lead_source_id)->paginate(10);
+        }else{
+            //dd($auth->branch_id);
+            //$corporates = Corporate::Where('branch_id',$auth->branch_id)->Where('enquiry_type_id','=',$request->enquiry_type_id)->orWhere('lead_source_id',$request->lead_source_id)->paginate(10);
+             $corporates  = Corporate::where(function($query) use($request,$auth){
+                                $query->where('branch_id',$auth)
+                                      ->where('enquiry_type_id',$request['enquiry_type_id'])
+                                      ->orWhere('lead_source_id',$request['lead_source_id']);
+                            })->paginate(10);
+
+        }
+
+        return view('admin.corporates.index',compact('leadsouce','enquiryType','corporates'));
     }
 
     /**

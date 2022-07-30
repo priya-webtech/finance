@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\UpdateTrainerRequest;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
 use App\Models\Admin\Trainer;
+use App\Models\Admin\Course;
 use App\Models\User;
 use App\Repositories\Admin\TrainerRepository;
 use App\Http\Controllers\AppBaseController;
@@ -54,8 +55,9 @@ class TrainerController extends AppBaseController
     public function create()
     {
       //  $batch  = Batch::where('status',1)->pluck('name','id');
+        $course =  Course::where('status',1)->pluck('course_name','id');
         $branch = Branch::where('status',1)->pluck('title','id');
-        return view('admin.trainers.create',compact('branch'));
+        return view('admin.trainers.create',compact('branch','course'));
     }
 
     /**
@@ -119,8 +121,9 @@ class TrainerController extends AppBaseController
             return redirect(route('admin.trainers.index'));
         }
         //$batch  = Batch::where('status',1)->pluck('name','id');
+        $course =  Course::where('status',1)->pluck('course_name','id');
         $branch = Branch::where('status',1)->pluck('title','id');
-        return view('admin.trainers.edit',compact('trainer','branch'));
+        return view('admin.trainers.edit',compact('trainer','branch','course'));
     }
 
     /**

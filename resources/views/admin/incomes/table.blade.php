@@ -51,6 +51,20 @@
 
 
 <div class="table-responsive">
+    <form action="{{ route('admin.incomesFilter.filter') }}" method="get" style="margin-top: 20px;">
+    <div class="form-group col-sm-6">
+         {!! Form::label('income_type_id', 'Income Type:') !!}
+    {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
+         
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
+        {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+    
+    </div>
+    <input type="submit" class="btn btn-danger btn-sm" value="Filter">
+    <a href="{{ route('admin.incomes.index') }}">clear</a>
+    </form>
     <table class="table" id="incomes-table">
         <thead>
         <tr>

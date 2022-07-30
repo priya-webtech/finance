@@ -1,4 +1,28 @@
 <div class="table-responsive">
+    <form action="{{ route('admin.batchesFilter.filter') }}" method="post" style="margin-top: 20px;">
+        @csrf
+
+    <div class="form-group col-sm-6">
+       {!! Form::label('course_id', 'Course Name:') !!}
+        {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}
+         
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('batch_mode_id', 'Batch Mode:') !!}
+        {!! Form::select('batch_mode_id', $batchMode, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Mode']) !!}
+    
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('trainer_id', 'Trainer Name:') !!}
+        {!! Form::select('trainer_id', $trainer, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Trainer']) !!}
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('batch_type_id', 'Batch Type:') !!}
+        {!! Form::select('batch_type_id', $batchType, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Type']) !!}
+    </div>
+    <input type="submit" class="btn btn-danger btn-sm" value="Filter">
+    <a href="{{ route('admin.batches.index') }}">clear</a>
+    </form>
     <table class="table" id="batches-table">
         <thead>
         <tr>

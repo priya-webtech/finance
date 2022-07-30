@@ -117,6 +117,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
    // Route::resource('batches', App\Http\Controllers\Admin\BatchController::class, ["as" => 'admin']);
     Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index']);
+    Route::post('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
     Route::post('batches/store', ['as' => 'admin.batches.store', 'uses' => 'App\Http\Controllers\Admin\BatchController@store', 'middleware' => 'can:batches_create']);
     Route::get('batches/{id}', ['as' => 'admin.batches.show', 'uses' => 'App\Http\Controllers\Admin\BatchController@show', 'middleware' => 'can:batches_view']);
@@ -126,6 +127,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
     //Route::resource('incomes', App\Http\Controllers\Admin\IncomeController::class, ["as" => 'admin']);
     Route::get('incomes', ['as' => 'admin.incomes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeController@index']);
+    Route::get('filter-incomes', ['as' => 'admin.incomesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\IncomeController@filter']);
     Route::get('incomes/create', ['as' => 'admin.incomes.create', 'uses' => 'App\Http\Controllers\Admin\IncomeController@create', 'middleware' => 'can:incomes_create']);
     Route::post('incomes/store', ['as' => 'admin.incomes.store', 'uses' => 'App\Http\Controllers\Admin\IncomeController@store', 'middleware' => 'can:incomes_create']);
     Route::get('incomes/{id}', ['as' => 'admin.incomes.show', 'uses' => 'App\Http\Controllers\Admin\IncomeController@show', 'middleware' => 'can:incomes_view']);
@@ -227,6 +229,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::resource('trainerFreeSlabs', App\Http\Controllers\Admin\TrainerFreeSlabController::class, ["as" => 'admin']);
     //Route::resource('corporates', App\Http\Controllers\Admin\CorporateController::class, ["as" => 'admin']);
     Route::get('corporates', ['as' => 'admin.corporates.index', 'uses' => 'App\Http\Controllers\Admin\CorporateController@index']);
+    Route::post('filter-corporates', ['as' => 'admin.corporatesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\CorporateController@filter']);
     Route::get('corporates/create', ['as' => 'admin.corporates.create', 'uses' => 'App\Http\Controllers\Admin\CorporateController@create', 'middleware' => 'can:corporates_create']);
     Route::post('corporates/store', ['as' => 'admin.corporates.store', 'uses' => 'App\Http\Controllers\Admin\CorporateController@store', 'middleware' => 'can:corporates_create']);
     Route::get('corporates/{id}', ['as' => 'admin.corporates.show', 'uses' => 'App\Http\Controllers\Admin\CorporateController@show', 'middleware' => 'can:corporates_view']);
