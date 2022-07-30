@@ -1,4 +1,23 @@
 <div class="table-responsive">
+    <form action="{{ route('admin.expenseFilter.filter') }}" method="get" style="margin-top: 20px;">
+    <div class="form-group col-sm-6">
+        {!! Form::label('expence_type_id', 'Expence Type:') !!}
+        {!! Form::select('expence_type_id', $expenseTypes, null, ['class' => 'form-control custom-select','onchange'=>'ChangeExpenseType()','id'=>'expense_type','placeholder'=>'Please Select Expense Type']) !!}
+         
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('trainer_id', 'Trainer Name:') !!}
+        {!! Form::select('trainer_id', $trainer, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Trainer','onchange'=>"changeTrainer(this)"]) !!}
+    
+    </div>
+    <div class="form-group col-sm-6">
+        {!! Form::label('bank_ac_id', 'Bank Ac:') !!}
+        {!! Form::select('bank_ac_id', $bankAccounts, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Bank']) !!}
+        <span class="error text-danger">{{ $errors->first('expence_type_id') }}</span>
+    </div>
+    <input type="submit" class="btn btn-danger btn-sm" value="Filter">
+    <a href="{{ route('admin.expenceMasters.index') }}">clear</a>
+    </form>
     <table class="table" id="expenceMasters-table">
         <thead>
         <tr>

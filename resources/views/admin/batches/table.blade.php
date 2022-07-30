@@ -27,9 +27,11 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.batches.destroy', $batch->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('batches_status')
                         <a href="{{ route('table.status', [ $batch->id,"batches", $batch->status]) }}" class='btn @if($batch->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($batch->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @endcan
                         @can('batches_view')
                         <a href="{{ route('admin.batches.show', [$batch->id]) }}"
                            class='btn btn-default action-btn btn-sm'>

@@ -246,6 +246,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
    // Route::resource('expenceMasters', App\Http\Controllers\Admin\ExpenceMasterController::class, ["as" => 'admin']);
     Route::get('expenceMasters', ['as' => 'admin.expenceMasters.index', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@index']);
+    Route::get('filter-expence', ['as' => 'admin.expenseFilter.filter', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@filter']);
     Route::get('expenceMasters/create', ['as' => 'admin.expenceMasters.create', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@create', 'middleware' => 'can:expence_create']);
     Route::post('expenceMasters/store', ['as' => 'admin.expenceMasters.store', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@store', 'middleware' => 'can:expence_create']);
     Route::get('expenceMasters/{id}', ['as' => 'admin.expenceMasters.show', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@show', 'middleware' => 'can:expence_view']);

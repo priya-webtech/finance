@@ -8,6 +8,7 @@ use App\Models\Admin\BankAccount;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
 use App\Models\Admin\ExpenseTypes;
+use App\Models\Admin\ExpenceMaster;
 use App\Models\Admin\ModeOfPayment;
 use App\Models\Admin\Student;
 use App\Models\Admin\Trainer;
@@ -40,9 +41,32 @@ class ExpenceMasterController extends AppBaseController
     {
         $expenceMasters = $this->expenceMasterRepository->paginate(10);
 
-        return view('admin.expence_masters.index')
+        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
+        $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
+        $branch        = Branch::where('status',1)->pluck('title','id');
+        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
+        $batch       = Batch::where('status',1)->pluck('name','id');
+        $student       = Student::where('status',1)->pluck('name','id');
+        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student'))
             ->with('expenceMasters', $expenceMasters);
     }
+    public function filter(Request $request)
+    {   
+
+        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
+        $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
+        $branch        = Branch::where('status',1)->pluck('title','id');
+        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
+        $batch       = Batch::where('status',1)->pluck('name','id');
+        $student       = Student::where('status',1)->pluck('name','id');
+
+        //dd($request);
+        $expenceMasters = ExpenceMaster::where('expence_type_id',$request->expence_type_id)->orWhere('bank_ac_id', '=', $request->bank_ac_id)->orWhere('trainer_id', '=',  $request->trainer_id)->paginate(10);
+
+        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student'))
+            ->with('expenceMasters', $expenceMasters);
+    }
+    
 
     /**
      * Show the form for creating a new ExpenceMaster.

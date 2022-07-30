@@ -22,9 +22,11 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.courses.destroy', $course->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('courses_status')
                         <a href="{{ route('table.status', [ $course->id,"courses", $course->status]) }}" class='btn @if($course->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($course->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @endcan
                         @can('courses_view')
                         <a href="{{ route('admin.courses.show', [$course->id]) }}"
                            class='btn btn-default action-btn btn-sm'>

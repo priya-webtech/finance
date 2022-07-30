@@ -23,9 +23,11 @@
                 <td width="120">
                     {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
+                        @can('user_status')
                         <a href="{{ route('table.status', [ $user->id,"users", $user->status]) }}" class='btn @if($user->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
                             <i class="fa @if($user->status==1) fa-ban @else fa-check @endif"></i>
                         </a>
+                        @endcan
                         @can('user_view')
                         <a href="{{ route('admin.users.show', [$user->id]) }}"
                            class='btn btn-default action-btn btn-sm'>
