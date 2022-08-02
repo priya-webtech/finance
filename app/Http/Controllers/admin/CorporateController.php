@@ -62,11 +62,14 @@ class CorporateController extends AppBaseController
         }else{
             //dd($auth->branch_id);
             //$corporates = Corporate::Where('branch_id',$auth->branch_id)->Where('enquiry_type_id','=',$request->enquiry_type_id)->orWhere('lead_source_id',$request->lead_source_id)->paginate(10);
-             $corporates  = Corporate::where(function($query) use($request,$auth){
-                                $query->where('branch_id',$auth)
-                                      ->where('enquiry_type_id',$request['enquiry_type_id'])
+            $corQuery=Corporate::query();
+             $corQuery->where('branch_id',$auth->branch_id);
+             $corporates  = $corQuery->where(function($query) use($request,$auth){
+                            
+                                       $query->where('enquiry_type_id',$request['enquiry_type_id'])
                                       ->orWhere('lead_source_id',$request['lead_source_id']);
                             })->paginate(10);
+             
 
         }
 

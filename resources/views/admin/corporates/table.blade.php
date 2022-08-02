@@ -3,12 +3,12 @@
         @csrf
     <div class="form-group col-sm-6">
       {!! Form::label('enquiry_type_id', 'Enquiry Type:') !!}
-      {!! Form::select('enquiry_type_id',$leadsouce, null, ['class' => 'form-control','placeholder'=>'Select Enquiry Type']) !!}
+      {!! Form::select('enquiry_type_id',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Select Enquiry Type']) !!}
          
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('lead_source_id', 'Lead Source:') !!}
-        {!! Form::select('lead_source_id',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Select Lead Source']) !!}
+        {!! Form::select('lead_source_id',$leadsouce, null, ['class' => 'form-control','placeholder'=>'Select Lead Source']) !!}
     
     </div>
     <input type="submit" class="btn btn-danger btn-sm" value="Filter">

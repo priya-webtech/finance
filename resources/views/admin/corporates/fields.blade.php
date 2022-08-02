@@ -16,14 +16,14 @@
 <!-- Enquiry Type Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('enquiry_type_id', 'Enquiry Type:') !!}
-    {!! Form::select('enquiry_type_id',$leadsouce, null, ['class' => 'form-control','placeholder'=>'Select Enquiry Type']) !!}
+    {!! Form::select('enquiry_type_id',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Select Enquiry Type']) !!}
     <span class="error text-danger">{{ $errors->first('enquiry_type_id') }}</span>
 </div>
 
 <!-- Lead Source Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lead_source_id', 'Lead Source:') !!}
-    {!! Form::select('lead_source_id',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Select Lead Source']) !!}
+    {!! Form::select('lead_source_id',$leadsouce, null, ['class' => 'form-control','placeholder'=>'Select Lead Source']) !!}
     <span class="error text-danger">{{ $errors->first('lead_source_id') }}</span>
 </div>
 <!-- Company Name Field -->

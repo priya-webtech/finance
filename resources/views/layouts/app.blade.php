@@ -133,6 +133,43 @@
 {{--<script src="{{asset('admin/js/app.js')}}" ></script>--}}
 {{--<script src="{{asset('admin/js/bootstrap.js')}}"></script>--}}
 
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+
+
+    // Checkbox click
+    $(".hidecol").click(function(){
+
+        //alert('helllo');
+
+        var id = this.id;
+        var splitid = id.split("_");
+        var colno = splitid[1];
+        var checked = false;
+         
+        // Checking Checkbox state
+        if($(this).is(":checked")){
+            checked = false;
+        }else{
+            checked = true;
+        }
+        setTimeout(function(){
+            if(checked){
+                $('#batches-table td:nth-child('+colno+')').hide();
+                $('#batches-table th:nth-child('+colno+')').hide();
+            } else{
+                $('#batches-table td:nth-child('+colno+')').show();
+                $('#batches-table th:nth-child('+colno+')').show();
+            }
+
+        }, 1500);
+
+    });
+});
+</script>
+
 <script>
     $(function () {
         bsCustomFileInput.init();

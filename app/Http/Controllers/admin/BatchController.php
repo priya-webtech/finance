@@ -9,6 +9,7 @@ use App\Models\Admin\BatchMode;
 use App\Models\Admin\BatchType;
 use App\Models\Admin\Course;
 use App\Models\Admin\Trainer;
+use App\Models\Admin\columnManage;
 use App\Repositories\Admin\BatchRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -40,6 +41,7 @@ class BatchController extends AppBaseController
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
         $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
         $batchType = BatchType::where('status',1)->pluck('title','id');
+        $columnManage = columnManage::where('table_name','batch')->where('role_id',auth()->user()->role_id)->first();
 
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
@@ -49,12 +51,50 @@ class BatchController extends AppBaseController
                 $q->where('branch_id', $auth->branch_id);
             })->paginate(10);
         }
-        return view('admin.batches.index',compact('course','batchMode','trainer','batchType'))
+        return view('admin.batches.index',compact('course','batchMode','trainer','batchType','columnManage'))
             ->with('batches', $batches);
     }
 
     public function filter(Request $request)
     {
+
+        $columnManage = columnManage::where('table_name',$request->batch)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'batch_col_1' => ($request->batch_col_1) ? 1 : null,
+                'batch_col_2' => ($request->batch_col_2) ? 1 : null,
+                'batch_col_3' => ($request->batch_col_3) ? 1 : null,
+                'batch_col_4' => ($request->batch_col_4) ? 1 : null,
+                'batch_col_5' => ($request->batch_col_5) ? 1 : null,
+                'batch_col_6' => ($request->batch_col_6) ? 1 : null,
+                'batch_col_7' => ($request->batch_col_7) ? 1 : $field->batch_col_7,
+                'batch_col_8' => ($request->batch_col_8) ? 1 : $field->batch_col_8, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('batch_col_1' => $request->batch_col_1,'batch_col_2' => $request->batch_col_2,'batch_col_3' => $request->batch_col_3,'batch_col_4' => $request->batch_col_4,'batch_col_5' => $request->batch_col_5,'batch_col_6' => $request->batch_col_6,'batch_col_7' => $request->batch_col_7,'batch_col_8' => $request->batch_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->batch,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
+
+        $columnManage = columnManage::where('table_name','batch')->where('role_id',auth()->user()->role_id)->first();
        // $batches = $this->batchRepository->paginate(10);
         $course =  Course::where('status',1)->pluck('course_name','id');
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
@@ -62,14 +102,27 @@ class BatchController extends AppBaseController
         $batchType = BatchType::where('status',1)->pluck('title','id');
         
         $auth =Auth::user();
-        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $batches = Batch::orWhere('course_id',$request->course_id)->orWhere('batch_mode_id',$request->batch_mode_id)->orWhere('trainer_id',$request->trainer_id)->orWhere('batch_type_id',$request->batch_type_id)->paginate(10);
+        if($request->batch_type_id || $request->trainer_id || $request->batch_mode_id || $request->course_id){
+
+            if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+                $batches = Batch::orWhere('course_id',$request->course_id)->orWhere('batch_mode_id',$request->batch_mode_id)->orWhere('trainer_id',$request->trainer_id)->orWhere('batch_type_id',$request->batch_type_id)->paginate(10);
+            }else{
+                $batches = Batch::orWhere('course_id',$request->course_id)->orWhere('batch_mode_id',$request->batch_mode_id)->orWhere('trainer_id',$request->trainer_id)->orWhere('batch_type_id',$request->batch_type_id)->whereHas('course', function($q) use($auth){
+                    $q->where('branch_id', $auth->branch_id);
+                })->paginate(10);
+            }
         }else{
-            $batches = Batch::orWhere('course_id',$request->course_id)->orWhere('batch_mode_id',$request->batch_mode_id)->orWhere('trainer_id',$request->trainer_id)->orWhere('batch_type_id',$request->batch_type_id)->whereHas('course', function($q) use($auth){
-                $q->where('branch_id', $auth->branch_id);
-            })->paginate(10);
+
+            if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $batches = Batch::paginate(10);
+            }else{
+                $batches = Batch::whereHas('course', function($q) use($auth){
+                    $q->where('branch_id', $auth->branch_id);
+                })->paginate(10);
+            }
+
         }
-        return view('admin.batches.index',compact('course','batchMode','trainer','batchType'))
+        return view('admin.batches.index',compact('course','batchMode','trainer','batchType','columnManage'))
             ->with('batches', $batches);
     }
 
