@@ -55,9 +55,8 @@ class BatchController extends AppBaseController
             ->with('batches', $batches);
     }
 
-    public function filter(Request $request)
+    public function batchcolums(Request $request)
     {
-
         $columnManage = columnManage::where('table_name',$request->batch)->where('role_id',auth()->user()->role_id)->first();
 
         if($columnManage){  
@@ -70,8 +69,8 @@ class BatchController extends AppBaseController
                 'batch_col_4' => ($request->batch_col_4) ? 1 : null,
                 'batch_col_5' => ($request->batch_col_5) ? 1 : null,
                 'batch_col_6' => ($request->batch_col_6) ? 1 : null,
-                'batch_col_7' => ($request->batch_col_7) ? 1 : $field->batch_col_7,
-                'batch_col_8' => ($request->batch_col_8) ? 1 : $field->batch_col_8, 
+                'batch_col_7' => ($request->batch_col_7) ? 1 : null,
+                'batch_col_8' => ($request->batch_col_8) ? 1 : null, 
             );
 
             columnManage::where('id', $columnManage['id'])->update(
@@ -84,7 +83,7 @@ class BatchController extends AppBaseController
             );
 
         }else{
-            $storejson = array('batch_col_1' => $request->batch_col_1,'batch_col_2' => $request->batch_col_2,'batch_col_3' => $request->batch_col_3,'batch_col_4' => $request->batch_col_4,'batch_col_5' => $request->batch_col_5,'batch_col_6' => $request->batch_col_6,'batch_col_7' => $request->batch_col_7,'batch_col_8' => $request->batch_col_8 );
+            $storejson = array('batch_col_1' => $request->batch_col_1,'batch_col_2' => $request->batch_col_2,'batch_col_3' => $request->batch_col_3,'batch_col_4' => $request->batch_col_4,'batch_col_5' => $request->batch_col_5,'batch_col_6' => $request->batch_col_6,'batch_col_7' => $request->batch_col_7,'batch_col_8' => $request->batch_col_8);
 
              columnManage::insert([
                 'table_name' => $request->batch,
@@ -93,9 +92,12 @@ class BatchController extends AppBaseController
              ]);
 
         }
+    }
+
+    public function filter(Request $request)
+    {
 
         $columnManage = columnManage::where('table_name','batch')->where('role_id',auth()->user()->role_id)->first();
-       // $batches = $this->batchRepository->paginate(10);
         $course =  Course::where('status',1)->pluck('course_name','id');
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
         $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');

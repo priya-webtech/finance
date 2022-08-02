@@ -21,6 +21,7 @@ use App\Models\Admin\Student;
 use App\Models\Admin\StudentBatchDetail;
 use App\Models\Admin\StudentDetail;
 use App\Models\Admin\StudentType;
+use App\Models\Admin\columnManage;
 use App\Models\Admin\Trainer;
 use App\Models\User;
 use App\Repositories\Admin\IncomeRepository;
@@ -52,6 +53,7 @@ class IncomeController extends AppBaseController
     public function index(Request $request)
     {
         $auth =Auth::user();
+         $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
@@ -66,10 +68,50 @@ class IncomeController extends AppBaseController
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
 
-        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment'));
+        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','columnManage'));
+    }
+
+    public function incomecolums(Request $request)
+    {
+        $columnManage = columnManage::where('table_name',$request->income)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'income_col_1' => ($request->income_col_1) ? 1 : null,
+                'income_col_2' => ($request->income_col_2) ? 1 : null,
+                'income_col_3' => ($request->income_col_3) ? 1 : null,
+                'income_col_4' => ($request->income_col_4) ? 1 : null,
+                'income_col_5' => ($request->income_col_5) ? 1 : null,
+                'income_col_6' => ($request->income_col_6) ? 1 : null,
+                'income_col_7' => ($request->income_col_7) ? 1 : null,
+                'income_col_8' => ($request->income_col_8) ? 1 : null, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('income_col_1' => $request->income_col_1,'income_col_2' => $request->income_col_2,'income_col_3' => $request->income_col_3,'income_col_4' => $request->income_col_4,'income_col_5' => $request->income_col_5,'income_col_6' => $request->income_col_6,'income_col_7' => $request->income_col_7,'income_col_8' => $request->income_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->income,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
     }
     public function filter(Request $request)
     {   
+        $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
 
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
@@ -87,7 +129,7 @@ class IncomeController extends AppBaseController
 
         $merge = array_merge($student, $corporate,$incomes);
 
-        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment'));
+        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','columnManage'));
     }
 
     /**

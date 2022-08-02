@@ -118,6 +118,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
    // Route::resource('batches', App\Http\Controllers\Admin\BatchController::class, ["as" => 'admin']);
     Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index']);
     Route::post('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
+    Route::post('batchcolums-batches', ['as' => 'admin.batchesbatchcolums.batchcolums', 'uses' => 'App\Http\Controllers\Admin\BatchController@batchcolums']);
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
     Route::post('batches/store', ['as' => 'admin.batches.store', 'uses' => 'App\Http\Controllers\Admin\BatchController@store', 'middleware' => 'can:batches_create']);
     Route::get('batches/{id}', ['as' => 'admin.batches.show', 'uses' => 'App\Http\Controllers\Admin\BatchController@show', 'middleware' => 'can:batches_view']);
@@ -128,6 +129,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     //Route::resource('incomes', App\Http\Controllers\Admin\IncomeController::class, ["as" => 'admin']);
     Route::get('incomes', ['as' => 'admin.incomes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeController@index']);
     Route::get('filter-incomes', ['as' => 'admin.incomesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\IncomeController@filter']);
+     Route::post('incomecolums-incomees', ['as' => 'admin.incomeesincomecolums.incomecolums', 'uses' => 'App\Http\Controllers\Admin\IncomeController@incomecolums']);
     Route::get('incomes/create', ['as' => 'admin.incomes.create', 'uses' => 'App\Http\Controllers\Admin\IncomeController@create', 'middleware' => 'can:incomes_create']);
     Route::post('incomes/store', ['as' => 'admin.incomes.store', 'uses' => 'App\Http\Controllers\Admin\IncomeController@store', 'middleware' => 'can:incomes_create']);
     Route::get('incomes/{id}', ['as' => 'admin.incomes.show', 'uses' => 'App\Http\Controllers\Admin\IncomeController@show', 'middleware' => 'can:incomes_view']);

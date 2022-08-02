@@ -41,6 +41,41 @@
     @stack('third_party_stylesheets')
 
     @stack('page_css')
+    <style type="text/css">
+        .multiselect {
+          width: 200px;
+        }
+
+        .selectBox {
+          position: relative;
+        }
+
+        .selectBox select {
+          width: 100%;
+          font-weight: bold;
+        }
+
+        .overSelect {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+        }
+
+        #checkboxes {
+          display: none;
+          border: 1px #dadada solid;
+        }
+
+        #checkboxes label {
+          display: block;
+        }
+
+        #checkboxes label:hover {
+          background-color: #1e90ff;
+        }
+    </style>
 </head>
 
 <body class="hold-transition control-sidebar-slide-open layout-footer-fixed layout-navbar-fixed layout-fixed">
@@ -134,9 +169,47 @@
 {{--<script src="{{asset('admin/js/bootstrap.js')}}"></script>--}}
 
 
+
 <script type="text/javascript">
+    var expanded = false;
+
+    function showCheckboxes() {
+      var checkboxes = document.getElementById("checkboxes");
+      if (!expanded) {
+        checkboxes.style.display = "block";
+        expanded = true;
+      } else {
+        checkboxes.style.display = "none";
+        expanded = false;
+      }
+    }
     $(document).ready(function(){
 
+    var form = '#batchform';
+
+    $(form).click('.batchhidecol', function(event){
+
+       // event.preventDefault();
+
+        var url = $(this).attr('data-action');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(response)
+            {
+                $(form).trigger("reset");
+          
+            },
+            error: function(response) {
+            }
+        });
+    });
 
 
     // Checkbox click

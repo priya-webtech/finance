@@ -51,6 +51,33 @@
 
 
 <div class="table-responsive">
+
+    <?php if($columnManage){ $field = json_decode($columnManage->field_status); } ?>
+    <form data-action="{{ route('admin.incomeesincomecolums.incomecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="incomehidecol"  name="income_col_1" @if(!empty($field) && $field->income_col_1 == 1) Checked @endif/>&nbsp; Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="incomehidecol" name="income_col_2" @if(!empty($field) && $field->income_col_2 == 1) Checked @endif/>&nbsp;Email
+          <label for="three">
+            <input type="checkbox" class="incomehidecol" name="income_col_3" @if(!empty($field) && $field->income_col_3 == 1) Checked @endif/>&nbsp;Income Type
+          
+        </div>
+    </div>
+
+    <input type="hidden" name="income" value="income">
+    </form>
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
     <form action="{{ route('admin.incomesFilter.filter') }}" method="get" style="margin-top: 20px;">
     <div class="form-group col-sm-6">
          {!! Form::label('income_type_id', 'Income Type:') !!}
@@ -68,9 +95,9 @@
     <table class="table" id="incomes-table">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Income Type</th>
+            @if(!empty($field) && $field->income_col_1 == 1)<th>Name</th>@endif
+            @if(!empty($field) && $field->income_col_2 == 1)<th>Email</th>@endif
+            @if(!empty($field) && $field->income_col_3 == 1)<th>Income Type</th>@endif
             <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -78,9 +105,9 @@
 
         @foreach($merge as $record)
             <tr>
-                <td>@if(isset($record['name'])) {{ $record['name'] }} @elseif(isset($record['company_name'])) {{$record['company_name']}} @else {{"N/A"}} @endif </td>
-                <td>{{ $record['email']  ?? 'N/A'}}</td>
-                <td> @if(isset($record['student_income'])) {{ getIncomeType($record['student_income'][0]['income_id']) }} @elseif(isset($record['corporate_income'])) {{getIncomeType($record['corporate_income'][0]['income_id'])}} @else {{getIncomeType($record['id'])}} @endif </td>
+                @if(!empty($field) && $field->income_col_1 == 1)<td>@if(isset($record['name'])) {{ $record['name'] }} @elseif(isset($record['company_name'])) {{$record['company_name']}} @else {{"N/A"}} @endif </td>@endif
+                @if(!empty($field) && $field->income_col_2 == 1)<td>{{ $record['email']  ?? 'N/A'}}</td>@endif
+                @if(!empty($field) && $field->income_col_3 == 1)<td> @if(isset($record['student_income'])) {{ getIncomeType($record['student_income'][0]['income_id']) }} @elseif(isset($record['corporate_income'])) {{getIncomeType($record['corporate_income'][0]['income_id'])}} @else {{getIncomeType($record['id'])}} @endif </td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.incomes.destroy', $record['id']], 'method' => 'delete']) !!}
                     <div class='btn-group'>

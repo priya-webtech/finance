@@ -1,18 +1,43 @@
 
 <div class="table-responsive">
     <?php if($columnManage){ $field = json_decode($columnManage->field_status); } ?>
-    <form action="{{ route('admin.batchesFilter.filter') }}" method="post" style="margin-top: 20px;">
+    <form data-action="{{ route('admin.batchesbatchcolums.batchcolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
-    <input type="hidden" name="batch" value="batch">
-    <input type="checkbox" class="hidecol"  name="batch_col_1" @if(!empty($field) && $field->batch_col_1 == 1) Checked @endif/>&nbsp;Course Name&nbsp;
-    <input type="checkbox" class="hidecol" name="batch_col_2" @if(!empty($field) && $field->batch_col_2 == 1) Checked @endif/>&nbsp;Batch Mode
-    <input type="checkbox" class="hidecol" name="batch_col_3" @if(!empty($field) && $field->batch_col_3 == 1) Checked @endif/>&nbsp;Batch Type
-    <input type="checkbox" class="hidecol" name="batch_col_4" @if(!empty($field) && $field->batch_col_4 == 1) Checked @endif/>&nbsp;Trainer Name
-    <input type="checkbox" class="hidecol" name="batch_col_5" @if(!empty($field) && $field->batch_col_5 == 1) Checked @endif/>&nbsp;Name
-    <input type="checkbox" class="hidecol" name="batch_col_6" @if(!empty($field) && $field->batch_col_6 == 1) Checked @endif/>&nbsp;Start
-    <input type="checkbox" class="hidecol" name="batch_col_7" @if(!empty($field) && $field->batch_col_7 == 1) Checked @endif/>&nbsp;Status
-    <input type="checkbox" class="hidecol" name="batch_col_8" @if(!empty($field) && $field->batch_col_8 == 1) Checked @endif/>&nbsp;Batch Status
 
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="batchhidecol"  name="batch_col_1" @if(!empty($field) && $field->batch_col_1 == 1) Checked @endif/>&nbsp;Course Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="batchhidecol" name="batch_col_2" @if(!empty($field) && $field->batch_col_2 == 1) Checked @endif/>&nbsp;Batch Mode
+          <label for="three">
+            <input type="checkbox" class="batchhidecol" name="batch_col_3" @if(!empty($field) && $field->batch_col_3 == 1) Checked @endif/>&nbsp;Batch Type
+          <label for="four">
+            <input type="checkbox" class="batchhidecol" name="batch_col_4" @if(!empty($field) && $field->batch_col_4 == 1) Checked @endif/>&nbsp;Trainer Name
+          <label for="five">
+            <input type="checkbox" class="batchhidecol" name="batch_col_5" @if(!empty($field) && $field->batch_col_5 == 1) Checked @endif/>&nbsp;Name
+          <label for="si6">
+            <input type="checkbox" class="batchhidecol" name="batch_col_6" @if(!empty($field) && $field->batch_col_6 == 1) Checked @endif/>&nbsp;Start
+          <label for="seven">
+           <input type="checkbox" class="batchhidecol" name="batch_col_7" @if(!empty($field) && $field->batch_col_7 == 1) Checked @endif/>&nbsp;Status
+          <label for="eight">
+            <input type="checkbox" class="batchhidecol" name="batch_col_8" @if(!empty($field) && $field->batch_col_8 == 1) Checked @endif/>&nbsp;Batch Status
+        </div>
+    </div>
+
+    <input type="hidden" name="batch" value="batch">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
+    <form data-action="{{ route('admin.batchesFilter.filter') }}" method="post" style="margin-top: 20px;">
+    @csrf
     <div class="form-group col-sm-6">
        {!! Form::label('course_id', 'Course Name:') !!}
         {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}
