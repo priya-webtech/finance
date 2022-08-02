@@ -15,8 +15,9 @@ class CreateColumnManagesTable extends Migration
     {
         Schema::create('column_manages', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
-            $table->integer('status');
+            $table->text('table_name');
+            $table->text('field_status');
+            $table->integer('role_id');
             $table->timestamps();
         });
     }
