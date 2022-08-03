@@ -1,4 +1,5 @@
 <div class="table-responsive">
+    <input id="modeOfPaymentsInput" class="form-control" type="text" placeholder="Search..">
     <table class="table" id="modeOfPayments-table">
         <thead>
         <tr>

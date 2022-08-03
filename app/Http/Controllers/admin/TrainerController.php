@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateTrainerRequest;
 use App\Http\Requests\Admin\UpdateTrainerRequest;
 use App\Models\Admin\Batch;
+use App\Models\Admin\columnManage;
 use App\Models\Admin\Branch;
 use App\Models\Admin\Trainer;
 use App\Models\Admin\Course;
@@ -43,8 +44,54 @@ class TrainerController extends AppBaseController
         }else{
             $trainers = Trainer::where('branch_id',$auth->branch_id)->paginate(10);
         }
-        return view('admin.trainers.index')
+
+        $columnManage = columnManage::where('table_name','trainer')->where('role_id',auth()->user()->role_id)->first();
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+
+        return view('admin.trainers.index',compact('field'))
             ->with('trainers', $trainers);
+    }
+
+    public function trainercolums(Request $request)
+    {
+        $columnManage = columnManage::where('table_name',$request->trainer)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'trainer_col_1' => ($request->trainer_col_1) ? 1 : null,
+                'trainer_col_2' => ($request->trainer_col_2) ? 1 : null,
+                'trainer_col_3' => ($request->trainer_col_3) ? 1 : null,
+                'trainer_col_4' => ($request->trainer_col_4) ? 1 : null,
+                'trainer_col_5' => ($request->trainer_col_5) ? 1 : null,
+                'trainer_col_6' => ($request->trainer_col_6) ? 1 : null,
+                'trainer_col_7' => ($request->trainer_col_7) ? 1 : null,
+                'trainer_col_8' => ($request->trainer_col_8) ? 1 : null, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('trainer_col_1' => $request->trainer_col_1,'trainer_col_2' => $request->trainer_col_2,'trainer_col_3' => $request->trainer_col_3,'trainer_col_4' => $request->trainer_col_4,'trainer_col_5' => $request->trainer_col_5,'trainer_col_6' => $request->trainer_col_6,'trainer_col_7' => $request->trainer_col_7,'trainer_col_8' => $request->trainer_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->trainer,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
     }
 
     /**

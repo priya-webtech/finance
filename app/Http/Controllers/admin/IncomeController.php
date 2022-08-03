@@ -68,7 +68,13 @@ class IncomeController extends AppBaseController
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
 
-        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','columnManage'));
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+
+
+        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','field'));
     }
 
     public function incomecolums(Request $request)
@@ -129,7 +135,12 @@ class IncomeController extends AppBaseController
 
         $merge = array_merge($student, $corporate,$incomes);
 
-        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','columnManage'));
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+
+        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','field'));
     }
 
     /**

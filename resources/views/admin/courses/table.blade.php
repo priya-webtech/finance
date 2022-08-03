@@ -1,11 +1,35 @@
 <div class="table-responsive">
+
+    <form data-action="{{ route('admin.courseescoursecolums.coursecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="coursehidecol"  name="course_col_1" @if(!empty($field) && $field->course_col_1 == 1) Checked @endif/>&nbsp;Course Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="coursehidecol" name="course_col_2" @if(!empty($field) && $field->course_col_2 == 1) Checked @endif/>&nbsp;Status
+        </div>
+    </div>
+
+    <input type="hidden" name="course" value="course">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
     <table class="table" id="courses-table">
         <thead>
         <tr>
-            <th>Course Name</th>
+            @if(!empty($field) && $field->course_col_1 == 1)<th>Course Name</th>@endif
 
 {{--        <th>Description</th>--}}
-        <th>Status</th>
+        @if(!empty($field) && $field->course_col_2 == 1)<th>Status</th>@endif
             <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -15,10 +39,10 @@
 
 
             <tr>
-                <td>{{ $course->course_name }}</td>
+               @if(!empty($field) && $field->course_col_1 == 1) <td>{{ $course->course_name }}</td>@endif
 
 {{--            <td>{{ $course->description }}</td>--}}
-                <td><span class='badge @if($course->status == 1)badge-success @else badge-danger @endif'>{{ $course->status == 1 ? "Active" : "Block" }}</span></td>
+               @if(!empty($field) && $field->course_col_2 == 1) <td><span class='badge @if($course->status == 1)badge-success @else badge-danger @endif'>{{ $course->status == 1 ? "Active" : "Block" }}</span></td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.courses.destroy', $course->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

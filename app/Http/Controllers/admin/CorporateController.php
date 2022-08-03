@@ -9,6 +9,7 @@ use App\Models\Admin\Branch;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\EnquiryType;
 use App\Models\Admin\LeadSources;
+use App\Models\Admin\columnManage;
 use App\Models\Admin\Trainer;
 use App\Repositories\Admin\CorporateRepository;
 use App\Http\Controllers\AppBaseController;
@@ -45,7 +46,13 @@ class CorporateController extends AppBaseController
         }else{
             $corporates = Corporate::where('branch_id',$auth->branch_id)->paginate(10);
         }
-        return view('admin.corporates.index',compact('leadsouce','enquiryType'))
+
+        $columnManage = columnManage::where('table_name','corporat')->where('role_id',auth()->user()->role_id)->first();
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+        return view('admin.corporates.index',compact('leadsouce','enquiryType','field'))
             ->with('corporates', $corporates);
     }
 
@@ -73,7 +80,52 @@ class CorporateController extends AppBaseController
 
         }
 
-        return view('admin.corporates.index',compact('leadsouce','enquiryType','corporates'));
+        $columnManage = columnManage::where('table_name','corporat')->where('role_id',auth()->user()->role_id)->first();
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+
+        return view('admin.corporates.index',compact('leadsouce','enquiryType','corporates','field'));
+    }
+
+    public function corporatecolums(Request $request)
+    {
+        $columnManage = columnManage::where('table_name',$request->corporat)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'corporat_col_1' => ($request->corporat_col_1) ? 1 : null,
+                'corporat_col_2' => ($request->corporat_col_2) ? 1 : null,
+                'corporat_col_3' => ($request->corporat_col_3) ? 1 : null,
+                'corporat_col_4' => ($request->corporat_col_4) ? 1 : null,
+                'corporat_col_5' => ($request->corporat_col_5) ? 1 : null,
+                'corporat_col_6' => ($request->corporat_col_6) ? 1 : null,
+                'corporat_col_7' => ($request->corporat_col_7) ? 1 : null,
+                'corporat_col_8' => ($request->corporat_col_8) ? 1 : null, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('corporat_col_1' => $request->corporat_col_1,'corporat_col_2' => $request->corporat_col_2,'corporat_col_3' => $request->corporat_col_3,'corporat_col_4' => $request->corporat_col_4,'corporat_col_5' => $request->corporat_col_5,'corporat_col_6' => $request->corporat_col_6,'corporat_col_7' => $request->corporat_col_7,'corporat_col_8' => $request->corporat_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->corporat,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
     }
 
     /**

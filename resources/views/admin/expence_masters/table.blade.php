@@ -1,4 +1,40 @@
 <div class="table-responsive">
+
+    <form data-action="{{ route('admin.expenceesexpencecolums.expencecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="expencemasterhidecol"  name="expencemaster_col_1" @if(!empty($field) && $field->expencemaster_col_1 == 1) Checked @endif/>&nbsp;Expence Type&nbsp;
+          <label for="two">
+            <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_2" @if(!empty($field) && $field->expencemaster_col_2 == 1) Checked @endif/>&nbsp;Branch
+          <label for="three">
+            <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_3" @if(!empty($field) && $field->expencemaster_col_3 == 1) Checked @endif/>&nbsp;Bank Ac
+          <label for="four">
+            <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_4" @if(!empty($field) && $field->expencemaster_col_4 == 1) Checked @endif/>&nbsp;Batch
+          <label for="five">
+            <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_5" @if(!empty($field) && $field->expencemaster_col_5 == 1) Checked @endif/>&nbsp;Trainer
+          <label for="si6">
+            <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_6" @if(!empty($field) && $field->expencemaster_col_6 == 1) Checked @endif/>&nbsp;Student
+          <label for="seven">
+           <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_7" @if(!empty($field) && $field->expencemaster_col_7 == 1) Checked @endif/>&nbsp;Amount
+          <label for="eight">
+            <input type="checkbox" class="expencemasterhidecol" name="expencemaster_col_8" @if(!empty($field) && $field->expencemaster_col_8 == 1) Checked @endif/>&nbsp;Date
+        </div>
+    </div>
+
+    <input type="hidden" name="expencemaster" value="expencemaster">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
     <form action="{{ route('admin.expenseFilter.filter') }}" method="get" style="margin-top: 20px;">
     <div class="form-group col-sm-6">
         {!! Form::label('expence_type_id', 'Expence Type:') !!}
@@ -21,15 +57,14 @@
     <table class="table" id="expenceMasters-table">
         <thead>
         <tr>
-        <th>Expence Type </th>
-        <th>Branch</th>
-        <th>Bank Ac </th>
-        <th>Batch</th>
-        <th>Trainer</th>
-        <th>Student</th>
-
-        <th>Amount</th>
-        <th>Date</th>
+        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif
+        @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif
+        @if(!empty($field) && $field->expencemaster_col_4 == 1)<th>Batch</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_5 == 1)<th>Trainer</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_8 == 1)<th>Date</th>@endif
 {{--        <th>Remark</th>--}}
             <th colspan="3">Action</th>
         </tr>
@@ -38,15 +73,14 @@
         @foreach($expenceMasters as $expenceMaster)
           @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
             <tr>
-                <td>{{ $expenceMaster->expenceType->title }}</td>
-            <td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>
-                <td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>
-            <td>{{ $expenceMaster->batch->name ?? 'N/A' }}</td>
-            <td>{{ $expenceMaster->trainer->trainer_name ?? 'N/A'}}</td>
-            <td>{{ $expenceMaster->student->name ?? 'N/A' }}</td>
-
-            <td>{{ $expenceMaster->amount }}</td>
-            <td>{{ $expenceMaster->date }}</td>
+            @if(!empty($field) && $field->expencemaster_col_1 == 1)<td>{{ $expenceMaster->expenceType->title }}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_2 == 1)<td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_3 == 1)<td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_4 == 1)<td>{{ $expenceMaster->batch->name ?? 'N/A' }}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_5 == 1)<td>{{ $expenceMaster->trainer->trainer_name ?? 'N/A'}}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_6 == 1)<td>{{ $expenceMaster->student->name ?? 'N/A' }}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_7 == 1)<td>{{ $expenceMaster->amount }}</td>@endif
+            @if(!empty($field) && $field->expencemaster_col_8 == 1)<td>{{ $expenceMaster->date }}</td>@endif
 {{--            <td>{{ $expenceMaster->remark }}</td>--}}
                 <td width="120">
                     {!! Form::open(['route' => ['admin.expenceMasters.destroy', $expenceMaster->id], 'method' => 'delete']) !!}

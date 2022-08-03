@@ -1,12 +1,42 @@
 <div class="table-responsive">
+    <form data-action="{{ route('admin.useresusercolums.usercolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="userhidecol"  name="user_col_1" @if(!empty($field) && $field->user_col_1 == 1) Checked @endif/>&nbsp;Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="userhidecol" name="user_col_2" @if(!empty($field) && $field->user_col_2 == 1) Checked @endif/>&nbsp;Email
+          <label for="three">
+            <input type="checkbox" class="userhidecol" name="user_col_3" @if(!empty($field) && $field->user_col_3 == 1) Checked @endif/>&nbsp;Role
+          <label for="four">
+            <input type="checkbox" class="userhidecol" name="user_col_4" @if(!empty($field) && $field->user_col_4 == 1) Checked @endif/>&nbsp;Mobile No
+          <label for="five">
+            <input type="checkbox" class="userhidecol" name="user_col_5" @if(!empty($field) && $field->user_col_5 == 1) Checked @endif/>&nbsp;Status
+        </div>
+    </div>
+
+    <input type="hidden" name="user" value="user">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
+
     <table class="table" id="students-table">
         <thead>
         <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Mobile No</th>
-        <th>Status</th>
+        @if(!empty($field) && $field->user_col_1 == 1)<th>Name</th>@endif
+        @if(!empty($field) && $field->user_col_2 == 1)<th>Email</th>@endif
+        @if(!empty($field) && $field->user_col_3 == 1)<th>Role</th>@endif
+        @if(!empty($field) && $field->user_col_4 == 1)<th>Mobile No</th>@endif
+        @if(!empty($field) && $field->user_col_5 == 1)<th>Status</th>@endif
             <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -14,12 +44,12 @@
         @if(count($users) > 0)
         @foreach($users as $user)
             <tr>
-                <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-                <td>{{ $user->role->name }}</td>
-            <td>{{ $user->mobile_no }}</td>
+            @if(!empty($field) && $field->user_col_1 == 1)<td>{{ $user->name }}</td>@endif
+            @if(!empty($field) && $field->user_col_2 == 1)<td>{{ $user->email }}</td>@endif
+            @if(!empty($field) && $field->user_col_3 == 1)<td>{{ $user->role->name }}</td>@endif
+            @if(!empty($field) && $field->user_col_4 == 1)<td>{{ $user->mobile_no }}</td>@endif
 
-                <td><span class='badge @if($user->status == 1)badge-success @else badge-danger @endif'>{{ $user->status == 1 ? "Active" : "Block" }}</span></td>
+                @if(!empty($field) && $field->user_col_5 == 1)<td><span class='badge @if($user->status == 1)badge-success @else badge-danger @endif'>{{ $user->status == 1 ? "Active" : "Block" }}</span></td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.users.destroy', $user->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

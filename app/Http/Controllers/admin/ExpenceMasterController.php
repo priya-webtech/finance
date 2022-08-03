@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\UpdateExpenceMasterRequest;
 use App\Models\Admin\BankAccount;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
+use App\Models\Admin\columnManage;
 use App\Models\Admin\ExpenseTypes;
 use App\Models\Admin\ExpenceMaster;
 use App\Models\Admin\ModeOfPayment;
@@ -40,19 +41,23 @@ class ExpenceMasterController extends AppBaseController
     public function index(Request $request)
     {
         $expenceMasters = $this->expenceMasterRepository->paginate(10);
-
+        $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
         $branch        = Branch::where('status',1)->pluck('title','id');
         $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
         $batch       = Batch::where('status',1)->pluck('name','id');
         $student       = Student::where('status',1)->pluck('name','id');
-        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student'))
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student','field'))
             ->with('expenceMasters', $expenceMasters);
     }
     public function filter(Request $request)
     {   
-
+        $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
         $branch        = Branch::where('status',1)->pluck('title','id');
@@ -62,11 +67,55 @@ class ExpenceMasterController extends AppBaseController
 
         //dd($request);
         $expenceMasters = ExpenceMaster::where('expence_type_id',$request->expence_type_id)->orWhere('bank_ac_id', '=', $request->bank_ac_id)->orWhere('trainer_id', '=',  $request->trainer_id)->paginate(10);
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
 
-        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student'))
+        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student','field'))
             ->with('expenceMasters', $expenceMasters);
     }
     
+
+    public function expencecolums(Request $request)
+    {
+
+        $columnManage = columnManage::where('table_name',$request->expencemaster)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'expencemaster_col_1' => ($request->expencemaster_col_1) ? 1 : null,
+                'expencemaster_col_2' => ($request->expencemaster_col_2) ? 1 : null,
+                'expencemaster_col_3' => ($request->expencemaster_col_3) ? 1 : null,
+                'expencemaster_col_4' => ($request->expencemaster_col_4) ? 1 : null,
+                'expencemaster_col_5' => ($request->expencemaster_col_5) ? 1 : null,
+                'expencemaster_col_6' => ($request->expencemaster_col_6) ? 1 : null,
+                'expencemaster_col_7' => ($request->expencemaster_col_7) ? 1 : null,
+                'expencemaster_col_8' => ($request->expencemaster_col_8) ? 1 : null, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('expencemaster_col_1' => $request->expencemaster_col_1,'expencemaster_col_2' => $request->expencemaster_col_2,'expencemaster_col_3' => $request->expencemaster_col_3,'expencemaster_col_4' => $request->expencemaster_col_4,'expencemaster_col_5' => $request->expencemaster_col_5,'expencemaster_col_6' => $request->expencemaster_col_6,'expencemaster_col_7' => $request->expencemaster_col_7,'expencemaster_col_8' => $request->expencemaster_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->expencemaster,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
+    }
 
     /**
      * Show the form for creating a new ExpenceMaster.

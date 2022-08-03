@@ -1,4 +1,5 @@
 <div class="table-responsive">
+    <input id="leadSourcesInput" type="text" placeholder="Search..">
     <table class="table" id="leadSources-table">
         <thead>
         <tr>

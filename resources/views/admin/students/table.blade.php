@@ -1,13 +1,44 @@
 <div class="table-responsive">
+
+    <form data-action="{{ route('admin.studentesstudentcolums.studentcolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="studenthidecol"  name="student_col_1" @if(!empty($field) && $field->student_col_1 == 1) Checked @endif/>&nbsp;Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="studenthidecol" name="student_col_2" @if(!empty($field) && $field->student_col_2 == 1) Checked @endif/>&nbsp;Email
+          <label for="three">
+            <input type="checkbox" class="studenthidecol" name="student_col_3" @if(!empty($field) && $field->student_col_3 == 1) Checked @endif/>&nbsp;Mobile No
+          <label for="four">
+            <input type="checkbox" class="studenthidecol" name="student_col_4" @if(!empty($field) && $field->student_col_4 == 1) Checked @endif/>&nbsp;Enquiry Type
+          <label for="five">
+            <input type="checkbox" class="studenthidecol" name="student_col_6" @if(!empty($field) && $field->student_col_6 == 1) Checked @endif/>&nbsp;Student Type
+          <label for="seven">
+           <input type="checkbox" class="studenthidecol" name="student_col_7" @if(!empty($field) && $field->student_col_7 == 1) Checked @endif/>&nbsp;Status
+        </div>
+    </div>
+
+    <input type="hidden" name="student" value="student">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
     <table class="table" id="students-table">
         <thead>
         <tr>
-            <th>Name</th>
-        <th>Email</th>
-        <th>Mobile No</th>
-        <th>Enquiry Type</th>
-        <th>Student Type</th>
-        <th>Status</th>
+        @if(!empty($field) && $field->student_col_1 == 1)<th>Name</th>@endif
+        @if(!empty($field) && $field->student_col_2 == 1)<th>Email</th>@endif
+        @if(!empty($field) && $field->student_col_3 == 1)<th>Mobile No</th>@endif
+        @if(!empty($field) && $field->student_col_4 == 1)<th>Enquiry Type</th>@endif
+        @if(!empty($field) && $field->student_col_5 == 1)<th>Student Type</th>@endif
+        @if(!empty($field) && $field->student_col_6 == 1)<th>Status</th>@endif
             <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -17,12 +48,12 @@
 {{--        @if((isset($student['branch_id'])) && in_array($student['branch_id'], auth()->user()->branch_id))--}}
             <tr>
 
-                <td>{{ $student->name }}</td>
-            <td>{{ $student->email }}</td>
-            <td>{{ $student->mobile_no }}</td>
-            <td>{{$student->enquiryType->title }}</td>
-            <td>{{ $student->studentType->title }}</td>
-                <td><span class='badge @if($student->status == 1)badge-success @else badge-danger @endif'>{{ $student->status == 1 ? "Active" : "Block" }}</span></td>
+            @if(!empty($field) && $field->student_col_1 == 1)<td>{{ $student->name }}</td>@endif
+            @if(!empty($field) && $field->student_col_2 == 1)<td>{{ $student->email }}</td>@endif
+            @if(!empty($field) && $field->student_col_3 == 1)<td>{{ $student->mobile_no }}</td>@endif
+            @if(!empty($field) && $field->student_col_4 == 1)<td>{{$student->enquiryType->title }}</td>@endif
+            @if(!empty($field) && $field->student_col_5 == 1)<td>{{ $student->studentType->title }}</td>@endif
+                @if(!empty($field) && $field->student_col_6 == 1)<td><span class='badge @if($student->status == 1)badge-success @else badge-danger @endif'>{{ $student->status == 1 ? "Active" : "Block" }}</span></td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.students.destroy', $student->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

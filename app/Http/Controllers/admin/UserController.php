@@ -10,6 +10,7 @@ use App\Models\Admin\EnquiryType;
 use App\Models\Admin\LeadSources;
 use App\Models\Admin\StudentType;
 use App\Models\User;
+use App\Models\Admin\columnManage;
 use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -45,9 +46,54 @@ class UserController extends AppBaseController
         }else{
             $users = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->paginate(10);
         }
-        return view('admin.users.index')->with('users', $users);
+
+        $columnManage = columnManage::where('table_name','user')->where('role_id',auth()->user()->role_id)->first();
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+
+        return view('admin.users.index',compact('field'))->with('users', $users);
     }
 
+    public function usercolums(Request $request)
+    {
+        $columnManage = columnManage::where('table_name',$request->user)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'user_col_1' => ($request->user_col_1) ? 1 : null,
+                'user_col_2' => ($request->user_col_2) ? 1 : null,
+                'user_col_3' => ($request->user_col_3) ? 1 : null,
+                'user_col_4' => ($request->user_col_4) ? 1 : null,
+                'user_col_5' => ($request->user_col_5) ? 1 : null,
+                'user_col_6' => ($request->user_col_6) ? 1 : null,
+                'user_col_7' => ($request->user_col_7) ? 1 : null,
+                'user_col_8' => ($request->user_col_8) ? 1 : null, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('user_col_1' => $request->user_col_1,'user_col_2' => $request->user_col_2,'user_col_3' => $request->user_col_3,'user_col_4' => $request->user_col_4,'user_col_5' => $request->user_col_5,'user_col_6' => $request->user_col_6,'user_col_7' => $request->user_col_7,'user_col_8' => $request->user_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->user,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
+    }
     /**
      * Show the form for creating a new Student.
      *

@@ -1,4 +1,5 @@
 <div class="table-responsive">
+    <input id="revenueTypesInput" class="form-control" type="text" placeholder="Search..">
     <table class="table" id="revenueTypes-table">
         <thead>
         <tr>

@@ -1,4 +1,40 @@
 <div class="table-responsive">
+    <form data-action="{{ route('admin.corporateescorporatecolums.corporatecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="corporathidecol"  name="corporat_col_1" @if(!empty($field) && $field->corporat_col_1 == 1) Checked @endif/>&nbsp;Company Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="corporathidecol" name="corporat_col_2" @if(!empty($field) && $field->corporat_col_2 == 1) Checked @endif/>&nbsp;Contact No
+          <label for="three">
+            <input type="checkbox" class="corporathidecol" name="corporat_col_3" @if(!empty($field) && $field->corporat_col_3 == 1) Checked @endif/>&nbsp;Email
+          <label for="four">
+            <input type="checkbox" class="corporathidecol" name="corporat_col_4" @if(!empty($field) && $field->corporat_col_4 == 1) Checked @endif/>&nbsp;Web Site
+          <label for="five">
+            <input type="checkbox" class="corporathidecol" name="corporat_col_5" @if(!empty($field) && $field->corporat_col_5 == 1) Checked @endif/>&nbsp;Status
+          <label for="seven">
+           <input type="checkbox" class="corporathidecol" name="corporat_col_6" @if(!empty($field) && $field->corporat_col_6 == 1) Checked @endif/>&nbsp;Branch
+           <label for="seven">
+           <input type="checkbox" class="corporathidecol" name="corporat_col_7" @if(!empty($field) && $field->corporat_col_7 == 1) Checked @endif/>&nbsp;Enquiry Type
+           <label for="seven">
+           <input type="checkbox" class="corporathidecol" name="corporat_col_8" @if(!empty($field) && $field->corporat_col_8 == 1) Checked @endif/>&nbsp;Lead Source
+        </div>
+    </div>
+
+    <input type="hidden" name="corporat" value="corporat">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
+
     <form action="{{ route('admin.corporatesFilter.filter') }}" method="post" style="margin-top: 20px;">
         @csrf
     <div class="form-group col-sm-6">
@@ -17,14 +53,14 @@
     <table class="table" id="corporates-table">
         <thead>
         <tr>
-        <th>Company Name</th>
-        <th>Contact No</th>
-        <th>Email</th>
-        <th>Web Site</th>
-        <th>Status</th>
-        <th>Branch</th>
-        <th>Enquiry Type</th>
-        <th>Lead Source</th>
+        @if(!empty($field) && $field->corporat_col_1 == 1)<th>Company Name</th>@endif
+        @if(!empty($field) && $field->corporat_col_2 == 1)<th>Contact No</th>@endif
+        @if(!empty($field) && $field->corporat_col_3 == 1)<th>Email</th>@endif
+        @if(!empty($field) && $field->corporat_col_4 == 1)<th>Web Site</th>@endif
+        @if(!empty($field) && $field->corporat_col_5 == 1)<th>Status</th>@endif
+        @if(!empty($field) && $field->corporat_col_6 == 1)<th>Branch</th>@endif
+        @if(!empty($field) && $field->corporat_col_7 == 1)<th>Enquiry Type</th>@endif
+        @if(!empty($field) && $field->corporat_col_8 == 1)<th>Lead Source</th>@endif
             <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -32,14 +68,14 @@
         @if(count($corporates) >0)
         @foreach($corporates as $corporate)
             <tr>
-                <td>{{ $corporate->company_name }}</td>
-            <td>{{ $corporate->contact_no }}</td>
-            <td>{{ $corporate->email }}</td>
-            <td>{{ $corporate->web_site }}</td>
-           <td><span class='badge @if($corporate->status == 1)badge-success @else badge-danger @endif'>{{ $corporate->status == 1 ? "Active" : "Block" }}</span></td>
-            <td>{{ $corporate->branch->title }}</td>
-            <td>{{ $corporate->enquiry->title }}</td>
-            <td>{{ $corporate->lead->title }}</td>
+            @if(!empty($field) && $field->corporat_col_1 == 1)<td>{{ $corporate->company_name }}</td>@endif
+            @if(!empty($field) && $field->corporat_col_2 == 1)<td>{{ $corporate->contact_no }}</td>@endif
+            @if(!empty($field) && $field->corporat_col_3 == 1)<td>{{ $corporate->email }}</td>@endif
+            @if(!empty($field) && $field->corporat_col_4 == 1)<td>{{ $corporate->web_site }}</td>@endif
+           @if(!empty($field) && $field->corporat_col_5 == 1)<td><span class='badge @if($corporate->status == 1)badge-success @else badge-danger @endif'>{{ $corporate->status == 1 ? "Active" : "Block" }}</span></td>@endif
+            @if(!empty($field) && $field->corporat_col_6 == 1)<td>{{ $corporate->branch->title }}</td>@endif
+            @if(!empty($field) && $field->corporat_col_7 == 1)<td>{{ $corporate->enquiry->title }}</td>@endif
+            @if(!empty($field) && $field->corporat_col_8 == 1)<td>{{ $corporate->lead->title }}</td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.corporates.destroy', $corporate->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

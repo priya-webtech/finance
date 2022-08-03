@@ -52,7 +52,7 @@
 
 <div class="table-responsive">
 
-    <?php if($columnManage){ $field = json_decode($columnManage->field_status); } ?>
+
     <form data-action="{{ route('admin.incomeesincomecolums.incomecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
 

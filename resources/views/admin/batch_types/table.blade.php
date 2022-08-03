@@ -1,4 +1,5 @@
 <div class="table-responsive">
+    <input id="batchInput" class="form-control" type="text" placeholder="Search..">
     <table class="table" id="batchTypes-table">
         <thead>
         <tr>

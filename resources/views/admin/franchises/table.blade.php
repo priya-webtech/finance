@@ -1,4 +1,5 @@
 <div class="table-responsive">
+    <input id="franchisesInput" type="text" class="form-control" placeholder="Search..">
     <table class="table" id="franchises-table">
         <thead>
         <tr>

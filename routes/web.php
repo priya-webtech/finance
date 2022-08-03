@@ -89,13 +89,13 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('expenseTypes/{id}', ['as' => 'admin.expenseTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@destroy', 'middleware' => 'can:expensetypes_delete']);
 
     //Route::resource('enquiryTypes', App\Http\Controllers\Admin\EnquiryTypeController::class, ["as" => 'admin']);
-    Route::get('enquiryTypes', ['as' => 'admin.enquiryTypes.index', 'uses' => 'App\Http\Controllers\Admin\CourseController@index']);
-    Route::get('enquiryTypes/create', ['as' => 'admin.enquiryTypes.create', 'uses' => 'App\Http\Controllers\Admin\CourseController@create', 'middleware' => 'can:enquiry_create']);
-    Route::post('enquiryTypes/store', ['as' => 'admin.enquiryTypes.store', 'uses' => 'App\Http\Controllers\Admin\CourseController@store', 'middleware' => 'can:enquiry_create']);
-    Route::get('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.show', 'uses' => 'App\Http\Controllers\Admin\CourseController@show', 'middleware' => 'can:enquiry_view']);
-    Route::get('enquiryTypes/{id}/edit', ['as' => 'admin.enquiryTypes.edit', 'uses' => 'App\Http\Controllers\Admin\CourseController@edit', 'middleware' => 'can:enquiry_edit']);
-    Route::patch('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.update', 'uses' => 'App\Http\Controllers\Admin\CourseController@update', 'middleware' => 'can:enquiry_edit']);
-    Route::delete('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\CourseController@destroy', 'middleware' => 'can:enquiry_delete']);
+    Route::get('enquiryTypes', ['as' => 'admin.enquiryTypes.index', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@index']);
+    Route::get('enquiryTypes/create', ['as' => 'admin.enquiryTypes.create', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@create', 'middleware' => 'can:enquiry_create']);
+    Route::post('enquiryTypes/store', ['as' => 'admin.enquiryTypes.store', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@store', 'middleware' => 'can:enquiry_create']);
+    Route::get('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.show', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@show', 'middleware' => 'can:enquiry_view']);
+    Route::get('enquiryTypes/{id}/edit', ['as' => 'admin.enquiryTypes.edit', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@edit', 'middleware' => 'can:enquiry_edit']);
+    Route::patch('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.update', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@update', 'middleware' => 'can:enquiry_edit']);
+    Route::delete('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@destroy', 'middleware' => 'can:enquiry_delete']);
 
     //Route::resource('incomeTypes', App\Http\Controllers\Admin\IncomeTypeController::class, ["as" => 'admin']);
     Route::get('incomeTypes', ['as' => 'admin.incomeTypes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@index']);
@@ -108,6 +108,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
     //Route::resource('courses', App\Http\Controllers\Admin\CourseController::class, ["as" => 'admin']);
     Route::get('courses', ['as' => 'admin.courses.index', 'uses' => 'App\Http\Controllers\Admin\CourseController@index']);
+    Route::post('coursecolums-coursees', ['as' => 'admin.courseescoursecolums.coursecolums', 'uses' => 'App\Http\Controllers\Admin\CourseController@coursecolums']);
+
     Route::get('courses/create', ['as' => 'admin.courses.create', 'uses' => 'App\Http\Controllers\Admin\CourseController@create', 'middleware' => 'can:courses_create']);
     Route::post('courses/store', ['as' => 'admin.courses.store', 'uses' => 'App\Http\Controllers\Admin\CourseController@store', 'middleware' => 'can:courses_create']);
     Route::get('courses/{id}', ['as' => 'admin.courses.show', 'uses' => 'App\Http\Controllers\Admin\CourseController@show', 'middleware' => 'can:courses_view']);
@@ -129,7 +131,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     //Route::resource('incomes', App\Http\Controllers\Admin\IncomeController::class, ["as" => 'admin']);
     Route::get('incomes', ['as' => 'admin.incomes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeController@index']);
     Route::get('filter-incomes', ['as' => 'admin.incomesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\IncomeController@filter']);
-     Route::post('incomecolums-incomees', ['as' => 'admin.incomeesincomecolums.incomecolums', 'uses' => 'App\Http\Controllers\Admin\IncomeController@incomecolums']);
+    Route::post('incomecolums-incomees', ['as' => 'admin.incomeesincomecolums.incomecolums', 'uses' => 'App\Http\Controllers\Admin\IncomeController@incomecolums']);
     Route::get('incomes/create', ['as' => 'admin.incomes.create', 'uses' => 'App\Http\Controllers\Admin\IncomeController@create', 'middleware' => 'can:incomes_create']);
     Route::post('incomes/store', ['as' => 'admin.incomes.store', 'uses' => 'App\Http\Controllers\Admin\IncomeController@store', 'middleware' => 'can:incomes_create']);
     Route::get('incomes/{id}', ['as' => 'admin.incomes.show', 'uses' => 'App\Http\Controllers\Admin\IncomeController@show', 'middleware' => 'can:incomes_view']);
@@ -139,6 +141,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
     //Route::resource('trainers', App\Http\Controllers\Admin\TrainerController::class, ["as" => 'admin']);
     Route::get('trainers', ['as' => 'admin.trainers.index', 'uses' => 'App\Http\Controllers\Admin\TrainerController@index']);
+    Route::post('trainercolums-traineres', ['as' => 'admin.trainerestrainercolums.trainercolums', 'uses' => 'App\Http\Controllers\Admin\TrainerController@trainercolums']);
+
     Route::get('trainers/create', ['as' => 'admin.trainers.create', 'uses' => 'App\Http\Controllers\Admin\TrainerController@create', 'middleware' => 'can:trainers_create']);
     Route::post('trainers/store', ['as' => 'admin.trainers.store', 'uses' => 'App\Http\Controllers\Admin\TrainerController@store', 'middleware' => 'can:trainers_create']);
     Route::get('trainers/{id}', ['as' => 'admin.trainers.show', 'uses' => 'App\Http\Controllers\Admin\TrainerController@show', 'middleware' => 'can:trainers_view']);
@@ -148,6 +152,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
     //Route::resource('students', App\Http\Controllers\Admin\StudentController::class, ["as" => 'admin']);
     Route::get('students', ['as' => 'admin.students.index', 'uses' => 'App\Http\Controllers\Admin\StudentController@index']);
+    Route::post('studentcolums-studentes', ['as' => 'admin.studentesstudentcolums.studentcolums', 'uses' => 'App\Http\Controllers\Admin\StudentController@studentcolums']);
     Route::get('students/create', ['as' => 'admin.students.create', 'uses' => 'App\Http\Controllers\Admin\StudentController@create', 'middleware' => 'can:students_create']);
     Route::post('students/store', ['as' => 'admin.students.store', 'uses' => 'App\Http\Controllers\Admin\StudentController@store', 'middleware' => 'can:students_create']);
     Route::get('students/{id}', ['as' => 'admin.students.show', 'uses' => 'App\Http\Controllers\Admin\StudentController@show', 'middleware' => 'can:students_view']);
@@ -231,6 +236,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::resource('trainerFreeSlabs', App\Http\Controllers\Admin\TrainerFreeSlabController::class, ["as" => 'admin']);
     //Route::resource('corporates', App\Http\Controllers\Admin\CorporateController::class, ["as" => 'admin']);
     Route::get('corporates', ['as' => 'admin.corporates.index', 'uses' => 'App\Http\Controllers\Admin\CorporateController@index']);
+    Route::post('corporatecolums-corporatees', ['as' => 'admin.corporateescorporatecolums.corporatecolums', 'uses' => 'App\Http\Controllers\Admin\CorporateController@corporatecolums']);
     Route::post('filter-corporates', ['as' => 'admin.corporatesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\CorporateController@filter']);
     Route::get('corporates/create', ['as' => 'admin.corporates.create', 'uses' => 'App\Http\Controllers\Admin\CorporateController@create', 'middleware' => 'can:corporates_create']);
     Route::post('corporates/store', ['as' => 'admin.corporates.store', 'uses' => 'App\Http\Controllers\Admin\CorporateController@store', 'middleware' => 'can:corporates_create']);
@@ -241,6 +247,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
  //  Route::group(['middleware' => 'role'], function () {
   //  Route::resource('users', App\Http\Controllers\Admin\UserController::class, ["as" => 'admin']);
     Route::get('users', ['as' => 'admin.users.index', 'uses' => 'App\Http\Controllers\Admin\UserController@index']);
+    Route::post('usercolums-useres', ['as' => 'admin.useresusercolums.usercolums', 'uses' => 'App\Http\Controllers\Admin\UserController@usercolums']);
     Route::get('users/create', ['as' => 'admin.users.create', 'uses' => 'App\Http\Controllers\Admin\UserController@create', 'middleware' => 'can:user_create']);
     Route::post('users/store', ['as' => 'admin.users.store', 'uses' => 'App\Http\Controllers\Admin\UserController@store', 'middleware' => 'can:user_create']);
     Route::get('users/{id}', ['as' => 'admin.users.show', 'uses' => 'App\Http\Controllers\Admin\UserController@show', 'middleware' => 'can:user_view']);
@@ -251,6 +258,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
    // Route::resource('expenceMasters', App\Http\Controllers\Admin\ExpenceMasterController::class, ["as" => 'admin']);
     Route::get('expenceMasters', ['as' => 'admin.expenceMasters.index', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@index']);
+    Route::post('expencecolums-expencees', ['as' => 'admin.expenceesexpencecolums.expencecolums', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@expencecolums']);
+
     Route::get('filter-expence', ['as' => 'admin.expenseFilter.filter', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@filter']);
     Route::get('expenceMasters/create', ['as' => 'admin.expenceMasters.create', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@create', 'middleware' => 'can:expence_create']);
     Route::post('expenceMasters/store', ['as' => 'admin.expenceMasters.store', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@store', 'middleware' => 'can:expence_create']);

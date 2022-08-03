@@ -1,13 +1,42 @@
 <div class="table-responsive">
+    <form data-action="{{ route('admin.trainerestrainercolums.trainercolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+    @csrf
+
+    <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label for="one">
+            <input type="checkbox" class="trainerhidecol"  name="trainer_col_1" @if(!empty($field) && $field->trainer_col_1 == 1) Checked @endif/>&nbsp;Trainer Name&nbsp;
+          <label for="two">
+            <input type="checkbox" class="trainerhidecol" name="trainer_col_2" @if(!empty($field) && $field->trainer_col_2 == 1) Checked @endif/>&nbsp;Batch
+          <label for="three">
+            <input type="checkbox" class="trainerhidecol" name="trainer_col_3" @if(!empty($field) && $field->trainer_col_3 == 1) Checked @endif/>&nbsp;Email
+          <label for="four">
+            <input type="checkbox" class="trainerhidecol" name="trainer_col_4" @if(!empty($field) && $field->trainer_col_4 == 1) Checked @endif/>&nbsp;Contact No.
+          <label for="five">
+            <input type="checkbox" class="trainerhidecol" name="trainer_col_5" @if(!empty($field) && $field->trainer_col_5 == 1) Checked @endif/>&nbsp;Status
+        </div>
+    </div>
+
+    <input type="hidden" name="trainer" value="trainer">
+    </form>
+
+    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+
     <table class="table" id="trainers-table">
         <thead>
         <tr>
-            <th>Trainer Name</th>
-            <th>Batch</th>
-           <!--  <th>Image</th> -->
-            <th>Email</th>
-            <th>Contact No.</th>
-            <th>Status</th>
+            @if(!empty($field) && $field->trainer_col_1 == 1)<th>Trainer Name</th>@endif
+            @if(!empty($field) && $field->trainer_col_2 == 1)<th>Batch</th>@endif
+           <!-- <th>Image</th> -->
+            @if(!empty($field) && $field->trainer_col_3 == 1)<th>Email</th>@endif
+            @if(!empty($field) && $field->trainer_col_4 == 1)<th>Contact No.</th>@endif
+            @if(!empty($field) && $field->trainer_col_5 == 1)<th>Status</th>@endif
             <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -15,12 +44,12 @@
         @if(count($trainers) > 0)
         @foreach($trainers as $trainer)
             <tr>
-                <td>{{ $trainer->trainer_name }}</td>
-                <td>{{ $trainer->branch->title }}</td>
+                 @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{ $trainer->trainer_name }}</td>@endif
+                 @if(!empty($field) && $field->trainer_col_2 == 1)<td>{{ $trainer->branch->title }}</td>@endif
                <!--  <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th> -->
-            <td>{{ $trainer->email }}</td>
-            <td>{{ $trainer->contact_no }}</td>
-                <td><span class='badge @if($trainer->status == 1)badge-success @else badge-danger @endif'>{{ $trainer->status == 1 ? "Active" : "Block" }}</span></td>
+             @if(!empty($field) && $field->trainer_col_3 == 1)<td>{{ $trainer->email }}</td>@endif
+             @if(!empty($field) && $field->trainer_col_4 == 1)<td>{{ $trainer->contact_no }}</td>@endif
+                 @if(!empty($field) && $field->trainer_col_4 == 1)<td><span class='badge @if($trainer->status == 1)badge-success @else badge-danger @endif'>{{ $trainer->status == 1 ? "Active" : "Block" }}</span></td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.trainers.destroy', $trainer->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

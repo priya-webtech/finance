@@ -13,6 +13,7 @@ use App\Models\Admin\StudentType;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
 use App\Models\Admin\Trainer;
+use App\Models\Admin\columnManage;
 use App\Models\User;
 use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
@@ -44,6 +45,7 @@ class StudentController extends AppBaseController
     public function index(Request $request)
     {
         //$students = $this->studentRepository->paginate(10);
+        $columnManage = columnManage::where('table_name','student')->where('role_id',auth()->user()->role_id)->first();
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $students = Student::paginate(10);
@@ -51,7 +53,51 @@ class StudentController extends AppBaseController
             $students = Student::where('branch_id',$auth->branch_id)->paginate(10);
         }
 
-        return view('admin.students.index')->with('students', $students);
+        $field = [];
+        if($columnManage){ 
+            $field = json_decode($columnManage->field_status); 
+        }
+
+        return view('admin.students.index',compact('field'))->with('students', $students);
+    }
+
+    public function studentcolums(Request $request)
+    {
+        $columnManage = columnManage::where('table_name',$request->student)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){  
+
+            $field = json_decode($columnManage->field_status); 
+            $storejson = array(
+                'student_col_1' => ($request->student_col_1) ? 1 : null,
+                'student_col_2' => ($request->student_col_2) ? 1 : null,
+                'student_col_3' => ($request->student_col_3) ? 1 : null,
+                'student_col_4' => ($request->student_col_4) ? 1 : null,
+                'student_col_5' => ($request->student_col_5) ? 1 : null,
+                'student_col_6' => ($request->student_col_6) ? 1 : null,
+                'student_col_7' => ($request->student_col_7) ? 1 : null,
+                'student_col_8' => ($request->student_col_8) ? 1 : null, 
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],        
+                ]
+
+            );
+
+        }else{
+            $storejson = array('student_col_1' => $request->student_col_1,'student_col_2' => $request->student_col_2,'student_col_3' => $request->student_col_3,'student_col_4' => $request->student_col_4,'student_col_5' => $request->student_col_5,'student_col_6' => $request->student_col_6,'student_col_7' => $request->student_col_7,'student_col_8' => $request->student_col_8 );
+
+             columnManage::insert([
+                'table_name' => $request->student,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
     }
 
     /**

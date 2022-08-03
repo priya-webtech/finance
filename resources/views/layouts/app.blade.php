@@ -168,9 +168,87 @@
 {{--<script src="{{asset('admin/js/app.js')}}" ></script>--}}
 {{--<script src="{{asset('admin/js/bootstrap.js')}}"></script>--}}
 
+<script>
+$(document).ready(function(){
+  $("#franchisesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#franchises-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 
+  $("#leadSourcesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#leadSources-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#enquiryTypesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#enquiryTypes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#incomeTypesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#incomeTypes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#expenseTypesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#expenseTypes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+   $("#branchesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#branches-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#batchInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#batchTypes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#revenueTypesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#revenueTypes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#batchModesInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#batchModes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+  $("#modeOfPaymentsInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#modeOfPayments-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+});
+</script>
 
 <script type="text/javascript">
+
+
+     $(".batchsubmit").click(function(){
+         location.reload();
+     });
     var expanded = false;
 
     function showCheckboxes() {
