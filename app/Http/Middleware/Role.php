@@ -12,6 +12,7 @@ use App\Models\Admin\Trainer;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\Course;
 use App\Models\Admin\Income;
+use App\Models\Admin\Student;
 use App\Models\Admin\ExpenceMaster;
 use App\Models\Admin\Batch;
 use App\Repositories\Admin\TrainerRepository;
@@ -58,9 +59,19 @@ class Role
                     })->first();
                     break;
                 case "incomes":
+                   if (\request('type') == 'corporate') {
+                    $modal = Corporate::class;
+                    $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    break;
+                    } else if(\request('type') == 'student') {
+                    $modal = Student::class;
+                    $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
+                    break;
+                    }else{
                     $modal = Income::class;
                     $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
                     break;
+                    }
                 case "expenceMasters":
                     $modal = ExpenceMaster::class;
                     $entity=$modal::where('branch_id',$auth->branch_id)->where('id',$id)->first();
