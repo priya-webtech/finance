@@ -1,10 +1,14 @@
+@php
+  $auth = \Illuminate\Support\Facades\Auth::user();
+@endphp
 <li class="nav-item ">
     <a href="{{url('home')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/dashboard*') ? 'active' : ''}} ">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p>Dashboard</p>
     </a>
 </li>
-@if(auth()->user()->role_id == 0 || auth()->user()->role_id == 1)
+
+@if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
 <li class="nav-item ">
     <a href="{{route('role.permission.list')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/role-permission*') ? 'active' : ''}}">
         <i class="nav-icon fas fa-lock"></i>
@@ -12,6 +16,7 @@
     </a>
 </li>
 @endif
+@can('user_view')
 <li class="nav-item">
     <a href="{{ route('admin.users.index') }}"
        class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
@@ -19,12 +24,12 @@
         <p>User</p>
     </a>
 </li>
+@endcan
 
 
 
 
-
-
+@can('trainers_view')
 <li class="nav-item">
     <a href="{{ route('admin.trainers.index') }}"
        class="nav-link {{ Request::is('admin/trainers*') ? 'active' : '' }}">
@@ -32,7 +37,8 @@
         <p>Trainers</p>
     </a>
 </li>
-
+@endcan
+@can('corporates_view')
 <li class="nav-item">
     <a href="{{ route('admin.corporates.index') }}"
        class="nav-link {{ Request::is('admin/corporates*') ? 'active' : '' }}">
@@ -40,6 +46,8 @@
         <p>Corporates</p>
     </a>
 </li>
+@endcan
+@can('students_view')
 <li class="nav-item">
     <a href="{{ route('admin.students.index') }}"
        class="nav-link {{ Request::is('admin/students*') ? 'active' : '' }}">
@@ -47,14 +55,17 @@
         <p>Students</p>
     </a>
 </li>
-
+@endcan
+@can('students_view')
 <li class="nav-item">
     <a href="{{route('due-fees')}}"
        class="nav-link {{ Request::is('admin/due-fees*') ? 'active' : '' }}">
-        <i class="fa fa-area-chart"  aria-hidden="true"></i>
+        <i class="nav-icon fa fa-file" aria-hidden="true"></i>
         <p>Due Fees</p>
     </a>
 </li>
+@endcan
+@can('courses_view')
 <li class="nav-item">
     <a href="{{ route('admin.courses.index') }}"
        class="nav-link {{ Request::is('admin/courses*') ? 'active' : '' }}">
@@ -62,11 +73,11 @@
         <p>Courses</p>
     </a>
 </li>
+@endcan
 
 
 
-
-
+@can('batches_view')
 <li class="nav-item">
     <a href="{{ route('admin.batches.index') }}"
        class="nav-link {{ Request::is('admin/batches*') ? 'active' : '' }}">
@@ -74,8 +85,8 @@
         <p>Batches</p>
     </a>
 </li>
-
-
+@endcan
+@can('incomes_view')
 <li class="nav-item">
     <a href="{{ route('admin.incomes.index') }}"
        class="nav-link {{ Request::is('admin/incomes*') ? 'active' : '' }}">
@@ -83,7 +94,8 @@
         <p>Incomes</p>
     </a>
 </li>
-
+@endcan
+@can('expence_view')
 <li class="nav-item">
     <a href="{{ route('admin.expenceMasters.index') }}"
        class="nav-link {{ Request::is('admin/expenceMasters*') ? 'active' : '' }}">
@@ -91,10 +103,10 @@
         <p>Expense</p>
     </a>
 </li>
-
+@endcan
 
 {{--<li class="nav-header">PAGES</li>--}}
-@if(auth()->user()->role_id == 0 || auth()->user()->role_id == 1)
+@if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
 <li class="nav-header">SYSTEM SETTING</li>
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -227,5 +239,6 @@
         </li>
     </ul>
 </li>
+
 @endif
-</li>
+

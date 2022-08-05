@@ -11,6 +11,7 @@ use App\Models\Admin\LeadSources;
 use App\Models\Admin\StudentType;
 use App\Models\User;
 use App\Models\Admin\columnManage;
+use App\Models\VendorDetail;
 use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -49,8 +50,8 @@ class UserController extends AppBaseController
 
         $columnManage = columnManage::where('table_name','user')->where('role_id',auth()->user()->role_id)->first();
         $field = [];
-        if($columnManage){ 
-            $field = json_decode($columnManage->field_status); 
+        if($columnManage){
+            $field = json_decode($columnManage->field_status);
         }
 
         return view('admin.users.index',compact('field'))->with('users', $users);
@@ -60,9 +61,9 @@ class UserController extends AppBaseController
     {
         $columnManage = columnManage::where('table_name',$request->user)->where('role_id',auth()->user()->role_id)->first();
 
-        if($columnManage){  
+        if($columnManage){
 
-            $field = json_decode($columnManage->field_status); 
+            $field = json_decode($columnManage->field_status);
             $storejson = array(
                 'user_col_1' => ($request->user_col_1) ? 1 : null,
                 'user_col_2' => ($request->user_col_2) ? 1 : null,
@@ -71,14 +72,14 @@ class UserController extends AppBaseController
                 'user_col_5' => ($request->user_col_5) ? 1 : null,
                 'user_col_6' => ($request->user_col_6) ? 1 : null,
                 'user_col_7' => ($request->user_col_7) ? 1 : null,
-                'user_col_8' => ($request->user_col_8) ? 1 : null, 
+                'user_col_8' => ($request->user_col_8) ? 1 : null,
             );
 
             columnManage::where('id', $columnManage['id'])->update(
                 [
                 'table_name' => $columnManage['table_name'],
                 'field_status' => json_encode($storejson),
-                'role_id' => $columnManage['role_id'],        
+                'role_id' => $columnManage['role_id'],
                 ]
 
             );
@@ -101,8 +102,14 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-      $role = Role::where('name','!=','super_admin')->pluck('name','id');
-      $branch = Branch::where('status',1)->pluck('title','id');
+      $auth = Auth::user();
+        $role = Role::where('name', '!=', 'super_admin')->pluck('name', 'id');
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+//      $branch = Branch::where('status',1)->pluck('title','id');
       return view('admin.users.create',compact('role','branch'));
     }
 
@@ -164,6 +171,7 @@ class UserController extends AppBaseController
      */
     public function edit($id)
     {
+        $auth = Auth::user();
         $users = User::findorfail($id);
 
         if (empty($users)) {
@@ -172,7 +180,12 @@ class UserController extends AppBaseController
         }
         $users->password = ' ';
         $role = Role::where('name','!=','super_admin')->pluck('name','id');
-        $branch = Branch::where('status',1)->pluck('title','id');
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+       // $branch = Branch::where('status',1)->pluck('title','id');
         return view('admin.users.edit',compact('role','users','branch'));
     }
 

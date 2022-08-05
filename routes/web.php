@@ -71,7 +71,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     // Route::resource('settings', App\Http\Controllers\admin\SettingController::class, ["as" => 'admin']);
 
     //Route::resource('leadSources', App\Http\Controllers\Admin\LeadSourcesController::class, ["as" => 'admin']);
-    Route::get('leadSources', ['as' => 'admin.leadSources.index', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@index']);
+    Route::get('leadSources', ['as' => 'admin.leadSources.index', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@index', 'middleware' => 'can:leadsources_view']);
     Route::get('leadSources/create', ['as' => 'admin.leadSources.create', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@create', 'middleware' => 'can:leadsources_create']);
     Route::post('leadSources/store', ['as' => 'admin.leadSources.store', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@store', 'middleware' => 'can:leadsources_create']);
     Route::get('leadSources/{id}', ['as' => 'admin.leadSources.show', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@show', 'middleware' => 'can:leadsources_view']);
@@ -80,7 +80,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('leadSources/{id}', ['as' => 'admin.leadSources.destroy', 'uses' => 'App\Http\Controllers\Admin\LeadSourcesController@destroy', 'middleware' => 'can:leadsources_delete']);
 
     //Route::resource('expenseTypes', App\Http\Controllers\Admin\ExpenseTypesController::class, ["as" => 'admin']);
-    Route::get('expenseTypes', ['as' => 'admin.expenseTypes.index', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@index']);
+    Route::get('expenseTypes', ['as' => 'admin.expenseTypes.index', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@index','middleware' => 'can:expensetypes_view']);
     Route::get('expenseTypes/create', ['as' => 'admin.expenseTypes.create', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@create', 'middleware' => 'can:expensetypes_create']);
     Route::post('expenseTypes/store', ['as' => 'admin.expenseTypes.store', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@store', 'middleware' => 'can:expensetypes_create']);
     Route::get('expenseTypes/{id}', ['as' => 'admin.expenseTypes.show', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@show', 'middleware' => 'can:expensetypes_view']);
@@ -89,7 +89,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('expenseTypes/{id}', ['as' => 'admin.expenseTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\ExpenseTypesController@destroy', 'middleware' => 'can:expensetypes_delete']);
 
     //Route::resource('enquiryTypes', App\Http\Controllers\Admin\EnquiryTypeController::class, ["as" => 'admin']);
-    Route::get('enquiryTypes', ['as' => 'admin.enquiryTypes.index', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@index']);
+    Route::get('enquiryTypes', ['as' => 'admin.enquiryTypes.index', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@index','middleware' => 'can:enquiry_view']);
     Route::get('enquiryTypes/create', ['as' => 'admin.enquiryTypes.create', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@create', 'middleware' => 'can:enquiry_create']);
     Route::post('enquiryTypes/store', ['as' => 'admin.enquiryTypes.store', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@store', 'middleware' => 'can:enquiry_create']);
     Route::get('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.show', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@show', 'middleware' => 'can:enquiry_view']);
@@ -98,7 +98,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('enquiryTypes/{id}', ['as' => 'admin.enquiryTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\EnquiryTypeController@destroy', 'middleware' => 'can:enquiry_delete']);
 
     //Route::resource('incomeTypes', App\Http\Controllers\Admin\IncomeTypeController::class, ["as" => 'admin']);
-    Route::get('incomeTypes', ['as' => 'admin.incomeTypes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@index']);
+    Route::get('incomeTypes', ['as' => 'admin.incomeTypes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@index','middleware' => 'can:incometypes_view']);
     Route::get('incomeTypes/create', ['as' => 'admin.incomeTypes.create', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@create', 'middleware' => 'can:incometypes_create']);
     Route::post('incomeTypes/store', ['as' => 'admin.incomeTypes.store', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@store', 'middleware' => 'can:incometypes_create']);
     Route::get('incomeTypes/{id}', ['as' => 'admin.incomeTypes.show', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@show', 'middleware' => 'can:incometypes_view']);
@@ -107,7 +107,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('incomeTypes/{id}', ['as' => 'admin.incomeTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\IncomeTypeController@destroy', 'middleware' => 'can:incometypes_delete']);
 
     //Route::resource('courses', App\Http\Controllers\Admin\CourseController::class, ["as" => 'admin']);
-    Route::get('courses', ['as' => 'admin.courses.index', 'uses' => 'App\Http\Controllers\Admin\CourseController@index']);
+    Route::get('courses', ['as' => 'admin.courses.index', 'uses' => 'App\Http\Controllers\Admin\CourseController@index','middleware' => 'can:courses_view']);
     Route::post('coursecolums-coursees', ['as' => 'admin.courseescoursecolums.coursecolums', 'uses' => 'App\Http\Controllers\Admin\CourseController@coursecolums']);
 
     Route::get('courses/create', ['as' => 'admin.courses.create', 'uses' => 'App\Http\Controllers\Admin\CourseController@create', 'middleware' => 'can:courses_create']);
@@ -118,7 +118,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('courses/{id}', ['as' => 'admin.courses.destroy', 'uses' => 'App\Http\Controllers\Admin\CourseController@destroy', 'middleware' => 'can:courses_delete']);
 
    // Route::resource('batches', App\Http\Controllers\Admin\BatchController::class, ["as" => 'admin']);
-    Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index']);
+    Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index','middleware' => 'can:batches_view']);
     Route::post('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
     Route::post('batchcolums-batches', ['as' => 'admin.batchesbatchcolums.batchcolums', 'uses' => 'App\Http\Controllers\Admin\BatchController@batchcolums']);
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
@@ -129,7 +129,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('batches/{id}', ['as' => 'admin.batches.destroy', 'uses' => 'App\Http\Controllers\Admin\BatchController@destroy', 'middleware' => 'can:batches_delete']);
 
     //Route::resource('incomes', App\Http\Controllers\Admin\IncomeController::class, ["as" => 'admin']);
-    Route::get('incomes', ['as' => 'admin.incomes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeController@index']);
+    Route::get('incomes', ['as' => 'admin.incomes.index', 'uses' => 'App\Http\Controllers\Admin\IncomeController@index','middleware' => 'can:incomes_view']);
     Route::get('filter-incomes', ['as' => 'admin.incomesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\IncomeController@filter']);
     Route::post('incomecolums-incomees', ['as' => 'admin.incomeesincomecolums.incomecolums', 'uses' => 'App\Http\Controllers\Admin\IncomeController@incomecolums']);
     Route::get('incomes/create', ['as' => 'admin.incomes.create', 'uses' => 'App\Http\Controllers\Admin\IncomeController@create', 'middleware' => 'can:incomes_create']);
@@ -140,7 +140,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('incomes/{id}', ['as' => 'admin.incomes.destroy', 'uses' => 'App\Http\Controllers\Admin\IncomeController@destroy', 'middleware' => 'can:incomes_delete']);
 
     //Route::resource('trainers', App\Http\Controllers\Admin\TrainerController::class, ["as" => 'admin']);
-    Route::get('trainers', ['as' => 'admin.trainers.index', 'uses' => 'App\Http\Controllers\Admin\TrainerController@index']);
+    Route::get('trainers', ['as' => 'admin.trainers.index', 'uses' => 'App\Http\Controllers\Admin\TrainerController@index','middleware' => 'can:trainers_view']);
     Route::post('trainercolums-traineres', ['as' => 'admin.trainerestrainercolums.trainercolums', 'uses' => 'App\Http\Controllers\Admin\TrainerController@trainercolums']);
 
     Route::get('trainers/create', ['as' => 'admin.trainers.create', 'uses' => 'App\Http\Controllers\Admin\TrainerController@create', 'middleware' => 'can:trainers_create']);
@@ -151,7 +151,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('trainers/{id}', ['as' => 'admin.trainers.destroy', 'uses' => 'App\Http\Controllers\Admin\TrainerController@destroy', 'middleware' => 'can:trainers_delete']);
 
     //Route::resource('students', App\Http\Controllers\Admin\StudentController::class, ["as" => 'admin']);
-    Route::get('students', ['as' => 'admin.students.index', 'uses' => 'App\Http\Controllers\Admin\StudentController@index']);
+    Route::get('students', ['as' => 'admin.students.index', 'uses' => 'App\Http\Controllers\Admin\StudentController@index','middleware' => 'can:students_view']);
     Route::post('studentcolums-studentes', ['as' => 'admin.studentesstudentcolums.studentcolums', 'uses' => 'App\Http\Controllers\Admin\StudentController@studentcolums']);
     Route::get('students/create', ['as' => 'admin.students.create', 'uses' => 'App\Http\Controllers\Admin\StudentController@create', 'middleware' => 'can:students_create']);
     Route::post('students/store', ['as' => 'admin.students.store', 'uses' => 'App\Http\Controllers\Admin\StudentController@store', 'middleware' => 'can:students_create']);
@@ -161,7 +161,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('students/{id}', ['as' => 'admin.students.destroy', 'uses' => 'App\Http\Controllers\Admin\StudentController@destroy', 'middleware' => 'can:students_delete']);
 
     //Route::resource('batchModes', App\Http\Controllers\Admin\BatchModeController::class, ["as" => 'admin']);
-    Route::get('batchModes', ['as' => 'admin.batchModes.index', 'uses' => 'App\Http\Controllers\Admin\BatchModeController@index']);
+    Route::get('batchModes', ['as' => 'admin.batchModes.index', 'uses' => 'App\Http\Controllers\Admin\BatchModeController@index','middleware' => 'can:batchmodes_view']);
     Route::get('batchModes/create', ['as' => 'admin.batchModes.create', 'uses' => 'App\Http\Controllers\Admin\BatchModeController@create', 'middleware' => 'can:batchmodes_create']);
     Route::post('batchModes/store', ['as' => 'admin.batchModes.store', 'uses' => 'App\Http\Controllers\Admin\BatchModeController@store', 'middleware' => 'can:batchModes_create']);
     Route::get('batchModes/{id}', ['as' => 'admin.batchModes.show', 'uses' => 'App\Http\Controllers\Admin\BatchModeController@show', 'middleware' => 'can:batchmodes_view']);
@@ -170,7 +170,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('batchModes/{id}', ['as' => 'admin.batchModes.destroy', 'uses' => 'App\Http\Controllers\Admin\BatchModeController@destroy', 'middleware' => 'can:batchmodes_delete']);
 
     //Route::resource('revenueTypes', App\Http\Controllers\Admin\RevenueTypeController::class, ["as" => 'admin']);
-    Route::get('revenueTypes', ['as' => 'admin.revenueTypes.index', 'uses' => 'App\Http\Controllers\Admin\RevenueTypeController@index']);
+    Route::get('revenueTypes', ['as' => 'admin.revenueTypes.index', 'uses' => 'App\Http\Controllers\Admin\RevenueTypeController@index','middleware' => 'can:revenuetypes_view']);
     Route::get('revenueTypes/create', ['as' => 'admin.revenueTypes.create', 'uses' => 'App\Http\Controllers\Admin\RevenueTypeController@create', 'middleware' => 'can:revenuetypes_create']);
     Route::post('revenueTypes/store', ['as' => 'admin.revenueTypes.store', 'uses' => 'App\Http\Controllers\Admin\RevenueTypeController@store', 'middleware' => 'can:revenuetypes_create']);
     Route::get('revenueTypes/{id}', ['as' => 'admin.revenueTypes.show', 'uses' => 'App\Http\Controllers\Admin\RevenueTypeController@show', 'middleware' => 'can:revenuetypes_view']);
@@ -179,7 +179,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('revenueTypes/{id}', ['as' => 'admin.revenueTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\RevenueTypeController@destroy', 'middleware' => 'can:revenuetypes_delete']);
 
     //Route::resource('batchTypes', App\Http\Controllers\Admin\BatchTypeController::class, ["as" => 'admin']);
-     Route::get('batchTypes', ['as' => 'admin.batchTypes.index', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@index']);
+     Route::get('batchTypes', ['as' => 'admin.batchTypes.index', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@index','middleware' => 'can:batchtypes_view']);
     Route::get('batchTypes/create', ['as' => 'admin.batchTypes.create', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@create', 'middleware' => 'can:batchtypes_create']);
     Route::post('batchTypes/store', ['as' => 'admin.batchTypes.store', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@store', 'middleware' => 'can:batchtypes_create']);
     Route::get('batchTypes/{id}', ['as' => 'admin.batchTypes.show', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@show', 'middleware' => 'can:batchtypes_view']);
@@ -188,7 +188,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('batchTypes/{id}', ['as' => 'admin.batchTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\BatchTypeController@destroy', 'middleware' => 'can:batchtypes_delete']);
 
     //Route::resource('modeOfPayments', App\Http\Controllers\Admin\ModeOfPaymentController::class, ["as" => 'admin']);
-    Route::get('modeOfPayments', ['as' => 'admin.modeOfPayments.index', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@index']);
+    Route::get('modeOfPayments', ['as' => 'admin.modeOfPayments.index', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@index','middleware' => 'can:payments_view']);
     Route::get('modeOfPayments/create', ['as' => 'admin.modeOfPayments.create', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@create', 'middleware' => 'can:payments_view']);
     Route::post('modeOfPayments/store', ['as' => 'admin.modeOfPayments.store', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@store', 'middleware' => 'can:payments_create']);
     Route::get('modeOfPayments/{id}', ['as' => 'admin.modeOfPayments.show', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@show', 'middleware' => 'can:payments_view']);
@@ -197,7 +197,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('modeOfPayments/{id}', ['as' => 'admin.modeOfPayments.destroy', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@destroy', 'middleware' => 'can:payments_delete']);
 
     //Route::resource('branches', App\Http\Controllers\Admin\BranchController::class, ["as" => 'admin']);
-    Route::get('branches', ['as' => 'admin.branches.index', 'uses' => 'App\Http\Controllers\Admin\BranchController@index']);
+    Route::get('branches', ['as' => 'admin.branches.index', 'uses' => 'App\Http\Controllers\Admin\BranchController@index','middleware' => 'can:branch_view']);
     Route::get('branches/create', ['as' => 'admin.branches.create', 'uses' => 'App\Http\Controllers\Admin\BranchController@create', 'middleware' => 'can:branch_create']);
     Route::post('branches/store', ['as' => 'admin.branches.store', 'uses' => 'App\Http\Controllers\Admin\BranchController@store', 'middleware' => 'can:branch_create']);
     Route::get('branches/{id}', ['as' => 'admin.branches.show', 'uses' => 'App\Http\Controllers\Admin\BranchController@show', 'middleware' => 'can:branch_view']);
@@ -206,7 +206,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('branches/{id}', ['as' => 'admin.branches.destroy', 'uses' => 'App\Http\Controllers\Admin\BranchController@destroy', 'middleware' => 'can:branch_delete']);
 
     //Route::resource('franchises', App\Http\Controllers\Admin\FranchiseController::class, ["as" => 'admin']);
-    Route::get('franchises', ['as' => 'admin.franchises.index', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@index']);
+    Route::get('franchises', ['as' => 'admin.franchises.index', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@index','middleware' => 'can:franchises_view']);
     Route::get('franchises/create', ['as' => 'admin.franchises.create', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@create', 'middleware' => 'can:franchises_create']);
     Route::post('franchises/store', ['as' => 'admin.franchises.store', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@store', 'middleware' => 'can:franchises_create']);
     Route::get('franchises/{id}', ['as' => 'admin.franchises.show', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@show', 'middleware' => 'can:franchises_view']);
@@ -215,7 +215,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('franchises/{id}', ['as' => 'admin.franchises.destroy', 'uses' => 'App\Http\Controllers\Admin\FranchiseController@destroy', 'middleware' => 'can:franchises_delete']);
 
     //Route::resource('studentTypes', App\Http\Controllers\Admin\StudentTypeController::class, ["as" => 'admin']);
-    Route::get('studentTypes', ['as' => 'admin.studentTypes.index', 'uses' => 'App\Http\Controllers\Admin\StudentTypeController@index']);
+    Route::get('studentTypes', ['as' => 'admin.studentTypes.index', 'uses' => 'App\Http\Controllers\Admin\StudentTypeController@index','middleware' => 'can:studenttypes_view']);
     Route::get('studentTypes/create', ['as' => 'admin.studentTypes.create', 'uses' => 'App\Http\Controllers\Admin\StudentTypeController@create', 'middleware' => 'can:studenttypes_create']);
     Route::post('studentTypes/store', ['as' => 'admin.studentTypes.store', 'uses' => 'App\Http\Controllers\Admin\StudentTypeController@store', 'middleware' => 'can:studenttypes_create']);
     Route::get('studentTypes/{id}', ['as' => 'admin.studentTypes.show', 'uses' => 'App\Http\Controllers\Admin\StudentTypeController@show', 'middleware' => 'can:studenttypes_view']);
@@ -224,7 +224,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('studentTypes/{id}', ['as' => 'admin.studentTypes.destroy', 'uses' => 'App\Http\Controllers\Admin\StudentTypeController@destroy', 'middleware' => 'can:studenttypes_delete']);
 
     //Route::resource('settings', App\Http\Controllers\Admin\SettingController::class, ["as" => 'admin']);
-    Route::get('settings', ['as' => 'admin.settings.index', 'uses' => 'App\Http\Controllers\Admin\SettingController@index']);
+    Route::get('settings', ['as' => 'admin.settings.index', 'uses' => 'App\Http\Controllers\Admin\SettingController@index','middleware' => 'can:settings_view']);
     Route::get('settings/create', ['as' => 'admin.settings.create', 'uses' => 'App\Http\Controllers\Admin\SettingController@create', 'middleware' => 'can:settings_create']);
     Route::post('settings/store', ['as' => 'admin.settings.store', 'uses' => 'App\Http\Controllers\Admin\SettingController@store', 'middleware' => 'can:settings_create']);
     Route::get('settings/{id}', ['as' => 'admin.settings.show', 'uses' => 'App\Http\Controllers\Admin\SettingController@show', 'middleware' => 'can:settings_view']);
@@ -235,7 +235,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::resource('bankAccounts', App\Http\Controllers\Admin\BankAccountController::class, ["as" => 'admin']);
     Route::resource('trainerFreeSlabs', App\Http\Controllers\Admin\TrainerFreeSlabController::class, ["as" => 'admin']);
     //Route::resource('corporates', App\Http\Controllers\Admin\CorporateController::class, ["as" => 'admin']);
-    Route::get('corporates', ['as' => 'admin.corporates.index', 'uses' => 'App\Http\Controllers\Admin\CorporateController@index']);
+    Route::get('corporates', ['as' => 'admin.corporates.index', 'uses' => 'App\Http\Controllers\Admin\CorporateController@index','middleware' => 'can:corporates_view']);
     Route::post('corporatecolums-corporatees', ['as' => 'admin.corporateescorporatecolums.corporatecolums', 'uses' => 'App\Http\Controllers\Admin\CorporateController@corporatecolums']);
     Route::post('filter-corporates', ['as' => 'admin.corporatesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\CorporateController@filter']);
     Route::get('corporates/create', ['as' => 'admin.corporates.create', 'uses' => 'App\Http\Controllers\Admin\CorporateController@create', 'middleware' => 'can:corporates_create']);
@@ -246,7 +246,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('corporates/{id}', ['as' => 'admin.corporates.destroy', 'uses' => 'App\Http\Controllers\Admin\CorporateController@destroy', 'middleware' => 'can:corporates_delete']);
  //  Route::group(['middleware' => 'role'], function () {
   //  Route::resource('users', App\Http\Controllers\Admin\UserController::class, ["as" => 'admin']);
-    Route::get('users', ['as' => 'admin.users.index', 'uses' => 'App\Http\Controllers\Admin\UserController@index']);
+    Route::get('users', ['as' => 'admin.users.index', 'uses' => 'App\Http\Controllers\Admin\UserController@index','middleware' => 'can:user_view']);
     Route::post('usercolums-useres', ['as' => 'admin.useresusercolums.usercolums', 'uses' => 'App\Http\Controllers\Admin\UserController@usercolums']);
     Route::get('users/create', ['as' => 'admin.users.create', 'uses' => 'App\Http\Controllers\Admin\UserController@create', 'middleware' => 'can:user_create']);
     Route::post('users/store', ['as' => 'admin.users.store', 'uses' => 'App\Http\Controllers\Admin\UserController@store', 'middleware' => 'can:user_create']);
@@ -257,7 +257,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 //     });
 
    // Route::resource('expenceMasters', App\Http\Controllers\Admin\ExpenceMasterController::class, ["as" => 'admin']);
-    Route::get('expenceMasters', ['as' => 'admin.expenceMasters.index', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@index']);
+    Route::get('expenceMasters', ['as' => 'admin.expenceMasters.index', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@index','middleware' => 'can:expence_view']);
     Route::post('expencecolums-expencees', ['as' => 'admin.expenceesexpencecolums.expencecolums', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@expencecolums']);
 
     Route::get('filter-expence', ['as' => 'admin.expenseFilter.filter', 'uses' => 'App\Http\Controllers\Admin\ExpenceMasterController@filter']);

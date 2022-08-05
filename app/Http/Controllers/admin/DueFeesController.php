@@ -43,6 +43,7 @@ class DueFeesController extends Controller
 
     public function edit($id,$type)
     {
+        $auth = Auth::user();
         if ($type == 'Corporate'){
          $user =  Corporate::with('branch')->findorfail($id);
         $userdetail =  CorporateDetail::with('course')->where('corporate_id',$id)->get();
@@ -50,8 +51,18 @@ class DueFeesController extends Controller
          $user = Student::findorfail($id);
          $userdetail =  StudentDetail::with('course')->where('student_id',$id)->get();
         }
-        $branch = Branch::pluck('title','id');
-        $course = Course::pluck('course_name','id');
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
+//        $branch = Branch::pluck('title','id');
+//        $course = Course::pluck('course_name','id');
         $bank = ModeOfPayment::pluck('name','id');
 
      //   dd($userdetail[0]['course']['course_name']);

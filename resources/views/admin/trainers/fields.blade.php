@@ -13,7 +13,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('course_id', 'Course Name:') !!}
     {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}
-</div> 
+    <span class="error text-danger">{{ $errors->first('course_id') }}</span>
+</div>
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', 'Email:') !!}
