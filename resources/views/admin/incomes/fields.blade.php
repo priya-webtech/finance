@@ -368,6 +368,14 @@
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Pay Amount</label> <span class="error-pay_amount" style="color:red"></span><br>
+                    <input id="value" step=".01" name="student[0][pay_amount]"
+                           class="form-control pay_amount" type="number">
+
+                </div>
+            </div>
             <div class="col-sm-2">
                 <div class="form-group">
                     <br>

@@ -36,8 +36,8 @@
 
     <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
 
-    <form data-action="{{ route('admin.batchesFilter.filter') }}" method="post" style="margin-top: 20px;">
-    @csrf
+    <form action="{{ route('admin.batchesFilter.filter') }}" method="get" style="margin-top: 20px;">
+    
     <div class="form-group col-sm-6">
        {!! Form::label('course_id', 'Course Name:') !!}
         {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}

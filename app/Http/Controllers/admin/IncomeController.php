@@ -53,15 +53,17 @@ class IncomeController extends AppBaseController
     public function index(Request $request)
     {
         $auth =Auth::user();
+          $inType = IncomeType::where('title','!=','Retail Training')->Where('title','!=','Corporate Training')->pluck('id')->toArray();
          $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $incomes = Income::get()->toArray();
+             $incomes = Income::whereIn('income_type_id',$inType)->get()->toArray();
         }else{
             $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+           
             $corporate = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $incomes = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+            $incomes = Income::where('branch_id',$auth->branch_id)->whereIn('income_type_id',$inType)->get()->toArray();
         }
 
         $merge = array_merge($student, $corporate,$incomes);
@@ -126,11 +128,22 @@ class IncomeController extends AppBaseController
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $incomes = Income::where('income_type_id',$request->income_type_id)->orWhere('mode_of_payment', '=', $request->mode_of_payment)->get()->toArray();
+            $incomes = Income::orwhere('income_type_id',$request->income_type_id)->orWhere('mode_of_payment', '=', $request->mode_of_payment)->get()->toArray();
         }else{
             $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $incomes = Income::where('branch_id',$auth->branch_id)->where('income_type_id',$request->income_type_id)->orWhere('mode_of_payment', '=', $request->mode_of_payment)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+
+             $incomesQuery=Income::query();
+             $incomesQuery->where('branch_id',$auth->branch_id);
+             $incomes  = $incomesQuery->where(function($query) use($request,$auth){
+                            
+                                       $query->orwhere('income_type_id',$request['income_type_id'])
+                                      ->orWhere('mode_of_payment',$request['mode_of_payment'])
+                                      ->doesntHave('corporateStudFees')->doesntHave('incomeStudFees');
+                            })->get()->toArray();
+
+
+          //  $incomes = Income::where('branch_id',$auth->branch_id)->orwhere('income_type_id',$request->income_type_id)->orWhere('mode_of_payment', '=', $request->mode_of_payment)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
         }
 
         $merge = array_merge($student, $corporate,$incomes);
@@ -359,11 +372,12 @@ class IncomeController extends AppBaseController
      */
     public function edit($id)
     {
+
         $students = ' ';
         $corporate = ' ';
         $income = ' ';
    if (\request('type') == 'corporate') {
-
+      
             $corporate = Corporate::findorfail($id);
        $corporate['name'] = $corporate['company_name'];
        $corporate['mobile_no'] = $corporate['contact_no'];

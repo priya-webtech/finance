@@ -119,7 +119,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
    // Route::resource('batches', App\Http\Controllers\Admin\BatchController::class, ["as" => 'admin']);
     Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index']);
-    Route::post('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
+    Route::get('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
     Route::post('batchcolums-batches', ['as' => 'admin.batchesbatchcolums.batchcolums', 'uses' => 'App\Http\Controllers\Admin\BatchController@batchcolums']);
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
     Route::post('batches/store', ['as' => 'admin.batches.store', 'uses' => 'App\Http\Controllers\Admin\BatchController@store', 'middleware' => 'can:batches_create']);

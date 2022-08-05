@@ -17,6 +17,7 @@ use App\Repositories\Admin\ExpenceMasterRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Nette\Utils\DateTime;
 use phpDocumentor\Reflection\Types\Null_;
 use Response;
@@ -57,6 +58,8 @@ class ExpenceMasterController extends AppBaseController
     }
     public function filter(Request $request)
     {   
+
+        $auth =Auth::user();
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
@@ -65,8 +68,18 @@ class ExpenceMasterController extends AppBaseController
         $batch       = Batch::where('status',1)->pluck('name','id');
         $student       = Student::where('status',1)->pluck('name','id');
 
+
         //dd($request);
-        $expenceMasters = ExpenceMaster::where('expence_type_id',$request->expence_type_id)->orWhere('bank_ac_id', '=', $request->bank_ac_id)->orWhere('trainer_id', '=',  $request->trainer_id)->paginate(10);
+       // $expenceMasters = ExpenceMaster::where('expence_type_id',$request->expence_type_id)->orWhere('bank_ac_id', '=', $request->bank_ac_id)->orWhere('trainer_id', '=',  $request->trainer_id)->paginate(10);
+
+        $expenceMastersQuery=ExpenceMaster::query();
+        $expenceMastersQuery->where('branch_id',$auth->branch_id);
+        $expenceMasters  = $expenceMastersQuery->where(function($query) use($request){
+                               $query->orwhere('expence_type_id',$request['expence_type_id'])
+                              ->orWhere('bank_ac_id',$request['bank_ac_id'])
+                              ->orWhere('trainer_id',$request['trainer_id']);
+                    })->paginate(10);
+
         $field = [];
         if($columnManage){ 
             $field = json_decode($columnManage->field_status); 

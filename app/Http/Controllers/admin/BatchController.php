@@ -97,6 +97,7 @@ class BatchController extends AppBaseController
     public function filter(Request $request)
     {
 
+        
         $columnManage = columnManage::where('table_name','batch')->where('role_id',auth()->user()->role_id)->first();
         $course =  Course::where('status',1)->pluck('course_name','id');
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
