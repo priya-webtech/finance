@@ -118,13 +118,9 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::delete('courses/{id}', ['as' => 'admin.courses.destroy', 'uses' => 'App\Http\Controllers\Admin\CourseController@destroy', 'middleware' => 'can:courses_delete']);
 
    // Route::resource('batches', App\Http\Controllers\Admin\BatchController::class, ["as" => 'admin']);
-<<<<<<< HEAD
+
     Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index']);
     Route::get('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
-=======
-    Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index','middleware' => 'can:batches_view']);
-    Route::post('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
->>>>>>> 920281cb6b706e0635ff91f225e6bf326528896d
     Route::post('batchcolums-batches', ['as' => 'admin.batchesbatchcolums.batchcolums', 'uses' => 'App\Http\Controllers\Admin\BatchController@batchcolums']);
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
     Route::post('batches/store', ['as' => 'admin.batches.store', 'uses' => 'App\Http\Controllers\Admin\BatchController@store', 'middleware' => 'can:batches_create']);
