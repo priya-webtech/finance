@@ -7,15 +7,18 @@
       <change afterPath="$PROJECT_DIR$/database.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/public.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/fundoo-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fundoo-app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/BatchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/BatchController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/CorporateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/CorporateController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/StudentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/StudentController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/TrainerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/TrainerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/Role.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarcompanyAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarmodelAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCaryearAPIRequest.php" beforeDir="false" />
@@ -34,16 +37,13 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateSettingAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStateAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStaticdataAPIRequest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Student.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/Admin/TrainerRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/Admin/TrainerRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Trainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Trainer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/batches/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/batches/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/corporates/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/courses/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/courses/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/students/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/students/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/trainers/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/trainers/table.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users/table.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users/table.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/trainers/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/trainers/fields.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +77,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="paresh" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -223,6 +223,10 @@
       <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
       <path value="$PROJECT_DIR$/vendor/anhskohbo/no-captcha" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
     </include_path>
   </component>
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
@@ -319,6 +323,16 @@
       <workItem from="1658809625956" duration="16686000" />
       <workItem from="1658914720198" duration="10896000" />
       <workItem from="1658982455207" duration="5988000" />
+      <workItem from="1659158335827" duration="615000" />
+      <workItem from="1659161645422" duration="45000" />
+      <workItem from="1659161774540" duration="2297000" />
+      <workItem from="1659339081766" duration="2114000" />
+      <workItem from="1659414809209" duration="83000" />
+      <workItem from="1659419769734" duration="2635000" />
+      <workItem from="1659500513057" duration="829000" />
+      <workItem from="1659527132970" duration="1502000" />
+      <workItem from="1659604069636" duration="12426000" />
+      <workItem from="1659674139123" duration="13836000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -348,7 +362,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658580491157</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="28/07/22">
+      <created>1659013032263</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1659013032263</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -372,7 +393,8 @@
     <MESSAGE value="21/07/22" />
     <MESSAGE value="19/07/22" />
     <MESSAGE value="23/07/22" />
-    <option name="LAST_COMMIT_MESSAGE" value="23/07/22" />
+    <MESSAGE value="28/07/22" />
+    <option name="LAST_COMMIT_MESSAGE" value="28/07/22" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -406,6 +428,11 @@
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
           <line>299</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/layouts/menu.blade.php</url>
+          <line>10</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Models/Admin/Income.php</url>

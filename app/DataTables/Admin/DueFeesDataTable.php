@@ -10,6 +10,7 @@ use App\Models\Admin\Income;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
 use App\Models\Admin\StudentFessCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -98,8 +99,16 @@ class DueFeesDataTable extends DataTable
      */
     public function query()
     {
-        $a = Student::select('id','name','email','mobile_no', DB::raw("'Student' AS `type`"));
-        $b = Corporate::select('id','company_name','email','contact_no', DB::raw("'Corporate' AS `type`"));
+       $auth = Auth::user();
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $a = Student::select('id','name','email','mobile_no', DB::raw("'Student' AS `type`"));
+            $b = Corporate::select('id','company_name','email','contact_no', DB::raw("'Corporate' AS `type`"));
+        }else{
+            $a = Student::where('branch_id',$auth->branch_id)->select('id','name','email','mobile_no', DB::raw("'Student' AS `type`"));
+            $b = Corporate::where('branch_id',$auth->branch_id)->select('id','company_name','email','contact_no', DB::raw("'Corporate' AS `type`"));
+        }
+
+
         return $a->union($b)->orderBy('type');
     }
 

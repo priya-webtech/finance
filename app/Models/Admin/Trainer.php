@@ -31,8 +31,9 @@ class Trainer extends Model
         'contact_no',
         'profile_pic',
         'branch_id',
+        'course_id',
         'created_by',
-        'updated_by'
+        'updated_by',
     ];
 
     /**
@@ -56,8 +57,8 @@ class Trainer extends Model
         'trainer_name' => 'required',
         'email' => 'required',
         'contact_no' => 'required|digits:10',
-        'profile_pic'  => 'required',
-        'branch_id'  => 'required',
+         'branch_id'  => 'required',
+         'course_id'  => 'required',
     ];
 
     public function branch(){

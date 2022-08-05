@@ -53,12 +53,14 @@ class IncomeController extends AppBaseController
     public function index(Request $request)
     {
         $auth =Auth::user();
+
           $inType = IncomeType::where('title','!=','Retail Training')->Where('title','!=','Corporate Training')->pluck('id')->toArray();
          $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
              $incomes = Income::whereIn('income_type_id',$inType)->get()->toArray();
+       
         }else{
             $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
            
@@ -71,8 +73,8 @@ class IncomeController extends AppBaseController
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
 
         $field = [];
-        if($columnManage){ 
-            $field = json_decode($columnManage->field_status); 
+        if($columnManage){
+            $field = json_decode($columnManage->field_status);
         }
 
 
@@ -83,9 +85,9 @@ class IncomeController extends AppBaseController
     {
         $columnManage = columnManage::where('table_name',$request->income)->where('role_id',auth()->user()->role_id)->first();
 
-        if($columnManage){  
+        if($columnManage){
 
-            $field = json_decode($columnManage->field_status); 
+            $field = json_decode($columnManage->field_status);
             $storejson = array(
                 'income_col_1' => ($request->income_col_1) ? 1 : null,
                 'income_col_2' => ($request->income_col_2) ? 1 : null,
@@ -94,14 +96,14 @@ class IncomeController extends AppBaseController
                 'income_col_5' => ($request->income_col_5) ? 1 : null,
                 'income_col_6' => ($request->income_col_6) ? 1 : null,
                 'income_col_7' => ($request->income_col_7) ? 1 : null,
-                'income_col_8' => ($request->income_col_8) ? 1 : null, 
+                'income_col_8' => ($request->income_col_8) ? 1 : null,
             );
 
             columnManage::where('id', $columnManage['id'])->update(
                 [
                 'table_name' => $columnManage['table_name'],
                 'field_status' => json_encode($storejson),
-                'role_id' => $columnManage['role_id'],        
+                'role_id' => $columnManage['role_id'],
                 ]
 
             );
@@ -118,7 +120,7 @@ class IncomeController extends AppBaseController
         }
     }
     public function filter(Request $request)
-    {   
+    {
         $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
 
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
@@ -149,8 +151,8 @@ class IncomeController extends AppBaseController
         $merge = array_merge($student, $corporate,$incomes);
 
         $field = [];
-        if($columnManage){ 
-            $field = json_decode($columnManage->field_status); 
+        if($columnManage){
+            $field = json_decode($columnManage->field_status);
         }
 
         return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','field'));
@@ -163,17 +165,53 @@ class IncomeController extends AppBaseController
      */
     public function create()
     {
-        $course =  Course::where('status',1)->pluck('course_name','id');
+        $auth = Auth::user();
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
+        $batch = Batch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->whereHas('course', function($query) use ($auth){
+                    $query->where('branch_id', '=', $auth->branch_id);
+                });
+            }
+        })->pluck('name','id');
+        $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+        $corporate = Corporate::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('company_name', 'id');
+        $user = User::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+                $query->where('role_id', '=', 6);
+            }
+        })->pluck('name', 'id');
+      //  $course =  Course::where('status',1)->pluck('course_name','id');
+      //  $batch =  Batch::where('status',1)->pluck('name','id');
+//        $branch = Branch::where('status',1)->pluck('title','id');
+       // $corporate = Corporate::where('status',1)->pluck('company_name','id');
+      //  $user = User::where('role_id',6)->pluck('name','id');
+       // $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
+
+
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
-        $batch =  Batch::where('status',1)->pluck('name','id');
-        $branch = Branch::where('status',1)->pluck('title','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
-        $corporate = Corporate::where('status',1)->pluck('company_name','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
-        $user = User::where('role_id',6)->pluck('name','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
-        $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
         $path = asset('country.json');
         $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
 
@@ -394,22 +432,47 @@ class IncomeController extends AppBaseController
        $income['paying_amount'] =  $income->paying_amount+$income->gst;
        $income['title'] =  $income->franchise->title ?? ' ';
    }
-        $course =  Course::where('status',1)->pluck('course_name','id');
+
+        $auth = Auth::user();
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
+        $batch = Batch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->whereHas('course', function($query) use ($auth){
+                    $query->where('branch_id', '=', $auth->branch_id);
+                });
+            }
+        })->pluck('name','id');
+        $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+
+      //  $course =  Course::where('status',1)->pluck('course_name','id');
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
-        $student =  Student::where('status',1)->pluck('name','id');
-        $batch =  Batch::where('status',1)->pluck('name','id');
-        $branch = Branch::where('status',1)->pluck('title','id');
-        $bankAccount = BankAccount::where('status',1)->pluck('name','id');
+        //$student =  Student::where('status',1)->pluck('name','id');
+        //$batch =  Batch::where('status',1)->pluck('name','id');
+       // $branch = Branch::where('status',1)->pluck('title','id');
+       // $bankAccount = BankAccount::where('status',1)->pluck('name','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
 //        $corporate = Corporate::where('status',1)->pluck('company_name','id');
         $franchise = Franchise::where('status',1)->pluck('title','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
-        $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
+       // $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
         $path = asset('country.json');
         $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
-        return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','bankAccount','country','incomeType','student','batch','modeOfPayment','corporate','franchise','income'));
+        return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','country','incomeType','batch','modeOfPayment','corporate','franchise','income'));
     }
     public function update($id, UpdateIncomeRequest $request)
     {
@@ -638,7 +701,6 @@ class IncomeController extends AppBaseController
     {
         $batch= Batch::where('id',\request('batchID'))->first();
         $result = Trainer::where('id',$batch->trainer_id)->pluck('trainer_name','id');
-
         return response()->json($result);
     }
 }

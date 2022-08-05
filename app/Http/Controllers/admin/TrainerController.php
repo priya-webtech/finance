@@ -47,8 +47,8 @@ class TrainerController extends AppBaseController
 
         $columnManage = columnManage::where('table_name','trainer')->where('role_id',auth()->user()->role_id)->first();
         $field = [];
-        if($columnManage){ 
-            $field = json_decode($columnManage->field_status); 
+        if($columnManage){
+            $field = json_decode($columnManage->field_status);
         }
 
         return view('admin.trainers.index',compact('field'))
@@ -59,9 +59,9 @@ class TrainerController extends AppBaseController
     {
         $columnManage = columnManage::where('table_name',$request->trainer)->where('role_id',auth()->user()->role_id)->first();
 
-        if($columnManage){  
+        if($columnManage){
 
-            $field = json_decode($columnManage->field_status); 
+            $field = json_decode($columnManage->field_status);
             $storejson = array(
                 'trainer_col_1' => ($request->trainer_col_1) ? 1 : null,
                 'trainer_col_2' => ($request->trainer_col_2) ? 1 : null,
@@ -70,14 +70,14 @@ class TrainerController extends AppBaseController
                 'trainer_col_5' => ($request->trainer_col_5) ? 1 : null,
                 'trainer_col_6' => ($request->trainer_col_6) ? 1 : null,
                 'trainer_col_7' => ($request->trainer_col_7) ? 1 : null,
-                'trainer_col_8' => ($request->trainer_col_8) ? 1 : null, 
+                'trainer_col_8' => ($request->trainer_col_8) ? 1 : null,
             );
 
             columnManage::where('id', $columnManage['id'])->update(
                 [
                 'table_name' => $columnManage['table_name'],
                 'field_status' => json_encode($storejson),
-                'role_id' => $columnManage['role_id'],        
+                'role_id' => $columnManage['role_id'],
                 ]
 
             );
@@ -101,9 +101,18 @@ class TrainerController extends AppBaseController
      */
     public function create()
     {
-      //  $batch  = Batch::where('status',1)->pluck('name','id');
-        $course =  Course::where('status',1)->pluck('course_name','id');
-        $branch = Branch::where('status',1)->pluck('title','id');
+        $auth = Auth::user();
+        //$course =  Course::where('status',1)->pluck('course_name','id');
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
         return view('admin.trainers.create',compact('branch','course'));
     }
 
@@ -118,12 +127,6 @@ class TrainerController extends AppBaseController
     {
         $input = $request->all();
         $input['status'] = 1;
-
-        /*if ($request->hasFile("profile_pic")) {
-            $img = $request->file("profile_pic");
-            $img->store('public/trainer');
-            $input['profile_pic'] = $img->hashName();
-        }*/
         $input['created_by'] = Auth::id();
         $trainer = $this->trainerRepository->create($input);
 
@@ -161,15 +164,23 @@ class TrainerController extends AppBaseController
      */
     public function edit($id)
     {
+        $auth = Auth::user();
         $trainer = $this->trainerRepository->find($id);
 
         if (empty($trainer)) {
             Flash::error('Trainer not found');
             return redirect(route('admin.trainers.index'));
         }
-        //$batch  = Batch::where('status',1)->pluck('name','id');
-        $course =  Course::where('status',1)->pluck('course_name','id');
-        $branch = Branch::where('status',1)->pluck('title','id');
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
         return view('admin.trainers.edit',compact('trainer','branch','course'));
     }
 

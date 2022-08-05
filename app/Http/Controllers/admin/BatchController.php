@@ -59,9 +59,9 @@ class BatchController extends AppBaseController
     {
         $columnManage = columnManage::where('table_name',$request->batch)->where('role_id',auth()->user()->role_id)->first();
 
-        if($columnManage){  
+        if($columnManage){
 
-            $field = json_decode($columnManage->field_status); 
+            $field = json_decode($columnManage->field_status);
             $storejson = array(
                 'batch_col_1' => ($request->batch_col_1) ? 1 : null,
                 'batch_col_2' => ($request->batch_col_2) ? 1 : null,
@@ -70,14 +70,14 @@ class BatchController extends AppBaseController
                 'batch_col_5' => ($request->batch_col_5) ? 1 : null,
                 'batch_col_6' => ($request->batch_col_6) ? 1 : null,
                 'batch_col_7' => ($request->batch_col_7) ? 1 : null,
-                'batch_col_8' => ($request->batch_col_8) ? 1 : null, 
+                'batch_col_8' => ($request->batch_col_8) ? 1 : null,
             );
 
             columnManage::where('id', $columnManage['id'])->update(
                 [
                 'table_name' => $columnManage['table_name'],
                 'field_status' => json_encode($storejson),
-                'role_id' => $columnManage['role_id'],        
+                'role_id' => $columnManage['role_id'],
                 ]
 
             );
@@ -103,7 +103,7 @@ class BatchController extends AppBaseController
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
         $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
         $batchType = BatchType::where('status',1)->pluck('title','id');
-        
+
         $auth =Auth::user();
         if($request->batch_type_id || $request->trainer_id || $request->batch_mode_id || $request->course_id){
 
@@ -136,9 +136,21 @@ class BatchController extends AppBaseController
      */
     public function create()
     {
-        $course =  Course::where('status',1)->pluck('course_name','id');
+        $auth = Auth::user();
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
+        $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+//        $course =  Course::where('status',1)->pluck('course_name','id');
+//        $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
-        $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
+
         $batchType = BatchType::where('status',1)->pluck('title','id');
         return view('admin.batches.create',compact('course','batchMode','trainer','batchType'));
     }
@@ -197,9 +209,20 @@ class BatchController extends AppBaseController
 
             return redirect(route('admin.batches.index'));
         }
-        $course =  Course::where('status',1)->pluck('course_name','id');
+        $auth = Auth::user();
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
+        $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+       // $course =  Course::where('status',1)->pluck('course_name','id');
         $batchMode =  BatchMode::where('status',1)->pluck('title','id');
-        $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
+      //  $trainer =  Trainer::where('status',1)->pluck('trainer_name','id');
         $batchType = BatchType::where('status',1)->pluck('title','id');
         return view('admin.batches.edit',compact('batch','course','batchMode','trainer','batchType'));
     }

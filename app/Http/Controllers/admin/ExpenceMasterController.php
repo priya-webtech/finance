@@ -8,6 +8,7 @@ use App\Models\Admin\BankAccount;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
 use App\Models\Admin\columnManage;
+use App\Models\Admin\Course;
 use App\Models\Admin\ExpenseTypes;
 use App\Models\Admin\ExpenceMaster;
 use App\Models\Admin\ModeOfPayment;
@@ -50,8 +51,8 @@ class ExpenceMasterController extends AppBaseController
         $batch       = Batch::where('status',1)->pluck('name','id');
         $student       = Student::where('status',1)->pluck('name','id');
         $field = [];
-        if($columnManage){ 
-            $field = json_decode($columnManage->field_status); 
+        if($columnManage){
+            $field = json_decode($columnManage->field_status);
         }
         return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student','field'))
             ->with('expenceMasters', $expenceMasters);
@@ -60,6 +61,7 @@ class ExpenceMasterController extends AppBaseController
     {   
 
         $auth =Auth::user();
+
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
@@ -81,23 +83,23 @@ class ExpenceMasterController extends AppBaseController
                     })->paginate(10);
 
         $field = [];
-        if($columnManage){ 
-            $field = json_decode($columnManage->field_status); 
+        if($columnManage){
+            $field = json_decode($columnManage->field_status);
         }
 
         return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student','field'))
             ->with('expenceMasters', $expenceMasters);
     }
-    
+
 
     public function expencecolums(Request $request)
     {
 
         $columnManage = columnManage::where('table_name',$request->expencemaster)->where('role_id',auth()->user()->role_id)->first();
 
-        if($columnManage){  
+        if($columnManage){
 
-            $field = json_decode($columnManage->field_status); 
+            $field = json_decode($columnManage->field_status);
             $storejson = array(
                 'expencemaster_col_1' => ($request->expencemaster_col_1) ? 1 : null,
                 'expencemaster_col_2' => ($request->expencemaster_col_2) ? 1 : null,
@@ -106,14 +108,14 @@ class ExpenceMasterController extends AppBaseController
                 'expencemaster_col_5' => ($request->expencemaster_col_5) ? 1 : null,
                 'expencemaster_col_6' => ($request->expencemaster_col_6) ? 1 : null,
                 'expencemaster_col_7' => ($request->expencemaster_col_7) ? 1 : null,
-                'expencemaster_col_8' => ($request->expencemaster_col_8) ? 1 : null, 
+                'expencemaster_col_8' => ($request->expencemaster_col_8) ? 1 : null,
             );
 
             columnManage::where('id', $columnManage['id'])->update(
                 [
                 'table_name' => $columnManage['table_name'],
                 'field_status' => json_encode($storejson),
-                'role_id' => $columnManage['role_id'],        
+                'role_id' => $columnManage['role_id'],
                 ]
 
             );
@@ -137,12 +139,36 @@ class ExpenceMasterController extends AppBaseController
      */
     public function create()
     {
+        $auth = Auth::user();
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $student = Student::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('name','id');
+        $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+        $batch = Batch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->whereHas('course', function($query) use ($auth){
+                    $query->where('branch_id', '=', $auth->branch_id);
+                });
+            }
+        })->pluck('name','id');
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
-        $branch        = Branch::where('status',1)->pluck('title','id');
-        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
-        $batch       = Batch::where('status',1)->pluck('name','id');
-        $student       = Student::where('status',1)->pluck('name','id');
+
+       // $branch        = Branch::where('status',1)->pluck('title','id');
+       // $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
+      //  $batch       = Batch::where('status',1)->pluck('name','id');
+       // $student       = Student::where('status',1)->pluck('name','id');
         return view('admin.expence_masters.create',compact('bankAccounts','expenseTypes','branch','trainer','batch','student'));
     }
 
@@ -233,6 +259,7 @@ class ExpenceMasterController extends AppBaseController
      */
     public function edit($id)
     {
+        $auth = Auth::user();
         $expenceMaster = $this->expenceMasterRepository->find($id);
         $expenceMaster['amount'] = $expenceMaster->amount + $expenceMaster->tds;
         if (empty($expenceMaster)) {
@@ -240,13 +267,34 @@ class ExpenceMasterController extends AppBaseController
 
             return redirect(route('admin.expenceMasters.index'));
         }
-
+        $branch = Branch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('title', 'id');
+        $student = Student::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('id', '=', $auth->branch_id);
+            }
+        })->pluck('name','id');
+        $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+        $batch = Batch::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->whereHas('course', function($query) use ($auth){
+                    $query->where('branch_id', '=', $auth->branch_id);
+                });
+            }
+        })->pluck('name','id');
         $bankAccounts=ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes=ExpenseTypes::where('status',1)->pluck('title','id');
-        $branch = Branch::where('status',1)->pluck('title','id');
-        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
-        $batch       = Batch::where('status',1)->pluck('name','id');
-        $student       = Student::where('status',1)->pluck('name','id');
+//        $branch = Branch::where('status',1)->pluck('title','id');
+//        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
+//        $batch       = Batch::where('status',1)->pluck('name','id');
+//        $student       = Student::where('status',1)->pluck('name','id');
 
         return view('admin.expence_masters.edit',compact('expenceMaster','bankAccounts','expenseTypes','branch','trainer','batch','student'));
     }
