@@ -2,23 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="23/07/22">
+      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDataTable.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bootstrap.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/database.zip" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/public.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/admin/students/datatable.blade.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fundoo-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fundoo-app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/BatchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/BatchController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/CourseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DueFeesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/ExpenceMasterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/StudentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/StudentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/TrainerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/TrainerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DashBoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DashBoardController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarcompanyAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarmodelAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCaryearAPIRequest.php" beforeDir="false" />
@@ -37,12 +29,11 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateSettingAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStateAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStaticdataAPIRequest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Trainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Trainer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Student.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Student.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/trainers/fields.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/trainers/fields.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -77,7 +68,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="paresh" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -232,16 +223,16 @@
   <component name="ProjectId" id="2AtK9qhoCSLT2MTfuO54KCb0jhl" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tranqula" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/DataTables/Admin" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\finance\app\DataTables\Admin" />
       <recent name="C:\xampp\htdocs\finance\resources\views\admin\due-fees" />
       <recent name="C:\xampp\htdocs\finance\app\Models\Admin" />
       <recent name="C:\xampp\htdocs\finance" />
       <recent name="C:\xampp\htdocs\finance-app\public\storage" />
-      <recent name="C:\xampp\htdocs\finance-app\resources\views\admin\due-fees" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -333,6 +324,7 @@
       <workItem from="1659527132970" duration="1502000" />
       <workItem from="1659604069636" duration="12426000" />
       <workItem from="1659674139123" duration="13836000" />
+      <workItem from="1659760676817" duration="24367000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -411,7 +403,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php</url>
-          <line>770</line>
+          <line>778</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">

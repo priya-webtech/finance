@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\admin;
 
 use App\DataTables\Admin\CarmodelDataTable;
+use App\DataTables\Admin\CorporateDataTable;
+use App\DataTables\Admin\StudentDataTable;
 use App\Http\Requests\Admin;
+use App\Models\Admin\EnquiryType;
+use App\Models\Admin\LeadSources;
+use App\Models\Admin\StudentType;
 use App\Models\User;
 use App\Models\Admin\Batch;
 use App\Models\Admin\Branch;
@@ -44,16 +49,13 @@ class DashBoardController extends AppBaseController
        // dd(auth()->user()->role_id);
          $auth =auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $user =  User::count();
-            $branch =  Branch::count();
-            $trainer =  Trainer::count();
-            $corporate =  Corporate::count();
-            $student =  Student::count();
-            $course =  Course::count();
-            $batch =  Batch::count();
-            $income =  Income::count();
-            $expenceMaster =  ExpenceMaster::count();
-             return view('admin.dashboard.dashboard',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
+
+           $enquirytype = EnquiryType::pluck('title','id');
+           $studentType = StudentType::pluck('title','id');
+           $leadSources =  LeadSources::pluck('title','id');
+            $path = asset('country.json');
+            $state = json_decode(file_get_contents(public_path() . "\country.json"), true);
+        return view('admin.dashboard.dashboard',compact('enquirytype','studentType','leadSources','state'));
         }elseif (auth()->user()->role_id == 3) {
            $auth =auth::user();
         $user =  User::where('branch_id',$auth->branch_id)->count();
@@ -150,5 +152,17 @@ class DashBoardController extends AppBaseController
 
     }
 
+    public function StudentDataTable(StudentDataTable $StudentDataTable)
+    {
+        //dd($StudentDataTable);
+        return $StudentDataTable->render('admin.students.datatable');
+//        return $dataTable;
+    }
 
+    public function CorporateDataTable(CorporateDataTable $corporateDataTable)
+    {
+        //dd($StudentDataTable);
+        return $corporateDataTable->render('admin.students.datatable');
+//        return $dataTable;
+    }
 }
