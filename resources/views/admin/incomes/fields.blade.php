@@ -9,13 +9,13 @@
     </div>
 </div>
 <div class="form-group col-sm-6">
-    {!! Form::label('branch_id', 'Branch:') !!}
-    {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
+    {!! Form::label('branch_id', 'Branch') !!}<span style="color:red;">*</span> :
+    {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select changeincomebaranch','placeholder'=>'Please Select Branch']) !!}
     <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
 </div>
 <!-- Income Type Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('income_type_id', 'Income Type:') !!}
+    {!! Form::label('income_type_id', 'Income Type') !!}<span style="color:red;">*</span> :
     {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
     <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
 </div>
@@ -317,7 +317,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
-                    <select name="student[0][course_id]" class="form-control course"
+                    <select name="student[0][course_id]" class="form-control course changeincomecourse"
                             aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                         <option value="">--Select Course--</option>
 
@@ -358,6 +358,13 @@
 
                 </div>
             </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Due date</label> <span class="error-due_date" style="color:red"></span><br>
+                    <input id="value"  name="student[0][due_date]"
+                           class="form-control due_date" type="date">
+                </div>
+            </div>
             <div class="col-sm-1 gst0" style="display: none;">
                 <div class="form-group">
                     <br>
@@ -368,14 +375,7 @@
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Pay Amount</label> <span class="error-pay_amount" style="color:red"></span><br>
-                    <input id="value" step=".01" name="student[0][pay_amount]"
-                           class="form-control pay_amount" type="number">
-
-                </div>
-            </div>
+            
             <div class="col-sm-2">
                 <div class="form-group">
                     <br>
@@ -400,9 +400,9 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>Batch Name</th>
-                            <th>Trainer Name</th>
-                            <th class="retail_col">Fees</th>
+                            <th>Batch Name<span style="color:red;">*</span></th>
+                            <th>Trainer Name<span style="color:red;">*</span></th>
+                            <th class="retail_col">Fees<span style="color:red;">*</span></th>
                                                         <th></th>
                         </tr>
                         </thead>
@@ -481,6 +481,40 @@
 {{--<button id="btn"></button>--}}
 @push('third_party_scripts')
     <script>
+        $(document).ready(function(){
+            $(".changeincomecourse").html('');
+             $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
+        });
+       $(".changeincomebaranch").change(function(el){
+            var branchID = $('#branch_id').val();
+            $(".changeincomecourse").html('');
+            if (branchID) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('get-incomecourse')}}",
+                    data: {'branchID': branchID},
+                    dataTypes: 'json',
+                    success: function (res) {
+                        if (res) {
+                            if(res != ''){
+                                $(".changeincomecourse").append('<option value="">Please Select Course</option>');
+                            }else{
+                                $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
+                            }
+                            $.each(res, function (key, value) {
+                                $(".changeincomecourse").append('<option value="'+key+'">'+value+'</option>');
+
+                            });
+                        }
+                    }
+                });
+            } else {
+                //$(".batch").empty();
+            }
+
+        });
+
+
         $(document).ready(function() {
             $("#income_type").trigger('change');
         });
@@ -578,15 +612,19 @@
         var subindx = 0;
         var option = " ";
         $("#addNew").click(function () {
+
+
             mindex += 1;
             // alert(mindex)
+
+
             $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course reg-detail">\n' +
                 '                    <div class="parent options[' + mindex + ']">\n' +
                 '                        <div class="row product">\n' +
                 '                            <div class="col-sm-4">\n' +
                 '                                <div class="form-group">\n' +
                 '                                    <label class="required">Course Name</label><span class="error-course"style="color: red"></span>\n' +
-                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)" >\n' +
+                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course changeincomecourse" aria-required="true" aria-invalid="false" onchange="changeCourse(this)" >\n' +
                 '<option value="">--Select Course--</option>\n' +
                 @php
                     $courses = '';
@@ -631,6 +669,12 @@
             '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="number"> \n' +
             '</div> \n' +
             '</div> \n' +
+            '<div class="col-sm-4"> \n' +
+            '<div class="form-group"> \n' +
+            '<label>Due Date</label><span class="error-due_date" style="color:red"></span><br> \n' +
+            '<input id="value" name="student[' + mindex + '][due_date]" class="form-control due_date" type="date"> \n' +
+            '</div> \n' +
+            '</div> \n' + 
             '<div class="col-sm-1 gst'+mindex+'" style="display:none;"> \n' +
             ' <div class="form-group"> \n' +
             ' <br> \n' +
@@ -668,9 +712,9 @@
                 '                                        <thead>\n' +
                 '                                        <tr>\n' +
                 '                                            <th></th>\n' +
-                '                                            <th>Batch Name</th>\n' +
-                '                                            <th>Trainer Name</th>\n' +
-                '                                            <th class="retail_col">Fees</th>\n' +
+                '                                            <th>Batch Name<span style="color:red;">*</span></th>\n' +
+                '                                            <th>Trainer Name<span style="color:red;">*</span></th>\n' +
+                '                                            <th class="retail_col">Fees<span style="color:red;">*</span></th>\n' +
                 '                                            <th></th>\n' +
                 '                                        </tr>\n' +
                 '                                        </thead>\n' +
@@ -735,6 +779,66 @@
                 '                </div>\n' +
                 '                <br><br>');
             var IncomeType = $('#income_type option:selected').text();
+
+             var branchID = $('#branch_id').val();
+            $(".changeincomecourse").html('');
+            if (branchID) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('get-incomecourse')}}",
+                    data: {'branchID': branchID},
+                    dataTypes: 'json',
+                    success: function (res) {
+                        if (res) {
+                            if(res != ''){
+                                $(".changeincomecourse").append('<option value="">Please Select Course</option>');
+                            }else{
+                                $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
+                            }
+                            $.each(res, function (key, value) {
+                                $(".changeincomecourse").append('<option value="'+key+'">'+value+'</option>');
+
+                            });
+                        }
+                    }
+                });
+            } else {
+                //$(".batch").empty();
+            }
+
+            function changeCourse(el) {
+            var courseRow = $(el).parents('.row-course');
+            var courseID = $(el).val();
+
+            if (courseID) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('get-batch')}}",
+                    data: {'courseID': courseID},
+                    dataTypes: 'json',
+                    success: function (res) {
+                        if (res) {
+                            console.log(courseRow.find(".batch"));
+                            courseRow.find(".batch").empty();
+                            courseRow.find(".batch").append('<option value="">-- Select Batch --</option>');
+                            $.each(res, function (key, value) {
+                                courseRow.find(".batch")
+                                    .append('<option value="' + key + '">' + value + '</option>');
+
+                            });
+
+                            // $('.multiple').select2();
+
+                        }
+                    }
+                });
+
+            } else {
+                $(".batch").empty();
+            }
+
+        }
+
             if(IncomeType == 'Corporate Training') {
                 $('.retail_col').hide();
             }else{

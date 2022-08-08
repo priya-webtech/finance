@@ -277,6 +277,14 @@
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Due date</label><br>
+                                                <input id="value" name="student[{{$keys}}][due_date]"
+                                                       class="form-control" type="date" value="{{$studDetail->due_date}}">
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-1">
                                             <div class="form-group">
                                                 <br>
@@ -463,6 +471,14 @@
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
+                                         <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Due date</label><br>
+                                                <input id="value" name="student[{{$keys}}][due_date]"
+                                                       class="form-control" type="date" value="{{$corpoDetail->due_date}}">
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-1">
                                             <div class="form-group">
                                                 <br>
@@ -639,6 +655,14 @@
                                         <label>Pay Amount</label><br>
                                         <input id="value" step=".01" name="student[0][pay_amount]"
                                                class="form-control" type="text">
+                                        <span class="error-is_required" style="color:red"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Due date</label><br>
+                                        <input id="value" name="student[{{$keys}}][due_date]"
+                                               class="form-control" type="date">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -896,11 +920,18 @@
                 '</div>\n' +
                 '</div>\n' +
 
-
                 '<div class="col-sm-4"> \n' +
                 '<div class="form-group"> \n' +
                 '<label>Pay Amount</label><br> \n' +
                 '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="text"> \n' +
+                '<span class="error-is_required" style="color:red"></span> \n' +
+                '</div> \n' +
+                '</div> \n' +
+
+                '<div class="col-sm-4"> \n' +
+                '<div class="form-group"> \n' +
+                '<label>Due Date</label><br> \n' +
+                '<input id="value" name="student[' + mindex + '][due_date]" class="form-control due_date" type="date"> \n' +
                 '<span class="error-is_required" style="color:red"></span> \n' +
                 '</div> \n' +
                 '</div> \n' +

@@ -81,6 +81,15 @@ class IncomeController extends AppBaseController
         return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','field'));
     }
 
+
+    public function getIncomecourse()
+    {
+       
+        $result = Course::where('id',\request('branchID'))->pluck('course_name','id');
+      
+        return response()->json($result);
+    }
+
     public function incomecolums(Request $request)
     {
         $columnManage = columnManage::where('table_name',$request->income)->where('role_id',auth()->user()->role_id)->first();
@@ -232,6 +241,7 @@ class IncomeController extends AppBaseController
             foreach ($input['student'] as $studBatch){
                 $studBatch['branch_id'] = $input['branch_id'];
                 $studBatch['reg_taken_id'] = Auth::id();
+                $studBatch['due_date'] = $studBatch['due_date'];
                 $studentDetail = $student->studDetail()->create($studBatch);
                 $totalPay = $studBatch['pay_amount'];
                 if (isset($studBatch['gst'])){
@@ -275,6 +285,7 @@ class IncomeController extends AppBaseController
                 $studBatch['branch_id'] = $input['branch_id'];
                 $studBatch['reg_taken_id'] = Auth::id();
                 $studBatch['reg_for_month'] = $now->month.'/'.$now->year;
+                $studBatch['due_date'] = $studBatch['due_date'];
                 $corporateDetail = $corporate->corporateDetail()->create($studBatch);
                 $totalPay = $studBatch['pay_amount'];
                 if (isset($studBatch['gst'])){
@@ -487,6 +498,7 @@ class IncomeController extends AppBaseController
             foreach ($input['student'] as $studBatch){
                 $studBatch['branch_id'] = $input['branch_id'];
                 $studBatch['reg_taken_id'] = Auth::id();
+                $studBatch['due_date'] = $studBatch['due_date'];
                 if (isset($studBatch['studDetail_id'])){
                     $studentDetail = StudentDetail::findorfail($studBatch['studDetail_id']);
                     $studentDetail->update($studBatch);
@@ -552,7 +564,7 @@ class IncomeController extends AppBaseController
             foreach ($input['student'] as $studBatch){
                 $studBatch['branch_id'] = $input['branch_id'];
                 $studBatch['reg_taken_id'] = Auth::id();
-
+                $studBatch['due_date'] = $studBatch['due_date'];
                 if (isset($studBatch['corpoDetail_id'])){
                     $corporateDetail = CorporateDetail::findorfail($studBatch['corpoDetail_id']);
                     $corporateDetail->update($studBatch);

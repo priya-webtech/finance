@@ -55,6 +55,14 @@ class TrainerController extends AppBaseController
             ->with('trainers', $trainers);
     }
 
+    public function getCourse()
+    {
+       
+        $result = Course::where('branch_id',\request('batchID'))->pluck('course_name','id');
+      
+        return response()->json($result);
+    }
+
     public function trainercolums(Request $request)
     {
         $columnManage = columnManage::where('table_name',$request->trainer)->where('role_id',auth()->user()->role_id)->first();
