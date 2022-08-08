@@ -41,6 +41,7 @@ class StudentDetail extends Model
         'agreed_amount',
         'placement',
         'reg_for_month',
+        'due_date',
     ];
 
     /**

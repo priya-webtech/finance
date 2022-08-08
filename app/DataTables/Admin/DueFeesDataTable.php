@@ -35,8 +35,15 @@ class DueFeesDataTable extends DataTable
                     $corporate_id=$record->id;
                     return $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
                 }
-            })
-            ->addColumn('total_amount', function ($record){
+            })->addColumn('due_date', function ($record){
+                if($record->type == 'Student'){
+                    $stud_id=$record->id;
+                    return $due_date=StudentDetail::where('student_id',$stud_id)->pluck('due_date')->toArray();
+                }elseif ($record->type == 'Corporate'){
+                    $corporate_id=$record->id;
+                    return $due_date=CorporateDetail::where('corporate_id',$corporate_id)->pluck('due_date')->toArray();
+                }
+            })->addColumn('total_amount', function ($record){
                 if($record->type == 'Student') {
                     $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
                     $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
@@ -149,6 +156,7 @@ class DueFeesDataTable extends DataTable
             'name',
             'email',
             'mobile_no',
+            'due_date',
             'agreed_amount'  => ['searchable' => false],
             'total_amount' => ['searchable' => false],
             'due_fees' => ['searchable' => false],

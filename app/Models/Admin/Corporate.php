@@ -56,6 +56,7 @@ class Corporate extends Model
         'remark',
         'enquiry_type_id',
         'lead_source_id',
+        'due_date',
 //        'trainer_id'
     ];
 
