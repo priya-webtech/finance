@@ -55,6 +55,15 @@ class BatchController extends AppBaseController
             ->with('batches', $batches);
     }
 
+    public function getBatchtrainer()
+    {
+       
+        $course = Course::where('id',\request('courseID'))->first();
+        $result = Trainer::where('branch_id',$course->branch_id)->pluck('trainer_name','id');
+      
+        return response()->json($result);
+    }
+
     public function batchcolums(Request $request)
     {
         $columnManage = columnManage::where('table_name',$request->batch)->where('role_id',auth()->user()->role_id)->first();

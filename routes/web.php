@@ -279,6 +279,10 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     //income related Route
     Route::get('/get-batch', [App\Http\Controllers\Admin\IncomeController::class, 'getBatch'])->name('get-batch');
     Route::get('/get-trainer', [App\Http\Controllers\Admin\IncomeController::class, 'getTrainer'])->name('get-trainer');
+    Route::get('/get-course', [App\Http\Controllers\Admin\TrainerController::class, 'getCourse'])->name('get-course');
+    Route::get('/get-batchtrainer', [App\Http\Controllers\Admin\BatchController::class, 'getBatchtrainer'])->name('get-batchtrainer');
+    Route::get('/get-expencetrainer', [App\Http\Controllers\Admin\ExpenceMasterController::class, 'getExpencetrainer'])->name('get-expencetrainer');
+    Route::get('/get-incomecourse', [App\Http\Controllers\Admin\IncomeController::class, 'getIncomecourse'])->name('get-incomecourse');
     Route::get('table/status/{table_id}/{table_name}/{status}',function ($table_id,$table_name,$status){
         changeTableStatus($table_id,$table_name,$status);
         return redirect()->back()->with('success','Status Updated Successfully');

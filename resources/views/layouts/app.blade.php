@@ -169,7 +169,11 @@
 {{--<script src="{{asset('admin/js/bootstrap.js')}}"></script>--}}
 
 <script>
+
+
 $(document).ready(function(){
+
+  
   $("#franchisesInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#franchises-table tr").filter(function() {

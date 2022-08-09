@@ -44,7 +44,8 @@ class CorporateDetail extends Model
         'reg_taken_id',
         'agreed_amount',
         'placement',
-        'reg_for_month'
+        'reg_for_month',
+        'due_date',
     ];
 
     /**

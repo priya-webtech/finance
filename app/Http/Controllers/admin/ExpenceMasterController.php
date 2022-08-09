@@ -91,6 +91,13 @@ class ExpenceMasterController extends AppBaseController
             ->with('expenceMasters', $expenceMasters);
     }
 
+    public function getExpencetrainer()
+    {
+    
+        $result = Trainer::where('branch_id',\request('branchID'))->pluck('trainer_name','id');
+      
+        return response()->json($result);
+    }
 
     public function expencecolums(Request $request)
     {

@@ -43,6 +43,8 @@ class Student extends Model
         'status',
         'branch_id',
         'remark',
+        'due_date',
+        
     ];
 
     /**

@@ -1,7 +1,7 @@
 
 <!-- Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('name', 'Name:') !!}
+    {!! Form::label('name', 'Name') !!}<span style="color:red;">*</span> :
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('name') }}</span>
 </div>
@@ -12,7 +12,7 @@
 </div>
 <!-- Email Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('email', 'Email:') !!}
+    {!! Form::label('email', 'Email') !!}<span style="color:red;">*</span> :
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('email') }}</span>
 </div>
@@ -31,7 +31,7 @@
 </div>
 
 <div class="form-group col-sm-6">
-    {!! Form::label('password', 'Password:') !!}
+    {!! Form::label('password', 'Password') !!}<span style="color:red;">*</span> :
     {!! Form::password('password', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('password') }}</span>
 </div>
