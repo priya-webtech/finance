@@ -75,7 +75,7 @@ class StudentDataTable extends DataTable
     public function query(Student $model)
     {
 
-        return  $model->with('studDetail')->newQuery();
+        return  $model->newQuery();
     }
 
     /**

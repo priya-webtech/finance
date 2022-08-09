@@ -4,7 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\DataTables\Admin\CarmodelDataTable;
 use App\DataTables\Admin\CorporateDataTable;
+use App\DataTables\Admin\ExpenseDataTable;
+use App\DataTables\Admin\IncomeDataTable;
 use App\DataTables\Admin\StudentDataTable;
+use App\DataTables\Admin\TrainerDataTable;
 use App\Http\Requests\Admin;
 use App\Models\Admin\EnquiryType;
 use App\Models\Admin\LeadSources;
@@ -154,15 +157,24 @@ class DashBoardController extends AppBaseController
 
     public function StudentDataTable(StudentDataTable $StudentDataTable)
     {
-        //dd($StudentDataTable);
         return $StudentDataTable->render('admin.students.datatable');
-//        return $dataTable;
     }
 
     public function CorporateDataTable(CorporateDataTable $corporateDataTable)
     {
-        //dd($StudentDataTable);
         return $corporateDataTable->render('admin.students.datatable');
-//        return $dataTable;
+    }
+    public function ExpenseDataTable(ExpenseDataTable $expenseDataTable)
+    {
+        return $expenseDataTable->render('admin.students.datatable');
+    }
+    public function IncomeDataTable(IncomeDataTable $incomeDataTable)
+    {
+        return $incomeDataTable->render('admin.students.datatable');
+    }
+
+    public function TrainerDataTable(TrainerDataTable $trainerDataTable)
+    {
+        return $trainerDataTable->render('admin.students.datatable');
     }
 }

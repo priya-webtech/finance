@@ -24,11 +24,11 @@
                 <div class="card-footer clearfix">
                     <div class="row">
                     <div class="form-group col-sm-2">
-                        {!! Form::label('type', 'Type:') !!}
-                        {!! Form::select('type',['student'=>'Student','corporate'=>'Corporate'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                        {!! Form::label('type', 'Table:') !!}
+                        {!! Form::select('type',['student'=>'Student','corporate'=>'Corporate','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                     </div>
-                    <div class="form-group col-sm-2">
-                        {!! Form::label('status', 'Status:') !!}
+                    <div class="form-group col-sm-2 status">
+                        {!! Form::label('status', 'Type:') !!}
                         {!! Form::select('status',[''=>'All','assigned'=>'Assigned','unassigned'=>'Unassigned'], null, ['class' => 'form-control filter']) !!}
                     </div>
                         <div class="form-group col-sm-2 student" >
@@ -47,18 +47,29 @@
                             {!! Form::label('state', 'State:') !!}
                             {!! Form::select('state',$state, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
                         </div>
-                        <div class="form-group  col-sm-4">
-                            {!! Form::label('date', 'Date:') !!}
-                            <div>
-                            <input id="reportrange" name="dates" class="pull-left form-control filter" value="" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" placeholder="select Date" >
+{{--                        <div class="form-group  col-sm-4">--}}
+{{--                            {!! Form::label('date', 'Date:') !!}--}}
+{{--                            <div>--}}
+{{--                            <input id="reportrange" name="dates" class="pull-left form-control filter" value="" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" placeholder="select Date" >--}}
 {{--                                <i class="glyphicon glyphicon-calendar fa fa-calendar filter" ></i>&nbsp;--}}
 {{--                                <span id="dates"></span> <b class="caret"></b>--}}
-                            </input>
-                            </div>
-{{--                        <div class="form-group" style="margin-top: 8px;"><br>--}}
-{{--                            <button type="button" class="btn btn-warning filter">Filter</button>--}}
-{{--                        </div>--}}
-                    </div>
+{{--                            </input>--}}
+{{--                            </div>--}}
+{{--                    </div>--}}
+                        <div class="form-group  col-sm-4">
+                            <div style="max-width:400px;margin:auto">
+                                <div class="input-icons">
+                                    <label class="form-label fs-5 fw-bold mb-3">Date:</label>
+                                    <i class="icon glyphicon glyphicon-calendar fa fa-calendar"> </i>&nbsp;
+                                    <input type="text" class="input-field form-control reportrange filter" id="reportrange" name="dates" @if(request('date') != 'null') value="{{request('date')}}" @endif style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" placeholder="Select Date">
+
+                                    <span id="d"></span> <b class="caret"></b>
+
+                                </div></div>
+                        {{--                        <input type="text" class="input-field ass" @if(request('date') != null) value="{{request('date')}}" @endif  placeholder="Select Date" name="d" style="display: none; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" >--}}
+
+                        <!--end::Input-->
+                        </div>
                 </div>
             </div>
         </div>
@@ -67,7 +78,6 @@
     <div class="content px-3">
         <div class="clearfix"></div>
         <div class="card">
-{{--            <div class="card-body p-0">--}}
                 <div class="" id="student">
                     <table class="table table-bordered table-condensed" id="StudentTable">
                         <thead>
@@ -104,7 +114,43 @@
                         </thead>
                     </table>
                 </div>
-{{--            </div>--}}
+            <div class="" id="expense" style="display: none">
+                <table class="table table-bordered table-condensed" id="ExpenseTable" width="100%" border=1>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Category Name</th>
+                        <th>Total Expense</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="" id="income" style="display: none">
+                <table class="table table-bordered table-condensed" id="IncomeTable" width="100%" border=1>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Category Name</th>
+                        <th>Total Revenue</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="" id="trainer" style="display: none">
+                <table class="table table-bordered table-condensed" id="TrainerTable" width="100%" border=1>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Trainer Name</th>
+                        <th>Paid</th>
+                        <th>Out Standing</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
@@ -112,64 +158,180 @@
 @push('third_party_scripts')
     @include('layouts.datatables_css')
     @include('layouts.datatables_js')
-{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>--}}
-{{--    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>--}}
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     <script>
-        function ChangeType(){
-           var Type = $('#type').val();
-           if (Type == "student"){
-              $('.student').show();
-               $('#corporate').hide(); $('#student').show();
+            function ChangeType() {
+                var Type = $('#type').val();
+                if (Type == "student") {
+                    $('.student').show();
+                    $('#corporate').hide();
+                    $('#expense').hide();
+                    $('.status').show();
+                    $('#income').hide();
+                    $('#trainer').hide();
+                    $('#student').show();
 
-           }else {
-               $('.student').hide();
-               $('#student').hide();
-               $('#corporate').show();
-               var  filter = true;
-               if (!$.fn.dataTable.isDataTable('#CorporateTable') || filter==true) {
-                   $('#CorporateTable').DataTable({
-                       dom: 'Bfrtip',
-                       processing: true,
-                       serverSide: true,
-                       stateSave: true,
-                       retrieve: true,
-                       paging: false,
-                       order: [[0, 'desc']],
-                       // buttons: [
-                       //     'csv', 'excel', 'pdf', 'print', 'reset', 'reload'
-                       // ],
-                      // ajax: 'corporate-data-table',
-                       ajax:
-                           {
-                               "url": 'corporate-data-table',
-                               "data": function (d) {
-                                   // d.lead_source = $('#lead_source').val();
-                                   // d.enquiry_type = $('#enquiry_type').val();
-                                   // d.student_type = $('#student_type').val();
-                                   // d.state = $('#state').val();
-                                   d.dates = $('#reportrange').val();
-                                   d.status = $('#status').val();
-                               }
-                           },
-                       columns: [
-                           {data: 'id', name: 'id'},
-                           {data: 'company_name', name: 'company_name'},
-                           {data: 'email', name: 'email'},
-                           {data: 'web_site', name: 'web_site'},
-                           {data: 'lead_source_id', name: 'lead_source_id'},
-                           {data: 'enquiry_type_id', name: 'enquiry_type_id'},
-                           {data: 'branch_id', name: 'branch_id'},
-                           {data: 'state', name: 'state'},
-                           {data: 'status', name: 'status'},
-                           {data: 'action', name: 'action'},
-                       ],
-                       // order: [[0, 'desc']]
-                   });
-               }
-           }
-        }
+                } else if (Type == 'corporate'){
+                    $('.student').hide();
+                    $('#student').hide();
+                    $('#expense').hide();
+                    $('#income').hide();
+                    $('.status').show();
+                    $('#trainer').hide();
+                    $('#corporate').show();
+                    var filter = true;
+                    if (!$.fn.dataTable.isDataTable('#CorporateTable') || filter == true) {
+                        let CorpoTable = $('#CorporateTable').DataTable({
+                            dom: 'Bfrtip',
+                            processing: true,
+                            serverSide: true,
+                            stateSave: true,
+                            retrieve: true,
+                            paging: false,
+                            order: [[0, 'desc']],
+                            ajax:
+                                {
+                                    "url": 'corporate-data-table',
+                                    "data": function (d) {
+                                        d.dates = $('#reportrange').val();
+                                        d.status = $('#status').val();
+                                    }
+                                },
+                            columns: [
+                                {data: 'id', name: 'id'},
+                                {data: 'company_name', name: 'company_name'},
+                                {data: 'email', name: 'email'},
+                                {data: 'web_site', name: 'web_site'},
+                                {data: 'lead_source_id', name: 'lead_source_id'},
+                                {data: 'enquiry_type_id', name: 'enquiry_type_id'},
+                                {data: 'branch_id', name: 'branch_id'},
+                                {data: 'state', name: 'state'},
+                                {data: 'status', name: 'status'},
+                                {data: 'action', name: 'action'},
+                            ],
+                        });
+                        CorpoTable.draw();
+                    }
+
+                }
+                else if(Type == 'expense'){
+                    $('.student').hide();
+                    $('#student').hide();
+                    $('.status').hide();
+                    $('#corporate').hide();
+                    $('#income').hide();
+                    $('#trainer').hide();
+                    $('#expense').show();
+                    var filter = true;
+                    // var dates = $('#reportrange').val();
+                    // alert(dates);
+                    if (!$.fn.dataTable.isDataTable('#ExpenseTable') || filter == true) {
+                        var ExpTable = $('#ExpenseTable').DataTable({
+                            dom: 'Bfrtip',
+                            processing: true,
+                            serverSide: true,
+                            stateSave: true,
+                            retrieve: true,
+                            paging: false,
+                            // order: [[0, 'desc']],
+                            ajax:
+                                {
+                                    // "url": 'expense-data-table',
+                                    "url":"{{ route('expense-data-table') }}",
+                                    "data": function (d) {
+                                        d.dates = $('#reportrange').val();
+                                        // d.status = $('#status').val();
+                                    }
+                                },
+                            columns: [
+                                {data: 'id', name: 'id'},
+                                {data: 'title', name: 'title'},
+                                {data: 'total_expense', name: 'total_expense'},
+                                {data: 'action', name: 'action'},
+                            ],
+                        });
+                        ExpTable.draw();
+                    }
+
+                }
+                else if(Type == 'revenue'){
+                    $('.student').hide();
+                    $('#student').hide();
+                    $('#corporate').hide();
+                    $('.status').hide();
+                    $('#expense').hide();
+                    $('#trainer').hide();
+                    $('#income').show();
+                    var filter = true;
+                    if (!$.fn.dataTable.isDataTable('#IncomeTable') || filter == true) {
+                        var IncomeTable = $('#IncomeTable').DataTable({
+                            dom: 'Bfrtip',
+                            processing: true,
+                            serverSide: true,
+                            stateSave: true,
+                            retrieve: true,
+                            paging: false,
+                            // order: [[0, 'desc']],
+                            ajax:
+                                {
+                                    "url": 'income-data-table',
+                                    "data": function (d) {
+                                        d.dates = $('#reportrange').val();
+                                        // d.status = $('#status').val();
+                                    }
+                                },
+                            columns: [
+                                {data: 'id', name: 'id'},
+                                {data: 'title', name: 'title'},
+                                {data: 'total_revenue', name: 'total_revenue'},
+                                {data: 'action', name: 'action'},
+                            ],
+                        });
+                        IncomeTable.draw();
+                    }
+
+                }
+
+            else if(Type == 'trainer'){
+                    $('.student').hide();
+                    $('#student').hide();
+                    $('#corporate').hide();
+                    $('.status').hide();
+                    $('#expense').hide();
+                    $('#income').hide();
+                    $('#trainer').show();
+                    var filter = true;
+                    if (!$.fn.dataTable.isDataTable('#TrainerTable') || filter == true) {
+                        let TrainerTable = $('#TrainerTable').DataTable({
+                            dom: 'Bfrtip',
+                            processing: true,
+                            serverSide: true,
+                            stateSave: true,
+                            retrieve: true,
+                            paging: false,
+                            // order: [[0, 'desc']],
+                            ajax:
+                                {
+                                    "url": 'trainer-data-table',
+                                    "data": function (d) {
+                                        // d.dates = $('#reportrange').val();
+                                        // d.status = $('#status').val();
+                                    }
+                                },
+                            columns: [
+                                {data: 'id', name: 'id'},
+                                {data: 'trainer_name', name: 'trainer_name'},
+                                 {data: 'paid', name: 'paid'},
+                                 {data: 'out_Standing', name: 'out_Standing'},
+                                {data: 'action', name: 'action'},
+                            ],
+                        });
+                        TrainerTable.draw();
+                    }
+
+                }
+            }
     </script>
     <script type="text/javascript">
 
@@ -213,9 +375,12 @@
                     dom: 'Bfrtip',
                     processing: true,
                     serverSide: true,
-                    stateSave: true,
                     retrieve: true,
-                    paging: false,
+                    "searchDelay" : 500,
+                    "responsive": {
+                        orthogonal: 'responsive'
+                    },
+                    // paging: false,
                     order: [[0, 'desc']],
                     // buttons: [
                     //     'csv', 'excel', 'pdf', 'print', 'reset', 'reload'
@@ -252,9 +417,10 @@
                 });
             }
             $('.filter').change(function(){
+
                 dataTable();
-                ChangeType();
                 table.draw();
+                ChangeType();
             });
 
         }

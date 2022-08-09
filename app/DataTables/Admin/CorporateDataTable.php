@@ -56,10 +56,8 @@ class CorporateDataTable extends DataTable
                             $q->whereHas('corporateBatchDetail');
                         });
                     }elseif (request('status') == 'unassigned'){
-
                         $record->whereHas('corporateDetail', function($q) {
                             $q->doesntHave('corporateBatchDetail');
-
                         });
                     }
                 }
