@@ -103,7 +103,12 @@ class UserController extends AppBaseController
     public function create()
     {
       $auth = Auth::user();
-        $role = Role::where('name', '!=', 'super_admin')->pluck('name', 'id');
+        if(Auth::user()->role_id == 3){
+          
+             $role = Role::where('name','!=','super_admin')->where('name','!=','admin')->where('name','!=','branch_manager')->pluck('name','id');
+        }else{
+             $role = Role::where('name','!=','super_admin')->pluck('name','id');
+        }
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('id', '=', $auth->branch_id);
@@ -179,7 +184,13 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
         $users->password = ' ';
-        $role = Role::where('name','!=','super_admin')->pluck('name','id');
+        if(Auth::user()->role_id == 3){
+            dd('hello');
+             $role = Role::where('name','!=','super_admin')->where('name','!=','admin')->where('name','!=','branch_manager')->pluck('name','id');
+        }else{
+             $role = Role::where('name','!=','super_admin')->pluck('name','id');
+        }
+       
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('id', '=', $auth->branch_id);

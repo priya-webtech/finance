@@ -43,13 +43,19 @@ class DueFeesController extends Controller
 
     public function edit($id,$type)
     {
+
         $auth = Auth::user();
         if ($type == 'Corporate'){
-         $user =  Corporate::with('branch')->findorfail($id);
-        $userdetail =  CorporateDetail::with('course')->where('corporate_id',$id)->get();
+
+         $user =  CorporateDetail::findorfail($id);
+         $editid = $user->corporate_id;
+       //  dd($user);
+        $userdetail =  CorporateDetail::with('course')->where('id',$id)->get();
+   
         }elseif($type == 'Student'){
-         $user = Student::findorfail($id);
-         $userdetail =  StudentDetail::with('course')->where('student_id',$id)->get();
+         $user = StudentDetail::findorfail($id);
+          $editid = $user->student_id;
+         $userdetail =  StudentDetail::with('course')->where('id',$id)->get();
         }
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
@@ -65,13 +71,15 @@ class DueFeesController extends Controller
 //        $course = Course::pluck('course_name','id');
         $bank = ModeOfPayment::pluck('name','id');
 
+
      //   dd($userdetail[0]['course']['course_name']);
-     return view('admin.due-fees.edit',compact('user','userdetail','type','branch','course','bank'));
+     return view('admin.due-fees.edit',compact('user','userdetail','type','branch','course','bank','editid'));
     }
 
     public function update(Request $request,$id,$type)
     {
 
+      
         $input = $request->all();
         if ($type == 'Corporate') {
             $incomeType = IncomeType::where('title', 'Corporate Training')->first();

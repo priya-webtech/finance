@@ -133,11 +133,11 @@
         </div>
     </div>
 </div>
-<div class="form-group col-sm-12 reg-detail">
+<!-- <div class="form-group col-sm-12 reg-detail">
     <button type="button" class="btn btn-success" id="addNew" ><span
             class="fa fa-plus"></span> Add Course
     </button>
-</div>
+</div> -->
 <br><br>
 
 <div id="itemDetails" class="main0 row-course reg-detail">
@@ -727,14 +727,10 @@
                 '\n' +
                 '                                            <td>\n' +
                 '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-batch"style="color: red"></span>\n' +
-                '<option value="">--Select Batch --</option>\n' +
+                
                 @php
                     $option = '';
-                    foreach ($batch as $key=>$value)
-                 {
-
-                     $option .= '<option value="' . $key . '">' . $value. "</option>";
-                 }
+                 
                 @endphp
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
@@ -895,6 +891,7 @@
             }else{
                 $('.retail_col').show();
             }
+            $('.course').trigger('change');
         }
 
     </script>
