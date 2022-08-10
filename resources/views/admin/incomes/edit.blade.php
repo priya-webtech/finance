@@ -273,10 +273,12 @@
                                             <div class="form-group">
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
-                                                       class="form-control" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
+                                                       class="form-control get_payamount" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
+
+                                       
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Due date</label><br>
@@ -304,6 +306,12 @@
                                                        value="1" type="checkbox" {{count($studDetail->studBatchDetail) == 0 ? "checked" : " " }}>
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                        <a class="btn btn-warning float-left" onclick="verify()">
+                                            verify
+                                        </a><br><br>
+                                         <div id="show_verify" ></div>
                                         </div>
                                                         @if(!empty($studDetail->studBatchDetail))
 
@@ -467,7 +475,7 @@
                                             <div class="form-group">
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
-                                                       class="form-control" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount + $corpoDetail->corpoFeesColl->gst}}">
+                                                       class="form-control get_payamount" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount + $corpoDetail->corpoFeesColl->gst}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -498,6 +506,12 @@
                                                        value="1" type="checkbox" {{count($corpoDetail->corporateBatchDetail) == 0 ? "checked" : " " }}>
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                        <a class="btn btn-warning float-left" onclick="verify()">
+                                            verify
+                                        </a><br><br>
+                                         <div id="show_verify" ></div>
                                         </div>
                                         @if(!empty($corpoDetail->corporateBatchDetail))
 
@@ -654,7 +668,7 @@
                                     <div class="form-group">
                                         <label>Pay Amount</label><br>
                                         <input id="value" step=".01" name="student[0][pay_amount]"
-                                               class="form-control" type="text">
+                                               class="form-control pay_amount get_payamount" type="text">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -793,6 +807,27 @@
 @endsection
 @push('third_party_scripts')
     <script>
+
+        function verify() {
+            var BankAccount = $('.mode_of_payment option:selected').val();
+            var Amount = $('.get_payamount').val();
+
+            if(BankAccount != "" && Amount != ""){
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('income-verify')}}",
+                    data: {'bank_Acc': BankAccount,'amount': Amount},
+                    dataTypes: 'json',
+                    success: function (res) {
+                        if (res) {
+                             $('#show_verify').html(res.verify).css('color','black');
+                        }
+                    }
+                });
+            }else{
+                $('#show_verify').html('Please Select Bank Account And Enter Amount').css('color','red');
+            }
+        }
 
          $(document).ready(function(){
             $(".changeincomecourse").html('');
@@ -957,7 +992,7 @@
                 '<div class="col-sm-4"> \n' +
                 '<div class="form-group"> \n' +
                 '<label>Pay Amount</label><br> \n' +
-                '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="text"> \n' +
+                '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount get_payamount" type="text"> \n' +
                 '<span class="error-is_required" style="color:red"></span> \n' +
                 '</div> \n' +
                 '</div> \n' +
