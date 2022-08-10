@@ -61,6 +61,9 @@ class Trainer extends Model
          'course_id'  => 'required',
     ];
 
+    public function course(){
+        return $this->belongsTo(Course::class,'course_id');
+    }
     public function branch(){
         return $this->belongsTo(Branch::class,'branch_id');
     }

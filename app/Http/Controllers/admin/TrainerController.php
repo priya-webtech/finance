@@ -45,13 +45,15 @@ class TrainerController extends AppBaseController
             $trainers = Trainer::where('branch_id',$auth->branch_id)->paginate(10);
         }
 
+        $course = Course::get();
+
         $columnManage = columnManage::where('table_name','trainer')->where('role_id',auth()->user()->role_id)->first();
         $field = [];
         if($columnManage){
             $field = json_decode($columnManage->field_status);
         }
 
-        return view('admin.trainers.index',compact('field'))
+        return view('admin.trainers.index',compact('field','course'))
             ->with('trainers', $trainers);
     }
 
@@ -184,7 +186,9 @@ class TrainerController extends AppBaseController
                 $query->where('id', '=', $auth->branch_id);
             }
         })->pluck('title', 'id');
-        $course = Course::where(function ($query) use ($auth) {
+
+
+        $course = Course::where('branch_id', '=', $trainer->branch_id)->where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('branch_id', '=', $auth->branch_id);
             }

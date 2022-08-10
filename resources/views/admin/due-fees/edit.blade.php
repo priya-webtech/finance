@@ -14,18 +14,19 @@
         <div class="card">
             <div class="card-body">
 {{--@dd($user->id);--}}
-{{--                 {!! Form::open(['route' => 'pay-due-fees',['id' => $user->id, 'type' => $type]]) !!}--}}
-                <form action="{{route('pay-due-fees',['id' => $user->id, 'type' => $type])}}" method="post">
+{{--                 {!! Form::open(['route' => 'pay-due-fees',['id' => $editid, 'type' => $type]]) !!}--}}
+                <form action="{{route('pay-due-fees',['id' => $editid, 'type' => $type])}}" method="post">
                     @csrf
                 <div class="row">
-                    <div class="form-group col-sm-3">
+                    <!-- <div class="form-group col-sm-3">
                         {!! Form::label('branch_id', 'Branch :') !!}
                         {!! Form::select('branch_id', $branch,null, ['class' => 'form-control','placeholder'=>'Select Branch']) !!}
-                    </div>
-                    <div class="form-group col-sm-3">
+                    </div> -->
+                   <!--  <div class="form-group col-sm-3">
                         {!! Form::label('course_id', 'Course :') !!}
                         {!! Form::select('course_id', $course,null, ['class' => 'form-control','placeholder'=>'Select Course']) !!}
-                    </div>
+                    </div> -->
+                    <input type="hidden" name="course_id" value="{{$user->course_id}}">
                     <div class="form-group col-sm-2">
                         {!! Form::label('bank_acc_id', 'Bank:') !!}
                         {!! Form::select('bank_acc_id',$bank,null, ['class' => 'form-control','placeholder'=>'Select Bank']) !!}

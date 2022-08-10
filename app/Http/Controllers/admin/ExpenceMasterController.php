@@ -284,7 +284,7 @@ class ExpenceMasterController extends AppBaseController
                 $query->where('id', '=', $auth->branch_id);
             }
         })->pluck('name','id');
-        $trainer = Trainer::where(function ($query) use ($auth) {
+        $trainer = Trainer::where('branch_id', '=', $expenceMaster->branch_id)->where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('branch_id', '=', $auth->branch_id);
             }

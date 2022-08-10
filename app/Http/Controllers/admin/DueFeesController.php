@@ -17,6 +17,7 @@ use App\Models\Admin\ModeOfPayment;
 use App\Models\Admin\Course;
 use App\Models\User;
 use App\Rule\CurrentPassword;
+use App\Models\Admin\columnManage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,18 +39,72 @@ class DueFeesController extends Controller
      */
     public function index(DueFeesDataTable $dueFeesDataTable)
     {
-        return $dueFeesDataTable->render('admin.due-fees.index');
+
+        $columnManage = columnManage::where('table_name','due_fees')->where('role_id',auth()->user()->role_id)->first();
+        $field = [];
+        if($columnManage){
+        $field = json_decode($columnManage->field_status);
+        }
+
+        return $dueFeesDataTable->render('admin.due-fees.index',compact('field'));
+    }
+
+    public function due_feescolums(Request $request)
+    {
+        $columnManage = columnManage::where('table_name',$request->due_fees)->where('role_id',auth()->user()->role_id)->first();
+
+        if($columnManage){
+
+            $field = json_decode($columnManage->field_status);
+            $storejson = array(
+                'due_fees_col_1' => ($request->due_fees_col_1) ? 1 : null,
+                'due_fees_col_2' => ($request->due_fees_col_2) ? 1 : null,
+                'due_fees_col_3' => ($request->due_fees_col_3) ? 1 : null,
+                'due_fees_col_4' => ($request->due_fees_col_4) ? 1 : null,
+                'due_fees_col_5' => ($request->due_fees_col_5) ? 1 : null,
+                'due_fees_col_6' => ($request->due_fees_col_6) ? 1 : null,
+                'due_fees_col_7' => ($request->due_fees_col_7) ? 1 : null,
+                'due_fees_col_8' => ($request->due_fees_col_8) ? 1 : null,
+                'due_fees_col_9' => ($request->due_fees_col_9) ? 1 : null,
+                'due_fees_col_10' => ($request->due_fees_col_10) ? 1 : null,
+            );
+
+            columnManage::where('id', $columnManage['id'])->update(
+                [
+                'table_name' => $columnManage['table_name'],
+                'field_status' => json_encode($storejson),
+                'role_id' => $columnManage['role_id'],
+                ]
+
+            );
+
+        }else{
+            $storejson = array('due_fees_col_1' => $request->due_fees_col_1,'due_fees_col_2' => $request->due_fees_col_2,'due_fees_col_3' => $request->due_fees_col_3,'due_fees_col_4' => $request->due_fees_col_4,'due_fees_col_5' => $request->due_fees_col_5,'due_fees_col_6' => $request->due_fees_col_6,'due_fees_col_7' => $request->due_fees_col_7,'due_fees_col_8' => $request->due_fees_col_8,'due_fees_col_9' => $request->due_fees_col_9,'due_fees_col_10' => $request->due_fees_col_10);
+
+             columnManage::insert([
+                'table_name' => $request->due_fees,
+                'field_status' => json_encode($storejson),
+                'role_id' => auth()->user()->role_id,
+             ]);
+
+        }
     }
 
     public function edit($id,$type)
     {
+
         $auth = Auth::user();
         if ($type == 'Corporate'){
-         $user =  Corporate::with('branch')->findorfail($id);
-        $userdetail =  CorporateDetail::with('course')->where('corporate_id',$id)->get();
+
+         $user =  CorporateDetail::findorfail($id);
+         $editid = $user->corporate_id;
+       //  dd($user);
+        $userdetail =  CorporateDetail::with('course')->where('id',$id)->get();
+   
         }elseif($type == 'Student'){
-         $user = Student::findorfail($id);
-         $userdetail =  StudentDetail::with('course')->where('student_id',$id)->get();
+         $user = StudentDetail::findorfail($id);
+          $editid = $user->student_id;
+         $userdetail =  StudentDetail::with('course')->where('id',$id)->get();
         }
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
@@ -65,13 +120,15 @@ class DueFeesController extends Controller
 //        $course = Course::pluck('course_name','id');
         $bank = ModeOfPayment::pluck('name','id');
 
+
      //   dd($userdetail[0]['course']['course_name']);
-     return view('admin.due-fees.edit',compact('user','userdetail','type','branch','course','bank'));
+     return view('admin.due-fees.edit',compact('user','userdetail','type','branch','course','bank','editid'));
     }
 
     public function update(Request $request,$id,$type)
     {
 
+      
         $input = $request->all();
         if ($type == 'Corporate') {
             $incomeType = IncomeType::where('title', 'Corporate Training')->first();
@@ -110,6 +167,7 @@ class DueFeesController extends Controller
     }
     public function corpodatatable(CorporateDueFeesDataTable $corporateDueFeesDataTable)
     {
+        
         return $corporateDueFeesDataTable->render('admin.due-fees.copro-table');
     }
     public function searchRecord()
