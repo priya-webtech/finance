@@ -55,6 +55,10 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('expense-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'ExpenseDataTable'])->name('expense-data-table');
     Route::get('income-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'IncomeDataTable'])->name('income-data-table');
     Route::get('trainer-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'TrainerDataTable'])->name('trainer-data-table');
+    Route::get('batch-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'BatchDataTable'])->name('batch-data-table');
+    Route::get('bank-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'BankDataTable'])->name('bank-data-table');
+    Route::get('cash-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'CashDataTable'])->name('cash-data-table');
+    Route::get('gst-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'GstDataTable'])->name('gst-data-table');
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
     Route::get('/due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'edit'])->name('due-fees-edit');
     Route::post('/pay-due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'update'])->name('pay-due-fees');

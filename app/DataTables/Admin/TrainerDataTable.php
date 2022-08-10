@@ -22,19 +22,41 @@ class TrainerDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
+
+            ->editColumn('course_id', function ($record) {
+             return $record->Course->course_name ?? "N/A";
+           })
+            ->addColumn('fees', function ($record){
+                $ids = $record->courseWiseTrainerFee()->pluck('id')->toArray();
+                $trainerfees = StudentBatchDetail::whereIn('student_detail_id',$ids)->where('trainer_id',$record->id)->sum('trainer_fees');
+                return number_format($trainerfees,2);
+            })
             ->addColumn('paid', function ($record){
               $trainerPaid = ExpenceMaster::where('trainer_id',$record->id);
                $paid = $trainerPaid->sum('amount');
-              return $paid+$trainerPaid->sum('tds');
+              return number_format($paid+$trainerPaid->sum('tds'),2);
             })
             ->addColumn('out_Standing', function ($record){
-                $trainerfees = StudentBatchDetail::where('trainer_id',$record->id)->sum('trainer_fees');
-                $trainerPaid = ExpenceMaster::where('trainer_id',$record->id);
+                $ids = $record->courseWiseTrainerFee()->pluck('id')->toArray();
+                $trainerfees = StudentBatchDetail::whereIn('student_detail_id',$ids)->where('trainer_id',$record->id);
+                $trainerPaid = ExpenceMaster::where('trainer_id',$record->id)->whereIn('batch_id',$trainerfees->pluck('batch_id')->toArray());
                 $paid = $trainerPaid->sum('amount');
-
                 $paidFees = $paid+$trainerPaid->sum('tds');
-
-                return $trainerfees -$paidFees;
+                return number_format($trainerfees->sum('trainer_fees') - $paidFees,2) ;
+            })
+            ->addColumn('payment_status', function ($record){
+                $ids = $record->courseWiseTrainerFee()->pluck('id')->toArray();
+                $trainerfees = StudentBatchDetail::whereIn('student_detail_id',$ids)->where('trainer_id',$record->id);
+                $trainerPaid = ExpenceMaster::where('trainer_id',$record->id)->whereIn('batch_id',$trainerfees->pluck('batch_id')->toArray());
+                $paid = $trainerPaid->sum('amount');
+                $paidFees = $paid+$trainerPaid->sum('tds');
+               $remain= $trainerfees->sum('trainer_fees') -$paidFees;
+                if ($remain <= 0){
+                    $status = "<span class='badge badge-success'>Paid</span>";
+                }else{
+                    $status = "<span class='badge badge-danger'>Pending</span>";
+                }
+                return $status;
             })
 //            ->filter(function ($record){
 //                $record->where(function ($q) {
@@ -47,7 +69,7 @@ class TrainerDataTable extends DataTable
 //                    }
 //                });
 //            })
-            ->rawColumns(['action','out_Standing','paid']);
+            ->rawColumns(['action','out_Standing','paid','payment_status','fees']);
     }
 
     /**
@@ -95,7 +117,8 @@ class TrainerDataTable extends DataTable
     {
         return [
             'id' => ['searchable' => false],
-           'trainer_name'
+           'trainer_name',
+            'course_id'
 
         ];
     }

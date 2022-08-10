@@ -2,30 +2,29 @@
 
 namespace App\DataTables\Admin;
 
+use App\Models\Admin\Batch;
 use App\Models\Admin\Carcompany;
-use App\Models\Admin\Corporate;
+use App\Models\Admin\CorporateFessCollection;
+use App\Models\Admin\ExpenceMaster;
+use App\Models\Admin\ExpenseTypes;
+use App\Models\Admin\Income;
+use App\Models\Admin\IncomeType;
+use App\Models\Admin\ModeOfPayment;
 use App\Models\Admin\Student;
+use App\Models\Admin\StudentFessCollection;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class CorporateDataTable extends DataTable
+class BankDataTable extends DataTable
 {
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
-            ->editColumn('branch_id', function ($record){
-                return $record->branch->title;
-            })
-            ->editColumn('lead_source_id', function ($record){
-                return $record->lead->title;
-            })
-            ->editColumn('enquiry_type_id', function ($record){
-                return $record->enquiry->title;
-            })
-            ->editColumn('status', function ($record){
+            ->editColumn('status', function ($record) {
                 if ($record->status == 1){
-                  $status = "<span class='badge badge-success'>Active</span>";
+                    $status = "<span class='badge badge-success'>Active</span>";
                 }else{
                     $status = "<span class='badge badge-danger'>Block</span>";
                 }
@@ -33,25 +32,15 @@ class CorporateDataTable extends DataTable
             })
             ->filter(function ($record){
                 $record->where(function ($q) {
-                    if (request('dates')){
-                        $part = explode("-",request('dates'));
-                        $start = date('Y-m-d', strtotime($part[0]));
-                        $end = date('Y-m-d', strtotime($part[1]));
-                        $q->whereDate('created_at', '>=', $start)
-                            ->whereDate('created_at', '<=', $end);
+                    if (request('balance_type')){
+                        if (request('balance_type') == "cash"){
+                            $q->where('title','Cash');
+                        }elseif(request('balance_type')  == "bank"){
+                            $q->where('title','Cheque');
+                        }
+
                     }
                 });
-                if (request('status')){
-                    if (request('status') == 'assigned'){
-                        $record->whereHas('corporateDetail', function($q) {
-                            $q->whereHas('corporateBatchDetail');
-                        });
-                    }elseif (request('status') == 'unassigned'){
-                        $record->whereHas('corporateDetail', function($q) {
-                            $q->doesntHave('corporateBatchDetail');
-                        });
-                    }
-                }
             })
             ->rawColumns(['action','status']);
     }
@@ -62,10 +51,9 @@ class CorporateDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Corporate $model)
+    public function query(ModeOfPayment $model)
     {
-
-        return  $model->with('corporateDetail')->newQuery();
+        return  $model->newQuery();
     }
 
     /**
@@ -100,21 +88,16 @@ class CorporateDataTable extends DataTable
      */
     protected function getColumns()
     {
-
         return [
             'id' => ['searchable' => false],
-            'company_name',
-            'email',
-            'web_site',
-            'lead_source_id',
-            'enquiry_type_id',
-            'branch_id',
-            'state',
+            'title',
             'status',
-            'branch_id',
+            'name',
+            'ifsc_code',
+            'account_no',
+            'other_detail',
+            'opening_balance',
 
-
-            //'type' => ['searchable' => false],
         ];
     }
 
@@ -125,6 +108,6 @@ class CorporateDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'students_datatable_' . time();
+        return 'banks_datatable_' . time();
     }
 }

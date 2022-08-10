@@ -2,7 +2,6 @@
 
 namespace App\DataTables\Admin;
 
-use App\Models\Admin\Carcompany;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\CorporateDetail;
 use App\Models\Admin\CorporateFessCollection;
