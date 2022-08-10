@@ -116,6 +116,13 @@ class CourseController extends AppBaseController
     public function store(CreateCourseRequest $request)
     {
         $input = $request->all();
+
+     //   dd($input);
+        if($input['description']){
+            $input['description'] = $input['description'];
+        }else{
+            $input['description'] = '';
+        }
         $input['status'] = 1;
         $input['created_by'] = Auth::id();
         $course = $this->courseRepository->create($input);
@@ -182,6 +189,11 @@ class CourseController extends AppBaseController
     {
         $course = $this->courseRepository->find($id);
         $input = $request->all();
+
+        if($input['description']){
+            $input['description'] = $input['description'];
+        }
+
         if (empty($course)) {
             Flash::error('Course not found');
 

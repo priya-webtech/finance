@@ -56,11 +56,13 @@
 
 @push('third_party_scripts')
 <script type="text/javascript">
+    <?php if(request()->route()->getName() == 'admin.batches.create'){ ?>
+        $(document).ready(function(){
+            $(".changebatchtrainer").html('');
+            $(".changebatchtrainer").append('<option value="">Not avalible Trainer</option>');
+        });
 
-    $(document).ready(function(){
-        $(".changebatchtrainer").html('');
-         $(".changebatchtrainer").append('<option value="">Not avalible Trainer</option>');
-    });
+    <?php } ?>
        $(".changebatchcourse").change(function(el){
             var courseID = $('#course_id').val();
             $(".changebatchtrainer").html('');

@@ -39,7 +39,7 @@
             </div>
             <div class="form-group col-sm-6">
                 {!! Form::label('branch_id', 'Branch:') !!}
-                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
+                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select changeincomebaranch','placeholder'=>'Please Select Branch']) !!}
                 <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
             </div>
             <!-- Income Type Id Field -->
@@ -219,11 +219,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 reg-detail">
+                   <!--  <div class="form-group col-sm-12 reg-detail">
                         <button type="button" class="btn btn-success" id="addNew" ><span
                                 class="fa fa-plus"></span> Add Course
                         </button>
-                    </div>
+                    </div> -->
                     <br><br>
 
                     <div id="itemDetails" class="main0 row-course reg-detail">
@@ -616,7 +616,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
-                                        <select name="student[0][course_id]" class="form-control course"
+                                        <select name="student[0][course_id]" class="form-control course changeincomecourse"
                                                 aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                                             <option value="">--Select Course--</option>
 
@@ -793,6 +793,40 @@
 @endsection
 @push('third_party_scripts')
     <script>
+
+         $(document).ready(function(){
+            $(".changeincomecourse").html('');
+             $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
+        });
+       $(".changeincomebaranch").change(function(el){
+            var branchID = $('#branch_id').val();
+            $(".changeincomecourse").html('');
+            if (branchID) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('get-incomecourse')}}",
+                    data: {'branchID': branchID},
+                    dataTypes: 'json',
+                    success: function (res) {
+                        if (res) {
+                            if(res != ''){
+                                $(".changeincomecourse").append('<option value="">Please Select Course</option>');
+                            }else{
+                                $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
+                            }
+                            $.each(res, function (key, value) {
+                                $(".changeincomecourse").append('<option value="'+key+'">'+value+'</option>');
+
+                            });
+                        }
+                    }
+                });
+            } else {
+                //$(".batch").empty();
+            }
+
+        });
+
         $(document).ready(function() {
             $("#income_type").trigger('change');
         });
@@ -880,7 +914,7 @@
                 '                            <div class="col-sm-4">\n' +
                 '                                <div class="form-group">\n' +
                 '                                    <label class="required">Course Name</label><span class="error-course"style="color: red"></span>\n' +
-                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)">\n' +
+                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course changeincomecourse" aria-required="true" aria-invalid="false" onchange="changeCourse(this)">\n' +
                 '<option value="">--Select Course--</option>\n' +
                 @php
                     $courses = '';
@@ -1087,6 +1121,8 @@
             }else{
                 $('.retail_col').show();
             }
+
+
         }
 
     </script>

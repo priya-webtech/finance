@@ -224,7 +224,8 @@ class BatchController extends AppBaseController
                 $query->where('branch_id', '=', $auth->branch_id);
             }
         })->pluck('course_name','id');
-        $trainer = Trainer::where(function ($query) use ($auth) {
+        $selected_course = Course::where('id',$batch->course_id)->first();
+        $trainer = Trainer::where('branch_id',$selected_course->branch_id)->where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('branch_id', '=', $auth->branch_id);
             }
