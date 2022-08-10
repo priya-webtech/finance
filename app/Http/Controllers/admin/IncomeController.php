@@ -432,17 +432,20 @@ class IncomeController extends AppBaseController
        $corporate['mobile_no'] = $corporate['contact_no'];
        $corporate['enquiry_type'] = $corporate['enquiry_type_id'];
        $corporate['income_type_id']= $corporate->corporateDetail[0]->corpoFeesColl->getIncome->income_type_id;
+       $branchcurrunt = $corporate->branch_id;
 
    } else if(\request('type') == 'student') {
 
         $students = Student::findorfail($id);
         $students['income_type_id'] = $students->studDetail[0]->studFeesColl->getIncome->income_type_id;
         $students['branch_id'] = $students->studDetail[0]->branch_id;
+        $branchcurrunt = $students->branch_id;
     }else{
        $income = Income::findorfail($id);
        $income['paying_amount'] =  $income->paying_amount+$income->gst;
        $income['title'] =  $income->franchise->title ?? ' ';
    }
+ 
 
         $auth = Auth::user();
         $branch = Branch::where(function ($query) use ($auth) {
@@ -450,7 +453,7 @@ class IncomeController extends AppBaseController
                 $query->where('id', '=', $auth->branch_id);
             }
         })->pluck('title', 'id');
-        $course = Course::where(function ($query) use ($auth) {
+        $course = Course::where('branch_id', '=', $branchcurrunt)->where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('branch_id', '=', $auth->branch_id);
             }

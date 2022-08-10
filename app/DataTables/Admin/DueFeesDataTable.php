@@ -9,6 +9,7 @@ use App\Models\Admin\CorporateFessCollection;
 use App\Models\Admin\Income;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
+use App\Models\Admin\columnManage;
 use App\Models\Admin\StudentFessCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -77,28 +78,22 @@ class DueFeesDataTable extends DataTable
             //         return round($total_amount, 2);
             //     }
             // })
-            // ->addColumn('due_fees', function ($record){
-            //     if($record->type == 'Student') {
-            //         $stud_id = $record->id;
-            //         $agreed_amount = StudentDetail::where('student_id', $stud_id)->sum('agreed_amount');
-            //         $gst = StudentFessCollection::where('student_id', $record->id)->sum('gst');
-            //         $paying_amount = StudentFessCollection::where('student_id', $record->id)->pluck('income_id')->toArray();
-            //         $payAmount = Income::whereIn('id', $paying_amount)->sum('paying_amount');
-            //         $total = $payAmount + $gst;
-            //         $dueFees = $agreed_amount - $total;
-            //         return $dueFees;
-            //     }
-            //     elseif ($record->type == 'Corporate'){
-            //         $corporate_id=$record->id;
-            //         $agreed_amount=CorporateDetail::where('corporate_id',$corporate_id)->sum('agreed_amount');
-            //         $gst = CorporateFessCollection::where('corporate_id',$record->id)->sum('gst');
-            //         $paying_amount = CorporateFessCollection::where('corporate_id',$record->id)->pluck('income_id')->toArray();
-            //         $payAmount = Income::whereIn('id',$paying_amount)->sum('paying_amount');
-            //         $total = $payAmount + $gst;
-            //         $dueFees = $agreed_amount - $total;
-            //         return $dueFees;
-            //     }
-            // })
+            ->addColumn('due_fees', function ($record){
+                if($record->type == 'Student') {
+
+                   $total = $record->pay_amount;
+                   $agreed_amount = $record->agreed_amount;
+                    $dueFees = $agreed_amount - $total;
+                    return $dueFees;
+                }
+                elseif ($record->type == 'Corporate'){
+                    $total = $record->pay_amount;
+                   $agreed_amount = $record->agreed_amount;
+
+                    $dueFees = $agreed_amount - $total;
+                    return $dueFees;
+                }
+            })
             ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
     }
 
@@ -181,21 +176,27 @@ class DueFeesDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
-            'id' => ['searchable' => false],
-            'name',
-            'email',
-            'course_name',
-            'due_date',
-            // 'course_id',
-          //  'due_date',
-            'agreed_amount'  => ['searchable' => false],
-            'pay_amount'  => ['searchable' => false],
-            'gst'  => ['searchable' => false],
-           // 'total_amount' => ['searchable' => false],
-           // 'due_fees' => ['searchable' => false],
-            'type' => ['searchable' => false],
-        ];
+        $columnManage = columnManage::where('table_name','due_fees')->where('role_id',auth()->user()->role_id)->first();
+        $field = [];
+        if($columnManage){
+        $field = json_decode($columnManage->field_status);
+        }
+
+        $result = ['id' => ['searchable' => false]] +  
+
+        ((!empty($field) && $field->due_fees_col_1 == 1) ? ['name' => ['searchable' => false]] : [] )  +
+        ((!empty($field) && $field->due_fees_col_2 == 1) ? ['email' => ['searchable' => false]] : [] ) +
+        ((!empty($field) && $field->due_fees_col_3 == 1) ? ['course_name' => ['searchable' => false]] : [] ) + 
+        ((!empty($field) && $field->due_fees_col_4 == 1) ? ['due_date' => ['searchable' => false]] : [] ) + 
+        ((!empty($field) && $field->due_fees_col_5 == 1) ? ['agreed_amount' => ['searchable' => false]] : [] ) + 
+        ((!empty($field) && $field->due_fees_col_6 == 1) ? ['pay_amount' => ['searchable' => false]] : [] ) + 
+        ((!empty($field) && $field->due_fees_col_7 == 1) ? ['gst' => ['searchable' => false]] : [] ) + 
+        ((!empty($field) && $field->due_fees_col_8 == 1) ? ['due_fees' => ['searchable' => false]] : [] ) + 
+        ((!empty($field) && $field->due_fees_col_9 == 1) ? ['type' => ['searchable' => false]] : [] );
+
+        return $result;
+
+
     }
 
     /**
