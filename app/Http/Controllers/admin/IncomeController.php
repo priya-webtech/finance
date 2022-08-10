@@ -718,4 +718,18 @@ class IncomeController extends AppBaseController
         $result = Trainer::where('id',$batch->trainer_id)->pluck('trainer_name','id');
         return response()->json($result);
     }
+
+    public function incomeVerify(Request $request)
+    {
+        $input = $request->all();
+        $input['bank_Acc'];
+        $input['amount'];
+       // dd('hello');
+        $bankAcc = ModeOfPayment::findorfail($input['bank_Acc']);
+        $allbank = ModeOfPayment::where('id','!=',$input['bank_Acc'])->get();
+        $bankAcc['remain_balance'] = $bankAcc->opening_balance+$input['amount'];
+        $verify = view('admin.incomes.verify',compact('bankAcc','allbank'))->render();
+        return response()->json(["verify"=>$verify]);
+
+    }
 }

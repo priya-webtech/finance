@@ -63,6 +63,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 
 
     Route::get('/search-record', [App\Http\Controllers\Admin\DueFeesController::class, 'searchRecord'])->name('search-record');
+    Route::get('/income-verify', [App\Http\Controllers\Admin\IncomeController::class, 'incomeVerify'])->name('income-verify');
     Route::get('/count-batch-student', [App\Http\Controllers\Admin\IncomeController::class, 'countStud'])->name('count-batch-student');
     Route::post('/profile-update', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile-update');
     Route::post('/change-password', [App\Http\Controllers\Admin\ProfileController::class, 'changePassword'])->name('change-password');
