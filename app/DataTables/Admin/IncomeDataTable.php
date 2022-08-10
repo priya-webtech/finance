@@ -46,17 +46,13 @@ class IncomeDataTable extends DataTable
                 }
             })
 
-//            ->filter(function ($record){
-//                $record->where(function ($q) {
-//                    if (request('dates')){
-//                        $part = explode("-",request('dates'));
-//                        $start = date('Y-m-d', strtotime($part[0]));
-//                        $end = date('Y-m-d', strtotime($part[1]));
-//                            $q->whereDate('created_at', '>=', $start)
-//                                ->whereDate('created_at', '<=', $end);
-//                    }
-//                });
-//            })
+            ->filter(function ($record){
+                $record->where(function ($q) {
+                    if (request('income_type')){
+                            $q->where('id', request('income_type'));
+                    }
+                });
+            })
             ->rawColumns(['action','total_revenue']);
     }
 

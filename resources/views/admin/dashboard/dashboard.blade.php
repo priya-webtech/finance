@@ -25,7 +25,7 @@
                     <div class="row">
                     <div class="form-group col-sm-2">
                         {!! Form::label('type', 'Table:') !!}
-                        {!! Form::select('type',['student'=>'Student','corporate'=>'Corporate','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                        {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                     </div>
                     <div class="form-group col-sm-2 status">
                         {!! Form::label('status', 'Type:') !!}
@@ -54,6 +54,10 @@
                         <div class="form-group col-sm-2 batchFilter" style="display: none">
                             {!! Form::label('batch_type', 'Batch Type:') !!}
                             {!! Form::select('batch_type',$batchType, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
+                        </div>
+                        <div class="form-group col-sm-2 incomeFilter" style="display: none">
+                            {!! Form::label('income_type', 'Category:') !!}
+                            {!! Form::select('income_type',$incomeType, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
                         </div>
 {{--                        <div class="form-group  col-sm-4">--}}
 {{--                            {!! Form::label('date', 'Date:') !!}--}}
@@ -246,6 +250,7 @@
                     $('#gst').hide();
                     $('#student').show();
                     $('.dateFilter').show();
+                    $('.incomeFilter').hide();
 
                 } else if (Type == 'corporate'){
                     $('.student').hide();
@@ -255,6 +260,7 @@
                     $('#income').hide();
                     $('.status').show();
                     $('#trainer').hide();
+                    $('.incomeFilter').hide();
                     $('#batch').hide();
                     $('#cash').hide();
                     $('#bank').hide();
@@ -310,6 +316,7 @@
                     $('#cash').hide();
                     $('#expense').show();
                     $('.dateFilter').show();
+                    $('.incomeFilter').hide();
                     var filter = true;
                     // var dates = $('#reportrange').val();
                     // alert(dates);
@@ -356,6 +363,7 @@
                     $('#gst').hide();
                     $('#cash').hide();
                     $('.dateFilter').show();
+                    $('.incomeFilter').show();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#IncomeTable') || filter == true) {
                         var IncomeTable = $('#IncomeTable').DataTable({
@@ -371,7 +379,7 @@
                                     "url": 'income-data-table',
                                     "data": function (d) {
                                         d.dates = $('#reportrange').val();
-                                        // d.status = $('#status').val();
+                                        d.income_type = $('#income_type').val();
                                     }
                                 },
                             columns: [
@@ -399,6 +407,7 @@
                     $('#bank').hide();
                     $('#gst').hide();
                     $('#cash').hide();
+                    $('.incomeFilter').hide();
                     $('.dateFilter').show();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#TrainerTable') || filter == true) {
@@ -442,7 +451,7 @@
                     $('#trainer').hide();
                     $('#bank').hide();
                     $('#gst').hide();
-
+                    $('.incomeFilter').hide();
                     $('#cash').hide();
                     $('#batch').show();
                     $('.dateFilter').show();
@@ -493,7 +502,7 @@
                     $('#cash').hide();
                     $('#bank').show();
                     $('#gst').hide();
-
+                    $('.incomeFilter').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#BankTable') || filter == true) {
                         var BankTable = $('#BankTable').DataTable({
@@ -539,6 +548,7 @@
                     $('#bank').hide();
                     $('#cash').show();
                     $('#gst').hide();
+                    $('.incomeFilter').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#CashTable') || filter == true) {
                         $('#CashTable').DataTable({
@@ -571,7 +581,7 @@
                     }
                 }
                 else if(Type == 'gst'){
-
+                    $('.incomeFilter').hide();
                     $('.student').hide();
                     $('#student').hide();
                     $('.batchFilter').hide();
@@ -583,6 +593,7 @@
                     $('#batch').hide();
                     $('.dateFilter').hide();
                     $('#bank').hide();
+                    $('#cash').hide();
                     $('#gst').show();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#GstTable') || filter == true) {
