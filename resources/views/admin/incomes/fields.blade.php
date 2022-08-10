@@ -375,14 +375,14 @@
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
-            
+
             <div class="col-sm-2">
                 <div class="form-group">
                     <br>
                     <br>
                     <label>Batch Not Yet</label>
                     <input id="value" step=".01" name="student[0][no_batch]"
-                           value="1" type="checkbox" onchange="batchDisplay(this.checked, 0)">
+                           value="1" type="checkbox" class="no-batch" onchange="batchDisplay(this.checked, 0)">
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
@@ -674,7 +674,7 @@
             '<label>Due Date</label><span class="error-due_date" style="color:red"></span><br> \n' +
             '<input id="value" name="student[' + mindex + '][due_date]" class="form-control due_date" type="date"> \n' +
             '</div> \n' +
-            '</div> \n' + 
+            '</div> \n' +
             '<div class="col-sm-1 gst'+mindex+'" style="display:none;"> \n' +
             ' <div class="form-group"> \n' +
             ' <br> \n' +
@@ -689,7 +689,7 @@
                 ' <br> \n' +
                 '<br> \n' +
                 '<label>Batch Not Yet</label> \n' +
-                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
+                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" class="no-batch" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +
 
                 '  </div> \n' +
@@ -727,10 +727,10 @@
                 '\n' +
                 '                                            <td>\n' +
                 '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-batch"style="color: red"></span>\n' +
-                
+
                 @php
                     $option = '';
-                 
+
                 @endphp
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
@@ -1031,34 +1031,36 @@
                     } else {
                         $(this).find(".error-pay_amount").text('');
                     }
-                    $(this).find(".addrowbellow").each(function () {
-                        var batch = $(this).find(".batch").val();
-                        var trainer = $(this).find(".trainer").val();
-                        var trainer_fees = $(this).find(".trainer_fees").val();
-                        if (batch == "") {
-                            t++;
-                            $(this).find(".error-batch").text('*requied');
+                    if($(this).find(".no-batch").prop('checked') == false) {
+                        $(this).find(".addrowbellow").each(function () {
+                            var batch = $(this).find(".batch").val();
+                            var trainer = $(this).find(".trainer").val();
+                            var trainer_fees = $(this).find(".trainer_fees").val();
+                            if (batch == "") {
+                                t++;
+                                $(this).find(".error-batch").text('*requied');
 
-                        } else {
-                            $(this).find(".error-batch").text('');
-                        }
-                        if (trainer == "") {
-                            t++;
-                            $(this).find(".error-trainer").text('*requied');
+                            } else {
+                                $(this).find(".error-batch").text('');
+                            }
+                            if (trainer == "") {
+                                t++;
+                                $(this).find(".error-trainer").text('*requied');
 
-                        } else {
-                            $(this).find(".error-trainer").text('');
-                        }
-                       if(IncomeType == 'Retail Training') {
-                           if (trainer_fees == "") {
-                               t++;
-                               $(this).find(".error-trainer_fees").text('*requied');
+                            } else {
+                                $(this).find(".error-trainer").text('');
+                            }
+                            if (IncomeType == 'Retail Training') {
+                                if (trainer_fees == "") {
+                                    t++;
+                                    $(this).find(".error-trainer_fees").text('*requied');
 
-                           } else {
-                               $(this).find(".error-trainer_fees").text('');
-                           }
-                       }
-                    });
+                                } else {
+                                    $(this).find(".error-trainer_fees").text('');
+                                }
+                            }
+                        });
+                    }
                 });
                 if (t == 0) {
                     alert('success');

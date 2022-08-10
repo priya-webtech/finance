@@ -42,9 +42,10 @@ class Student extends Model
         'state',
         'status',
         'branch_id',
+        'lead_source_id',
         'remark',
         'due_date',
-        
+
     ];
 
     /**
@@ -57,13 +58,13 @@ class Student extends Model
         'name' => 'string',
         'email' => 'string',
         'mobile_no' => 'string',
-        //'lead_source' => 'integer',
+        'lead_source_id' => 'integer',
         'enquiry_type' => 'integer',
         'student_type' => 'integer',
         'branch_id' => 'integer',
         'state' => 'string',
-       // 'agreed_amount' => 'decimal:2',
-       // 'placement' => 'string',
+        // 'agreed_amount' => 'decimal:2',
+        // 'placement' => 'string',
         'status' => 'integer'
     ];
 
@@ -76,22 +77,22 @@ class Student extends Model
         'name' => 'required',
         'email' => 'required',
         'mobile_no' => 'required|digits:10',
-       // 'lead_source' => 'required',
+        // 'lead_source_id' => 'required',
         'enquiry_type' => 'required',
         'student_type' => 'required',
         'state' => 'required',
         'branch_id' => 'required',
-      //  'agreed_amount' => 'required',
-       // 'placement' => 'required',
-       // 'branch_id' => 'required',
-       // 'batch_id' => 'required',
-       // 'reg_for_month' => 'required',
-       // 'reg_taken_id' => 'required',
+        //  'agreed_amount' => 'required',
+        // 'placement' => 'required',
+        // 'branch_id' => 'required',
+        // 'batch_id' => 'required',
+        // 'reg_for_month' => 'required',
+        // 'reg_taken_id' => 'required',
     ];
 
-//    public function leadSource(){
-//        return $this->belongsTo(LeadSources::class,'lead_source');
-//    }
+    public function leadSource(){
+        return $this->belongsTo(LeadSources::class,'lead_source_id');
+    }
     public function enquiryType(){
         return $this->belongsTo(EnquiryType::class,'enquiry_type');
     }
@@ -107,10 +108,10 @@ class Student extends Model
 
     public function getDuePaymentAttribute()
     {
-     //$total =  Income::where('student_id',$this->id)->select(DB::raw('sum(paying_amount * gst) as total'));
-     $total =  Income::where('student_id',$this->id)->sum('paying_amount', '+', 'gst');
-     $remain = $this->agreed_amount - $total;
-     return $remain;
+        //$total =  Income::where('student_id',$this->id)->select(DB::raw('sum(paying_amount * gst) as total'));
+        $total =  Income::where('student_id',$this->id)->sum('paying_amount', '+', 'gst');
+        $remain = $this->agreed_amount - $total;
+        return $remain;
     }
 
     public function studDetail(){

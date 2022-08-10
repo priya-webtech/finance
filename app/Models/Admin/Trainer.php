@@ -67,9 +67,9 @@ class Trainer extends Model
     public function branch(){
         return $this->belongsTo(Branch::class,'branch_id');
     }
-    public function Course(){
-        return $this->belongsTo(Course::class,'course_id');
-    }
+//    public function Course(){
+//        return $this->belongsTo(Course::class,'course_id');
+//    }
 
     public function courseWiseTrainerFee()
     {
