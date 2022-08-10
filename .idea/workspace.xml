@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="23/07/22">
-      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/ExpenseDataTable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/IncomeDataTable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/TrainerDataTable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bootstrap.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public (2).zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/BankDataTable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/BatchDataTable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/DataTables/Admin/GstDataTable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2022_08_10_092424_add_lead_source_to_students_table.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/routes.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vendor.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/StudentDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/StudentDataTable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/TrainerDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/TrainerDataTable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DashBoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DashBoardController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarcompanyAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/CreateCarmodelAPIRequest.php" beforeDir="false" />
@@ -35,8 +31,10 @@
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateSettingAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStateAPIRequest.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Requests/API/Admin/UpdateStaticdataAPIRequest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin/Trainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin/Trainer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2022_07_08_113943_create_student_detail_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2022_07_08_113943_create_student_detail_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_db (2).sql" beforeDir="false" afterPath="$PROJECT_DIR$/finance_db (2).sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
@@ -73,7 +71,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="paresh" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -332,6 +330,7 @@
       <workItem from="1659760676817" duration="24674000" />
       <workItem from="1659933770784" duration="26088000" />
       <workItem from="1660018045458" duration="1244000" />
+      <workItem from="1660105072574" duration="19250000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -418,28 +417,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php</url>
-          <line>778</line>
+          <line>882</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
-          <line>359</line>
+          <line>367</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
-          <line>679</line>
+          <line>703</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php</url>
-          <line>299</line>
+          <line>307</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/resources/views/layouts/menu.blade.php</url>
           <line>10</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/admin/incomes/fields.blade.php</url>
+          <line>1036</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php-line-method">
           <url>file://$PROJECT_DIR$/app/Models/Admin/Income.php</url>

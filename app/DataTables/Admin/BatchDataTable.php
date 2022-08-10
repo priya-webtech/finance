@@ -2,51 +2,48 @@
 
 namespace App\DataTables\Admin;
 
+use App\Models\Admin\Batch;
 use App\Models\Admin\Carcompany;
+use App\Models\Admin\CorporateFessCollection;
+use App\Models\Admin\ExpenceMaster;
+use App\Models\Admin\ExpenseTypes;
+use App\Models\Admin\Income;
+use App\Models\Admin\IncomeType;
 use App\Models\Admin\Student;
+use App\Models\Admin\StudentFessCollection;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class StudentDataTable extends DataTable
+class BatchDataTable extends DataTable
 {
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
-            ->editColumn('branch_id', function ($record){
-                return $record->branch->title;
+            ->editColumn('course_id', function ($record){
+                return $record->course->course_name;
             })
-            ->editColumn('student_type', function ($record){
-                return $record->studentType->title;
+            ->editColumn('batch_mode_id', function ($record){
+                return $record->batchMode->title;
             })
-            ->editColumn('enquiry_type', function ($record){
-                return $record->enquiryType->title;
+            ->editColumn('trainer_id', function ($record){
+                return $record->trainer->trainer_name;
             })
-            ->editColumn('lead_source_id', function ($record){
-                return $record->leadSource->title;
-            })
-            ->editColumn('status', function ($record){
-                if ($record->status == 1){
-                  $status = "<span class='badge badge-success'>Active</span>";
+            ->editColumn('batch_status', function ($record) {
+                if ($record->batch_status == 'open'){
+                    $status = "<span class='badge badge-success'>OPEN</span>";
                 }else{
-                    $status = "<span class='badge badge-danger'>Block</span>";
+                    $status = "<span class='badge badge-danger'>Closed</span>";
                 }
                 return $status;
             })
+            ->editColumn('batch_type_id', function ($record) {
+                return $record->batchType->title;
+            })
+
             ->filter(function ($record){
                 $record->where(function ($q) {
-                    if (request('enquiry_type')) {
-                     $q->where('enquiry_type', request('enquiry_type'));
-                    }
-                    if (request('student_type')) {
-                        $q->where('student_type', request('student_type'));
-                    }
-                     if (request('lead_source')) {
-                         $q->where('lead_source_id', request('lead_source'));
-                     }
-                    if (request('state')){
-                        $q->where('state', request('state'));
-                    }
                     if (request('dates')){
                         $part = explode("-",request('dates'));
                         $start = date('Y-m-d', strtotime($part[0]));
@@ -54,22 +51,15 @@ class StudentDataTable extends DataTable
                             $q->whereDate('created_at', '>=', $start)
                                 ->whereDate('created_at', '<=', $end);
                     }
+                    if (request('batch_type')){
+                        $q->where('batch_type_id',request('batch_type'));
+                    }
+                    if (request('batch_mode')){
+                        $q->where('batch_mode_id',request('batch_mode'));
+                    }
                 });
-               if (request('status')){
-                   if (request('status') == 'assigned'){
-                       $record->whereHas('studDetail', function($q) {
-                           $q->whereHas('studBatchDetail');
-                       });
-                   }elseif (request('status') == 'unassigned'){
-
-                       $record->whereHas('studDetail', function($q) {
-                           $q->doesntHave('studBatchDetail');
-
-                       });
-                   }
-               }
             })
-            ->rawColumns(['action','status']);
+            ->rawColumns(['action','batch_status']);
     }
 
     /**
@@ -78,9 +68,8 @@ class StudentDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Student $model)
+    public function query(Batch $model)
     {
-
         return  $model->newQuery();
     }
 
@@ -118,18 +107,15 @@ class StudentDataTable extends DataTable
     {
         return [
             'id' => ['searchable' => false],
+            'course_id',
+            'batch_mode_id',
+            'trainer_id',
             'name',
-            'email',
-            'mobile_no',
-            'student_type',
-            'enquiry_type',
-            'lead_source_id',
-            'branch_id',
-            'state',
+            'start',
             'status',
-            'branch_id',
-            'remark',
-            //'type' => ['searchable' => false],
+            'batch_status',
+            'batch_type_id'
+
         ];
     }
 
@@ -140,6 +126,6 @@ class StudentDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'students_datatable_' . time();
+        return 'batchs_datatable_' . time();
     }
 }
