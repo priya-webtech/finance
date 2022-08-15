@@ -55,13 +55,20 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('expense-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'ExpenseDataTable'])->name('expense-data-table');
     Route::get('income-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'IncomeDataTable'])->name('income-data-table');
     Route::get('trainer-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'TrainerDataTable'])->name('trainer-data-table');
+    Route::get('batch-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'BatchDataTable'])->name('batch-data-table');
+    Route::get('bank-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'BankDataTable'])->name('bank-data-table');
+    Route::get('cash-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'CashDataTable'])->name('cash-data-table');
+    Route::get('gst-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'GstDataTable'])->name('gst-data-table');
+    Route::get('due-fees-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'dueFeesDataTable'])->name('due-fees-data-table');
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
+    Route::post('due_feescolums-due_feeses', ['as' => 'due_feesesdue_feescolums.due_feescolums', 'uses' => 'App\Http\Controllers\Admin\DueFeesController@due_feescolums']);
     Route::get('/due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'edit'])->name('due-fees-edit');
     Route::post('/pay-due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'update'])->name('pay-due-fees');
     Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate');
 
 
     Route::get('/search-record', [App\Http\Controllers\Admin\DueFeesController::class, 'searchRecord'])->name('search-record');
+    Route::get('/income-verify', [App\Http\Controllers\Admin\IncomeController::class, 'incomeVerify'])->name('income-verify');
     Route::get('/count-batch-student', [App\Http\Controllers\Admin\IncomeController::class, 'countStud'])->name('count-batch-student');
     Route::post('/profile-update', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile-update');
     Route::post('/change-password', [App\Http\Controllers\Admin\ProfileController::class, 'changePassword'])->name('change-password');

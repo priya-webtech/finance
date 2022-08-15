@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\DataTables\Admin\BankDataTable;
+use App\DataTables\Admin\BatchDataTable;
 use App\DataTables\Admin\CarmodelDataTable;
 use App\DataTables\Admin\CorporateDataTable;
+use App\DataTables\Admin\DueFeesDataTable;
 use App\DataTables\Admin\ExpenseDataTable;
+use App\DataTables\Admin\GstDataTable;
 use App\DataTables\Admin\IncomeDataTable;
 use App\DataTables\Admin\StudentDataTable;
 use App\DataTables\Admin\TrainerDataTable;
 use App\Http\Requests\Admin;
+use App\Models\Admin\BatchMode;
+use App\Models\Admin\BatchType;
 use App\Models\Admin\EnquiryType;
+use App\Models\Admin\IncomeType;
 use App\Models\Admin\LeadSources;
 use App\Models\Admin\StudentType;
 use App\Models\User;
@@ -49,16 +56,18 @@ class DashBoardController extends AppBaseController
      */
     public function index()
     {
-       // dd(auth()->user()->role_id);
          $auth =auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
 
            $enquirytype = EnquiryType::pluck('title','id');
            $studentType = StudentType::pluck('title','id');
            $leadSources =  LeadSources::pluck('title','id');
+           $batchType =  BatchType::pluck('title','id');
+           $batchMode =  BatchMode::pluck('title','id');
+           $incomeType =  IncomeType::pluck('title','id');
             $path = asset('country.json');
             $state = json_decode(file_get_contents(public_path() . "\country.json"), true);
-        return view('admin.dashboard.dashboard',compact('enquirytype','studentType','leadSources','state'));
+        return view('admin.dashboard.dashboard',compact('enquirytype','studentType','leadSources','state','batchMode','batchType','incomeType'));
         }elseif (auth()->user()->role_id == 3) {
            $auth =auth::user();
         $user =  User::where('branch_id',$auth->branch_id)->count();
@@ -176,5 +185,28 @@ class DashBoardController extends AppBaseController
     public function TrainerDataTable(TrainerDataTable $trainerDataTable)
     {
         return $trainerDataTable->render('admin.students.datatable');
+    }
+
+    public function BatchDataTable(BatchDataTable $batchDataTable)
+    {
+        return $batchDataTable->render('admin.students.datatable');
+    }
+
+    public function BankDataTable(BankDataTable $bankDataTable)
+    {
+        return $bankDataTable->render('admin.students.datatable');
+    }
+    public function CashDataTable(BankDataTable $bankDataTable)
+    {
+        return $bankDataTable->render('admin.students.datatable');
+    }
+
+    public function GstDataTable(GstDataTable $gstDataTable)
+    {
+        return $gstDataTable->render('admin.students.datatable');
+    }
+    public function dueFeesDataTable(DueFeesDataTable $dueFeesDataTable)
+    {
+        return $dueFeesDataTable->render('admin.students.datatable');
     }
 }
