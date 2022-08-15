@@ -11,6 +11,8 @@ use App\Models\Admin\Income;
 use App\Models\Admin\IncomeType;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentFessCollection;
+use App\Models\Admin\Trainer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -70,6 +72,16 @@ class BatchDataTable extends DataTable
      */
     public function query(Batch $model)
     {
+        $auth = Auth::user();
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $model = Batch::query();
+
+        }else{
+            $model =  Batch::whereHas('course', function($query) use($auth){
+                $query->where('branch_id', $auth->branch_id);
+            });
+
+        }
         return  $model->newQuery();
     }
 

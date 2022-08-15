@@ -10,6 +10,7 @@ use App\Models\Admin\Income;
 use App\Models\Admin\IncomeType;
 use App\Models\Admin\Student;
 use App\Models\Admin\StudentFessCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -23,6 +24,8 @@ class IncomeDataTable extends DataTable
             ->addColumn('total_revenue', function ($record){
                 $total = 0;
                 if ($record->title == "Retail Training"){
+                    $auth = Auth::user();
+                    if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
                      $income = Income::where('income_type_id',$record->id)
                          ->when(request('dates'), function ($q) {
                              $part = explode("-",request('dates'));
@@ -31,16 +34,37 @@ class IncomeDataTable extends DataTable
                              $q->whereDate('created_at', '>=', $start)
                                  ->whereDate('created_at', '<=', $end);
                          });
+                        }else{
+                        $income = Income::where('branch_id',$auth->branch_id)->where('income_type_id',$record->id)
+                            ->when(request('dates'), function ($q) {
+                                $part = explode("-",request('dates'));
+                                $start = date('Y-m-d', strtotime($part[0]));
+                                $end = date('Y-m-d', strtotime($part[1]));
+                                $q->whereDate('created_at', '>=', $start)
+                                    ->whereDate('created_at', '<=', $end);
+                            });
+                    }
                      $ids = $income->pluck('id')->toArray();
                      $gst = StudentFessCollection::whereIn('income_id',$ids)->sum('gst');
                      return "₹ ".$gst  +$income->sum('paying_amount');
                 }else if ($record->title == "Corporate Training"){
-                    $income = Income::where('income_type_id',$record->id);
+                    $auth = Auth::user();
+                    if ($auth->hasRole('super_admin') || $auth->hasRole('admin')) {
+                        $income = Income::where('income_type_id', $record->id);
+                    }else{
+                        $income = Income::where('branch_id',$auth->branch_id)->where('income_type_id', $record->id);
+                    }
                     $ids = $income->pluck('id')->toArray();
                     $gst = CorporateFessCollection::whereIn('income_id',$ids)->sum('gst');
                     return  "₹ ".$gst  +$income->sum('paying_amount');
                 }else{
-                 $income =  Income::where('income_type_id',$record->id);
+                    $auth = Auth::user();
+                    if ($auth->hasRole('super_admin') || $auth->hasRole('admin')) {
+                        $income = Income::where('income_type_id', $record->id);
+                    }else{
+                        $income = Income::where('branch_id',$auth->branch_id)->where('income_type_id',$record->id);
+                    }
+//                 $income =  Income::where('income_type_id',$record->id);
                 $amount = $income->sum('paying_amount');
                 return "₹ ".$amount+$income->sum('gst');
                 }

@@ -3,6 +3,7 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Admin\Carcompany;
+use App\Models\Admin\Corporate;
 use App\Models\Admin\CorporateFessCollection;
 use App\Models\Admin\ExpenceMaster;
 use App\Models\Admin\ExpenseTypes;
@@ -12,6 +13,7 @@ use App\Models\Admin\Student;
 use App\Models\Admin\StudentBatchDetail;
 use App\Models\Admin\StudentFessCollection;
 use App\Models\Admin\Trainer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -78,8 +80,14 @@ class TrainerDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Trainer $model)
+    public function query()
     {
+        $auth = Auth::user();
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $model = Trainer::query();
+        }else{
+            $model =  Trainer::where('branch_id',$auth->branch_id);
+        }
         return  $model->newQuery();
     }
 

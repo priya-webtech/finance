@@ -134,13 +134,27 @@ class DueFeesDataTable extends DataTable
           ->select('corporate_detail.id as id','corporates.company_name as name','corporates.email as email','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
         }else{
 
-            $a = StudentDetail::where('student_detail.branch_id',$auth->branch_id)->join('students', 'student_detail.student_id', '=', 'students.id')
+            $a = StudentDetail::where('student_detail.branch_id',$auth->branch_id)->
+                when(request('dates'), function ($q) {
+                    $part = explode("-",request('dates'));
+                    $start = date('Y-m-d', strtotime($part[0]));
+                    $end = date('Y-m-d', strtotime($part[1]));
+                    $q->whereDate('due_date', '>=', $start)
+                        ->whereDate('due_date', '<=', $end);
+                })->join('students', 'student_detail.student_id', '=', 'students.id')
                 ->join('courses', 'student_detail.course_id', '=', 'courses.id')
                 ->join('student_fees_collections', 'student_detail.id', '=', 'student_fees_collections.student_detail_id')
                 ->join('incomes', 'student_fees_collections.income_id', '=', 'incomes.id')
                 ->select('student_detail.id as id','students.name as name','students.email as email','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
 
-            $b = CorporateDetail::where('corporates.branch_id',$auth->branch_id)->join('corporates', 'corporate_detail.corporate_id', '=', 'corporates.id')
+            $b = CorporateDetail::where('corporates.branch_id',$auth->branch_id)->
+                when(request('dates'), function ($q) {
+                    $part = explode("-",request('dates'));
+                    $start = date('Y-m-d', strtotime($part[0]));
+                    $end = date('Y-m-d', strtotime($part[1]));
+                    $q->whereDate('due_date', '>=', $start)
+                        ->whereDate('due_date', '<=', $end);
+                })->join('corporates', 'corporate_detail.corporate_id', '=', 'corporates.id')
             ->join('courses', 'corporate_detail.course_id', '=', 'courses.id')
             ->join('corporate_fees_collections', 'corporate_detail.id', '=', 'corporate_fees_collections.corporate_detail_id')
             ->join('incomes', 'corporate_fees_collections.income_id', '=', 'incomes.id')

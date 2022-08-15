@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+       $auth = \Illuminate\Support\Facades\Auth::user();
+    @endphp
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -23,10 +26,17 @@
             <div class="card-body p-0">
                 <div class="card-footer clearfix">
                     <div class="row">
-                    <div class="form-group col-sm-2">
+                        @if($auth->hasRole('super_admin') || $auth->hasRole('admin') || $auth->hasRole('branch_manager'))
+                     <div class="form-group col-sm-2">
                         {!! Form::label('type', 'Table:') !!}
                         {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
-                    </div>
+                     </div>
+                        @elseif($auth->hasRole('counsellor'))
+                            <div class="form-group col-sm-2">
+                                {!! Form::label('type', 'Table:') !!}
+                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','batch'=>'Batch'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                            </div>
+                            @endif
                     <div class="form-group col-sm-2 status">
                         {!! Form::label('status', 'Type:') !!}
                         {!! Form::select('status',[''=>'All','assigned'=>'Assigned','unassigned'=>'Unassigned'], null, ['class' => 'form-control filter']) !!}
@@ -155,6 +165,7 @@
                         <th>Id</th>
                         <th>Course Name</th>
                         <th>Trainer Name</th>
+                        <th>Fees</th>
                         <th>Paid</th>
                         <th>Out Standing</th>
                         <th>Payment Status</th>
@@ -269,7 +280,7 @@
                     $('#student').show();
                     $('.dateFilter').show();
                     $('.incomeFilter').hide();
-
+                    $('#due-fees').hide();
                 } else if (Type == 'corporate'){
                     $('.student').hide();
                     $('.batchFilter').hide();
@@ -285,6 +296,7 @@
                     $('#gst').hide();
                     $('#corporate').show();
                     $('.dateFilter').show();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#CorporateTable') || filter == true) {
                         let CorpoTable = $('#CorporateTable').DataTable({
@@ -335,6 +347,7 @@
                     $('#expense').show();
                     $('.dateFilter').show();
                     $('.incomeFilter').hide();
+                    $('#due-fees').hide();
                     var filter = true;
                     // var dates = $('#reportrange').val();
                     // alert(dates);
@@ -382,6 +395,7 @@
                     $('#cash').hide();
                     $('.dateFilter').show();
                     $('.incomeFilter').show();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#IncomeTable') || filter == true) {
                         var IncomeTable = $('#IncomeTable').DataTable({
@@ -427,6 +441,7 @@
                     $('#cash').hide();
                     $('.incomeFilter').hide();
                     $('.dateFilter').show();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#TrainerTable') || filter == true) {
                         let TrainerTable = $('#TrainerTable').DataTable({
@@ -522,6 +537,7 @@
                     $('#cash').hide();
                     $('#batch').show();
                     $('.dateFilter').show();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#BatchTable') || filter == true) {
                         var BatchTable = $('#BatchTable').DataTable({
@@ -570,6 +586,7 @@
                     $('#bank').show();
                     $('#gst').hide();
                     $('.incomeFilter').hide();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#BankTable') || filter == true) {
                         var BankTable = $('#BankTable').DataTable({
@@ -616,6 +633,7 @@
                     $('#cash').show();
                     $('#gst').hide();
                     $('.incomeFilter').hide();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#CashTable') || filter == true) {
                         $('#CashTable').DataTable({
@@ -662,6 +680,7 @@
                     $('#bank').hide();
                     $('#cash').hide();
                     $('#gst').show();
+                    $('#due-fees').hide();
                     var filter = true;
                     if (!$.fn.dataTable.isDataTable('#GstTable') || filter == true) {
 

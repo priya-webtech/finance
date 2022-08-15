@@ -3,9 +3,11 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Admin\Carcompany;
+use App\Models\Admin\Corporate;
 use App\Models\Admin\ExpenceMaster;
 use App\Models\Admin\ExpenseTypes;
 use App\Models\Admin\Student;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -17,16 +19,31 @@ class ExpenseDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
             ->addColumn('total_expense', function ($record){
-                $expense =  ExpenceMaster::where('expence_type_id',$record->id)
-                    ->when(request('dates'), function ($q) {
-                    $part = explode("-",request('dates'));
-                        $start = date('Y-m-d', strtotime($part[0]));
-                        $end = date('Y-m-d', strtotime($part[1]));
-                         $q->whereDate('date', '>=', $start)
+                $auth = Auth::user();
+                if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+                    $expense =  ExpenceMaster::where('expence_type_id',$record->id)
+                        ->when(request('dates'), function ($q) {
+                            $part = explode("-",request('dates'));
+                            $start = date('Y-m-d', strtotime($part[0]));
+                            $end = date('Y-m-d', strtotime($part[1]));
+                            $q->whereDate('date', '>=', $start)
                                 ->whereDate('date', '<=', $end);
-                });
-                $amount = $expense->sum('amount');
-                return "₹ ".$amount+$expense->sum('tds');
+                        });
+                    $amount = $expense->sum('amount');
+                    return "₹ ".$amount+$expense->sum('tds');
+                }else{
+                    $expense =  ExpenceMaster::where('branch_id',$auth->branch_id)->where('expence_type_id',$record->id)
+                        ->when(request('dates'), function ($q) {
+                            $part = explode("-",request('dates'));
+                            $start = date('Y-m-d', strtotime($part[0]));
+                            $end = date('Y-m-d', strtotime($part[1]));
+                            $q->whereDate('date', '>=', $start)
+                                ->whereDate('date', '<=', $end);
+                        });
+                    $amount = $expense->sum('amount');
+                    return "₹ ".$amount+$expense->sum('tds');
+                }
+
             })
 //            ->filter(function ($record){
 //                $record->where(function ($q) {

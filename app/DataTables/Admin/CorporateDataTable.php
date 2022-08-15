@@ -5,6 +5,7 @@ namespace App\DataTables\Admin;
 use App\Models\Admin\Carcompany;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\Student;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -62,10 +63,16 @@ class CorporateDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Corporate $model)
+    public function query()
     {
-
+        $auth = Auth::user();
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $model = Corporate::query();
+        }else{
+            $model =  Corporate::where('branch_id',$auth->branch_id);
+        }
         return  $model->with('corporateDetail')->newQuery();
+
     }
 
     /**

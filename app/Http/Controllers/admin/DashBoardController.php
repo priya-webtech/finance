@@ -57,92 +57,95 @@ class DashBoardController extends AppBaseController
     public function index()
     {
          $auth =auth::user();
-        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+        if($auth->hasRole('super_admin') || $auth->hasRole('admin') || $auth->hasRole('branch_manager') || $auth->hasRole('counsellor')) {
 
-           $enquirytype = EnquiryType::pluck('title','id');
-           $studentType = StudentType::pluck('title','id');
-           $leadSources =  LeadSources::pluck('title','id');
-           $batchType =  BatchType::pluck('title','id');
-           $batchMode =  BatchMode::pluck('title','id');
-           $incomeType =  IncomeType::pluck('title','id');
+            $enquirytype = EnquiryType::pluck('title', 'id');
+            $studentType = StudentType::pluck('title', 'id');
+            $leadSources = LeadSources::pluck('title', 'id');
+            $batchType = BatchType::pluck('title', 'id');
+            $batchMode = BatchMode::pluck('title', 'id');
+            $incomeType = IncomeType::pluck('title', 'id');
             $path = asset('country.json');
             $state = json_decode(file_get_contents(public_path() . "\country.json"), true);
-        return view('admin.dashboard.dashboard',compact('enquirytype','studentType','leadSources','state','batchMode','batchType','incomeType'));
-        }elseif (auth()->user()->role_id == 3) {
-           $auth =auth::user();
-        $user =  User::where('branch_id',$auth->branch_id)->count();
-            $branch =  Branch::where('id',$auth->branch_id)->count();
-            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
-            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
-            $student =  Student::where('branch_id',$auth->branch_id)->count();
-            $course =  Course::where('branch_id',$auth->branch_id)->count();
-            $batch =   Batch::whereHas('course', function($q) use($auth){
-                $q->where('branch_id', $auth->branch_id);
-            })->count();
-            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
-            $counter = array_merge($studentincome, $corporateincome,$merge);
-            $income = count($counter);
-            $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
-            return view('admin.dashboard.dashboard-branch-manager',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
-        }elseif (auth()->user()->role_id == 4) {
-              $auth =auth::user();
-        $user =  User::where('branch_id',$auth->branch_id)->count();
-            $branch =  Branch::where('id',$auth->branch_id)->count();
-            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
-            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
-            $student =  Student::where('branch_id',$auth->branch_id)->count();
-            $course =  Course::where('branch_id',$auth->branch_id)->count();
-            $batch =   Batch::whereHas('course', function($q) use($auth){
-                $q->where('branch_id', $auth->branch_id);
-            })->count();
-            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
-            $counter = array_merge($studentincome, $corporateincome,$merge);
-            $income = count($counter);
-             $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
-            return view('admin.dashboard.dashboard-counsellor',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
-        }elseif (auth()->user()->role_id == 5) {
-              $auth =auth::user();
-        $user =  User::where('branch_id',$auth->branch_id)->count();
-            $branch =  Branch::where('id',$auth->branch_id)->count();
-            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
-            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
-            $student =  Student::where('branch_id',$auth->branch_id)->count();
-            $course =  Course::where('branch_id',$auth->branch_id)->count();
-            $batch =   Batch::whereHas('course', function($q) use($auth){
-                $q->where('branch_id', $auth->branch_id);
-            })->count();
-            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
-            $counter = array_merge($studentincome, $corporateincome,$merge);
-            $income = count($counter);
-             $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
-            return view('admin.dashboard.dashboard-internal-auditor',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
-        }elseif (auth()->user()->role_id == 6) {
-              $auth =auth::user();
-        $user =  User::where('branch_id',$auth->branch_id)->count();
-            $branch =  Branch::where('id',$auth->branch_id)->count();
-            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
-            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
-            $student =  Student::where('branch_id',$auth->branch_id)->count();
-            $course =  Course::where('branch_id',$auth->branch_id)->count();
-            $batch =   Batch::whereHas('course', function($q) use($auth){
-                $q->where('branch_id', $auth->branch_id);
-            })->count();
-            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
-            $counter = array_merge($studentincome, $corporateincome,$merge);
-            $income = count($counter);
-             $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
-            return view('admin.dashboard.dashboard-student-co-ordinator',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
+            return view('admin.dashboard.dashboard', compact('enquirytype', 'studentType', 'leadSources', 'state', 'batchMode', 'batchType', 'incomeType'));
         }else{
-            return view('admin.dashboard.dashboard');
+            return view('admin.dashboard.dashboard-internal-auditor');
         }
+        //        }elseif (auth()->user()->role_id == 3) {
+//           $auth =auth::user();
+//        $user =  User::where('branch_id',$auth->branch_id)->count();
+//            $branch =  Branch::where('id',$auth->branch_id)->count();
+//            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
+//            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
+//            $student =  Student::where('branch_id',$auth->branch_id)->count();
+//            $course =  Course::where('branch_id',$auth->branch_id)->count();
+//            $batch =   Batch::whereHas('course', function($q) use($auth){
+//                $q->where('branch_id', $auth->branch_id);
+//            })->count();
+//            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+//            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+//            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+//            $counter = array_merge($studentincome, $corporateincome,$merge);
+//            $income = count($counter);
+//            $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
+//            return view('admin.dashboard.dashboard-branch-manager',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
+//        }elseif (auth()->user()->role_id == 4) {
+//              $auth =auth::user();
+//        $user =  User::where('branch_id',$auth->branch_id)->count();
+//            $branch =  Branch::where('id',$auth->branch_id)->count();
+//            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
+//            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
+//            $student =  Student::where('branch_id',$auth->branch_id)->count();
+//            $course =  Course::where('branch_id',$auth->branch_id)->count();
+//            $batch =   Batch::whereHas('course', function($q) use($auth){
+//                $q->where('branch_id', $auth->branch_id);
+//            })->count();
+//            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+//            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+//            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+//            $counter = array_merge($studentincome, $corporateincome,$merge);
+//            $income = count($counter);
+//             $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
+//            return view('admin.dashboard.dashboard-counsellor',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
+//        }elseif (auth()->user()->role_id == 5) {
+//              $auth =auth::user();
+//        $user =  User::where('branch_id',$auth->branch_id)->count();
+//            $branch =  Branch::where('id',$auth->branch_id)->count();
+//            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
+//            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
+//            $student =  Student::where('branch_id',$auth->branch_id)->count();
+//            $course =  Course::where('branch_id',$auth->branch_id)->count();
+//            $batch =   Batch::whereHas('course', function($q) use($auth){
+//                $q->where('branch_id', $auth->branch_id);
+//            })->count();
+//            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+//            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+//            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+//            $counter = array_merge($studentincome, $corporateincome,$merge);
+//            $income = count($counter);
+//             $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
+//            return view('admin.dashboard.dashboard-internal-auditor',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
+//        }elseif (auth()->user()->role_id == 6) {
+//              $auth =auth::user();
+//        $user =  User::where('branch_id',$auth->branch_id)->count();
+//            $branch =  Branch::where('id',$auth->branch_id)->count();
+//            $trainer =  Trainer::where('branch_id',$auth->branch_id)->count();
+//            $corporate =  Corporate::where('branch_id',$auth->branch_id)->count();
+//            $student =  Student::where('branch_id',$auth->branch_id)->count();
+//            $course =  Course::where('branch_id',$auth->branch_id)->count();
+//            $batch =   Batch::whereHas('course', function($q) use($auth){
+//                $q->where('branch_id', $auth->branch_id);
+//            })->count();
+//            $studentincome = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+//            $corporateincome = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+//            $merge = Income::where('branch_id',$auth->branch_id)->doesntHave('corporateStudFees')->doesntHave('incomeStudFees')->get()->toArray();
+//            $counter = array_merge($studentincome, $corporateincome,$merge);
+//            $income = count($counter);
+//             $expenceMaster =  ExpenceMaster::where('branch_id',$auth->branch_id)->count();
+//            return view('admin.dashboard.dashboard-student-co-ordinator',compact('user','branch','trainer','corporate','student','course','batch','income','expenceMaster'));
+//        }else{
+//            return view('admin.dashboard.dashboard');
+//        }
     }
 
     public function Getbranchwise(){

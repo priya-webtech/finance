@@ -4,6 +4,7 @@ namespace App\DataTables\Admin;
 
 use App\Models\Admin\Carcompany;
 use App\Models\Admin\Student;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -78,9 +79,14 @@ class StudentDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Student $model)
+    public function query()
     {
-
+        $auth = Auth::user();
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $model = Student::query();
+        }else{
+            $model =  Student::where('branch_id',$auth->branch_id);
+        }
         return  $model->newQuery();
     }
 
