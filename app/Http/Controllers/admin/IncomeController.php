@@ -60,10 +60,10 @@ class IncomeController extends AppBaseController
             $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
              $incomes = Income::whereIn('income_type_id',$inType)->get()->toArray();
-       
+
         }else{
             $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-           
+
             $corporate = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
             $incomes = Income::where('branch_id',$auth->branch_id)->whereIn('income_type_id',$inType)->get()->toArray();
         }
@@ -84,9 +84,9 @@ class IncomeController extends AppBaseController
 
     public function getIncomecourse()
     {
-       
+
         $result = Course::where('branch_id',\request('branchID'))->pluck('course_name','id');
-      
+
         return response()->json($result);
     }
 
@@ -147,7 +147,7 @@ class IncomeController extends AppBaseController
              $incomesQuery=Income::query();
              $incomesQuery->where('branch_id',$auth->branch_id);
              $incomes  = $incomesQuery->where(function($query) use($request,$auth){
-                            
+
                                        $query->orwhere('income_type_id',$request['income_type_id'])
                                       ->orWhere('mode_of_payment',$request['mode_of_payment'])
                                       ->doesntHave('corporateStudFees')->doesntHave('incomeStudFees');
@@ -426,7 +426,7 @@ class IncomeController extends AppBaseController
         $corporate = ' ';
         $income = ' ';
    if (\request('type') == 'corporate') {
-      
+
             $corporate = Corporate::findorfail($id);
        $corporate['name'] = $corporate['company_name'];
        $corporate['mobile_no'] = $corporate['contact_no'];
@@ -445,7 +445,7 @@ class IncomeController extends AppBaseController
        $income['paying_amount'] =  $income->paying_amount+$income->gst;
        $income['title'] =  $income->franchise->title ?? ' ';
    }
- 
+
 
         $auth = Auth::user();
         $branch = Branch::where(function ($query) use ($auth) {
@@ -546,14 +546,16 @@ class IncomeController extends AppBaseController
                 }
 
                 if (empty($studBatch['no_batch'])) {
-                    foreach ($studBatch['course'] as $couse){
-                        if (isset($couse['bat_id'])){
-                        $studentBatchDetail = StudentBatchDetail::findorfail($couse['bat_id']);
-                        $studentBatchDetail->update($couse);
-                        }else {
+//                    foreach ($studBatch['course'] as $couse){
+//                        if (isset($couse['bat_id'])){
+//                        $studentBatchDetail = StudentBatchDetail::findorfail($couse['bat_id']);
+//                        $studentBatchDetail->update($couse);
+//                        }else {
+//                    dd($studBatch['course']);
+                            $studentDetail->studBatchDetail()->delete();
                             $studentDetail->studBatchDetail()->createMany($studBatch['course']);
-                        }
-                    }
+//                        }
+//                    }
                 }
             }
         }elseif ($incomeType->title == 'Corporate Training'){
@@ -619,14 +621,15 @@ class IncomeController extends AppBaseController
                 }
 
                 if (empty($studBatch['no_batch'])) {
-                    foreach ($studBatch['course'] as $couse){
-                        if (isset($couse['bat_id'])){
-                            $corporateBatchDetail = CorporateBatchDetail::findorfail($couse['bat_id']);
-                            $corporateBatchDetail->update($couse);
-                        }else {
+//                    foreach ($studBatch['course'] as $couse){
+//                        if (isset($couse['bat_id'])){
+//                            $corporateBatchDetail = CorporateBatchDetail::findorfail($couse['bat_id']);
+//                            $corporateBatchDetail->update($couse);
+//                        }else {
+                    $corporateDetail->corporateBatchDetail()->delete();
                             $corporateDetail->corporateBatchDetail()->createMany($studBatch['course']);
-                        }
-                    }
+//                        }
+//                    }
                 }
             }
         }elseif ($incomeType->title == 'Others' || $incomeType->title == 'Franchise Royalty' || $incomeType->title == 'Digital Marketing' || $incomeType->title == 'HR Consultancy' ){

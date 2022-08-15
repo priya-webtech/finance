@@ -3,19 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a030d445-b7aa-442a-9c7b-3f7fe9ac6c5e" name="Default Changelist" comment="23/07/22">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/BatchDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/BatchDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/CorporateDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/DueFeesDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/ExpenseDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/ExpenseDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/IncomeDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/IncomeDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/StudentDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/StudentDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DataTables/Admin/TrainerDataTable.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DataTables/Admin/TrainerDataTable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/DashBoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/DashBoardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/IncomeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard-admin.blade.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard-branch-manager.blade.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard-counsellor.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard-internal-auditor.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard-internal-auditor.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/dashboard/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/incomes/edit.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -311,7 +303,7 @@
       <workItem from="1660105072574" duration="22660000" />
       <workItem from="1660279149048" duration="3975000" />
       <workItem from="1660538032825" duration="5165000" />
-      <workItem from="1660545359950" duration="6233000" />
+      <workItem from="1660545359950" duration="11805000" />
     </task>
     <task id="LOCAL-00001" summary="19/07/22">
       <created>1658231712512</created>
@@ -383,7 +375,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660545461106</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="15/08/22">
+      <created>1660559937189</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1660559937189</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

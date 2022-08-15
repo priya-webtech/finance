@@ -278,7 +278,7 @@
                                             </div>
                                         </div>
 
-                                       
+
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Due date</label><br>
@@ -339,7 +339,7 @@
 
                                                                             @if(count($studDetail->studBatchDetail)>0)
                                                                             @foreach($studDetail->studBatchDetail as $batchDetail)
-                                                                                <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
+{{--                                                                                <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >--}}
                                                                                 <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
                                                                                     <td class="text-center"><span class="drag-icon"> <i
                                                                                                 class="fa"></i> <i
@@ -539,7 +539,7 @@
 
                                                             @if(count($corpoDetail->corporateBatchDetail)>0)
                                                                 @foreach($corpoDetail->corporateBatchDetail as $batchDetail)
-                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
+{{--                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >--}}
                                                                     <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
                                                                         <td class="text-center"><span class="drag-icon"> <i
                                                                                     class="fa"></i> <i
