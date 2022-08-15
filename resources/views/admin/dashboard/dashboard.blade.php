@@ -25,7 +25,7 @@
                     <div class="row">
                     <div class="form-group col-sm-2">
                         {!! Form::label('type', 'Table:') !!}
-                        {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                        {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                     </div>
                     <div class="form-group col-sm-2 status">
                         {!! Form::label('status', 'Type:') !!}
@@ -155,7 +155,6 @@
                         <th>Id</th>
                         <th>Course Name</th>
                         <th>Trainer Name</th>
-                        <th>Fees</th>
                         <th>Paid</th>
                         <th>Out Standing</th>
                         <th>Payment Status</th>
@@ -219,6 +218,25 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Total GST</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="" id="due-fees" style="display: none">
+                <table class="table table-bordered table-condensed" id="DueFeesTable" width="100%" border=1>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Course Name</th>
+                        <th>Due Date</th>
+                        <th>Agreed Amount</th>
+                        <th>Pay Amount</th>
+                        <th>GST</th>
+                        <th>Due Fees</th>
+                        <th>Type</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -439,6 +457,55 @@
                         TrainerTable.draw();
                     }
 
+                }
+                else if(Type == 'due-fees'){
+                    $('.student').hide();
+                    $('#student').hide();
+                    $('.batchFilter').hide();
+                    $('#corporate').hide();
+                    $('.status').hide();
+                    $('#expense').hide();
+                    $('#income').hide();
+                    $('#trainer').hide();
+                    $('#bank').hide();
+                    $('#gst').hide();
+                    $('.incomeFilter').hide();
+                    $('#cash').hide();
+                    $('#batch').hide();
+                    $('#batch').hide();
+                    $('#due-fees').show();
+                    var filter = true;
+                    if (!$.fn.dataTable.isDataTable('#DueFeesTable') || filter == true) {
+                        var DueFeesTable = $('#DueFeesTable').DataTable({
+                            dom: 'Bfrtip',
+                            processing: true,
+                            serverSide: true,
+                            stateSave: true,
+                            retrieve: true,
+                            paging: false,
+                            ajax:
+                                {
+                                    "url": 'due-fees-data-table',
+                                    "data": function (d) {
+                                        d.dates = $('#reportrange').val();
+                                    }
+                                },
+                            columns: [
+                                {data: 'id', name: 'id'},
+                                {data: 'name', name: 'name'},
+                                {data: 'email', name: 'email'},
+                                {data: 'course_name', name: 'course_name'},
+                                {data: 'due_date', name: 'due_date'},
+                                {data: 'agreed_amount', name: 'agreed_amount'},
+                                {data: 'due_fees', name: 'due_fees'},
+                                {data: 'gst', name: 'gst'},
+                                {data: 'pay_amount', name: 'pay_amount'},
+                                {data: 'type', name: 'type'},
+                                {data: 'action', name: 'action'},
+                            ],
+                        });
+                        DueFeesTable.draw();
+                    }
                 }
                 else if(Type == 'batch'){
                     $('.student').hide();

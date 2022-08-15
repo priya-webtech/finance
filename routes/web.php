@@ -59,11 +59,12 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('bank-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'BankDataTable'])->name('bank-data-table');
     Route::get('cash-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'CashDataTable'])->name('cash-data-table');
     Route::get('gst-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'GstDataTable'])->name('gst-data-table');
+    Route::get('due-fees-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'dueFeesDataTable'])->name('due-fees-data-table');
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
     Route::post('due_feescolums-due_feeses', ['as' => 'due_feesesdue_feescolums.due_feescolums', 'uses' => 'App\Http\Controllers\Admin\DueFeesController@due_feescolums']);
     Route::get('/due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'edit'])->name('due-fees-edit');
     Route::post('/pay-due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'update'])->name('pay-due-fees');
-    Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate'); 
+    Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate');
 
 
     Route::get('/search-record', [App\Http\Controllers\Admin\DueFeesController::class, 'searchRecord'])->name('search-record');
@@ -133,8 +134,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 //    Route::get('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
 
     Route::get('batches', ['as' => 'admin.batches.index', 'uses' => 'App\Http\Controllers\Admin\BatchController@index','middleware' => 'can:batches_view']);
-    Route::get('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
-   
+    Route::post('filter-batches', ['as' => 'admin.batchesFilter.filter', 'uses' => 'App\Http\Controllers\Admin\BatchController@filter']);
     Route::post('batchcolums-batches', ['as' => 'admin.batchesbatchcolums.batchcolums', 'uses' => 'App\Http\Controllers\Admin\BatchController@batchcolums']);
     Route::get('batches/create', ['as' => 'admin.batches.create', 'uses' => 'App\Http\Controllers\Admin\BatchController@create', 'middleware' => 'can:batches_create']);
     Route::post('batches/store', ['as' => 'admin.batches.store', 'uses' => 'App\Http\Controllers\Admin\BatchController@store', 'middleware' => 'can:batches_create']);

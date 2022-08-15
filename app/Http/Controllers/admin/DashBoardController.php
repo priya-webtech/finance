@@ -6,6 +6,7 @@ use App\DataTables\Admin\BankDataTable;
 use App\DataTables\Admin\BatchDataTable;
 use App\DataTables\Admin\CarmodelDataTable;
 use App\DataTables\Admin\CorporateDataTable;
+use App\DataTables\Admin\DueFeesDataTable;
 use App\DataTables\Admin\ExpenseDataTable;
 use App\DataTables\Admin\GstDataTable;
 use App\DataTables\Admin\IncomeDataTable;
@@ -203,5 +204,9 @@ class DashBoardController extends AppBaseController
     public function GstDataTable(GstDataTable $gstDataTable)
     {
         return $gstDataTable->render('admin.students.datatable');
+    }
+    public function dueFeesDataTable(DueFeesDataTable $dueFeesDataTable)
+    {
+        return $dueFeesDataTable->render('admin.students.datatable');
     }
 }
