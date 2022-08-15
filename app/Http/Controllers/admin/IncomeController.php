@@ -85,7 +85,7 @@ class IncomeController extends AppBaseController
     public function getIncomecourse()
     {
        
-        $result = Course::where('id',\request('branchID'))->pluck('course_name','id');
+        $result = Course::where('branch_id',\request('branchID'))->pluck('course_name','id');
       
         return response()->json($result);
     }
