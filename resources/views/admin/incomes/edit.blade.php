@@ -191,7 +191,7 @@
                 <input type="checkbox" id="vehicle1"
                        name="gst" @if($income != ' ') {{$income->gst > 0 ? 'checked' : ' '}} @endif>
                 {!! Form::label('gst', 'Gst') !!}
-                
+
                 <span class="error text-danger">{{ $errors->first('gst') }}</span>
             </div>
 
@@ -290,7 +290,7 @@
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                
+
                                                 <input id="value" step=".01" name="student[{{$keys}}][gst]"
                                                        value="1" type="checkbox" {{$studDetail->studFeesColl->gst > 0 ? "checked" : " " }}>
                                                        <label>Gst</label>
@@ -301,7 +301,7 @@
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                
+
                                                 <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
                                                        value="1" type="checkbox" {{count($studDetail->studBatchDetail) == 0 ? "checked" : " " }}>
                                                        <label>Batch Not Yet</label>
@@ -334,7 +334,7 @@
 
                                                                             @if(count($studDetail->studBatchDetail)>0)
                                                                             @foreach($studDetail->studBatchDetail as $batchDetail)
-                                                                                <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
+{{--                                                                                <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >--}}
                                                                                 <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
                                                                                     <td class="text-center drag-td"><span class="drag-icon"> <i
                                                                                                 class="fa"></i> <i
@@ -486,7 +486,7 @@
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                
+
                                                 <input id="value" step=".01" name="student[{{$keys}}][gst]"
                                                        value="1" type="checkbox" {{$corpoDetail->corpoFeesColl->gst > 0 ? "checked" : " " }}>
                                                        <label>Gst</label>
@@ -500,7 +500,7 @@
                                                 <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
                                                        value="1" type="checkbox" {{count($corpoDetail->corporateBatchDetail) == 0 ? "checked" : " " }}>
                                                 <label>Batch Not Yet</label>
-                                                
+
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -530,7 +530,7 @@
 
                                                             @if(count($corpoDetail->corporateBatchDetail)>0)
                                                                 @foreach($corpoDetail->corporateBatchDetail as $batchDetail)
-                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
+{{--                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >--}}
                                                                     <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
                                                                         <td class="text-center drag-td"><span class="drag-icon"> <i
                                                                                     class="fa"></i> <i
@@ -678,7 +678,7 @@
                                         <input id="value" step=".01" name="student[0][gst]"
                                                value="1" type="checkbox">
                                         <label>Gst</label>
-                                        
+
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -689,7 +689,7 @@
                                         <input id="value" step=".01" name="student[0][no_batch]"
                                                value="1" type="checkbox">
                                         <label>Batch Not Yet</label>
-                                        
+
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -946,7 +946,7 @@
                 ' <div class="form-group"> \n' +
                 ' <br> \n' +
                 ' <br> \n' +
-                
+
                 ' <input id="value" step=".01" name="student[' + mindex + '][gst]" value="1" type="checkbox"> \n' +
                 '<label>Gst</label> \n' +
                 '<span class="error-is_required" style="color:red"></span> \n' +
@@ -956,7 +956,7 @@
                 ' <div class="form-group"> \n' +
                 ' <br> \n' +
                 '<br> \n' +
-                
+
                 '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox"> \n' +
                 '<label>Batch Not Yet</label> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +

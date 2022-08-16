@@ -215,8 +215,8 @@ class DashBoardController extends AppBaseController
 
     public function history()
     {
-        $income = Income::get();
-       $expense = ExpenceMaster::get();
+        $income = Income::paginate(10);
+        $expense = ExpenceMaster::paginate(10);
         return view('admin.history.index',compact('expense','income'));
     }
 }

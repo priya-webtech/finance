@@ -33,8 +33,9 @@
         <thead>
         <tr>
             @if(!empty($field) && $field->trainer_col_1 == 1)<th>Trainer Name</th>@endif
-            @if(!empty($field) && $field->trainer_col_2 == 1)<th>Batch</th>@endif
-           <!-- <th>Image</th> -->
+            @if(!empty($field) && $field->trainer_col_2 == 1)<th>Branch</th>@endif
+            @if(!empty($field) && $field->trainer_col_6 == 1)<th>course Name</th>@endif
+        <!-- <th>Image</th> -->
             @if(!empty($field) && $field->trainer_col_3 == 1)<th>Email</th>@endif
             @if(!empty($field) && $field->trainer_col_4 == 1)<th>Contact No.</th>@endif
             @if(!empty($field) && $field->trainer_col_5 == 1)<th>Status</th>@endif
@@ -45,34 +46,35 @@
         @if(count($trainers) > 0)
         @foreach($trainers as $trainer)
             <tr>
-                 @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{ $trainer->trainer_name }}</td>@endif
-                 @if(!empty($field) && $field->trainer_col_2 == 1)<td>{{ $trainer->branch->title }}</td>@endif
-               <!--  <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th> -->
-             @if(!empty($field) && $field->trainer_col_3 == 1)<td>{{ $trainer->email }}</td>@endif
-             @if(!empty($field) && $field->trainer_col_4 == 1)<td>{{ $trainer->contact_no }}</td>@endif
-                 @if(!empty($field) && $field->trainer_col_4 == 1)<td><span class='badge @if($trainer->status == 1)badge-success @else badge-danger @endif'>{{ $trainer->status == 1 ? "Active" : "Block" }}</span></td>@endif
+                @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{ $trainer->trainer_name }}</td>@endif
+                @if(!empty($field) && $field->trainer_col_2 == 1)<td>{{ $trainer->branch->title }}</td>@endif
+                @if(!empty($field) && $field->trainer_col_6 == 1)<td>{{ $trainer->course->course_name }}</td>@endif
+            <!--  <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th> -->
+                @if(!empty($field) && $field->trainer_col_3 == 1)<td>{{ $trainer->email }}</td>@endif
+                @if(!empty($field) && $field->trainer_col_4 == 1)<td>{{ $trainer->contact_no }}</td>@endif
+                @if(!empty($field) && $field->trainer_col_4 == 1)<td><span class='badge @if($trainer->status == 1)badge-success @else badge-danger @endif'>{{ $trainer->status == 1 ? "Active" : "Block" }}</span></td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.trainers.destroy', $trainer->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('trainers_status')
-                        <a href="{{ route('table.status', [ $trainer->id,"trainers", $trainer->status]) }}" class='btn @if($trainer->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
-                            <i class="fa @if($trainer->status==1) fa-ban @else fa-check @endif"></i>
-                        </a>
+                            <a href="{{ route('table.status', [ $trainer->id,"trainers", $trainer->status]) }}" class='btn @if($trainer->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>
+                                <i class="fa @if($trainer->status==1) fa-ban @else fa-check @endif"></i>
+                            </a>
                         @endcan
                         @can('trainers_view')
-                        <a href="{{ route('admin.trainers.show', [$trainer->id]) }}"
-                           class='btn btn-default action-btn btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
+                            <a href="{{ route('admin.trainers.show', [$trainer->id]) }}"
+                               class='btn btn-default action-btn btn-sm'>
+                                <i class="far fa-eye"></i>
+                            </a>
                         @endcan
                         @can('trainers_edit')
-                        <a href="{{ route('admin.trainers.edit', [$trainer->id]) }}"
-                           class='btn btn-primary action-btn btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
+                            <a href="{{ route('admin.trainers.edit', [$trainer->id]) }}"
+                               class='btn btn-primary action-btn btn-sm'>
+                                <i class="far fa-edit"></i>
+                            </a>
                         @endcan
                         @can('trainers_delete')
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
                         @endcan
                     </div>
                     {!! Form::close() !!}

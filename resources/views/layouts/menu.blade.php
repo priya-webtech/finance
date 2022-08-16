@@ -7,7 +7,12 @@
         <p>Dashboard</p>
     </a>
 </li>
-
+<li class="nav-item">
+    <a href="{{route('history')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/history*') ? 'active' : ''}} ">
+        <i class="nav-icon fa fa-history" aria-hidden="true"></i>
+        <p>History</p>
+    </a>
+</li>
 @if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
 <li class="nav-item ">
     <a href="{{route('role.permission.list')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/role-permission*') ? 'active' : ''}}">
@@ -25,9 +30,6 @@
     </a>
 </li>
 @endcan
-
-
-
 
 @can('trainers_view')
 <li class="nav-item">
