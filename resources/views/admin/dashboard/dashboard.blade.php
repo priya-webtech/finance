@@ -83,9 +83,9 @@
                                 <div class="input-icons">
                                     <label class="form-label fs-5 fw-bold">Date:</label>
                                     <i class="icon glyphicon glyphicon-calendar fa fa-calendar"> </i>&nbsp;
-                                    <input type="text" class="input-field form-control reportrange filter" id="reportrange" name="dates"  value=""  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" placeholder="Select Date">
+                                    <input class="input-field form-control reportrange filter" id="reportrange" name="dates"  value=""  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" >
 
-                                    <span id="d"></span> <b class="caret"></b>
+                                    <span></span> <b class="caret"></b>
 
                                 </div></div>
                         </div>
@@ -714,10 +714,11 @@
 
         $(function() {
 
-            var start = moment().subtract(29, 'days');
+            var start = moment().subtract(365, 'days');
             var end = moment();
 
             function cb(start, end) {
+
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
 
@@ -735,8 +736,7 @@
                 }
             }, cb);
 
-            // cb(start, end);
-
+             cb(start, end);
 
         });
 

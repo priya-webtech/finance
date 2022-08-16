@@ -60,4 +60,7 @@ class CorporateFessCollection extends Model
     public function getIncome(){
         return $this->belongsTo(Income::class,'income_id');
     }
+    public function corporateDetail(){
+        return $this->belongsTo(CorporateDetail::class,'corporate_detail_id');
+    }
 }

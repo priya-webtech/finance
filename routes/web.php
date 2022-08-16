@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::post('/change-password', [App\Http\Controllers\Admin\ProfileController::class, 'changePassword'])->name('change-password');
     //Role-Permission
     Route::get('/role-permission',[\App\Http\Controllers\Security\RolePermission::class, 'index'])->name('role.permission.list');
+    Route::get('/history',[App\Http\Controllers\Admin\DashBoardController::class, 'history'])->name('history');
     Route::post('/role-permission/store',[\App\Http\Controllers\Security\RolePermission::class, 'store'])->name('role.permission.store');
     Route::resource('permission',PermissionController::class);
     Route::get('permission-delete/{id}',[\App\Http\Controllers\Security\PermissionController::class, 'destroy'])->name('permission-delete');

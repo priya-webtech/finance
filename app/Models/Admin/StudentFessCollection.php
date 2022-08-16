@@ -59,4 +59,7 @@ class StudentFessCollection extends Model
     public function getIncome(){
         return $this->belongsTo(Income::class,'income_id');
     }
+    public function studentDetail(){
+        return $this->belongsTo(StudentDetail::class,'student_detail_id');
+    }
 }

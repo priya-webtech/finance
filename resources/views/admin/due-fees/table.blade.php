@@ -4,7 +4,6 @@
 @endpush
 <form data-action="{{ route('due_feesesdue_feescolums.due_feescolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
-
     <div class="multiselect">
         <div class="selectBox" onclick="showCheckboxes()">
           <select>
@@ -32,7 +31,7 @@
           <label for="three">
             <input type="checkbox" class="due_feeshidecol" name="due_fees_col_9" @if(!empty($field) && $field->due_fees_col_9 == 1) Checked @endif/>&nbsp;Type
 
-          
+
         </div>
     </div>
 

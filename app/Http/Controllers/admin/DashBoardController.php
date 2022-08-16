@@ -212,4 +212,11 @@ class DashBoardController extends AppBaseController
     {
         return $dueFeesDataTable->render('admin.students.datatable');
     }
+
+    public function history()
+    {
+        $income = Income::get();
+       $expense = ExpenceMaster::get();
+        return view('admin.history.index',compact('expense','income'));
+    }
 }

@@ -9,6 +9,16 @@ function getIncomeType($id){
    $income = \App\Models\Admin\Income::find($id);
    return $income->incomeType->title ?? 'N/A';
 }
+function PayAmount($id){
+    $income = \App\Models\Admin\Income::find($id);
+    if($income->corporateStudFees){
+        return number_format($income->corporateStudFees->gst+$income->paying_amount,2);
+    }elseif($income->incomeStudFees){
+        return number_format($income->incomeStudFees->gst+$income->paying_amount,2);
+    }else{
+        return number_format($income->gst+$income->paying_amount,2);
+    }
+}
 function changeTableStatus($id, $table_name, $status)
 {
     if ($status==1){

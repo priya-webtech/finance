@@ -79,11 +79,13 @@ class DueFeesDataTable extends DataTable
             // })
             ->addColumn('due_fees', function ($record){
                 if($record->type == 'Student') {
-
-                   $total = $record->pay_amount;
+                   $feesCollection = StudentFessCollection::where('student_id', $record->student_id);
+                   $gst = $feesCollection->sum('gst');
+                   $payAmount = Income::whereIn('id',$feesCollection->pluck('income_id'))->sum('paying_amount');
+                   $total = $gst+$payAmount;
                    $agreed_amount = $record->agreed_amount;
-                    $dueFees = $agreed_amount - $total;
-                    return $dueFees;
+                   $dueFees = $agreed_amount - $total;
+                   return $dueFees;
                 }
                 elseif ($record->type == 'Corporate'){
                     $total = $record->pay_amount;
@@ -119,7 +121,7 @@ class DueFeesDataTable extends DataTable
                 ->join('courses', 'student_detail.course_id', '=', 'courses.id')
                 ->join('student_fees_collections', 'student_detail.id', '=', 'student_fees_collections.student_detail_id')
                 ->join('incomes', 'student_fees_collections.income_id', '=', 'incomes.id')
-                ->select('student_detail.id as id','students.name as name','students.email as email','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
+                ->select('student_detail.id as id','student_detail.student_id as student_id','students.name as name','students.email as email','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
 
             $b = CorporateDetail::when(request('dates'), function ($q) {
                 $part = explode("-",request('dates'));
@@ -131,7 +133,7 @@ class DueFeesDataTable extends DataTable
             ->join('courses', 'corporate_detail.course_id', '=', 'courses.id')
             ->join('corporate_fees_collections', 'corporate_detail.id', '=', 'corporate_fees_collections.corporate_detail_id')
             ->join('incomes', 'corporate_fees_collections.income_id', '=', 'incomes.id')
-          ->select('corporate_detail.id as id','corporates.company_name as name','corporates.email as email','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
+          ->select('corporate_detail.id as id','corporate_detail.corporate_id as corporate_id','corporates.company_name as name','corporates.email as email','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
         }else{
 
             $a = StudentDetail::where('student_detail.branch_id',$auth->branch_id)->
