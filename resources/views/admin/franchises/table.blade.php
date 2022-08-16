@@ -3,9 +3,9 @@
     <table class="table" id="franchises-table">
         <thead>
         <tr>
-        <th>Title</th>
+            <th>Title</th>
         <th>Status</th>
-        <th colspan="3">Action</th>
+            <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>

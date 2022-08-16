@@ -52,7 +52,7 @@
 
 <div class="table-responsive">
 
-
+  <div class="custom-filter">
     <form data-action="{{ route('admin.incomeesincomecolums.incomecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
 
@@ -92,6 +92,7 @@
     <input type="submit" class="btn btn-danger btn-sm" value="Filter">
     <a href="{{ route('admin.incomes.index') }}">clear</a>
     </form>
+  </div>
     <table class="table" id="incomes-table">
         <thead>
         <tr>

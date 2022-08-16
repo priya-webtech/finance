@@ -1,6 +1,7 @@
 
 <div class="table-responsive">
     <?php if($columnManage){ $field = json_decode($columnManage->field_status); } ?>
+    <div class="custom-filter">
     <form data-action="{{ route('admin.batchesbatchcolums.batchcolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
 
@@ -62,6 +63,7 @@
         <a href="{{ route('admin.batches.index') }}">clear</a>
     </div>
     </form>
+</div>
     <table class="table" id="batches-table">
         <thead>
 

@@ -32,14 +32,14 @@
                 <div class="row pb-4">
                     <div class="col-lg-12" style="background-color: #f4f6f9">
                         <hr class="m-0">
-                        <h4>Income and Student Detail:</h4>
+                        <h4 class="custom-h4">Income and Student Detail:</h4>
                         <hr class="m-0">
                     </div>
                 </div>
             </div>
             <div class="form-group col-sm-6">
                 {!! Form::label('branch_id', 'Branch:') !!}
-                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select changeincomebaranch','placeholder'=>'Please Select Branch']) !!}
+                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
                 <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
             </div>
             <!-- Income Type Id Field -->
@@ -188,9 +188,10 @@
                 <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
             </div>
             <div class="form-group col-sm-3 other" style="margin-top: 37px;">
-                {!! Form::label('gst', 'Gst:') !!}
                 <input type="checkbox" id="vehicle1"
                        name="gst" @if($income != ' ') {{$income->gst > 0 ? 'checked' : ' '}} @endif>
+                {!! Form::label('gst', 'Gst') !!}
+                
                 <span class="error text-danger">{{ $errors->first('gst') }}</span>
             </div>
 
@@ -214,16 +215,16 @@
                         <div class="row pb-4">
                             <div class="col-lg-12" style="background-color: #f4f6f9">
                                 <hr class="m-0">
-                                <h4>Registration Details:</h4>
+                                <h4 class="custom-h4">Registration Details:</h4>
                                 <hr class="m-0">
                             </div>
                         </div>
                     </div>
-                   <!--  <div class="form-group col-sm-12 reg-detail">
+                    <div class="form-group col-sm-12 reg-detail add-new-course">
                         <button type="button" class="btn btn-success" id="addNew" ><span
                                 class="fa fa-plus"></span> Add Course
                         </button>
-                    </div> -->
+                    </div>
                     <br><br>
 
                     <div id="itemDetails" class="main0 row-course reg-detail">
@@ -273,12 +274,10 @@
                                             <div class="form-group">
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
-                                                       class="form-control get_payamount" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
+                                                       class="form-control" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
-
-
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Due date</label><br>
@@ -291,27 +290,23 @@
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                <label>Gst</label>
+                                                
                                                 <input id="value" step=".01" name="student[{{$keys}}][gst]"
                                                        value="1" type="checkbox" {{$studDetail->studFeesColl->gst > 0 ? "checked" : " " }}>
-                                                <span class="error-is_required" style="color:red" ></span>
+                                                       <label>Gst</label>
+                                                       <span class="error-is_required" style="color:red" ></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                <label>Batch Not Yet</label>
+                                                
                                                 <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
                                                        value="1" type="checkbox" {{count($studDetail->studBatchDetail) == 0 ? "checked" : " " }}>
-                                                <span class="error-is_required" style="color:red"></span>
+                                                       <label>Batch Not Yet</label>
+                                                       <span class="error-is_required" style="color:red"></span>
                                             </div>
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                        <a class="btn btn-warning float-left" onclick="verify()">
-                                            verify
-                                        </a><br><br>
-                                         <div id="show_verify" ></div>
                                         </div>
                                                         @if(!empty($studDetail->studBatchDetail))
 
@@ -339,9 +334,9 @@
 
                                                                             @if(count($studDetail->studBatchDetail)>0)
                                                                             @foreach($studDetail->studBatchDetail as $batchDetail)
-{{--                                                                                <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >--}}
+                                                                                <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
                                                                                 <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
-                                                                                    <td class="text-center"><span class="drag-icon"> <i
+                                                                                    <td class="text-center drag-td"><span class="drag-icon"> <i
                                                                                                 class="fa"></i> <i
                                                                                                 class="fa"></i> </span>
                                                                                     </td>
@@ -375,7 +370,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <button type="button"
-                                                                                                class="btn btn-danger btn-sm btn-delete"  onclick="return remove_item(this);">
+                                                                                                class="btn btn-sm btn-delete"  onclick="return remove_item(this);">
                                                                                             <span class="fa fa-trash"></span>
                                                                                         </button>
                                                                                     </td>
@@ -389,7 +384,7 @@
                                                                             @endforeach
                                                                                 @else
                                                                                 <tr id="tr0_0" class="addrowbellow sub_0">
-                                                                                    <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i
+                                                                                    <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i
                                                                                                 class="fa"></i> </span>
                                                                                     </td>
                                                                                     <td>
@@ -475,7 +470,7 @@
                                             <div class="form-group">
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
-                                                       class="form-control get_payamount" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount + $corpoDetail->corpoFeesColl->gst}}">
+                                                       class="form-control" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount + $corpoDetail->corpoFeesColl->gst}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -491,27 +486,23 @@
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                <label>Gst</label>
+                                                
                                                 <input id="value" step=".01" name="student[{{$keys}}][gst]"
                                                        value="1" type="checkbox" {{$corpoDetail->corpoFeesColl->gst > 0 ? "checked" : " " }}>
-                                                <span class="error-is_required" style="color:red" ></span>
+                                                       <label>Gst</label>
+                                                       <span class="error-is_required" style="color:red" ></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                <label>Batch Not Yet</label>
                                                 <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
                                                        value="1" type="checkbox" {{count($corpoDetail->corporateBatchDetail) == 0 ? "checked" : " " }}>
+                                                <label>Batch Not Yet</label>
+                                                
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                        <a class="btn btn-warning float-left" onclick="verify()">
-                                            verify
-                                        </a><br><br>
-                                         <div id="show_verify" ></div>
                                         </div>
                                         @if(!empty($corpoDetail->corporateBatchDetail))
 
@@ -539,9 +530,9 @@
 
                                                             @if(count($corpoDetail->corporateBatchDetail)>0)
                                                                 @foreach($corpoDetail->corporateBatchDetail as $batchDetail)
-{{--                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >--}}
+                                                                    <input type="hidden" name="student[{{$keys}}][course][{{ $loop->index }}][bat_id]" value="{{$batchDetail->id}}" >
                                                                     <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
-                                                                        <td class="text-center"><span class="drag-icon"> <i
+                                                                        <td class="text-center drag-td"><span class="drag-icon"> <i
                                                                                     class="fa"></i> <i
                                                                                     class="fa"></i> </span>
                                                                         </td>
@@ -569,7 +560,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <button type="button"
-                                                                                    class="btn btn-danger btn-sm btn-delete"  onclick="return remove_item(this);">
+                                                                                    class="btn btn-sm btn-delete"  onclick="return remove_item(this);">
                                                                                 <span class="fa fa-trash"></span>
                                                                             </button>
                                                                         </td>
@@ -583,7 +574,7 @@
                                                                 @endforeach
                                                             @else
                                                                 <tr id="tr0_0" class="addrowbellow sub_0">
-                                                                    <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i
+                                                                    <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i
                                                                                 class="fa"></i> </span>
                                                                     </td>
                                                                     <td>
@@ -630,7 +621,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
-                                        <select name="student[0][course_id]" class="form-control course changeincomecourse"
+                                        <select name="student[0][course_id]" class="form-control course"
                                                 aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                                             <option value="">--Select Course--</option>
 
@@ -668,7 +659,7 @@
                                     <div class="form-group">
                                         <label>Pay Amount</label><br>
                                         <input id="value" step=".01" name="student[0][pay_amount]"
-                                               class="form-control pay_amount get_payamount" type="text">
+                                               class="form-control" type="text">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -684,9 +675,10 @@
                                     <div class="form-group">
                                         <br>
                                         <br>
-                                        <label>Gst</label>
                                         <input id="value" step=".01" name="student[0][gst]"
                                                value="1" type="checkbox">
+                                        <label>Gst</label>
+                                        
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -694,9 +686,10 @@
                                     <div class="form-group">
                                         <br>
                                         <br>
-                                        <label>Batch Not Yet</label>
                                         <input id="value" step=".01" name="student[0][no_batch]"
                                                value="1" type="checkbox">
+                                        <label>Batch Not Yet</label>
+                                        
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -722,7 +715,7 @@
 
                                             <tbody>
                                             <tr id="tr0_0" class="addrowbellow sub_0">
-                                                <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i
+                                                <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i
                                                             class="fa"></i> </span>
                                                 </td>
                                                 <td>
@@ -807,61 +800,6 @@
 @endsection
 @push('third_party_scripts')
     <script>
-
-        function verify() {
-            var BankAccount = $('.mode_of_payment option:selected').val();
-            var Amount = $('.get_payamount').val();
-
-            if(BankAccount != "" && Amount != ""){
-                $.ajax({
-                    type: 'GET',
-                    url: "{{route('income-verify')}}",
-                    data: {'bank_Acc': BankAccount,'amount': Amount},
-                    dataTypes: 'json',
-                    success: function (res) {
-                        if (res) {
-                             $('#show_verify').html(res.verify).css('color','black');
-                        }
-                    }
-                });
-            }else{
-                $('#show_verify').html('Please Select Bank Account And Enter Amount').css('color','red');
-            }
-        }
-
-         $(document).ready(function(){
-            $(".changeincomecourse").html('');
-             $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
-        });
-       $(".changeincomebaranch").change(function(el){
-            var branchID = $('#branch_id').val();
-            $(".changeincomecourse").html('');
-            if (branchID) {
-                $.ajax({
-                    type: 'GET',
-                    url: "{{route('get-incomecourse')}}",
-                    data: {'branchID': branchID},
-                    dataTypes: 'json',
-                    success: function (res) {
-                        if (res) {
-                            if(res != ''){
-                                $(".changeincomecourse").append('<option value="">Please Select Course</option>');
-                            }else{
-                                $(".changeincomecourse").append('<option value="">Not avalible Course</option>');
-                            }
-                            $.each(res, function (key, value) {
-                                $(".changeincomecourse").append('<option value="'+key+'">'+value+'</option>');
-
-                            });
-                        }
-                    }
-                });
-            } else {
-                //$(".batch").empty();
-            }
-
-        });
-
         $(document).ready(function() {
             $("#income_type").trigger('change');
         });
@@ -949,7 +887,7 @@
                 '                            <div class="col-sm-4">\n' +
                 '                                <div class="form-group">\n' +
                 '                                    <label class="required">Course Name</label><span class="error-course"style="color: red"></span>\n' +
-                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course changeincomecourse" aria-required="true" aria-invalid="false" onchange="changeCourse(this)">\n' +
+                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)">\n' +
                 '<option value="">--Select Course--</option>\n' +
                 @php
                     $courses = '';
@@ -992,7 +930,7 @@
                 '<div class="col-sm-4"> \n' +
                 '<div class="form-group"> \n' +
                 '<label>Pay Amount</label><br> \n' +
-                '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount get_payamount" type="text"> \n' +
+                '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="text"> \n' +
                 '<span class="error-is_required" style="color:red"></span> \n' +
                 '</div> \n' +
                 '</div> \n' +
@@ -1008,8 +946,9 @@
                 ' <div class="form-group"> \n' +
                 ' <br> \n' +
                 ' <br> \n' +
-                '<label>Gst</label> \n' +
+                
                 ' <input id="value" step=".01" name="student[' + mindex + '][gst]" value="1" type="checkbox"> \n' +
+                '<label>Gst</label> \n' +
                 '<span class="error-is_required" style="color:red"></span> \n' +
                 '</div>\n' +
                 '</div> \n' +
@@ -1017,8 +956,9 @@
                 ' <div class="form-group"> \n' +
                 ' <br> \n' +
                 '<br> \n' +
-                '<label>Batch Not Yet</label> \n' +
+                
                 '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox"> \n' +
+                '<label>Batch Not Yet</label> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +
                 '  </div> \n' +
                 ' </div> \n' +
@@ -1044,7 +984,7 @@
                 '\n' +
                 '                                        <tbody>\n' +
                 '                                        <tr id="tr' + mindex + '_0" class="addrowbellow sub_' + mindex + '">\n' +
-                '                                            <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i\n' +
+                '                                            <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i\n' +
                 '                                                        class="fa"></i> </span>\n' +
                 '                                            </td>\n' +
                 '\n' +
@@ -1082,7 +1022,7 @@
                 '                                                       placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
                 '                                            </td>\n' +
                 '                   <td>\n' +
-                '                       <button type="button" class="btn btn-danger btn-sm" \n' +
+                '                       <button type="button" class="btn btn-sm" \n' +
                 '                           onclick="return remove_item(this);">\n' +
                 '                          <span class="fa fa-trash"></span>\n' +
                 '                      </button>\n' +
@@ -1119,7 +1059,7 @@
             subindx = $('.sub_' + mindex1).length;
 // alert(mindex1);
             var html = '<tr id="tr' + mindex1 + '_' + subindx + '" class="addrowbellow sub_' + mindex1 + '">\n' +
-                '                                                <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i\n' +
+                '                                                <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i\n' +
                 '                                                            class="fa"></i> </span>\n' +
                 '                                                </td>\n' +
                 '\n' +
@@ -1141,7 +1081,7 @@
                 '                                                           placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
                 '                                                </td>\n' +
                 '<td>\n' +
-                '         <button type="button" class="btn btn-danger btn-sm" \n' +
+                '         <button type="button" class="btn btn-sm" \n' +
                 '                    onclick="return remove_item(this);">\n' +
                 '              <span class="fa fa-trash"></span>\n' +
                 '           </button>\n' +
@@ -1156,8 +1096,6 @@
             }else{
                 $('.retail_col').show();
             }
-
-
         }
 
     </script>

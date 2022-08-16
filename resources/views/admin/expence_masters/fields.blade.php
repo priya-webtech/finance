@@ -42,8 +42,8 @@
     <span class="error text-danger">{{ $errors->first('amount') }}</span>
 </div>
 <div class="form-group col-sm-1 trainer" style="margin-top: 37px;">
-    {!! Form::label('tds', 'TDS') !!}<span style="color:red;">*</span> :
     <input type="checkbox" id="vehicle1" name="tds">
+    {!! Form::label('tds', 'TDS') !!}<span style="color:red;">*</span> 
     <span class="error text-danger">{{ $errors->first('gst') }}</span>
 </div>
 <!-- Date Field -->
@@ -69,13 +69,10 @@
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>--}}
     <script>
 
-    <?php if(request()->route()->getName() == 'admin.expenceMasters.create'){ ?>
-        $(document).ready(function(){
-            $(".changeexpencetrainer").html('');
-            $(".changeexpencetrainer").append('<option value="">Not avalible Trainer</option>');
-        });
-
-    <?php } ?>
+    $(document).ready(function(){
+        $(".changeexpencetrainer").html('');
+         $(".changeexpencetrainer").append('<option value="">Not avalible Trainer</option>');
+    });
        $(".changeexpencebranch").change(function(el){
             var branchID = $('#branch_id').val();
             $(".changeexpencetrainer").html('');

@@ -32,7 +32,9 @@
 
 <div class="form-group col-sm-6">
     {!! Form::label('password', 'Password') !!}<span style="color:red;">*</span> :
-    {!! Form::password('password', null, ['class' => 'form-control']) !!}
+    {{-- {!! Form::password('password', null, ['class' => 'form-control']) !!} --}}
+    {!! Form::password('password', array('class'=>'form-control' ) ) !!}
+    
     <span class="error text-danger">{{ $errors->first('password') }}</span>
 </div>
 <div class="form-group col-sm-6">

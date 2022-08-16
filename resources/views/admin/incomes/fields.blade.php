@@ -2,9 +2,7 @@
 <div class="container-fluid p-0">
     <div class="row pb-4">
         <div class="col-lg-12" style="background-color: #f4f6f9">
-            <hr class="m-0">
-            <h4>Income and Student Detail:</h4>
-            <hr class="m-0">
+            <h4 class="custom-h4">Income and Student Detail:</h4>
         </div>
     </div>
 </div>
@@ -104,8 +102,9 @@
     <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
 </div>
 <div class="form-group col-sm-3 other" style="margin-top: 37px;">
-    {!! Form::label('gst', 'Gst:') !!}
     <input type="checkbox" id="vehicle1" name="gst">
+    {!! Form::label('gst', 'Gst') !!}
+    
     <span class="error text-danger">{{ $errors->first('gst') }}</span>
 </div>
 
@@ -128,7 +127,7 @@
     <div class="row pb-4">
         <div class="col-lg-12" style="background-color: #f4f6f9">
             <hr class="m-0">
-            <h4>Registration Details:</h4>
+            <h4 class="custom-h4">Registration Details:</h4>
             <hr class="m-0">
         </div>
     </div>
@@ -369,20 +368,22 @@
                 <div class="form-group">
                     <br>
                     <br>
-                    <label>Gst</label>
                     <input id="value" step=".01" name="student[0][gst]"
                            value="1" type="checkbox">
+                    <label>Gst</label>
+                    
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
-
+            
             <div class="col-sm-2">
                 <div class="form-group">
                     <br>
                     <br>
-                    <label>Batch Not Yet</label>
                     <input id="value" step=".01" name="student[0][no_batch]"
-                           value="1" type="checkbox" class="no-batch" onchange="batchDisplay(this.checked, 0)">
+                           value="1" type="checkbox" onchange="batchDisplay(this.checked, 0)">
+                    <label>Batch Not Yet</label>
+                    
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
@@ -409,7 +410,7 @@
 
                         <tbody>
                         <tr id="tr0_0" class="addrowbellow sub_0">
-                            <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i
+                            <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i
                                         class="fa"></i> </span>
                             </td>
                             <td>
@@ -674,13 +675,14 @@
             '<label>Due Date</label><span class="error-due_date" style="color:red"></span><br> \n' +
             '<input id="value" name="student[' + mindex + '][due_date]" class="form-control due_date" type="date"> \n' +
             '</div> \n' +
-            '</div> \n' +
+            '</div> \n' + 
             '<div class="col-sm-1 gst'+mindex+'" style="display:none;"> \n' +
             ' <div class="form-group"> \n' +
             ' <br> \n' +
             ' <br> \n' +
-            '<label>Gst</label> \n' +
             ' <input id="value" step=".01" name="student[' + mindex + '][gst]" value="1" type="checkbox"> \n' +
+            '<label>Gst</label> \n' +
+            
                 '<span class="error-is_required" style="color:red"></span> \n' +
             '</div>\n' +
             '</div> \n' +
@@ -688,14 +690,15 @@
                 ' <div class="form-group"> \n' +
                 ' <br> \n' +
                 '<br> \n' +
+                
+                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
                 '<label>Batch Not Yet</label> \n' +
-                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" class="no-batch" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +
 
                 '  </div> \n' +
                 ' </div> \n' +
                 '<div class="col-sm-2"> \n' +
-                '                       <button type="button" class="btn btn-danger btn-sm" \n' +
+                '                       <button type="button" class="btn btn-sm" \n' +
                 '                           onclick="return remove_course_item(this);" style="margin-top:40px">\n' +
                 '                          <span class="fa fa-trash" ></span>\n' +
                 '                      </button>\n' +
@@ -721,16 +724,16 @@
                 '\n' +
                 '                                        <tbody>\n' +
                 '                                        <tr id="tr' + mindex + '_0" class="addrowbellow sub_' + mindex + '">\n' +
-                '                                            <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i\n' +
+                '                                            <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i\n' +
                 '                                                        class="fa"></i> </span>\n' +
                 '                                            </td>\n' +
                 '\n' +
                 '                                            <td>\n' +
                 '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-batch"style="color: red"></span>\n' +
-
+                
                 @php
                     $option = '';
-
+                 
                 @endphp
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
@@ -757,7 +760,7 @@
                 '                                                       placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
                 '                                            </td>\n' +
                 '                   <td>\n' +
-                '                       <button type="button" class="btn btn-danger btn-sm" \n' +
+                '                       <button type="button" class="btn btn-sm" \n' +
                 '                           onclick="return remove_item(this);">\n' +
                 '                          <span class="fa fa-trash"></span>\n' +
                 '                      </button>\n' +
@@ -852,7 +855,7 @@
         function addnewrow(mindex1) {
             subindx = $('.sub_' + mindex1).length;
             var html = '<tr id="tr' + mindex1 + '_' + subindx + '" class="addrowbellow sub_' + mindex1 + '">\n' +
-                '                                                <td class="text-center"><span class="drag-icon"> <i class="fa"></i> <i\n' +
+                '                                                <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i\n' +
                 '                                                            class="fa"></i> </span>\n' +
                 '                                                </td>\n' +
                 '\n' +
@@ -876,7 +879,7 @@
                 '                                                           placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
                 '                                                </td>\n' +
                 '<td>\n' +
-                '         <button type="button" class="btn btn-danger btn-sm" \n' +
+                '         <button type="button" class="btn btn-sm" \n' +
                 '                    onclick="return remove_item(this);">\n' +
                 '              <span class="fa fa-trash"></span>\n' +
                 '           </button>\n' +
@@ -1031,36 +1034,34 @@
                     } else {
                         $(this).find(".error-pay_amount").text('');
                     }
-                    if($(this).find(".no-batch").prop('checked') == false) {
-                        $(this).find(".addrowbellow").each(function () {
-                            var batch = $(this).find(".batch").val();
-                            var trainer = $(this).find(".trainer").val();
-                            var trainer_fees = $(this).find(".trainer_fees").val();
-                            if (batch == "") {
-                                t++;
-                                $(this).find(".error-batch").text('*requied');
+                    $(this).find(".addrowbellow").each(function () {
+                        var batch = $(this).find(".batch").val();
+                        var trainer = $(this).find(".trainer").val();
+                        var trainer_fees = $(this).find(".trainer_fees").val();
+                        if (batch == "") {
+                            t++;
+                            $(this).find(".error-batch").text('*requied');
 
-                            } else {
-                                $(this).find(".error-batch").text('');
-                            }
-                            if (trainer == "") {
-                                t++;
-                                $(this).find(".error-trainer").text('*requied');
+                        } else {
+                            $(this).find(".error-batch").text('');
+                        }
+                        if (trainer == "") {
+                            t++;
+                            $(this).find(".error-trainer").text('*requied');
 
-                            } else {
-                                $(this).find(".error-trainer").text('');
-                            }
-                            if (IncomeType == 'Retail Training') {
-                                if (trainer_fees == "") {
-                                    t++;
-                                    $(this).find(".error-trainer_fees").text('*requied');
+                        } else {
+                            $(this).find(".error-trainer").text('');
+                        }
+                       if(IncomeType == 'Retail Training') {
+                           if (trainer_fees == "") {
+                               t++;
+                               $(this).find(".error-trainer_fees").text('*requied');
 
-                                } else {
-                                    $(this).find(".error-trainer_fees").text('');
-                                }
-                            }
-                        });
-                    }
+                           } else {
+                               $(this).find(".error-trainer_fees").text('');
+                           }
+                       }
+                    });
                 });
                 if (t == 0) {
                     alert('success');

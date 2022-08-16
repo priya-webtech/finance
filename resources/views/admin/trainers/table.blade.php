@@ -1,4 +1,5 @@
 <div class="table-responsive">
+  <div class="custom-filter">
     <form data-action="{{ route('admin.trainerestrainercolums.trainercolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
 
@@ -13,16 +14,13 @@
           <label for="one">
             <input type="checkbox" class="trainerhidecol"  name="trainer_col_1" @if(!empty($field) && $field->trainer_col_1 == 1) Checked @endif/>&nbsp;Trainer Name&nbsp;
           <label for="two">
-            <input type="checkbox" class="trainerhidecol" name="trainer_col_2" @if(!empty($field) && $field->trainer_col_2 == 1) Checked @endif/>&nbsp;Branch
+            <input type="checkbox" class="trainerhidecol" name="trainer_col_2" @if(!empty($field) && $field->trainer_col_2 == 1) Checked @endif/>&nbsp;Batch
           <label for="three">
             <input type="checkbox" class="trainerhidecol" name="trainer_col_3" @if(!empty($field) && $field->trainer_col_3 == 1) Checked @endif/>&nbsp;Email
           <label for="four">
             <input type="checkbox" class="trainerhidecol" name="trainer_col_4" @if(!empty($field) && $field->trainer_col_4 == 1) Checked @endif/>&nbsp;Contact No.
           <label for="five">
             <input type="checkbox" class="trainerhidecol" name="trainer_col_5" @if(!empty($field) && $field->trainer_col_5 == 1) Checked @endif/>&nbsp;Status
-          <label for="five">
-            <input type="checkbox" class="trainerhidecol" name="trainer_col_6" @if(!empty($field) && $field->trainer_col_6 == 1) Checked @endif/>&nbsp;Course Name
-
         </div>
     </div>
 
@@ -30,13 +28,12 @@
     </form>
 
     <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
-
+  </div>
     <table class="table" id="trainers-table">
         <thead>
         <tr>
             @if(!empty($field) && $field->trainer_col_1 == 1)<th>Trainer Name</th>@endif
-            @if(!empty($field) && $field->trainer_col_2 == 1)<th>Branch</th>@endif
-            @if(!empty($field) && $field->trainer_col_6 == 1)<th>course Name</th>@endif
+            @if(!empty($field) && $field->trainer_col_2 == 1)<th>Batch</th>@endif
            <!-- <th>Image</th> -->
             @if(!empty($field) && $field->trainer_col_3 == 1)<th>Email</th>@endif
             @if(!empty($field) && $field->trainer_col_4 == 1)<th>Contact No.</th>@endif
@@ -50,7 +47,6 @@
             <tr>
                  @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{ $trainer->trainer_name }}</td>@endif
                  @if(!empty($field) && $field->trainer_col_2 == 1)<td>{{ $trainer->branch->title }}</td>@endif
-                 @if(!empty($field) && $field->trainer_col_6 == 1)<td>{{ $trainer->course->course_name }}</td>@endif
                <!--  <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th> -->
              @if(!empty($field) && $field->trainer_col_3 == 1)<td>{{ $trainer->email }}</td>@endif
              @if(!empty($field) && $field->trainer_col_4 == 1)<td>{{ $trainer->contact_no }}</td>@endif

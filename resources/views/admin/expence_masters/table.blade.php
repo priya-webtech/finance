@@ -1,5 +1,5 @@
 <div class="table-responsive">
-
+  <div class="custom-filter">
     <form data-action="{{ route('admin.expenceesexpencecolums.expencecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
     @csrf
 
@@ -54,6 +54,7 @@
     <input type="submit" class="btn btn-danger btn-sm" value="Filter">
     <a href="{{ route('admin.expenceMasters.index') }}">clear</a>
     </form>
+  </div>
     <table class="table" id="expenceMasters-table">
         <thead>
         <tr>

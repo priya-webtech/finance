@@ -19,8 +19,9 @@
 
         <div class="card">
             <div class="card-body p-0">
+                <div class="table-responsive due-fees-tbl">
                 @include('admin.due-fees.table')
-
+                </div>
                 <div class="card-footer clearfix">
                     <div class="float-right">
 {{--                                                @include('adminlte-templates::common.paginate', ['records' => $dueFees])--}}
