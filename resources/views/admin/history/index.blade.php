@@ -39,7 +39,7 @@
                         <tbody>
                         @foreach($income as $data)
                             <tr>
-                                <td>@if($data->incomeStudFees){{$data->incomeStudFees->student->name}}@elseif($data->corporateStudFees){{$data->corporateStudFees->corporate->company_name}}@elseif($data->franchise) {{$data->franchise->title}} @endif</td>
+                                <td>@if($data->incomeStudFees){{$data->incomeStudFees->student->name}}@elseif($data->corporateStudFees){{$data->corporateStudFees->corporate->company_name}}@elseif($data->franchise) {{$data->franchise->title}} @else - @endif</td>
                                 <td>{{$data->incomeType->title ?? " "}}</td>
                                 <td>{{$data->course->course_name ?? " "}}</td>
                                 <td>{{"₹ ".PayAmount($data->id)}}</td>
