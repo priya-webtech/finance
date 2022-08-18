@@ -39,7 +39,6 @@ class StudentDetail extends Model
         'reg_taken_id',
         'branch_id',
         'agreed_amount',
-        'placement',
         'reg_for_month',
         'due_date',
     ];
@@ -57,7 +56,6 @@ class StudentDetail extends Model
         'reg_taken_id' => 'integer',
         'branch_id' => 'integer',
         'agreed_amount' => 'decimal:2',
-        'placement' => 'string',
         'reg_for_month' => 'string',
     ];
 
@@ -73,7 +71,6 @@ class StudentDetail extends Model
         'reg_taken_id' => 'required',
         'branch_id' => 'required',
         'agreed_amount' => 'required',
-        'placement' => 'required',
         'reg_for_month' => 'required',
     ];
 

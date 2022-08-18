@@ -88,11 +88,41 @@ class DueFeesDataTable extends DataTable
                    return $dueFees;
                 }
                 elseif ($record->type == 'Corporate'){
-                    $total = $record->pay_amount;
-                   $agreed_amount = $record->agreed_amount;
-
+                    $feesCollection = CorporateFessCollection::where('corporate_id', $record->student_id);
+                    $gst = $feesCollection->sum('gst');
+                    $payAmount = Income::whereIn('id',$feesCollection->pluck('income_id'))->sum('paying_amount');
+                    $total = $gst+$payAmount;
+                    $agreed_amount = $record->agreed_amount;
                     $dueFees = $agreed_amount - $total;
                     return $dueFees;
+                }
+            })->editColumn('pay_amount' , function ($record){
+                if($record->type == 'Student') {
+                    $feesCollection = StudentFessCollection::where('student_id', $record->student_id);
+                   // $gst = $feesCollection->sum('gst');
+                    $payAmount = Income::whereIn('id',$feesCollection->pluck('income_id'))->sum('paying_amount');
+                   // $total = $gst+$payAmount;
+                    $total = $payAmount;
+                    return $total;
+                }
+                elseif ($record->type == 'Corporate'){
+                    $feesCollection = CorporateFessCollection::where('corporate_id', $record->student_id);
+//                    $gst = $feesCollection->sum('gst');
+                    $payAmount = Income::whereIn('id',$feesCollection->pluck('income_id'))->sum('paying_amount');
+                    //$total = $gst+$payAmount;
+                    $total = $payAmount;
+                    return $total;
+                }
+            })->editColumn('gst',function ($record){
+                if($record->type == 'Student') {
+                    $feesCollection = StudentFessCollection::where('student_id', $record->student_id);
+                    $gst = $feesCollection->sum('gst');
+                    return $gst;
+                }
+                elseif ($record->type == 'Corporate'){
+                    $feesCollection = CorporateFessCollection::where('corporate_id', $record->student_id);
+                    $gst = $feesCollection->sum('gst');
+                    return $gst;
                 }
             })
             ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
