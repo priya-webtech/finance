@@ -117,18 +117,54 @@
                 </table>
             </div>
             <div class="" id="corporate" style="display: none">
+
+            	<form data-action="{{ route('admin.corporateescorporatecolums.corporatecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
+				    @csrf
+
+				    <div class="multiselect">
+				        <div class="selectBox" onclick="showCheckboxes()">
+				          <select>
+				            <option>Select an option</option>
+				          </select>
+				          <div class="overSelect"></div>
+				        </div>
+				        <div id="checkboxes">
+				          <label for="one">
+				            <input type="checkbox" class="corporathidecol"  name="corporat_col_1" @if(!empty($field) && $field->corporat_col_1 == 1) Checked @endif/>&nbsp;Name&nbsp;
+				          <label for="three">
+				            <input type="checkbox" class="corporathidecol" name="corporat_col_2" @if(!empty($field) && $field->corporat_col_2 == 1) Checked @endif/>&nbsp;Email
+				          <label for="four">
+				            <input type="checkbox" class="corporathidecol" name="corporat_col_3" @if(!empty($field) && $field->corporat_col_3 == 1) Checked @endif/>&nbsp;Web Site
+				          <label for="seven">
+				            <input type="checkbox" class="corporathidecol" name="corporat_col_4" @if(!empty($field) && $field->corporat_col_4 == 1) Checked @endif/>&nbsp;Lead Source
+				          <label for="seven">
+				            <input type="checkbox" class="corporathidecol" name="corporat_col_5" @if(!empty($field) && $field->corporat_col_5 == 1) Checked @endif/>&nbsp;Enquiry Type
+				          <label for="seven">
+				           <input type="checkbox" class="corporathidecol" name="corporat_col_6" @if(!empty($field) && $field->corporat_col_6 == 1) Checked @endif/>&nbsp;Branch
+				         <label for="two">
+				            <input type="checkbox" class="corporathidecol" name="corporat_col_7" @if(!empty($field) && $field->corporat_col_7 == 1) Checked @endif/>&nbsp;State		
+				          <label for="five">
+				            <input type="checkbox" class="corporathidecol" name="corporat_col_8" @if(!empty($field) && $field->corporat_col_8 == 1) Checked @endif/>&nbsp;Status		          
+				        </div>
+				    </div>
+
+				    <input type="hidden" name="corporat" value="corporat">
+				    </form>
+
+				    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
+				</div>
                 <table class="table table-bordered table-condensed" id="CorporateTable">
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Web Site</th>
-                        <th>Lead Source</th>
-                        <th>Enquiry Type</th>
-                        <th>Branch</th>
-                        <th>State</th>
-                        <th>Status</th>
+                        @if(!empty($field) && $field->corporat_col_1 == 1) <th>Name</th> @endif
+                        @if(!empty($field) && $field->corporat_col_2 == 1) <th>Email</th>@endif
+                        @if(!empty($field) && $field->corporat_col_3 == 1) <th>Web Site</th>@endif
+                        @if(!empty($field) && $field->corporat_col_4 == 1) <th>Lead Source</th>@endif
+                        @if(!empty($field) && $field->corporat_col_5 == 1) <th>Enquiry Type</th>@endif
+                        @if(!empty($field) && $field->corporat_col_6 == 1) <th>Branch</th>@endif
+                        @if(!empty($field) && $field->corporat_col_7 == 1) <th>State</th>@endif
+                        @if(!empty($field) && $field->corporat_col_8 == 1) <th>Status</th>@endif
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -316,15 +352,15 @@
                                 }
                             },
                         columns: [
-                            {data: 'id', name: 'id'},
-                            {data: 'company_name', name: 'company_name'},
-                            {data: 'email', name: 'email'},
-                            {data: 'web_site', name: 'web_site'},
-                            {data: 'lead_source_id', name: 'lead_source_id'},
-                            {data: 'enquiry_type_id', name: 'enquiry_type_id'},
-                            {data: 'branch_id', name: 'branch_id'},
-                            {data: 'state', name: 'state'},
-                            {data: 'status', name: 'status'},
+                           {data: 'id', name: 'id'}, 
+                         <?php if(!empty($field) && $field->corporat_col_1 == 1) { ?>  {data: 'company_name', name: 'company_name'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_2 == 1) { ?>   {data: 'email', name: 'email'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_3 == 1) { ?>  {data: 'web_site', name: 'web_site'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_4 == 1) { ?>   {data: 'lead_source_id', name: 'lead_source_id'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_5 == 1) { ?>   {data: 'enquiry_type_id', name: 'enquiry_type_id'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_6 == 1) { ?>   {data: 'branch_id', name: 'branch_id'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_7 == 1) { ?>   {data: 'state', name: 'state'}, <?php } ?>
+                         <?php if(!empty($field) && $field->corporat_col_8 == 1) { ?>   {data: 'status', name: 'status'}, <?php } ?>
                             {data: 'action', name: 'action'},
                         ],
                     });
