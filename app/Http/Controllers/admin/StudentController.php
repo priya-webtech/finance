@@ -48,9 +48,12 @@ class StudentController extends AppBaseController
         $columnManage = columnManage::where('table_name','student')->where('role_id',auth()->user()->role_id)->first();
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $students = Student::paginate(10);
-        }else{
-            $students = Student::where('branch_id',$auth->branch_id)->paginate(10);
+        $students = Student::paginate(10);
+        }elseif ($auth->hasRole('student_co-ordinator')){
+            $students = Student::where('branch_id',$auth->branch_id)->where('placement','yes')->paginate(10);
+        }
+        else{
+        $students = Student::where('branch_id',$auth->branch_id)->paginate(10);
         }
 
         $field = [];
@@ -230,10 +233,8 @@ class StudentController extends AppBaseController
 
         if (empty($student)) {
             Flash::error('Student not found');
-
             return redirect(route('admin.students.index'));
         }
-
         $student = $this->studentRepository->update($request->all(), $id);
 
         Flash::success('Student updated successfully.');

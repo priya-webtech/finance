@@ -26,10 +26,15 @@
             <div class="card-body p-0">
                 <div class="card-footer clearfix">
                     <div class="row">
-                        @if($auth->hasRole('super_admin') || $auth->hasRole('admin') || $auth->hasRole('branch_manager'))
+                        @if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
                             <div class="form-group col-sm-2">
                                 {!! Form::label('type', 'Table:') !!}
                                 {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                            </div>
+                            @elseif($auth->hasRole('branch_manager'))
+                            <div class="form-group col-sm-2">
+                                {!! Form::label('type', 'Table:') !!}
+                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                         @elseif($auth->hasRole('counsellor'))
                             <div class="form-group col-sm-2">
