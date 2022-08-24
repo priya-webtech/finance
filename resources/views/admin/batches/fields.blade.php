@@ -46,14 +46,16 @@
 
 </div>
 
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('batch_status', 'Batch Status') !!}<span style="color:red;">*</span> :--}}
+{{--    {!! Form::select('batch_status', ['open'=>'Open','close'=>'Close'], null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Status']) !!}--}}
+{{--        <span class="error text-danger">{{ $errors->first('batch_status') }}</span>--}}
+{{--</div>--}}
+
 <div class="form-group col-sm-6">
-    {!! Form::label('batch_status', 'Batch Status') !!}<span style="color:red;">*</span> :
-    {!! Form::select('batch_status', ['open'=>'Open','close'=>'Close'], null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Status']) !!}
-        <span class="error text-danger">{{ $errors->first('batch_status') }}</span>
-
+    {!! Form::label('trainer_payment_status', 'Trainer Payment status') !!}<span style="color:red;">*</span> :
+    {!! Form::select('trainer_payment_status', ['out_standing'=>'Out standing','paid'=>'Paid '], null, ['class' => 'form-control custom-select']) !!}
 </div>
-
-
 @push('third_party_scripts')
 <script type="text/javascript">
 

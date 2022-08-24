@@ -14,8 +14,6 @@ class AddColToTrainersTable extends Migration
     public function up()
     {
         Schema::table('trainers', function (Blueprint $table) {
-            $table->string('profile_pic')->nullable()->after('status');
-            $table->string('contact_no')->nullable()->after('profile_pic');
             $table->integer('branch_id')->nullable()->after('contact_no');
             $table->integer('created_by')->nullable()->after('branch_id');
             $table->integer('updated_by')->nullable()->after('created_by');

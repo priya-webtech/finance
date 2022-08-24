@@ -40,4 +40,8 @@
     </div>
 
 @endsection
-
+@push('third_party_scripts')
+    <script>
+        $('.alert-msg').text('This Month Total Expense: ₹ ' + '{{$currentMonthExpense}}').css("color", 'red');
+    </script>
+@endpush

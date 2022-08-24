@@ -26,7 +26,7 @@
 </div>
 <!-- Bank Ac Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('bank_ac_id', 'Bank Ac') !!}<span style="color:red;">*</span> :
+    {!! Form::label('bank_ac_id', 'Mode of payment') !!}<span style="color:red;">*</span> :
     {!! Form::select('bank_ac_id', $bankAccounts, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Bank']) !!}
     <span class="error text-danger">{{ $errors->first('expence_type_id') }}</span>
 </div>
@@ -43,19 +43,19 @@
 </div>
 <div class="form-group col-sm-1 trainer" style="margin-top: 37px;">
     <input type="checkbox" id="vehicle1" name="tds">
-    {!! Form::label('tds', 'TDS') !!}<span style="color:red;">*</span> 
+    {!! Form::label('tds', 'TDS') !!}<span style="color:red;">*</span>
     <span class="error text-danger">{{ $errors->first('gst') }}</span>
 </div>
-<!-- Date Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('date', 'Date') !!}<span style="color:red;">*</span> :
-    {!! Form::text('date', null, ['class' => 'form-control','id'=>'datetimepicker']) !!}
-    <span class="error text-danger">{{ $errors->first('date') }}</span>
-</div>
+{{--<!-- Date Field -->--}}
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('date', 'Date') !!}<span style="color:red;">*</span> :--}}
+{{--    {!! Form::text('date', null, ['class' => 'form-control','id'=>'datetimepicker']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('date') }}</span>--}}
+{{--</div>--}}
 
 <!-- Remark Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('remark', 'Remark') !!}<span style="color:red;">*</span> :
+    {!! Form::label('remark', 'Amount towards') !!}<span style="color:red;">*</span> :
     {!! Form::text('remark', null, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group col-sm-12">

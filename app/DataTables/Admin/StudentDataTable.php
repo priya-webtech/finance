@@ -5,6 +5,7 @@ namespace App\DataTables\Admin;
 use App\Models\Admin\Carcompany;
 use App\Models\Admin\Student;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -70,6 +71,7 @@ class StudentDataTable extends DataTable
                    }
                }
             })
+            ->addColumn('slno','row_num',1)
             ->rawColumns(['action','status']);
     }
 
@@ -82,10 +84,13 @@ class StudentDataTable extends DataTable
     public function query()
     {
         $auth = Auth::user();
+        DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $model = Student::query();
+           // $model = Student::query();
+
+            $model = Student::select([DB::raw('@rownum := @rownum + 1 AS rank'),'name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
         }else{
-            $model =  Student::where('branch_id',$auth->branch_id);
+            $model =  Student::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
         }
         return  $model->newQuery();
     }
@@ -105,13 +110,13 @@ class StudentDataTable extends DataTable
                 'dom' => 'Bfrtip',
                 'stateSave' => true,
                 'order' => [[0, 'desc']],
-                'buttons' => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
+//                'buttons' => [
+//                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+//                ],
             ]);
     }
 
@@ -135,6 +140,7 @@ class StudentDataTable extends DataTable
             'status',
             'branch_id',
             'remark',
+            'placement'
             //'type' => ['searchable' => false],
         ];
     }

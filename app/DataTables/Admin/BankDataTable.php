@@ -30,18 +30,19 @@ class BankDataTable extends DataTable
                 }
                 return $status;
             })
-            ->filter(function ($record){
-                $record->where(function ($q) {
-                    if (request('balance_type')){
-                        if (request('balance_type') == "cash"){
-                            $q->where('title','Cash');
-                        }elseif(request('balance_type')  == "bank"){
-                            $q->where('title','Cheque');
-                        }
-
-                    }
-                });
-            })
+//            ->filter(function ($record){
+//                $record->where(function ($q) {
+//                    if (request('balance_type')){
+//                        if (request('balance_type') == "cash"){
+//                            $q->where('title','Cash');
+//                        }elseif(request('balance_type')  == "bank"){
+//                            $q->where('title','Cheque');
+//                        }
+//
+//                    }
+//                });
+//            })
+            ->addColumn('slno','row_num',1)
             ->rawColumns(['action','status']);
     }
 
@@ -51,8 +52,16 @@ class BankDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ModeOfPayment $model)
+    public function query()
     {
+
+        if (request('balance_type') == "cash"){
+            DB::statement(DB::raw('set @rownum=0'));
+            $model = ModeOfPayment::where('title','Cash')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status', 'name','opening_balance']);
+        }elseif(request('balance_type')  == "bank"){
+            DB::statement(DB::raw('set @rownum=0'));
+            $model = ModeOfPayment::where('title','Cheque')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status', 'name', 'ifsc_code', 'account_no', 'other_detail', 'opening_balance']);
+        }
         return  $model->newQuery();
     }
 
@@ -71,13 +80,13 @@ class BankDataTable extends DataTable
                 'dom' => 'Bfrtip',
                 'stateSave' => true,
                 'order' => [[0, 'desc']],
-                'buttons' => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
+//                'buttons' => [
+//                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+//                ],
             ]);
     }
 

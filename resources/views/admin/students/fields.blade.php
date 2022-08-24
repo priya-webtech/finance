@@ -16,14 +16,14 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name') !!}<span style="color:red;">*</span> :
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+    {!! Form::text('name', null, ['class' => 'form-control','readonly']) !!}
     <span class="error text-danger">{{ $errors->first('name') }}</span>
 </div>
 
 <!-- Email Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('email', 'Email') !!}<span style="color:red;">*</span> :
-    {!! Form::email('email', null, ['class' => 'form-control']) !!}
+    {!! Form::email('email', null, ['class' => 'form-control','readonly']) !!}
     <span class="error text-danger">{{ $errors->first('email') }}</span>
 </div>
 
@@ -36,16 +36,16 @@
 <!-- Mobile No Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('mobile_no', 'Mobile No') !!}<span style="color:red;">*</span> :
-    {!! Form::number('mobile_no', null, ['class' => 'form-control']) !!}
+    {!! Form::number('mobile_no', null, ['class' => 'form-control','readonly']) !!}
     <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
 </div>
 
 <!-- Lead Source Field -->
-<!-- <div class="form-group col-sm-6">
-    {!! Form::label('lead_source', 'Lead Source:') !!}
-    {!! Form::select('lead_source', $leadSource, null, ['class' => 'form-control','placeholder'=>'Please Select Lead Source']) !!}
+<div class="form-group col-sm-6">
+    {!! Form::label('lead_source_id', 'Lead Source:') !!}
+    {!! Form::select('lead_source_id', $leadSource, null, ['class' => 'form-control','placeholder'=>'Please Select Lead Source']) !!}
     <span class="error text-danger">{{ $errors->first('lead_source') }}</span>
-</div> -->
+</div>
 
 <!-- Enquiry Type Field -->
 <div class="form-group col-sm-6">
@@ -101,6 +101,11 @@
 <div class="form-group col-sm-6 both">
     {!! Form::label('placement', 'Placement:') !!}
     {!! Form::select('placement',['yes'=>'YES','no'=>'NO'], null, ['class' => 'form-control']) !!}
+    <span class="error text-danger">{{ $errors->first('placement') }}</span>
+</div>
+<div class="form-group col-sm-6 both">
+    {!! Form::label('status', 'Status:') !!}
+    {!! Form::select('status',['Ongoing'=>'Ongoing','Not assigned'=>'Not assigned','Completed'=>'Completed','Placed'=>'Placed'], null, ['class' => 'form-control','placeholder'=>'select status']) !!}
     <span class="error text-danger">{{ $errors->first('placement') }}</span>
 </div>
 @else

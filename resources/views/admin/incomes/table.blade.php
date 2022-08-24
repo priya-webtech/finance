@@ -70,7 +70,7 @@
             <input type="checkbox" class="incomehidecol" name="income_col_2" @if(!empty($field) && $field->income_col_2 == 1) Checked @endif/>&nbsp;Email
           <label for="three">
             <input type="checkbox" class="incomehidecol" name="income_col_3" @if(!empty($field) && $field->income_col_3 == 1) Checked @endif/>&nbsp;Income Type
-          
+
         </div>
     </div>
 
@@ -82,12 +82,12 @@
     <div class="form-group col-sm-6">
          {!! Form::label('income_type_id', 'Income Type:') !!}
     {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
-         
+
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
         {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
-    
+
     </div>
     <input type="submit" class="btn btn-danger btn-sm" value="Filter">
     <a href="{{ route('admin.incomes.index') }}">clear</a>
@@ -98,17 +98,23 @@
         <tr>
             @if(!empty($field) && $field->income_col_1 == 1)<th>Name</th>@endif
             @if(!empty($field) && $field->income_col_2 == 1)<th>Email</th>@endif
+                <th>Mobile No.</th>
+
             @if(!empty($field) && $field->income_col_3 == 1)<th>Income Type</th>@endif
+                <th>Reg Date</th>
             <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>
-
+{{--@dd($merge)--}}
         @foreach($merge as $record)
+{{--@dd($record['created_at'])--}}
             <tr>
                 @if(!empty($field) && $field->income_col_1 == 1)<td>@if(isset($record['name'])) {{ $record['name'] }} @elseif(isset($record['company_name'])) {{$record['company_name']}} @else {{"N/A"}} @endif </td>@endif
                 @if(!empty($field) && $field->income_col_2 == 1)<td>{{ $record['email']  ?? 'N/A'}}</td>@endif
+                    <td>@if(isset($record['mobile_no'])) {{ $record['mobile_no'] }} @elseif(isset($record['contact_no'])) {{$record['contact_no']}} @else {{"N/A"}} @endif </td>
                 @if(!empty($field) && $field->income_col_3 == 1)<td> @if(isset($record['student_income'])) {{ getIncomeType($record['student_income'][0]['income_id']) }} @elseif(isset($record['corporate_income'])) {{getIncomeType($record['corporate_income'][0]['income_id'])}} @else {{getIncomeType($record['id'])}} @endif </td>@endif
+               <td>{{ date('d/m/Y', strtotime($record['created_at'])) }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['admin.incomes.destroy', $record['id']], 'method' => 'delete']) !!}
                     <div class='btn-group'>

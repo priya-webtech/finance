@@ -3,7 +3,7 @@
 namespace App\Models\Admin;
 
 use Eloquent as Model;
-
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -48,5 +48,8 @@ class ExpenseTypes extends Model
         'title' => 'required'
     ];
 
-
+    public function expense()
+    {
+        return $this->hasMany(ExpenceMaster::class,'expence_type_id');
+    }
 }

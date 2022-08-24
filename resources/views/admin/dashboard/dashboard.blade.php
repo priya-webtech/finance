@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     @php
         $auth = \Illuminate\Support\Facades\Auth::user();
@@ -28,18 +27,18 @@
                     <div class="row">
                         @if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
                             <div class="form-group col-sm-2">
-                                {!! Form::label('type', 'Table:') !!}
-                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                                {!! Form::label('type', 'Select category:') !!}
+                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','expense'=>'Expenses','revenue'=>'All Revenues','trainer'=>'Trainer','batch'=>'Batches','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                             @elseif($auth->hasRole('branch_manager'))
                             <div class="form-group col-sm-2">
-                                {!! Form::label('type', 'Table:') !!}
-                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                                {!! Form::label('type', 'Select category:') !!}
+                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','expense'=>'Expenses','revenue'=>'All Revenues','trainer'=>'Trainer','batch'=>'Batches'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                         @elseif($auth->hasRole('counsellor'))
                             <div class="form-group col-sm-2">
-                                {!! Form::label('type', 'Table:') !!}
-                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','batch'=>'Batch'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                                {!! Form::label('type', 'Select category:') !!}
+                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','batch'=>'Batches'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                         @endif
                         <div class="form-group col-sm-2 status">
@@ -72,7 +71,7 @@
                         </div>
                         <div class="form-group col-sm-2 incomeFilter" style="display: none">
                             {!! Form::label('income_type', 'Category:') !!}
-                            {!! Form::select('income_type',$incomeType, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
+                            {!! Form::select('income_type', $course, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
                         </div>
                         {{--                        <div class="form-group  col-sm-4">--}}
                         {{--                            {!! Form::label('date', 'Date:') !!}--}}
@@ -103,13 +102,14 @@
         <div class="clearfix"></div>
         <div class="card">
             <div class="" id="student">
-                <table class="table table-bordered table-condensed" id="StudentTable">
+                <table class="table table-striped table-bordered" id="StudentTable" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile No</th>
+                        <th>Placement</th>
                         <th>Student Type</th>
                         <th>Enquiry Type</th>
                         <th>lead Source</th>
@@ -122,6 +122,7 @@
                 </table>
             </div>
             <div class="" id="corporate" style="display: none">
+<<<<<<< HEAD
 
             	<form data-action="{{ route('admin.corporateescorporatecolums.corporatecolums') }}" method="post" style="margin-top: 20px;" id="batchform">
 				    @csrf
@@ -170,16 +171,30 @@
                         @if(!empty($field) && $field->corporat_col_6 == 1) <th>Branch</th>@endif
                         @if(!empty($field) && $field->corporat_col_7 == 1) <th>State</th>@endif
                         @if(!empty($field) && $field->corporat_col_8 == 1) <th>Status</th>@endif
+=======
+                <table class="table table-striped table-bordered" id="CorporateTable">
+                    <thead>
+                    <tr>
+                        <th>SNo.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Web Site</th>
+                        <th>Lead Source</th>
+                        <th>Enquiry Type</th>
+                        <th>Branch</th>
+                        <th>State</th>
+                        <th>Status</th>
+>>>>>>> f85b6b39333f3edfcde074fba2feb495a7dc71ae
                         <th>Action</th>
                     </tr>
                     </thead>
                 </table>
             </div>
             <div class="" id="expense" style="display: none">
-                <table class="table table-bordered table-condensed" id="ExpenseTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="ExpenseTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Sno</th>
                         <th>Category Name</th>
                         <th>Total Expense</th>
                         <th>Action</th>
@@ -188,10 +203,10 @@
                 </table>
             </div>
             <div class="" id="income" style="display: none">
-                <table class="table table-bordered table-condensed" id="IncomeTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="IncomeTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         <th>Category Name</th>
                         <th>Total Revenue</th>
                         <th>Action</th>
@@ -200,10 +215,10 @@
                 </table>
             </div>
             <div class="" id="trainer" style="display: none">
-                <table class="table table-bordered table-condensed" id="TrainerTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="TrainerTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         <th>Course Name</th>
                         <th>Trainer Name</th>
                         <th>Fees</th>
@@ -216,10 +231,10 @@
                 </table>
             </div>
             <div class="" id="batch" style="display: none">
-                <table class="table table-bordered table-condensed" id="BatchTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="BatchTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         <th>Course Name</th>
                         <th>Batch Mode</th>
                         <th>Trainer</th>
@@ -232,10 +247,10 @@
                 </table>
             </div>
             <div class="" id="bank" style="display: none">
-                <table class="table table-bordered table-condensed" id="BankTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="BankTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         {{--                        <th>Mode</th>--}}
                         <th>Name</th>
                         <th>Ifsc Code</th>
@@ -248,10 +263,10 @@
                 </table>
             </div>
             <div class="" id="cash" style="display: none">
-                <table class="table table-bordered table-condensed" id="CashTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="CashTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         {{--                        <th>Mode</th>--}}
                         <th>Name</th>
                         {{--                        <th>Ifsc Code</th>--}}
@@ -264,7 +279,7 @@
                 </table>
             </div>
             <div class="" id="gst" style="display: none">
-                <table class="table table-bordered table-condensed" id="GstTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="GstTable" width="100%" border=1>
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -276,7 +291,7 @@
                 </table>
             </div>
             <div class="" id="due-fees" style="display: none">
-                <table class="table table-bordered table-condensed" id="DueFeesTable" width="100%" border=1>
+                <table class="table table-striped table-bordered" id="DueFeesTable" width="100%" border=1>
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -301,8 +316,7 @@
 @push('third_party_scripts')
     @include('layouts.datatables_css')
     @include('layouts.datatables_js')
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
     <script>
         function ChangeType() {
             var Type = $('#type').val();
@@ -341,13 +355,13 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#CorporateTable') || filter == true) {
                     let CorpoTable = $('#CorporateTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
-                        order: [[0, 'desc']],
+                        ordering: false,
                         ajax:
                             {
                                 "url": 'corporate-data-table',
@@ -357,6 +371,7 @@
                                 }
                             },
                         columns: [
+<<<<<<< HEAD
                            {data: 'id', name: 'id'}, 
                          <?php if(!empty($field) && $field->corporat_col_1 == 1) { ?>  {data: 'company_name', name: 'company_name'}, <?php } ?>
                          <?php if(!empty($field) && $field->corporat_col_2 == 1) { ?>   {data: 'email', name: 'email'}, <?php } ?>
@@ -366,6 +381,17 @@
                          <?php if(!empty($field) && $field->corporat_col_6 == 1) { ?>   {data: 'branch_id', name: 'branch_id'}, <?php } ?>
                          <?php if(!empty($field) && $field->corporat_col_7 == 1) { ?>   {data: 'state', name: 'state'}, <?php } ?>
                          <?php if(!empty($field) && $field->corporat_col_8 == 1) { ?>   {data: 'status', name: 'status'}, <?php } ?>
+=======
+                            {data: 'rank', name: 'rank'},
+                            {data: 'company_name', name: 'company_name'},
+                            {data: 'email', name: 'email'},
+                            {data: 'web_site', name: 'web_site'},
+                            {data: 'lead_source_id', name: 'lead_source_id'},
+                            {data: 'enquiry_type_id', name: 'enquiry_type_id'},
+                            {data: 'branch_id', name: 'branch_id'},
+                            {data: 'state', name: 'state'},
+                            {data: 'status', name: 'status'},
+>>>>>>> f85b6b39333f3edfcde074fba2feb495a7dc71ae
                             {data: 'action', name: 'action'},
                         ],
                     });
@@ -394,12 +420,14 @@
                 // alert(dates);
                 if (!$.fn.dataTable.isDataTable('#ExpenseTable') || filter == true) {
                     var ExpTable = $('#ExpenseTable').DataTable({
-                        dom: 'Bfrtip',
+                        responsive: true,
                         processing: true,
                         serverSide: true,
-                        stateSave: true,
                         retrieve: true,
-                        paging: false,
+                        "searchDelay" : 500,
+                        "responsive": {
+                            orthogonal: 'responsive'
+                        },
                         // order: [[0, 'desc']],
                         ajax:
                             {
@@ -411,11 +439,12 @@
                                 }
                             },
                         columns: [
-                            {data: 'id', name: 'id'},
+                            {data: 'rank', name: 'rank'},
                             {data: 'title', name: 'title'},
                             {data: 'total_expense', name: 'total_expense'},
                             {data: 'action', name: 'action'},
                         ],
+                        order: [[0, 'asc']]
                     });
                     ExpTable.draw();
                 }
@@ -440,13 +469,17 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#IncomeTable') || filter == true) {
                     var IncomeTable = $('#IncomeTable').DataTable({
-                        dom: 'Bfrtip',
+                         dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        ordering: false,
                         // order: [[0, 'desc']],
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'income-data-table',
@@ -456,8 +489,8 @@
                                 }
                             },
                         columns: [
-                            {data: 'id', name: 'id'},
-                            {data: 'title', name: 'title'},
+                            {data: 'rank', name: 'rank'},
+                            {data: 'course_name', name: 'course_name'},
                             {data: 'total_revenue', name: 'total_revenue'},
                             {data: 'action', name: 'action'},
                         ],
@@ -486,12 +519,13 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#TrainerTable') || filter == true) {
                     let TrainerTable = $('#TrainerTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        ordering: false,
                         ajax:
                             {
                                 "url": 'trainer-data-table',
@@ -500,7 +534,7 @@
                                 }
                             },
                         columns: [
-                            {data: 'id', name: 'id'},
+                            {data: 'rank', name: 'rank'},
                             {data: 'course_id', name: 'course_id'},
                             {data: 'trainer_name', name: 'trainer_name'},
                             {data: 'fees', name: 'fees'},
@@ -533,7 +567,7 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#DueFeesTable') || filter == true) {
                     var DueFeesTable = $('#DueFeesTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
@@ -579,15 +613,17 @@
                 $('#batch').show();
                 $('.dateFilter').show();
                 $('#due-fees').hide();
+
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#BatchTable') || filter == true) {
                     var BatchTable = $('#BatchTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        ordering: false,
                         ajax:
                             {
                                 "url": 'batch-data-table',
@@ -598,7 +634,7 @@
                                 }
                             },
                         columns: [
-                            {data: 'id', name: 'id'},
+                            {data: 'rank', name: 'rank'},
                             {data: 'course_id', name: 'course_id'},
                             {data: 'batch_mode_id', name: 'batch_mode_id'},
                             {data: 'trainer_id', name: 'trainer_id'},
@@ -631,12 +667,13 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#BankTable') || filter == true) {
                     var BankTable = $('#BankTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        ordering: false,
                         ajax:
                             {
                                 "url": 'bank-data-table',
@@ -646,7 +683,7 @@
                             },
 
                         columns: [
-                            {data: 'id', name: 'id'},
+                            {data: 'rank', name: 'rank'},
                             // {data: 'title', name: 'title'},
                             {data: 'name', name: 'name'},
                             {data: 'ifsc_code', name: 'ifsc_code'},
@@ -678,12 +715,13 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#CashTable') || filter == true) {
                     $('#CashTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        ordering: false,
                         ajax:
                             {
                                 "url": 'cash-data-table',
@@ -693,7 +731,7 @@
                             },
 
                         columns: [
-                            {data: 'id', name: 'id'},
+                            {data: 'rank', name: 'rank'},
                             // {data: 'title', name: 'title'},
                             {data: 'name', name: 'name'},
                             // {data: 'ifsc_code', name: 'ifsc_code'},
@@ -702,6 +740,7 @@
                             {data: 'status', name: 'status'},
                             {data: 'action', name: 'action'},
                         ],
+                        // order: [[0, 'asc']],
                     });
                     // BankTable.draw();
                 }
@@ -726,7 +765,7 @@
                 if (!$.fn.dataTable.isDataTable('#GstTable') || filter == true) {
 
                     var GstTable = $('#GstTable').DataTable({
-                        dom: 'Bfrtip',
+                        // dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
@@ -751,37 +790,6 @@
             }
         }
     </script>
-    <script type="text/javascript">
-
-        $(function() {
-
-            var start = moment().subtract(365, 'days');
-            var end = moment();
-
-            function cb(start, end) {
-
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            }
-
-            $('#reportrange').daterangepicker({
-                startDate: start,
-                endDate: end,
-                // autoUpdateInput: false,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
-            }, cb);
-
-            cb(start, end);
-
-        });
-
-    </script>
 
     <script type="text/javascript">
         $( document ).ready(function() {
@@ -791,7 +799,7 @@
             var  filter = true;
             if (!$.fn.dataTable.isDataTable('#StudentTable') || filter==true) {
                 var table = $('#StudentTable').DataTable({
-                    dom: 'Bfrtip',
+                    // dom: 'Bfrtip',
                     processing: true,
                     serverSide: true,
                     retrieve: true,
@@ -800,7 +808,7 @@
                         orthogonal: 'responsive'
                     },
                     // paging: false,
-                    order: [[0, 'desc']],
+                    // order: [[0, 'asc']],
                     // buttons: [
                     //     'csv', 'excel', 'pdf', 'print', 'reset', 'reload'
                     // ],
@@ -821,10 +829,11 @@
                             }
                         },
                     columns: [
-                        {data: 'id', name: 'id'},
+                        {data: 'rank', name: 'rank'},
                         {data: 'name', name: 'name'},
                         {data: 'email', name: 'email'},
                         {data: 'mobile_no', name: 'mobile_no'},
+                        {data: 'placement', name: 'placement'},
                         {data: 'student_type', name: 'student_type'},
                         {data: 'enquiry_type', name: 'enquiry_type'},
                         {data: 'lead_source_id', name: 'lead_source_id'},
@@ -833,7 +842,7 @@
                         {data: 'status', name: 'status'},
                         {data: 'action', name: 'action'},
                     ],
-                    order: [[0, 'desc']]
+                    order: [[0, 'asc']]
                 });
             }
             $('.filter').change(function(){

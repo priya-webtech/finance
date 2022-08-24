@@ -6,6 +6,7 @@ use App\Models\Admin\Carcompany;
 use App\Models\Admin\Corporate;
 use App\Models\Admin\Student;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -54,6 +55,7 @@ class CorporateDataTable extends DataTable
                     }
                 }
             })
+            ->addColumn('slno','row_num',1)
             ->rawColumns(['action','status']);
     }
 
@@ -66,10 +68,11 @@ class CorporateDataTable extends DataTable
     public function query()
     {
         $auth = Auth::user();
+        DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $model = Corporate::query();
+            $model = Corporate::select([DB::raw('@rownum := @rownum + 1 AS rank'),'company_name','email', 'web_site', 'lead_source_id', 'enquiry_type_id', 'branch_id', 'state', 'status', 'branch_id']);
         }else{
-            $model =  Corporate::where('branch_id',$auth->branch_id);
+            $model =  Corporate::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'company_name','email', 'web_site', 'lead_source_id', 'enquiry_type_id', 'branch_id', 'state', 'status', 'branch_id']);
         }
         return  $model->with('corporateDetail')->newQuery();
 
@@ -89,14 +92,14 @@ class CorporateDataTable extends DataTable
             ->parameters([
                 'dom' => 'Bfrtip',
                 'stateSave' => true,
-                'order' => [[0, 'desc']],
-                'buttons' => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
+//                'order' => [[0, 'desc']],
+//                'buttons' => [
+//                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+//                ],
             ]);
     }
 

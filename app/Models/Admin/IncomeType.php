@@ -19,7 +19,7 @@ class IncomeType extends Model
 
 
     public $table = 'income_types';
-    
+
 
 
 
@@ -48,5 +48,7 @@ class IncomeType extends Model
         'title' => 'required'
     ];
 
-    
+
+
+
 }

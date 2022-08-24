@@ -22,7 +22,6 @@
     <div class="content px-3">
 
         @include('flash::message')
-
         <div class="clearfix"></div>
 
         <div class="card">
@@ -40,4 +39,15 @@
     </div>
 
 @endsection
-
+@push('third_party_scripts')
+    @if ( $message = Session::get('success'))
+    <script>
+            swal(
+                "{!! $message !!}", " ", "success"
+            );
+    </script>
+    @endif
+        <script>
+            $('.alert-msg').text('This Month Total Revenue(without GST): ₹ ' + '{{$totalRevenue}}').css("color", 'green');
+        </script>
+@endpush

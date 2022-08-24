@@ -56,7 +56,7 @@
     <a href="{{ route('admin.students.index') }}"
        class="nav-link {{ Request::is('admin/students*') ? 'active' : '' }}">
         <i class="nav-icon fa fa-users" aria-hidden="true"></i>
-        <p>Students</p>
+        <p>Registered Students</p>
     </a>
 </li>
 @endcan

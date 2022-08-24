@@ -87,6 +87,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
+            <span class="alert-msg" style="margin-top: 6px;"></span>
         </ul>
 
         <ul class="navbar-nav ml-auto">
@@ -142,6 +143,8 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
@@ -167,13 +170,45 @@
 
 {{--<script src="{{asset('admin/js/app.js')}}" ></script>--}}
 {{--<script src="{{asset('admin/js/bootstrap.js')}}"></script>--}}
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<script type="text/javascript">
 
+    $(function() {
+
+        var start = moment().startOf('month');
+        var end = moment().endOf('month');
+
+        function cb(start, end) {
+
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            // autoUpdateInput: false,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start, end);
+
+    });
+
+</script>
 <script>
 
 
 $(document).ready(function(){
 
-  
+
   $("#franchisesInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#franchises-table tr").filter(function() {
@@ -286,7 +321,7 @@ $(document).ready(function(){
             success:function(response)
             {
                 $(form).trigger("reset");
-          
+
             },
             error: function(response) {
             }
@@ -303,7 +338,7 @@ $(document).ready(function(){
         var splitid = id.split("_");
         var colno = splitid[1];
         var checked = false;
-         
+
         // Checking Checkbox state
         if($(this).is(":checked")){
             checked = false;

@@ -38,16 +38,16 @@
     <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
 
     <form action="{{ route('admin.batchesFilter.filter') }}" method="get" style="margin-top: 20px;">
-    
+
     <div class="form-group col-sm-6">
        {!! Form::label('course_id', 'Course Name:') !!}
         {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Course']) !!}
-         
+
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('batch_mode_id', 'Batch Mode:') !!}
         {!! Form::select('batch_mode_id', $batchMode, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Mode']) !!}
-    
+
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('trainer_id', 'Trainer Name:') !!}
@@ -88,7 +88,7 @@
             @if(!empty($field) && $field->batch_col_3 == 1)<td>{{ $batch->batchType->title }}</td>@endif
             @if(!empty($field) && $field->batch_col_4 == 1)<td>{{ $batch->trainer->trainer_name }}</td>@endif
             @if(!empty($field) && $field->batch_col_5 == 1)<td>{{ $batch->name }}</td>@endif
-            @if(!empty($field) && $field->batch_col_6 == 1)<td>{{ $batch->start }}</td>@endif
+            @if(!empty($field) && $field->batch_col_6 == 1)<td>{!! htmlspecialchars_decode(date('F Y', strtotime("01-".$batch->start))) !!}</td>@endif
             @if(!empty($field) && $field->batch_col_7 == 1)<td><span class='badge @if($batch->status == 1)badge-success @else badge-danger @endif'>{{ $batch->status == 1 ? "Active" : "Block" }}</span></td>@endif
             @if(!empty($field) && $field->batch_col_8 == 1)<td>{{ $batch->batch_status }}</td>@endif
                 <td width="120">

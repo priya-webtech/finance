@@ -15,19 +15,19 @@
     {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select changecourse','placeholder'=>'Please Select Course']) !!}
     <span class="error text-danger">{{ $errors->first('course_id') }}</span>
 </div>
-<!-- Email Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('email', 'Email') !!}<span style="color:red;">*</span> :
-    {!! Form::email('email', null, ['class' => 'form-control']) !!}
-    <span class="error text-danger">{{ $errors->first('email') }}</span>
-</div>
+{{--<!-- Email Field -->--}}
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('email', 'Email') !!}<span style="color:red;">*</span> :--}}
+{{--    {!! Form::email('email', null, ['class' => 'form-control']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('email') }}</span>--}}
+{{--</div>--}}
 
 <!-- Contact Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('contact_no', 'Contact No.') !!}<span style="color:red;">*</span> :
-    {!! Form::number('contact_no', null, ['class' => 'form-control']) !!}
-    <span class="error text-danger">{{ $errors->first('contact_no') }}</span>
-</div>
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('contact_no', 'Contact No.') !!}<span style="color:red;">*</span> :--}}
+{{--    {!! Form::number('contact_no', null, ['class' => 'form-control']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('contact_no') }}</span>--}}
+{{--</div>--}}
 <!-- Contact Field -->
 <!-- <div class="form-group col-sm-6">
     {!! Form::label('profile_pic', 'Profile Pic:') !!}
