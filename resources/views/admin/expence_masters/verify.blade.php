@@ -1,6 +1,6 @@
 <div class="container">
-    <h4>Balance Verify</h4>
-    <table class="table" style="width: 96%">
+{{--    <h4>Balance Verify</h4>--}}
+    <table class="table">
         <thead>
         <tr class="table-blue">
             <th>Bank Name</th>

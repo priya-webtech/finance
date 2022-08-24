@@ -73,13 +73,15 @@ class BatchDataTable extends DataTable
     public function query(Batch $model)
     {
         $auth = Auth::user();
+        DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $model = Batch::query();
+
+            $model = Batch::select([DB::raw('@rownum := @rownum + 1 AS rank'),'course_id', 'batch_mode_id', 'trainer_id', 'name', 'start', 'status', 'batch_status','batch_type_id']);
 
         }else{
             $model =  Batch::whereHas('course', function($query) use($auth){
                 $query->where('branch_id', $auth->branch_id);
-            });
+            })->select([DB::raw('@rownum := @rownum + 1 AS rank'),'course_id', 'batch_mode_id', 'trainer_id', 'name', 'start', 'status', 'batch_status','batch_type_id']);
 
         }
         return  $model->newQuery();
@@ -100,13 +102,13 @@ class BatchDataTable extends DataTable
                 'dom' => 'Bfrtip',
                 'stateSave' => true,
                 'order' => [[0, 'desc']],
-                'buttons' => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
+//                'buttons' => [
+//                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+//                ],
             ]);
     }
 

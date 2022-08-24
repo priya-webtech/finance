@@ -3,7 +3,7 @@
 namespace App\Models\Admin;
 
 use Eloquent as Model;
-
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -19,7 +19,7 @@ class EnquiryType extends Model
 
 
     public $table = 'enquiry_types';
-    
+
 
 
 
@@ -48,5 +48,5 @@ class EnquiryType extends Model
         'title' => 'required'
     ];
 
-    
+
 }

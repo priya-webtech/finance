@@ -39,12 +39,12 @@
     <div class="form-group col-sm-6">
         {!! Form::label('expence_type_id', 'Expence Type:') !!}
         {!! Form::select('expence_type_id', $expenseTypes, null, ['class' => 'form-control custom-select','onchange'=>'ChangeExpenseType()','id'=>'expense_type','placeholder'=>'Please Select Expense Type']) !!}
-         
+
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('trainer_id', 'Trainer Name:') !!}
         {!! Form::select('trainer_id', $trainer, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Trainer','onchange'=>"changeTrainer(this)"]) !!}
-    
+
     </div>
     <div class="form-group col-sm-6">
         {!! Form::label('bank_ac_id', 'Bank Ac:') !!}
@@ -58,55 +58,73 @@
     <table class="table" id="expenceMasters-table">
         <thead>
         <tr>
-        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif
-        @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif
-        @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif
-        @if(!empty($field) && $field->expencemaster_col_4 == 1)<th>Batch</th>@endif
-        @if(!empty($field) && $field->expencemaster_col_5 == 1)<th>Trainer</th>@endif
-        @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif
-        @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif
-        @if(!empty($field) && $field->expencemaster_col_8 == 1)<th>Date</th>@endif
+            <th>Category</th>
+            <th>Total</th>
+{{--        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_4 == 1)<th>Batch</th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_5 == 1)<th>Trainer</th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif--}}
+{{--        @if(!empty($field) && $field->expencemaster_col_8 == 1)<th>Date</th>@endif--}}
 {{--        <th>Remark</th>--}}
             <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>
         @foreach($expenceMasters as $expenceMaster)
-          @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
-            <tr>
-            @if(!empty($field) && $field->expencemaster_col_1 == 1)<td>{{ $expenceMaster->expenceType->title }}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_2 == 1)<td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_3 == 1)<td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_4 == 1)<td>{{ $expenceMaster->batch->name ?? 'N/A' }}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_5 == 1)<td>{{ $expenceMaster->trainer->trainer_name ?? 'N/A'}}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_6 == 1)<td>{{ $expenceMaster->student->name ?? 'N/A' }}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_7 == 1)<td>{{ $expenceMaster->amount }}</td>@endif
-            @if(!empty($field) && $field->expencemaster_col_8 == 1)<td>{{ $expenceMaster->date }}</td>@endif
-{{--            <td>{{ $expenceMaster->remark }}</td>--}}
-                <td width="120">
-                    {!! Form::open(['route' => ['admin.expenceMasters.destroy', $expenceMaster->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                         @can('expence_view')
-                        <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"
-                           class='btn btn-default action-btn btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        @endcan
-                         @can('expence_edit')
-                        <a href="{{ route('admin.expenceMasters.edit', [$expenceMaster->id]) }}"
-                           class='btn btn-primary action-btn btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        @endcan
-                         @can('expence_delete')
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                        @endcan
-                    </div>
-                    {!! Form::close() !!}
+        <tr>
+
+                <td>{{$expenceMaster->title}}</td>
+                <td>{{$expenceMaster->expense->sum('amount','tds')}}</td>
+                <td>
+                    @can('expence_view')
+                                            <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"
+                                               class='btn btn-default action-btn btn-sm'>
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                            @endcan
                 </td>
-            </tr>
-            @endif
+
+        </tr>
         @endforeach
+{{--        @foreach($expenceMasters as $expenceMaster)--}}
+{{--          @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))--}}
+{{--            <tr>--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_1 == 1)<td>{{ $expenceMaster->expenceType->title }}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_2 == 1)<td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_3 == 1)<td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_4 == 1)<td>{{ $expenceMaster->batch->name ?? 'N/A' }}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_5 == 1)<td>{{ $expenceMaster->trainer->trainer_name ?? 'N/A'}}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_6 == 1)<td>{{ $expenceMaster->student->name ?? 'N/A' }}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_7 == 1)<td>{{ $expenceMaster->amount }}</td>@endif--}}
+{{--            @if(!empty($field) && $field->expencemaster_col_8 == 1)<td>{{ $expenceMaster->date }}</td>@endif--}}
+{{--            <td>{{ $expenceMaster->remark }}</td>--}}
+{{--                <td width="120">--}}
+{{--                    {!! Form::open(['route' => ['admin.expenceMasters.destroy', $expenceMaster->id], 'method' => 'delete']) !!}--}}
+{{--                    <div class='btn-group'>--}}
+{{--                         @can('expence_view')--}}
+{{--                        <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"--}}
+{{--                           class='btn btn-default action-btn btn-sm'>--}}
+{{--                            <i class="far fa-eye"></i>--}}
+{{--                        </a>--}}
+{{--                        @endcan--}}
+{{--                         @can('expence_edit')--}}
+{{--                        <a href="{{ route('admin.expenceMasters.edit', [$expenceMaster->id]) }}"--}}
+{{--                           class='btn btn-primary action-btn btn-sm'>--}}
+{{--                            <i class="far fa-edit"></i>--}}
+{{--                        </a>--}}
+{{--                        @endcan--}}
+{{--                         @can('expence_delete')--}}
+{{--                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}--}}
+{{--                        @endcan--}}
+{{--                    </div>--}}
+{{--                    {!! Form::close() !!}--}}
+{{--                </td>--}}
+{{--            </tr>--}}
+{{--            @endif--}}
+{{--        @endforeach--}}
         </tbody>
     </table>
 </div>

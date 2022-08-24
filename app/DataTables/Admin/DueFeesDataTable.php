@@ -10,6 +10,7 @@ use App\Models\Admin\Student;
 use App\Models\Admin\StudentDetail;
 use App\Models\Admin\columnManage;
 use App\Models\Admin\StudentFessCollection;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
@@ -125,7 +126,15 @@ class DueFeesDataTable extends DataTable
                     return $gst;
                 }
             })
-            ->rawColumns(['agreed_amount','total_amount','due_fees','action']);
+             ->editColumn('due_date',function ($record){
+               if($record->due_date < today()->format('Y-m-d')){
+                  return "<span class='text-danger'>$record->due_date</span>";
+               }else{
+                   return $record->due_date;
+               }
+
+           })
+            ->rawColumns(['agreed_amount','total_amount','due_fees','action','due_date']);
     }
 
     /**
@@ -151,7 +160,7 @@ class DueFeesDataTable extends DataTable
                 ->join('courses', 'student_detail.course_id', '=', 'courses.id')
                 ->join('student_fees_collections', 'student_detail.id', '=', 'student_fees_collections.student_detail_id')
                 ->join('incomes', 'student_fees_collections.income_id', '=', 'incomes.id')
-                ->select('student_detail.id as id','student_detail.student_id as student_id','students.name as name','students.email as email','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
+                ->select('student_detail.id as id','student_detail.student_id as student_id','students.name as name','students.email as email','students.mobile_no as mobile','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
 
             $b = CorporateDetail::when(request('dates'), function ($q) {
                 $part = explode("-",request('dates'));
@@ -163,7 +172,7 @@ class DueFeesDataTable extends DataTable
             ->join('courses', 'corporate_detail.course_id', '=', 'courses.id')
             ->join('corporate_fees_collections', 'corporate_detail.id', '=', 'corporate_fees_collections.corporate_detail_id')
             ->join('incomes', 'corporate_fees_collections.income_id', '=', 'incomes.id')
-          ->select('corporate_detail.id as id','corporate_detail.corporate_id as corporate_id','corporates.company_name as name','corporates.email as email','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
+          ->select('corporate_detail.id as id','corporate_detail.corporate_id as corporate_id','corporates.company_name as name','corporates.email as email','corporates.contact_no as mobile','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
         }else{
 
             $a = StudentDetail::where('student_detail.branch_id',$auth->branch_id)->
@@ -177,7 +186,7 @@ class DueFeesDataTable extends DataTable
                 ->join('courses', 'student_detail.course_id', '=', 'courses.id')
                 ->join('student_fees_collections', 'student_detail.id', '=', 'student_fees_collections.student_detail_id')
                 ->join('incomes', 'student_fees_collections.income_id', '=', 'incomes.id')
-                ->select('student_detail.id as id','students.name as name','students.email as email','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
+                ->select('student_detail.id as id','students.name as name','students.email as email','students.mobile_no as mobile','student_detail.agreed_amount as agreed_amount','courses.course_name as course_name','student_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Student' AS `type`"));
 
             $b = CorporateDetail::where('corporates.branch_id',$auth->branch_id)->
                 when(request('dates'), function ($q) {
@@ -190,7 +199,7 @@ class DueFeesDataTable extends DataTable
             ->join('courses', 'corporate_detail.course_id', '=', 'courses.id')
             ->join('corporate_fees_collections', 'corporate_detail.id', '=', 'corporate_fees_collections.corporate_detail_id')
             ->join('incomes', 'corporate_fees_collections.income_id', '=', 'incomes.id')
-          ->select('corporate_detail.id as id','corporates.company_name as name','corporates.email as email','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
+          ->select('corporate_detail.id as id','corporates.company_name as name','corporates.email as email','corporates.contact_no as mobile','corporate_detail.agreed_amount as agreed_amount','courses.course_name as course_name','corporate_detail.due_date as due_date','incomes.paying_amount as pay_amount','incomes.gst as gst', DB::raw("'Corporate' AS `type`"));
 
          //   $a = Student::where('branch_id',$auth->branch_id)->select('id','name','email','mobile_no', DB::raw("'Student' AS `type`"));
          //   $b = Corporate::where('branch_id',$auth->branch_id)->select('id','company_name','email','contact_no', DB::raw("'Corporate' AS `type`"));
@@ -242,14 +251,14 @@ class DueFeesDataTable extends DataTable
         $result = ['id' => ['searchable' => false]] +
 
         ((!empty($field) && $field->due_fees_col_1 == 1) ? ['name' => ['searchable' => false]] : [] )  +
-        ((!empty($field) && $field->due_fees_col_2 == 1) ? ['email' => ['searchable' => false]] : [] ) +
+        ((!empty($field) && $field->due_fees_col_2 == 1) ? ['mobile' => ['searchable' => false]] : [] ) +
         ((!empty($field) && $field->due_fees_col_3 == 1) ? ['course_name' => ['searchable' => false]] : [] ) +
         ((!empty($field) && $field->due_fees_col_4 == 1) ? ['due_date' => ['searchable' => false]] : [] ) +
         ((!empty($field) && $field->due_fees_col_5 == 1) ? ['agreed_amount' => ['searchable' => false]] : [] ) +
         ((!empty($field) && $field->due_fees_col_6 == 1) ? ['pay_amount' => ['searchable' => false]] : [] ) +
         ((!empty($field) && $field->due_fees_col_7 == 1) ? ['gst' => ['searchable' => false]] : [] ) +
-        ((!empty($field) && $field->due_fees_col_8 == 1) ? ['due_fees' => ['searchable' => false]] : [] ) +
-        ((!empty($field) && $field->due_fees_col_9 == 1) ? ['type' => ['searchable' => false]] : [] );
+        ((!empty($field) && $field->due_fees_col_8 == 1) ? ['due_fees' => ['searchable' => false]] : [] );
+//        ((!empty($field) && $field->due_fees_col_9 == 1) ? ['type' => ['searchable' => false]] : [] );
 
         return $result;
 

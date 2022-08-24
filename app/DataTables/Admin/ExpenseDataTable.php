@@ -58,6 +58,7 @@ class ExpenseDataTable extends DataTable
 //                    }
 //                });
 //            })
+            ->addColumn('slno','row_num',1)
             ->rawColumns(['action','total_expense']);
     }
 
@@ -69,8 +70,9 @@ class ExpenseDataTable extends DataTable
      */
     public function query(ExpenseTypes $model)
     {
-
-        return  $model->newQuery();
+        DB::statement(DB::raw('set @rownum=0'));
+//        $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title']);
+        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title'])->newQuery();
     }
 
     /**
@@ -88,13 +90,13 @@ class ExpenseDataTable extends DataTable
                 'dom' => 'Bfrtip',
                 'stateSave' => true,
                 'order' => [[0, 'desc']],
-                'buttons' => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
+//                'buttons' => [
+//                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+//                ],
             ]);
     }
 

@@ -1,8 +1,100 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<style>
+    hr {
+        border: 0;
+        clear:both;
+        display:block;
+        width: 96%;
+        background-color:black;
+        height: 1px;
+    }
+    #line {
+        float: left;
+        width: 1036px;
+    }
+    .modal {
+        --gap: 15px;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: var(--gap);
+        background: rgba(0, 0, 0, 0.5);
+        font-family: sans-serif;
+    }
+
+    .modal__inner {
+        background: #ffffff;
+        width: 100%;
+        max-width: 800px;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+
+    .modal__top {
+        display: flex;
+        align-items: center;
+        background-color: #eeeeee;
+    }
+
+    .modal__title {
+        flex-grow: 1;
+        padding: 0 var(--gap);
+        font-size: 20px;
+    }
+
+    .modal__close {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: var(--gap);
+        background: none;
+        border: none;
+        outline: none;
+    }
+
+    .modal__content {
+        padding: 0 var(--gap);
+        line-height: 1.5;
+    }
+
+    .modal__bottom {
+        text-align: right;
+        padding: 0 var(--gap) var(--gap) var(--gap);
+    }
+
+    .modal__button {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #009578;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .modal__button:not(:last-child) {
+        margin-right: var(--gap);
+    }
+
+    .modal__button:hover {
+        background: #008066;
+    }
+
+</style>
 <div class="container-fluid p-0">
     <div class="row pb-4">
         <div class="col-lg-12" style="background-color: #f4f6f9">
-            <h4 class="custom-h4">Income and Student Detail:</h4>
+            <h4 class="custom-h4">Add new student registration:</h4>
         </div>
     </div>
 </div>
@@ -14,7 +106,7 @@
 <!-- Income Type Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('income_type_id', 'Income Type') !!}<span style="color:red;">*</span> :
-    {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
+    {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type']) !!}
     <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
 </div>
 
@@ -28,20 +120,20 @@
 <!-- Name Field -->
 
 <div class="form-group col-sm-6 both">
-    {!! Form::label('name', 'Name:') !!}
+    {!! Form::label('name', 'Student Name:') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('name') }}</span>
 </div>
 <!-- Email Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('email', 'Email:') !!}
+    {!! Form::label('email', 'Student Email:') !!}
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('email') }}</span>
 </div>
 <!-- Student Type Field -->
 <div class="form-group col-sm-6 stud">
     {!! Form::label('student_type', 'Student Type:') !!}
-    {!! Form::select('student_type',$studentType, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
+    {!! Form::select('student_type',$studentType, null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('student_type') }}</span>
 </div>
 <div class="form-group col-sm-6 both">
@@ -62,7 +154,7 @@
 </div>
 <!-- Placement Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('placement', 'Placement:') !!}
+    {!! Form::label('placement', 'Placement Assistance required?”:') !!}
     {!! Form::select('placement',['yes'=>'YES','no'=>'NO'], null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('placement') }}</span>
 </div>
@@ -92,19 +184,25 @@
 
 <div class="form-group col-sm-6 other">
     {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
-    {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+    {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select mode_of_payment','placeholder'=>'Please Select Mode of Payment']) !!}
     <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
 </div>
 <!-- Paying  Amount Field -->
-<div class="form-group col-sm-3 other">
+<div class="form-group col-sm-3 other ">
     {!! Form::label('paying_amount', 'Paying  Amount:') !!}
-    {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}
+    {!! Form::text('paying_amount', null, ['class' => 'form-control pay_amount']) !!}
     <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
 </div>
-<div class="form-group col-sm-3 other" style="margin-top: 37px;">
-    <input type="checkbox" id="vehicle1" name="gst">
+<div class="col-sm-2 gstTextBox" id="gstAmount"  style="display: none;">
+    <div class="form-group">
+        <label>Gst</label><br>
+        <input step=".01" name="gst_amount" id="topGst"
+               class="form-control gst_amount" type="number">
+    </div>
+</div>
+<div class="form-group col-sm-1 other" style="margin-top: 37px;">
+    <input type="checkbox" id="vehicle1" class="gstCheck" name="gst">
     {!! Form::label('gst', 'Gst') !!}
-
     <span class="error text-danger">{{ $errors->first('gst') }}</span>
 </div>
 
@@ -115,23 +213,28 @@
     <span class="error text-danger">{{ $errors->first('register_date') }}</span>
 </div>
 
-<div class="form-group col-sm-6 other">
-    {!! Form::label('description', 'Description:') !!}
-    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-    <span class="error text-danger">{{ $errors->first('description') }}</span>
+{{--<div class="form-group col-sm-6 other">--}}
+{{--    {!! Form::label('description', 'Description:') !!}--}}
+{{--    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('description') }}</span>--}}
+{{--</div>--}}
+<div class="form-group col-sm-6 ">
+    {!! Form::label('reg_taken_id', 'Registration taken by:') !!}
+    {!! Form::select('reg_taken_id', $user, null,['class' => 'form-control', 'placeholder'=> '--Please Select Registration Taken By--']) !!}
+    <span class="error text-danger">{{ $errors->first('registration_taken_by') }}</span>
 </div>
-
+<div id="line"><hr  style="" /></div>
 <!-- Test -->
-<br><br><br><br>
-<div class="container-fluid p-0 reg-detail" >
-    <div class="row pb-4">
-        <div class="col-lg-12" style="background-color: #f4f6f9">
-            <hr class="m-0">
-            <h4 class="custom-h4">Registration Details:</h4>
-            <hr class="m-0">
-        </div>
-    </div>
-</div>
+{{--<br><br><br><br>--}}
+{{--<div class="container-fluid p-0 reg-detail" >--}}
+{{--    <div class="row pb-4">--}}
+{{--        <div class="col-lg-12" style="background-color: #f4f6f9">--}}
+{{--            <hr class="m-0">--}}
+{{--            <h4 class="custom-h4">Registration Details:</h4>--}}
+{{--            <hr class="m-0">--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 <!-- <div class="form-group col-sm-12 reg-detail">
     <button type="button" class="btn btn-success" id="addNew" ><span
             class="fa fa-plus"></span> Add Course
@@ -315,7 +418,7 @@
             {{--            @else--}}
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
+                    <label class="required">Course Enrolling for</label><span class="error-course" style="color: red"></span>
                     <select name="student[0][course_id]" class="form-control course changeincomecourse"
                             aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                         <option value="">--Select Course--</option>
@@ -326,19 +429,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
-                    <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment"
-                            aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)">
-                        <option value="">--Select Mode of Payment--</option>
-                        @foreach ($modeOfPayment as $key=>$value)
-                            <option value="{{ $key }}">{{ $value }}</option>
-                        @endforeach
-                    </select>
 
-                </div>
-            </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Agreed Amount</label><span class="error-agreed_amount" style="color:red"></span><br>
@@ -348,15 +439,6 @@
                 </div>
             </div>
 
-
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Pay Amount</label> <span class="error-pay_amount" style="color:red"></span><br>
-                    <input id="value" step=".01" name="student[0][pay_amount]"
-                           class="form-control pay_amount" type="number">
-
-                </div>
-            </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Due date</label> <span class="error-due_date" style="color:red"></span><br>
@@ -364,12 +446,40 @@
                            class="form-control due_date" type="date">
                 </div>
             </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>1st instalment amount</label> <span class="error-pay_amount" style="color:red"></span><br>
+                    <input id="value" step=".01" name="student[0][pay_amount]"
+                           class="form-control pay_amount pa" type="number">
+
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
+                    <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment mop"
+                            aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)">
+                        <option value="">--Select Mode of Payment--</option>
+                        @foreach ($modeOfPayment as $key=>$value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-sm-2 gstTextBox" id="gst_amount" style="display: none;">
+                <div class="form-group">
+                    <label>Gst</label><br>
+                    <input step=".01" name="gst_amount"
+                           class="form-control gst_amount" id="bottomGst" type="number" readonly>
+                </div>
+            </div>
             <div class="col-sm-1 gst0" style="display: none;">
                 <div class="form-group">
                     <br>
                     <br>
                     <input id="value" step=".01" name="student[0][gst]"
-                           value="1" type="checkbox">
+                           value="1" type="checkbox" class="gstCheck">
                     <label>Gst</label>
 
                     <span class="error-is_required" style="color:red"></span>
@@ -380,21 +490,21 @@
                 <div class="form-group">
                     <br>
                     <br>
-                    <input id="value" step=".01" name="student[0][no_batch]"
-                           value="1" type="checkbox" onchange="batchDisplay(this.checked, 0)">
-                    <label>Batch Not Yet</label>
-
+                    <button id="value" step=".01" class="btn btn-warning" name="student[0][no_batch]"
+                           value="1" type="button" onclick="batchDisplay(this.checked, 0)">
+                        Assign to Batch
+                    </button>
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
         </div>
-        <span class="batch_table0">
-        <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">
-            Add Batch
-        </button>
-        <br><br>
+        <span class="batch_table0" style="display:none;">
+{{--        <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">--}}
+{{--            Add Batch--}}
+{{--        </button>--}}
+{{--        <br><br>--}}
 
-        <div id="addNewTableRow">
+        <div id="addNewTableRow" >
             <div class="row">
                 <div class="table-responsive">
                     <table class="options table table-bordered table-striped">
@@ -453,14 +563,13 @@
         {{--        @endif--}}
     </div>
 </div>
-<hr>
+{{--<hr>--}}
 <div id="lmain"></div>
 <!-- End Test -->
 
 
 <div id="exampleModal" class="modal" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -471,10 +580,21 @@
                 <p class="text-danger">This Student is already taken.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="modal__button" onclick="HideModel()">Decline</button>
             </div>
         </div>
-
+    </div>
+</div>
+<div class="modal" id="verifyModel" style="display:none;">
+    <div class="modal__inner">
+        <div class="modal__top">
+            <div class="modal__title ">Verify Bank Balance</div>
+            <button class="modal__close close" type="button" onclick="HideModel()">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        <div class="modal__content"><p>I am the content of this modal</p></div>
+        <div class="modal__bottom"><button type="button" class="modal__button" onclick="SubmitFrom()">Verify!</button><button type="button" class="modal__button" onclick="HideModel()">Decline</button></div>
     </div>
 </div>
 <input type="button" value="0"  id="clickme" style="display:none;" data-toggle="modal" data-target="#exampleModal" />
@@ -529,6 +649,7 @@
                 $('.franchises').hide();
                 $('.retail_col').show();
                 $('.other').hide();
+                $('#gstAmount').hide();
             }else if(IncomeType == 'Corporate Training'){
                 $('.reg-detail').show();
                 $('.corpo').show();
@@ -537,6 +658,7 @@
                 $('.retail_col').hide();
                 $('.franchises').hide();
                 $('.other').hide();
+                $('#gstAmount').hide();
             }else if(IncomeType == 'Franchise Royalty'){
                 $('.franchises').show();
                 $('.corpo').hide();
@@ -570,12 +692,13 @@
             }
         }
         function batchDisplay(value, index) {
-            if(value) {
-                $('.batch_table'+ index).hide();
-            } else {
+            // alert('okay');
+            // if(value) {
+            //     $('.batch_table'+ index).hide();
+            // } else {
                 $('.batch_table'+ index).show();
 
-            }
+            // }
         }
         $("#mob").keyup(function(){
             var mobile = $('#mob').val();
@@ -590,21 +713,22 @@
                         $("input[name='state']").val(data['student'].state);
                         $("select[name='enquiry_type']").val(data['student'].enquiry_type).change();
                         $("select[name='student_type']").val(data['student'].student_type).change();
-                        $( "#clickme" ).trigger('click');
+                        // $( "#clickme" ).trigger('click');
+                        $('#exampleModal').show();
                     }
                 });
             }
         });
-        function bath() {
-            var batch = $('#batch option:selected').val();
-            if(batch){
-                $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {
-                    if(data){
-                            $('.badge').text(data);
-                    }
-                });
-            }
-        }
+        {{--function bath() {--}}
+        {{--    var batch = $('#batch option:selected').val();--}}
+        {{--    if(batch){--}}
+        {{--        $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {--}}
+        {{--            if(data){--}}
+        {{--                    $('.badge').text(data);--}}
+        {{--            }--}}
+        {{--        });--}}
+        {{--    }--}}
+        {{--}--}}
 
     </script>
     <script>
@@ -996,6 +1120,7 @@
 
         function checkText() {
 
+
             var IncomeType = $('#income_type option:selected').text();
             if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
                 event.preventDefault();
@@ -1067,7 +1192,23 @@
                 });
                 if (t == 0) {
                     alert('success');
-                    $('#create-form').submit();
+                    var BankAccount = $('.mop').val();
+                    var Amount =$('.pa').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{route('income-verify')}}",
+                        data: {'bank_Acc': BankAccount, 'amount': Amount},
+                        dataTypes: 'json',
+                        success: function (res) {
+                            if (res) {
+                                alert('okay');
+                                $('.modal__content').html(res.verify);
+                                $('.modal').show();
+                                $('.modal').css('display', 'flex');
+                            }
+                        }
+                    });
+                    // $('#create-form').submit();
                    // $('#edit-form').submit();
                     return true;
                 } else {
@@ -1075,6 +1216,74 @@
                     return false;
                 }
             }
+            Verify();
+        }
+        function Verify() {
+            event.preventDefault();
+
+            var BankAccount = $('.mode_of_payment').val();
+            var Amount =$('.pay_amount').val();
+            $.ajax({
+                type: 'GET',
+                url: "{{route('income-verify')}}",
+                data: {'bank_Acc': BankAccount, 'amount': Amount},
+                dataTypes: 'json',
+                success: function (res) {
+                    if (res) {
+                        $('.modal__content').html(res.verify);
+                        $('.verifyModel').show();
+                        $('.verifyModel').css('display', 'flex');
+
+                    }
+                }
+            });
+            e.preventDefault();
+
+        }
+        function HideModel() {
+            $('.modal').hide();
+        }
+        $('.gstCheck').change(function()
+        {
+            if($(this).is(':checked'))
+            {
+                var IncomeType = $('#income_type option:selected').text();
+                if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
+                    $('#gst_amount').show();
+                }else{
+                    $('#gstAmount').show();
+                }
+               // selected_checkbox.push($(this).val());
+            }
+            else
+            {
+                //If unchecked remove it from array
+                $('.gstTextBox').hide();
+            }
+            $('#CD_Supplr').val(selected_checkbox.join(','));
+        });
+        $(".pay_amount").keyup(function(){
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
+                var firstInstallment = $('.pa').val();
+                var Text = "{{site_setting()->gst_per/100+1}}";
+                var gstamt  = firstInstallment - firstInstallment/Text;
+                $('#bottomGst').val(gstamt.toFixed(2));
+            }else{
+                var firstInstallment = $('#paying_amount').val();
+                var Text = "{{site_setting()->gst_per/100+1}}";
+                var gstamt  = firstInstallment - firstInstallment/Text;
+                $('#topGst').val(gstamt.toFixed(2));
+            }
+
+
+           // alert();
+        });
+        // function HideModel() {
+        //     $('.verifyModel').hide();
+        // }
+        function SubmitFrom() {
+            $('#create-form').submit();
         }
     </script>
 

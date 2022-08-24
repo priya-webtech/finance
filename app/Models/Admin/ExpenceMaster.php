@@ -65,7 +65,6 @@ class ExpenceMaster extends Model
         'branch_id' => 'required',
         'bank_ac_id' => 'required',
         'amount' => 'required',
-        'date' => 'required'
     ];
     public function bankAcc(){
         return $this->belongsTo(ModeOfPayment::class,'bank_ac_id');

@@ -40,4 +40,13 @@
     </div>
 
 @endsection
-
+@push('third_party_scripts')
+    <script>
+        $("#trainerInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#trainers-table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    </script>
+@endpush

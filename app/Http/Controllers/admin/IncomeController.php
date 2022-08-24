@@ -60,16 +60,18 @@ class IncomeController extends AppBaseController
             $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
             $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
              $incomes = Income::whereIn('income_type_id',$inType)->get()->toArray();
-
+           $totalRevenue = Income::whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }else{
             $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
 
             $corporate = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
             $incomes = Income::where('branch_id',$auth->branch_id)->whereIn('income_type_id',$inType)->get()->toArray();
+            $totalRevenue = Income::where('branch_id',$auth->branch_id)->whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }
 
         $merge = array_merge($student, $corporate,$incomes);
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
+        $user =  User::where('status',1)->pluck('name','id');
         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
 
         $field = [];
@@ -78,7 +80,7 @@ class IncomeController extends AppBaseController
         }
 
 
-        return view('admin.incomes.index',compact('student','incomes','corporate','merge','incomeType','modeOfPayment','field'));
+        return view('admin.incomes.index',compact('user','student','incomes','corporate','merge','incomeType','modeOfPayment','field','totalRevenue'));
     }
 
 
@@ -240,7 +242,7 @@ class IncomeController extends AppBaseController
             }
             foreach ($input['student'] as $studBatch){
                 $studBatch['branch_id'] = $input['branch_id'];
-                $studBatch['reg_taken_id'] = Auth::id();
+                $studBatch['reg_taken_id'] = $input['reg_taken_id'];
                 $studBatch['due_date'] = $studBatch['due_date'];
                 $studentDetail = $student->studDetail()->create($studBatch);
                 $totalPay = $studBatch['pay_amount'];
@@ -259,7 +261,7 @@ class IncomeController extends AppBaseController
                 $input['bank_acc_id'] = $studBatch['mode_of_payment'];
                 $input['course_id'] = $studBatch['course_id'];
                 $input['register_date'] = Carbon::now();
-                $input['registration_taken_by'] = Auth::id();
+                $input['registration_taken_by'] = $input['reg_taken_id'];
                 $income = Income::create($input);
                 $val['student_id'] = $student->id;
                 $val['course_id'] = $studBatch['course_id'];
@@ -283,7 +285,7 @@ class IncomeController extends AppBaseController
             }
             foreach ($input['student'] as $studBatch){
                 $studBatch['branch_id'] = $input['branch_id'];
-                $studBatch['reg_taken_id'] = Auth::id();
+                $studBatch['reg_taken_id'] = $input['reg_taken_id'];
                 $studBatch['reg_for_month'] = $now->month.'/'.$now->year;
                 $studBatch['due_date'] = $studBatch['due_date'];
                 $corporateDetail = $corporate->corporateDetail()->create($studBatch);
@@ -303,7 +305,7 @@ class IncomeController extends AppBaseController
                 $input['bank_acc_id'] = $studBatch['mode_of_payment'];
                 $input['course_id'] = $studBatch['course_id'];
                 $input['register_date'] = Carbon::now();
-                $input['registration_taken_by'] = Auth::id();
+                $input['registration_taken_by'] = $input['reg_taken_id'];
                 $income = Income::create($input);
                 $val['corporate_id'] = $corporate->id;
                 $val['course_id'] = $studBatch['course_id'];
@@ -356,7 +358,7 @@ class IncomeController extends AppBaseController
             $bank->opening_balance = $old_balance+$totalPay;
             $bank->save();
             $input['bank_acc_id'] = $input['mode_of_payment'];
-            $input['registration_taken_by'] = Auth::id();
+            $input['registration_taken_by'] = $input['reg_taken_id'];
             $income = Income::create($input);
         }elseif ($incomeType->title == 'Franchise Royalty'){
             $validated = $request->validate([
@@ -383,13 +385,13 @@ class IncomeController extends AppBaseController
             $bank->opening_balance = $old_balance+$totalPay;
             $bank->save();
             $input['bank_acc_id'] = $input['mode_of_payment'];
-            $input['registration_taken_by'] = Auth::id();
+            $input['registration_taken_by'] = $input['reg_taken_id'];
             $franchise->franchiseIncome()->create($input);
         }
 
-        Flash::success('Income saved successfully.');
+//        Flash::success('Income saved successfully.');
 
-        return redirect(route('admin.incomes.index'));
+        return redirect(route('admin.incomes.index'))->with('success','Details added successfully!');
     }
 
     /**
@@ -731,7 +733,7 @@ class IncomeController extends AppBaseController
         $bankAcc = ModeOfPayment::findorfail($input['bank_Acc']);
         $allbank = ModeOfPayment::where('id','!=',$input['bank_Acc'])->get();
         $bankAcc['remain_balance'] = $bankAcc->opening_balance+$input['amount'];
-        $verify = view('admin.incomes.verify',compact('bankAcc','allbank'))->render();
+        $verify = view('admin.expence_masters.verify',compact('bankAcc','allbank'))->render();
         return response()->json(["verify"=>$verify]);
 
     }

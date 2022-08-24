@@ -37,14 +37,12 @@ class TrainerController extends AppBaseController
      */
     public function index(Request $request)
     {
-//        $trainers = $this->trainerRepository->paginate(10);
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $trainers = Trainer::paginate(10);
         }else{
             $trainers = Trainer::where('branch_id',$auth->branch_id)->paginate(10);
         }
-
         $course = Course::get();
 
         $columnManage = columnManage::where('table_name','trainer')->where('role_id',auth()->user()->role_id)->first();
@@ -59,9 +57,9 @@ class TrainerController extends AppBaseController
 
     public function getCourse()
     {
-       
+
         $result = Course::where('branch_id',\request('batchID'))->pluck('course_name','id');
-      
+
         return response()->json($result);
     }
 

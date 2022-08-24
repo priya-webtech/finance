@@ -73,7 +73,7 @@ class Student extends Model
         'state' => 'string',
         // 'agreed_amount' => 'decimal:2',
         'placement' => 'string',
-        'status' => 'integer'
+//        'status' => 'integer'
     ];
 
     /**

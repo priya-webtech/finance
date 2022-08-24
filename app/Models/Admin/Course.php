@@ -26,7 +26,6 @@ class Course extends Model
 
     public $fillable = [
         'course_name',
-        'description',
         'status',
         'branch_id',
         'created_by',
@@ -41,7 +40,6 @@ class Course extends Model
     protected $casts = [
         'id' => 'integer',
         'course_name' => 'string',
-        'description' => 'string',
         'status' => 'integer'
     ];
 

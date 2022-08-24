@@ -26,10 +26,7 @@ class Trainer extends Model
 
     public $fillable = [
         'trainer_name',
-        'email',
         'status',
-        'contact_no',
-        'profile_pic',
         'branch_id',
         'course_id',
         'created_by',
@@ -44,7 +41,6 @@ class Trainer extends Model
     protected $casts = [
         'id' => 'integer',
         'trainer_name' => 'string',
-        'email' => 'string',
         'status' => 'integer'
     ];
 
@@ -55,8 +51,6 @@ class Trainer extends Model
      */
     public static $rules = [
         'trainer_name' => 'required',
-        'email' => 'required',
-        'contact_no' => 'required|digits:10',
          'branch_id'  => 'required',
          'course_id'  => 'required',
     ];
@@ -67,10 +61,6 @@ class Trainer extends Model
     public function branch(){
         return $this->belongsTo(Branch::class,'branch_id');
     }
-//    public function Course(){
-//        return $this->belongsTo(Course::class,'course_id');
-//    }
-
     public function courseWiseTrainerFee()
     {
         return $this->hasMany(StudentDetail::class,'course_id','course_id');

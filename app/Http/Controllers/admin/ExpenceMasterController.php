@@ -16,9 +16,11 @@ use App\Models\Admin\Student;
 use App\Models\Admin\Trainer;
 use App\Repositories\Admin\ExpenceMasterRepository;
 use App\Http\Controllers\AppBaseController;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Nette\Utils\DateTime;
 use phpDocumentor\Reflection\Types\Null_;
 use Response;
@@ -42,7 +44,7 @@ class ExpenceMasterController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $expenceMasters = $this->expenceMasterRepository->paginate(10);
+        //$expenceMasters = $this->expenceMasterRepository->paginate(10);
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
@@ -54,11 +56,16 @@ class ExpenceMasterController extends AppBaseController
         if($columnManage){
             $field = json_decode($columnManage->field_status);
         }
-        return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student','field'))
+        $expenceMasters  = ExpenseTypes::paginate(10);
+        $expenceMasters=  ExpenseTypes::with('expense')->paginate(10);
+        $currentMonthExpense =ExpenceMaster::whereMonth('created_at', Carbon::now()->month)->sum('amount','tds');
+
+
+       return view('admin.expence_masters.index',compact('bankAccounts','expenseTypes','branch','trainer','batch','student','field','currentMonthExpense'))
             ->with('expenceMasters', $expenceMasters);
     }
     public function filter(Request $request)
-    {   
+    {
 
         $auth =Auth::user();
 
@@ -93,9 +100,9 @@ class ExpenceMasterController extends AppBaseController
 
     public function getExpencetrainer()
     {
-    
+
         $result = Trainer::where('branch_id',\request('branchID'))->pluck('trainer_name','id');
-      
+
         return response()->json($result);
     }
 
@@ -189,13 +196,13 @@ class ExpenceMasterController extends AppBaseController
     public function store(CreateExpenceMasterRequest $request)
     {
 
-        $request->validate([
-            'expence_type_id' => ['required', 'string'],
-            'branch_id' => ['required', 'string'],
-            'bank_ac_id' => ['required', 'string'],
-            'amount' => ['required', 'string'],
-            'date' => ['required', 'string'],
-        ]);
+//        $request->validate([
+//            'expence_type_id' => ['required', 'string'],
+//            'branch_id' => ['required', 'string'],
+//            'bank_ac_id' => ['required', 'string'],
+//            'amount' => ['required', 'string'],
+//            'date' => ['required', 'string'],
+//        ]);
 
         $input = $request->all();
         $expenceType = ExpenseTypes::findorfail($input['expence_type_id']);
@@ -217,7 +224,7 @@ class ExpenceMasterController extends AppBaseController
                 $input['amount'] =$input['amount']-$input['tds'];
             }
         }
-
+        $input['date'] = Carbon::now();
         $expenceMaster = $this->expenceMasterRepository->create($input);
 //        }else{
 //

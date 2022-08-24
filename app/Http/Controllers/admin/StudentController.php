@@ -44,18 +44,34 @@ class StudentController extends AppBaseController
      */
     public function index(Request $request)
     {
-        //$students = $this->studentRepository->paginate(10);
         $columnManage = columnManage::where('table_name','student')->where('role_id',auth()->user()->role_id)->first();
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-        $students = Student::paginate(10);
+        $students = Student::when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(20);
         }elseif ($auth->hasRole('student_co-ordinator')){
-            $students = Student::where('branch_id',$auth->branch_id)->where('placement','yes')->paginate(10);
+            $students = Student::when(request('dates'), function ($q) {
+                $part = explode("-",request('dates'));
+                $start = date('Y-m-d', strtotime($part[0]));
+                $end = date('Y-m-d', strtotime($part[1]));
+                $q->whereDate('created_at', '>=', $start)
+                    ->whereDate('created_at', '<=', $end);
+            })->where('branch_id',$auth->branch_id)->where('placement','yes')->paginate(20);
         }
         else{
-        $students = Student::where('branch_id',$auth->branch_id)->paginate(10);
+        $students = Student::when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->where('branch_id',$auth->branch_id)->paginate(20);
         }
-
         $field = [];
         if($columnManage){
             $field = json_decode($columnManage->field_status);

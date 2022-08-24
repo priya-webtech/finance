@@ -35,7 +35,8 @@ class Batch extends Model
         'start',
         'status',
         'batch_status',
-        'batch_type_id'
+        'batch_type_id',
+        'trainer_payment_status',
     ];
 
     /**
@@ -65,7 +66,7 @@ class Batch extends Model
         'name' => 'required',
         'start' => 'required',
         'batch_type_id' => 'required',
-        'batch_status' => 'required'
+//        'batch_status' => 'required'
     ];
 
     public function course(){

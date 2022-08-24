@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Income</h1>
+                    <h1>Revenue Details</h1>
                 </div>
             </div>
         </div>
