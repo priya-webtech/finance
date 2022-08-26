@@ -64,7 +64,7 @@
                           @foreach($row->coruseWisePayment as $data)
                               @if($data->course_id == $row->course_id)
                             <tr class="table-success">
-                                <td>{{$data->getIncome->bankAcc->name}}</td>
+                                <td>{{$data->getIncome->bankAcc->title}}</td>
                                 <td>₹ {{$data->getIncome->paying_amount + $data->gst}}</td>
                                 <td width="120">{{date('d-m-Y', strtotime($data->getIncome->created_at))}}
                                 </td>
@@ -75,7 +75,7 @@
                             @foreach($row->StudentCoruseWisePayment as $data)
                                 @if($data->course_id == $row->course_id)
                                 <tr class="table-success">
-                                    <td>{{$data->getIncome->bankAcc->name}}</td>
+                                    <td>{{$data->getIncome->bankAcc->title}}</td>
                                     <td>₹ {{$data->getIncome->paying_amount + $data->gst}}</td>
                                     <td width="120">{{date('d-m-Y', strtotime($data->getIncome->created_at))}}
                                     </td>

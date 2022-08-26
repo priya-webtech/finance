@@ -153,7 +153,7 @@
                             },
                         columns: [
                             {data: 'id', name: 'id'},
-                            {data: 'title', name: 'title'},
+                            {data: 'course_name', name: 'course_name'},
                             {data: 'total_revenue', name: 'total_revenue'},
                             {data: 'action', name: 'action'},
                         ],

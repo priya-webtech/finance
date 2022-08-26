@@ -182,11 +182,6 @@ class CourseController extends AppBaseController
     {
         $course = $this->courseRepository->find($id);
         $input = $request->all();
-
-        if($input['description']){
-            $input['description'] = $input['description'];
-        }
-
         if (empty($course)) {
             Flash::error('Course not found');
 

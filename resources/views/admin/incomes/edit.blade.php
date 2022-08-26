@@ -201,11 +201,11 @@
                 {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
                 <span class="error text-danger">{{ $errors->first('register_date') }}</span>
             </div>
-            <div class="form-group col-sm-6 other">
-                {!! Form::label('description', 'Description:') !!}
-                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-                <span class="error text-danger">{{ $errors->first('description') }}</span>
-            </div>
+{{--            <div class="form-group col-sm-6 other">--}}
+{{--                {!! Form::label('description', 'Description:') !!}--}}
+{{--                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}--}}
+{{--                <span class="error text-danger">{{ $errors->first('description') }}</span>--}}
+{{--            </div>--}}
                 <!-- Test -->
                     <br>
                     <br>
@@ -666,7 +666,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Due date</label><br>
-                                        <input id="value" name="student[{{$keys}}][due_date]"
+                                        <input id="value" name="student[0][due_date]"
                                                class="form-control" type="date">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>

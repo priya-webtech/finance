@@ -37,10 +37,13 @@
 @push('third_party_scripts')
 <script type="text/javascript">
 
+    <?php if(request()->route()->getName() == 'admin.trainers.create'){ ?>
     $(document).ready(function(){
         $(".changecourse").html('');
-         $(".changecourse").append('<option value="">Not avalible Course</option>');
+        $(".changecourse").append('<option value="">Not avalible Course</option>');
     });
+
+    <?php } ?>
        $(".changetrainerbranch").change(function(el){
        //     var batchRow = $(el).parents('.branchtrainer');
             var batchID = $('#branch_id').val();

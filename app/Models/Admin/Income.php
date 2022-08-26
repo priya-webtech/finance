@@ -124,4 +124,7 @@ class Income extends Model
     public function franchise(){
         return $this->belongsTo(Franchise::class,'franchises_id');
     }
+    public function user(){
+        return $this->belongsTo(User::class,'registration_taken_by');
+    }
 }

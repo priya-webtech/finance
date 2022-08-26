@@ -593,7 +593,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p class="text-danger">This Student is already taken.</p>
+                <p class="text-danger">Student with this mobile no already registered.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="modal__button" onclick="HideModel()">Decline</button>
