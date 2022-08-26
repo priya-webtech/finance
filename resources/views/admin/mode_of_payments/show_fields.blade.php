@@ -10,20 +10,20 @@
     <p>{{ $modeOfPayment->title }}</p>
 </div>
 
-<div class="col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $modeOfPayment->name }}</p>
-</div>
+{{--<div class="col-sm-12">--}}
+{{--    {!! Form::label('name', 'Name:') !!}--}}
+{{--    <p>{{ $modeOfPayment->name }}</p>--}}
+{{--</div>--}}
 
-<div class="col-sm-12">
-    {!! Form::label('ifsc_code', 'IFSC Code:') !!}
-    <p>{{ $modeOfPayment->ifsc_code }}</p>
-</div>
+{{--<div class="col-sm-12">--}}
+{{--    {!! Form::label('ifsc_code', 'IFSC Code:') !!}--}}
+{{--    <p>{{ $modeOfPayment->ifsc_code }}</p>--}}
+{{--</div>--}}
 
-<div class="col-sm-12">
-    {!! Form::label('account_no', 'Account No:') !!}
-    <p>{{ $modeOfPayment->account_no }}</p>
-</div>
+{{--<div class="col-sm-12">--}}
+{{--    {!! Form::label('account_no', 'Account No:') !!}--}}
+{{--    <p>{{ $modeOfPayment->account_no }}</p>--}}
+{{--</div>--}}
 
 <div class="col-sm-12">
     {!! Form::label('opening_balance', 'Balance:') !!}

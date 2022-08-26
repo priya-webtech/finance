@@ -99,9 +99,9 @@
     </div>
 </div>
 <div class="form-group col-sm-6">
-    {!! Form::label('branch_id', 'Branch') !!}<span style="color:red;">*</span> :
+    {!! Form::label('branch_id', 'Branch') !!}<span style="color:red;">*</span><span class="error-branch" style="color: red"></span> :
     {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select changeincomebaranch','placeholder'=>'Please Select Branch']) !!}
-    <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
+    <span class="error text-danger ">{{ $errors->first('branch_id') }}</span>
 </div>
 <!-- Income Type Id Field -->
 <div class="form-group col-sm-6">
@@ -113,20 +113,20 @@
 
 <!-- Mobile No Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('mobile_no', 'Mobile No:') !!}
+    {!! Form::label('mobile_no', 'Mobile No:') !!}<span class="error-mobile_no" style="color: red"></span>
     {!! Form::text('mobile_no', null, ['class' => 'form-control','id'=>'mob']) !!}
     <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
 </div>
 <!-- Name Field -->
 
 <div class="form-group col-sm-6 both">
-    {!! Form::label('name', 'Student Name:') !!}
+    {!! Form::label('name', 'Student Name:') !!}<span class="error-name" style="color: red"></span>
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('name') }}</span>
 </div>
 <!-- Email Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('email', 'Student Email:') !!}
+    {!! Form::label('email', 'Student Email:') !!}<span class="error-email" style="color: red"></span>
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('email') }}</span>
 </div>
@@ -138,17 +138,17 @@
 </div>
 <div class="form-group col-sm-6 both">
     {!! Form::label('lead_source_id', 'Lead Source :') !!}
-    {!! Form::select('lead_source_id',$leadSources, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
+    {!! Form::select('lead_source_id',$leadSources, null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('lead_source') }}</span>
 </div>
 <div class="form-group col-sm-6 both">
     {!! Form::label('enquiry_type', 'Enquiry Type:') !!}
-    {!! Form::select('enquiry_type',$enquiryType, null, ['class' => 'form-control','placeholder'=>'Please Select Student Type']) !!}
+    {!! Form::select('enquiry_type',$enquiryType, null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('enquiry_type') }}</span>
 </div>
 <!-- State Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('state', 'State:') !!}
+    {!! Form::label('state', 'State:') !!}<span class="error-state" style="color: red"></span>
     {!! Form::select('state', $country, null,['class' => 'form-control', 'placeholder'=> '--Please Select State--']) !!}
     <span class="error text-danger">{{ $errors->first('state') }}</span>
 </div>
@@ -184,27 +184,27 @@
 
 <div class="form-group col-sm-6 other">
     {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
-    {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select mode_of_payment','placeholder'=>'Please Select Mode of Payment']) !!}
+    {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select mode_of_payment','placeholder'=>'Please Select Mode of Payment','onclick'=>"modeOfPay(this, 51)",'id'=>"batch51"]) !!}
     <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
 </div>
 <!-- Paying  Amount Field -->
-<div class="form-group col-sm-3 other ">
+<div class="form-group col-sm-4 other ">
     {!! Form::label('paying_amount', 'Paying  Amount:') !!}
     {!! Form::text('paying_amount', null, ['class' => 'form-control pay_amount']) !!}
     <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
 </div>
-<div class="col-sm-2 gstTextBox" id="gstAmount"  style="display: none;">
+<div class="col-sm-2 gstTextBox gst51" id="gstAmount"  style="display: none;">
     <div class="form-group">
         <label>Gst</label><br>
         <input step=".01" name="gst_amount" id="topGst"
                class="form-control gst_amount" type="number">
     </div>
 </div>
-<div class="form-group col-sm-1 other" style="margin-top: 37px;">
-    <input type="checkbox" id="vehicle1" class="gstCheck" name="gst">
-    {!! Form::label('gst', 'Gst') !!}
-    <span class="error text-danger">{{ $errors->first('gst') }}</span>
-</div>
+{{--<div class="form-group col-sm-1 other" style="margin-top: 37px;">--}}
+{{--    <input type="checkbox" id="vehicle1" class="gstCheck" name="gst">--}}
+{{--    {!! Form::label('gst', 'Gst') !!}--}}
+{{--    <span class="error text-danger">{{ $errors->first('gst') }}</span>--}}
+{{--</div>--}}
 
 <!-- Register Date Field -->
 <div class="form-group col-sm-6 other">
@@ -220,7 +220,7 @@
 {{--</div>--}}
 <div class="form-group col-sm-6 ">
     {!! Form::label('reg_taken_id', 'Registration taken by:') !!}
-    {!! Form::select('reg_taken_id', $user, null,['class' => 'form-control', 'placeholder'=> '--Please Select Registration Taken By--']) !!}
+    {!! Form::select('reg_taken_id', $user, null,['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('registration_taken_by') }}</span>
 </div>
 <div id="line"><hr  style="" /></div>
@@ -418,7 +418,8 @@
             {{--            @else--}}
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="required">Course Enrolling for</label><span class="error-course" style="color: red"></span>
+                    <label class="required">Course Enrolling for</label><span class="error-course"
+                                                                              style="color: red"></span>
                     <select name="student[0][course_id]" class="form-control course changeincomecourse"
                             aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                         <option value="">--Select Course--</option>
@@ -435,25 +436,18 @@
                     <label>Agreed Amount</label><span class="error-agreed_amount" style="color:red"></span><br>
                     <input id="value" step=".01" name="student[0][agreed_amount]"
                            class="form-control agreed_amount" type="number">
-{{--                    <span class="error-agreed_amount" style="color:red"></span>--}}
+                    {{--                    <span class="error-agreed_amount" style="color:red"></span>--}}
                 </div>
             </div>
 
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Due date</label> <span class="error-due_date" style="color:red"></span><br>
-                    <input id="value"  name="student[0][due_date]"
+                    <input id="value" name="student[0][due_date]"
                            class="form-control due_date" type="date">
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>1st instalment amount</label> <span class="error-pay_amount" style="color:red"></span><br>
-                    <input id="value" step=".01" name="student[0][pay_amount]"
-                           class="form-control pay_amount pa" type="number">
 
-                </div>
-            </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
@@ -467,44 +461,66 @@
 
                 </div>
             </div>
-            <div class="col-sm-2 gstTextBox" id="gst_amount" style="display: none;">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>1st instalment amount</label> <span class="error-pay_amount" style="color:red"></span><br>
+                    <input id="value" step=".01" name="student[0][pay_amount]"
+                           class="form-control pay_amount pa payamt0" type="number" readonly>
+
+                </div>
+            </div>
+            <div class="col-sm-2 gstTextBox gst0" id="gst_amount" style="display: none;">
                 <div class="form-group">
                     <label>Gst</label><br>
                     <input step=".01" name="gst_amount"
                            class="form-control gst_amount" id="bottomGst" type="number" readonly>
                 </div>
             </div>
-            <div class="col-sm-1 gst0" style="display: none;">
-                <div class="form-group">
-                    <br>
-                    <br>
-                    <input id="value" step=".01" name="student[0][gst]"
-                           value="1" type="checkbox" class="gstCheck">
-                    <label>Gst</label>
+{{--            <div class="col-sm-1 gst0" style="display: none;">--}}
+{{--                <div class="form-group">--}}
+{{--                    <br>--}}
+{{--                    <br>--}}
+{{--                    <input id="value" step=".01" name="student[0][gst]"--}}
+{{--                           value="1" type="checkbox" class="gstCheck">--}}
+{{--                    <label>Gst</label>--}}
 
-                    <span class="error-is_required" style="color:red"></span>
-                </div>
-            </div>
+{{--                    <span class="error-is_required" style="color:red"></span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
+{{--            <div class="col-sm-2">--}}
+{{--                <div class="form-group">--}}
+{{--                    <br>--}}
+{{--                    <br>--}}
+{{--                    <button id="value" step=".01" class="btn btn-warning" name="student[0][no_batch]"--}}
+{{--                            value="1" type="button" onclick="batchDisplay(this.checked, 0)">--}}
+{{--                        Assign to Batch--}}
+{{--                    </button>--}}
+{{--                    <span class="error-is_required" style="color:red"></span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="col-sm-2">
                 <div class="form-group">
                     <br>
                     <br>
-                    <button id="value" step=".01" class="btn btn-warning" name="student[0][no_batch]"
-                           value="1" type="button" onclick="batchDisplay(this.checked, 0)">
-                        Assign to Batch
-                    </button>
+{{--                    <input id="value" step=".01" name="student[0][no_batch]"--}}
+{{--                           value="1" type="checkbox" class="no-batch" onchange="batchDisplay(this.checked, 0)">--}}
+{{--                    <span class="error-is_required" style="color:red"></span>--}}
+                    <input id="value" step=".01" name="student[0][no_batch]"
+                            value="1" type="checkbox" class="no-batch" onclick="batchDisplay(this.checked, 0)">
+                           No Batch Assign
+
                     <span class="error-is_required" style="color:red"></span>
                 </div>
             </div>
         </div>
-        <span class="batch_table0" style="display:none;">
+        <span class="batch_table0">
 {{--        <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">--}}
-{{--            Add Batch--}}
-{{--        </button>--}}
-{{--        <br><br>--}}
+            {{--            Add Batch--}}
+            {{--        </button>--}}
+            {{--        <br><br>--}}
 
-        <div id="addNewTableRow" >
+        <div id="addNewTableRow">
             <div class="row">
                 <div class="table-responsive">
                     <table class="options table table-bordered table-striped">
@@ -594,10 +610,13 @@
             </button>
         </div>
         <div class="modal__content"><p>I am the content of this modal</p></div>
-        <div class="modal__bottom"><button type="button" class="modal__button" onclick="SubmitFrom()">Verify!</button><button type="button" class="modal__button" onclick="HideModel()">Decline</button></div>
+        <div class="modal__bottom">
+            <button type="button" class="modal__button" onclick="SubmitFrom()">Verify!</button>
+            <button type="button" class="modal__button" onclick="HideModel()">Decline</button>
+        </div>
     </div>
 </div>
-<input type="button" value="0"  id="clickme" style="display:none;" data-toggle="modal" data-target="#exampleModal" />
+<input type="button" value="0" id="clickme" style="display:none;" data-toggle="modal" data-target="#exampleModal"/>
 
 {{--<button id="btn"></button>--}}
 @push('third_party_scripts')
@@ -692,13 +711,13 @@
             }
         }
         function batchDisplay(value, index) {
-            // alert('okay');
-            // if(value) {
-            //     $('.batch_table'+ index).hide();
-            // } else {
+            alert('okay');
+            if(value) {
+                $('.batch_table'+ index).hide();
+            } else {
                 $('.batch_table'+ index).show();
 
-            // }
+            }
         }
         $("#mob").keyup(function(){
             var mobile = $('#mob').val();
@@ -1104,84 +1123,129 @@
 
         function modeOfPay(el,index) {
             var batch = $('#batch'+index+' option:selected').val();
-            if(batch){
-                $('.gst'+index).show();
+            $('.payamt'+index).attr("readonly", false);
 
+            if(batch){
                 $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {
                     if(data){
-                        $('.badge').text(data);
+                        if(data['gst']==1){
+                            $('.gst'+index).show();
+                        }else{
+                            $('.gst'+index).hide();
+                        }
+                        // $('.badge').text(data);
                     }
                 });
             } else {
                 $('.gst'+index).hide();
-
             }
         }
 
         function checkText() {
-
-
             var IncomeType = $('#income_type option:selected').text();
             if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
+
                 event.preventDefault();
                 var t = 0;
+                var branch_id = $('#branch_id').val();
+                var mobile_no = $('#mob').val();
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var state = $('#state').val();
+                if (branch_id == "") {
+                    t++;
+                    $(".error-branch").text('required');
+                } else {
+                    $(".error-branch").text('');
+                }
+                if (mobile_no == "") {
+                    t++;
+                    $(".error-mobile_no").text('*required');
+                } else {
+                    $(".error-mobile_no").text('');
+                }
+                if (name == "") {
+                    t++;
+                    $(".error-name").text('*required');
+                } else {
+                    $(".error-name").text('');
+                }
+                if (email == "") {
+                    t++;
+                    $(".error-email").text('*required');
+                } else {
+                    $(".error-email").text('');
+                } if (state == "") {
+                    t++;
+                    $(".error-state").text('*required');
+                } else {
+                    $(".error-state").text('');
+                }
                 $(".parent").each(function () {
                     var course = $(this).find(".course").val();
                     var mode_of_payment = $(this).find(".mode_of_payment").val();
                     var agreed_amount = $(this).find(".agreed_amount").val();
                     var pay_amount = $(this).find(".pay_amount").val();
-
+                    var due_date = $(this).find(".due_date").val();
                     if (course == "") {
                         t++;
-                        $(this).find(".error-course").text('*requied');
-
+                        $(this).find(".error-course").text('*required');
                     } else {
                         $(this).find(".error-course").text('');
                     }
                     if (mode_of_payment == "") {
                         t++;
-                        $(this).find(".error-mode_of_payment").text('*requied');
+                        $(this).find(".error-mode_of_payment").text('*required');
 
                     } else {
                         $(this).find(".error-mode_of_payment").text('');
                     }
                     if (agreed_amount == "") {
                         t++;
-                        $(this).find(".error-agreed_amount").text('*requied');
+                        $(this).find(".error-agreed_amount").text('*required');
 
                     } else {
                         $(this).find(".error-agreed_amount").text('');
                     }
                     if (pay_amount == "") {
                         t++;
-                        $(this).find(".error-pay_amount").text('*requied');
+                        $(this).find(".error-pay_amount").text('*required');
 
                     } else {
                         $(this).find(".error-pay_amount").text('');
+                    }
+                    if (due_date == "") {
+                        t++;
+                        $(this).find(".error-due_date").text('*required');
+
+                    } else {
+                        $(this).find(".error-due_date").text('');
                     }
                     if($(this).find(".no-batch").prop('checked') == false) {
                         $(this).find(".addrowbellow").each(function () {
                             var batch = $(this).find(".batch").val();
                             var trainer = $(this).find(".trainer").val();
                             var trainer_fees = $(this).find(".trainer_fees").val();
+
                             if (batch == "") {
                                 t++;
-                                $(this).find(".error-batch").text('*requied');
+                                $(this).find(".error-batch").text('*required');
 
                             } else {
                                 $(this).find(".error-batch").text('');
                             }
                             if (trainer == "") {
                                 t++;
-                                $(this).find(".error-trainer").text('*requied');
+                                $(this).find(".error-trainer").text('*required');
 
                             } else {
                                 $(this).find(".error-trainer").text('');
                             }
+
                             if (IncomeType == 'Retail Training') {
                                 if (trainer_fees == "") {
                                     t++;
-                                    $(this).find(".error-trainer_fees").text('*requied');
+                                    $(this).find(".error-trainer_fees").text('*required');
 
                                 } else {
                                     $(this).find(".error-trainer_fees").text('');
@@ -1230,15 +1294,14 @@
                 dataTypes: 'json',
                 success: function (res) {
                     if (res) {
+                        console.log(res.verify);
                         $('.modal__content').html(res.verify);
-                        $('.verifyModel').show();
-                        $('.verifyModel').css('display', 'flex');
+                        $('.modal').show();
+                        $('.modal').css('display', 'flex');
 
                     }
                 }
             });
-            e.preventDefault();
-
         }
         function HideModel() {
             $('.modal').hide();

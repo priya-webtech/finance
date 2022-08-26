@@ -85,9 +85,9 @@ class TrainerDataTable extends DataTable
         $auth = Auth::user();
         DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $model = Trainer::select([DB::raw('@rownum := @rownum + 1 AS rank'),'trainer_name','course_id']);
+            $model = Trainer::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','trainer_name','course_id']);
         }else{
-            $model =  Trainer::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'trainer_name','course_id']);
+            $model =  Trainer::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','trainer_name','course_id']);
 
         }
         return  $model->newQuery();

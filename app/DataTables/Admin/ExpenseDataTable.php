@@ -30,6 +30,7 @@ class ExpenseDataTable extends DataTable
                                 ->whereDate('date', '<=', $end);
                         });
                     $amount = $expense->sum('amount');
+
                     return "₹ ".$amount+$expense->sum('tds');
                 }else{
                     $expense =  ExpenceMaster::where('branch_id',$auth->branch_id)->where('expence_type_id',$record->id)
@@ -41,6 +42,7 @@ class ExpenseDataTable extends DataTable
                                 ->whereDate('date', '<=', $end);
                         });
                     $amount = $expense->sum('amount');
+
                     return "₹ ".$amount+$expense->sum('tds');
                 }
 
@@ -58,7 +60,7 @@ class ExpenseDataTable extends DataTable
 //                    }
 //                });
 //            })
-            ->addColumn('slno','row_num',1)
+//            ->addColumn('slno','row_num',1)
             ->rawColumns(['action','total_expense']);
     }
 
@@ -72,7 +74,7 @@ class ExpenseDataTable extends DataTable
     {
         DB::statement(DB::raw('set @rownum=0'));
 //        $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title']);
-        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title'])->newQuery();
+        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title','id'])->newQuery();
     }
 
     /**

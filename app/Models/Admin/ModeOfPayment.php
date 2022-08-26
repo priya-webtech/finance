@@ -25,11 +25,11 @@ class ModeOfPayment extends Model
 
     public $fillable = [
         'title',
+        'gst',
         'status',
-        'name',
-        'ifsc_code',
-        'account_no',
-        'other_detail',
+//        'ifsc_code',
+//        'account_no',
+//        'other_detail',
         'opening_balance',
     ];
 
@@ -41,11 +41,11 @@ class ModeOfPayment extends Model
     protected $casts = [
         'id' => 'integer',
         'title' => 'string',
-        'status' => 'integer',
-        'name' => 'string',
-        'ifsc_code' => 'string',
-        'account_no'=> 'integer',
-        'other_detail' => 'string',
+//        'status' => 'integer',
+//        'name' => 'string',
+//        'ifsc_code' => 'string',
+//        'account_no'=> 'integer',
+//        'other_detail' => 'string',
 //        'opening_balance' => 'decimal',
     ];
 
@@ -56,10 +56,10 @@ class ModeOfPayment extends Model
      */
     public static $rules = [
         'title' => 'required',
-        'name' => 'required',
-        'ifsc_code' => 'required',
-        'account_no' => 'required',
-        'other_detail' => 'required',
+//        'name' => 'required',
+//        'ifsc_code' => 'required',
+//        'account_no' => 'required',
+//        'other_detail' => 'required',
         'opening_balance' => 'required',
     ];
 

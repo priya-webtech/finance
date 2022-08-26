@@ -72,7 +72,7 @@ class CorporateBatchDetail extends Model
     public function trainer(){
         return $this->belongsTo(Trainer::class,'trainer_id');
     }
-    public function corporateBatchDetail(){
-        return $this->hasMany(CorporateDetail::class,'corporate_id');
+    public function corporateDetail(){
+        return $this->belongsTo(CorporateDetail::class,'corporate_detail_id');
     }
 }

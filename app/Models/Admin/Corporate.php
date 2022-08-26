@@ -51,7 +51,6 @@ class Corporate extends Model
 //        'batch_id',
 //        'trainer_amount',
 //        'agreed_amount',
-        'gst_amount',
         'reg_for_month',
         'remark',
         'enquiry_type_id',

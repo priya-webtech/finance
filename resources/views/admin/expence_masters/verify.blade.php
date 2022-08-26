@@ -11,13 +11,13 @@
         <tbody>
 
         <tr class="table-dark-gray">
-            <td>{{$bankAcc->name}}</td>
+            <td>{{$bankAcc->title}}</td>
             <td>{{$bankAcc->opening_balance}}</td>
             <td>{{$bankAcc->remain_balance}}</td>
         </tr>
        @foreach($allbank as $bank)
         <tr class="table-gray">
-            <td>{{$bank->name}}</td>
+            <td>{{$bank->title}}</td>
             <td>{{$bank->opening_balance}}</td>
             <td>{{$bank->opening_balance}}</td>
         </tr>

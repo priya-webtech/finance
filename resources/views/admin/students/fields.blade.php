@@ -103,10 +103,10 @@
     {!! Form::select('placement',['yes'=>'YES','no'=>'NO'], null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('placement') }}</span>
 </div>
-<div class="form-group col-sm-6 both">
+<div class="form-group col-sm-6">
     {!! Form::label('status', 'Status:') !!}
     {!! Form::select('status',['Ongoing'=>'Ongoing','Not assigned'=>'Not assigned','Completed'=>'Completed','Placed'=>'Placed'], null, ['class' => 'form-control','placeholder'=>'select status']) !!}
-    <span class="error text-danger">{{ $errors->first('placement') }}</span>
+    <span class="error text-danger">{{ $errors->first('status') }}</span>
 </div>
 @else
 

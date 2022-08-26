@@ -81,4 +81,10 @@ class Batch extends Model
     public function batchType(){
         return $this->belongsTo(BatchType::class,'batch_type_id');
     }
+    public function assignBatch(){
+        return $this->hasMany(StudentBatchDetail::class,'batch_id');
+    }
+    public function assignCorpoBatch(){
+        return $this->hasMany(CorporateBatchDetail::class,'batch_id');
+    }
 }

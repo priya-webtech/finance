@@ -202,8 +202,8 @@
                         <th>SNo.</th>
                         {{--                        <th>Mode</th>--}}
                         <th>Name</th>
-                        <th>Ifsc Code</th>
-                        <th>Account No.</th>
+{{--                        <th>Ifsc Code</th>--}}
+{{--                        <th>Account No.</th>--}}
                         <th>Balance</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -622,9 +622,9 @@
                         columns: [
                             {data: 'rank', name: 'rank'},
                             // {data: 'title', name: 'title'},
-                            {data: 'name', name: 'name'},
-                            {data: 'ifsc_code', name: 'ifsc_code'},
-                            {data: 'account_no', name: 'account_no'},
+                            {data: 'title', name: 'title'},
+                            // {data: 'ifsc_code', name: 'ifsc_code'},
+                            // {data: 'account_no', name: 'account_no'},
                             {data: 'opening_balance', name: 'opening_balance'},
                             {data: 'status', name: 'status'},
                             {data: 'action', name: 'action'},
@@ -670,7 +670,7 @@
                         columns: [
                             {data: 'rank', name: 'rank'},
                             // {data: 'title', name: 'title'},
-                            {data: 'name', name: 'name'},
+                            {data: 'title', name: 'title'},
                             // {data: 'ifsc_code', name: 'ifsc_code'},
                             // {data: 'account_no', name: 'account_no'},
                             {data: 'opening_balance', name: 'opening_balance'},

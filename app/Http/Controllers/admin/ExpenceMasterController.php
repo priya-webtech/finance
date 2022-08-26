@@ -46,7 +46,7 @@ class ExpenceMasterController extends AppBaseController
     {
         //$expenceMasters = $this->expenceMasterRepository->paginate(10);
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
-        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
+        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('title','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
         $branch        = Branch::where('status',1)->pluck('title','id');
         $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
@@ -70,7 +70,7 @@ class ExpenceMasterController extends AppBaseController
         $auth =Auth::user();
 
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
-        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
+        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('title','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
         $branch        = Branch::where('status',1)->pluck('title','id');
         $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');
@@ -176,7 +176,7 @@ class ExpenceMasterController extends AppBaseController
                 });
             }
         })->pluck('name','id');
-        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('name','id');
+        $bankAccounts  = ModeOfPayment::where('status',1)->pluck('title','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
 
        // $branch        = Branch::where('status',1)->pluck('title','id');
@@ -303,7 +303,7 @@ class ExpenceMasterController extends AppBaseController
                 });
             }
         })->pluck('name','id');
-        $bankAccounts=ModeOfPayment::where('status',1)->pluck('name','id');
+        $bankAccounts=ModeOfPayment::where('status',1)->pluck('title','id');
         $expenseTypes=ExpenseTypes::where('status',1)->pluck('title','id');
 //        $branch = Branch::where('status',1)->pluck('title','id');
 //        $trainer       = Trainer::where('status',1)->pluck('trainer_name','id');

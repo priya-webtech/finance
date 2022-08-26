@@ -106,7 +106,7 @@ class IncomeDataTable extends DataTable
     public function query(Course $model)
     {
         DB::statement(DB::raw('set @rownum=0'));
-        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'course_name'])->newQuery();
+        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'course_name','id'])->newQuery();
     }
 
     /**

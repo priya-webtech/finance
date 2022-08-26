@@ -57,10 +57,10 @@ class BankDataTable extends DataTable
 
         if (request('balance_type') == "cash"){
             DB::statement(DB::raw('set @rownum=0'));
-            $model = ModeOfPayment::where('title','Cash')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status', 'name','opening_balance']);
+            $model = ModeOfPayment::where('title','Cash')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status','opening_balance']);
         }elseif(request('balance_type')  == "bank"){
             DB::statement(DB::raw('set @rownum=0'));
-            $model = ModeOfPayment::where('title','Cheque')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status', 'name', 'ifsc_code', 'account_no', 'other_detail', 'opening_balance']);
+            $model = ModeOfPayment::where('title','!=','Cash')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status','opening_balance']);
         }
         return  $model->newQuery();
     }
@@ -101,10 +101,10 @@ class BankDataTable extends DataTable
             'id' => ['searchable' => false],
             'title',
             'status',
-            'name',
-            'ifsc_code',
-            'account_no',
-            'other_detail',
+//            'name',
+//            'ifsc_code',
+//            'account_no',
+//            'other_detail',
             'opening_balance',
 
         ];

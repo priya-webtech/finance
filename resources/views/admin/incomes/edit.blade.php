@@ -220,11 +220,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 reg-detail add-new-course">
-                        <button type="button" class="btn btn-success" id="addNew" ><span
-                                class="fa fa-plus"></span> Add Course
-                        </button>
-                    </div>
+{{--                    <div class="form-group col-sm-12 reg-detail add-new-course">--}}
+{{--                        <button type="button" class="btn btn-success" id="addNew" ><span--}}
+{{--                                class="fa fa-plus"></span> Add Course--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
                     <br><br>
 
                     <div id="itemDetails" class="main0 row-course reg-detail">
@@ -310,11 +310,11 @@
                                         </div>
                                                         @if(!empty($studDetail->studBatchDetail))
 
-                                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
-                                                                    onclick="addnewrow({{$keys}})">
-                                                                Add New Row
-                                                            </button>
-                                                            <br><br>
+{{--                                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"--}}
+{{--                                                                    onclick="addnewrow({{$keys}})">--}}
+{{--                                                                Add New Row--}}
+{{--                                                            </button>--}}
+{{--                                                            <br><br>--}}
 {{--                            </div>--}}
                                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                                 <div class="row product">
@@ -506,11 +506,11 @@
                                         </div>
                                         @if(!empty($corpoDetail->corporateBatchDetail))
 
-                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
-                                                    onclick="addnewrow({{$keys}})">
-                                                Add New Row
-                                            </button>
-                                            <br><br>
+{{--                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"--}}
+{{--                                                    onclick="addnewrow({{$keys}})">--}}
+{{--                                                Add New Row--}}
+{{--                                            </button>--}}
+{{--                                            <br><br>--}}
 
                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                 <div class="row product">

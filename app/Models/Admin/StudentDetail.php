@@ -77,6 +77,9 @@ class StudentDetail extends Model
     public function leadSource(){
         return $this->belongsTo(LeadSources::class,'lead_source_id');
     }
+    public function student(){
+        return $this->belongsTo(Student::class,'student_id');
+    }
     public function batch(){
         return $this->belongsTo(Batch::class,'batch_id');
     }

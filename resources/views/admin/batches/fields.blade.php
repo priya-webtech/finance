@@ -1,3 +1,6 @@
+@php
+$auth = \Illuminate\Support\Facades\Auth::user();
+@endphp
 <!-- Course Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('course_id', 'Course Name') !!}<span style="color:red;">*</span> :
@@ -46,11 +49,13 @@
 
 </div>
 
-{{--<div class="form-group col-sm-6">--}}
-{{--    {!! Form::label('batch_status', 'Batch Status') !!}<span style="color:red;">*</span> :--}}
-{{--    {!! Form::select('batch_status', ['open'=>'Open','close'=>'Close'], null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Status']) !!}--}}
-{{--        <span class="error text-danger">{{ $errors->first('batch_status') }}</span>--}}
-{{--</div>--}}
+@if ($auth->hasRole('super_admin')|| $auth->hasRole('admin') || $auth->hasRole('student_co-ordinator'))
+    <div class="form-group col-sm-6">
+        {!! Form::label('batch_status', 'Batch Status') !!}<span style="color:red;">*</span> :
+        {!! Form::select('batch_status', ['open'=>'Open','close'=>'Close'], null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Batch Status']) !!}
+        <span class="error text-danger">{{ $errors->first('batch_status') }}</span>
+    </div>
+@endif
 
 <div class="form-group col-sm-6">
     {!! Form::label('trainer_payment_status', 'Trainer Payment status') !!}<span style="color:red;">*</span> :
