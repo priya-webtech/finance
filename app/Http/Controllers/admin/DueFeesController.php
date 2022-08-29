@@ -100,7 +100,7 @@ class DueFeesController extends Controller
          $editid = $user->corporate_id;
        //  dd($user);
         $userdetail =  CorporateDetail::with('course')->where('id',$id)->get();
-   
+
         }elseif($type == 'Student'){
          $user = StudentDetail::findorfail($id);
           $editid = $user->student_id;
@@ -118,7 +118,7 @@ class DueFeesController extends Controller
         })->pluck('course_name','id');
 //        $branch = Branch::pluck('title','id');
 //        $course = Course::pluck('course_name','id');
-        $bank = ModeOfPayment::pluck('name','id');
+        $bank = ModeOfPayment::pluck('title','id');
 
 
      //   dd($userdetail[0]['course']['course_name']);
@@ -128,7 +128,7 @@ class DueFeesController extends Controller
     public function update(Request $request,$id,$type)
     {
 
-      
+
         $input = $request->all();
         if ($type == 'Corporate') {
             $incomeType = IncomeType::where('title', 'Corporate Training')->first();
@@ -167,7 +167,7 @@ class DueFeesController extends Controller
     }
     public function corpodatatable(CorporateDueFeesDataTable $corporateDueFeesDataTable)
     {
-        
+
         return $corporateDueFeesDataTable->render('admin.due-fees.copro-table');
     }
     public function searchRecord()

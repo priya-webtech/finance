@@ -90,7 +90,7 @@
 
     </script>
     <script>
-        $("#studentInput").on("keyup", function() {
+        $("#incomeInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#students-table tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)

@@ -69,6 +69,7 @@
 
 
         <tr>
+            <th>SNo.</th>
         @if(!empty($field) && $field->batch_col_1 == 1)<th>Course Name</th>@endif
         @if(!empty($field) && $field->batch_col_2 == 1)<th>Batch Mode</th>@endif
         @if(!empty($field) && $field->batch_col_3 == 1)<th>Batch Type</th>@endif
@@ -83,6 +84,7 @@
         <tbody>
         @foreach($batches as $batch)
             <tr>
+                <td>{{ $loop->iteration }}</td>
             @if(!empty($field) && $field->batch_col_1 == 1)<td>{{ $batch->course->course_name }}</td>@endif
             @if(!empty($field) && $field->batch_col_2 == 1)<td>{{ $batch->batchMode->title }}</td>@endif
             @if(!empty($field) && $field->batch_col_3 == 1)<td>{{ $batch->batchType->title }}</td>@endif

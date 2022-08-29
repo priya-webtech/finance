@@ -76,12 +76,12 @@ class BatchDataTable extends DataTable
         DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
 
-            $model = Batch::select([DB::raw('@rownum := @rownum + 1 AS rank'),'course_id', 'batch_mode_id', 'trainer_id', 'name', 'start', 'status', 'batch_status','batch_type_id']);
+            $model = Batch::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','course_id', 'batch_mode_id', 'trainer_id', 'name', 'start', 'status', 'batch_status','batch_type_id']);
 
         }else{
             $model =  Batch::whereHas('course', function($query) use($auth){
                 $query->where('branch_id', $auth->branch_id);
-            })->select([DB::raw('@rownum := @rownum + 1 AS rank'),'course_id', 'batch_mode_id', 'trainer_id', 'name', 'start', 'status', 'batch_status','batch_type_id']);
+            })->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','course_id', 'batch_mode_id', 'trainer_id', 'name', 'start', 'status', 'batch_status','batch_type_id']);
 
         }
         return  $model->newQuery();

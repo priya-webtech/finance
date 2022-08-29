@@ -70,9 +70,9 @@ class CorporateDataTable extends DataTable
         $auth = Auth::user();
         DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $model = Corporate::select([DB::raw('@rownum := @rownum + 1 AS rank'),'company_name','email', 'web_site', 'lead_source_id', 'enquiry_type_id', 'branch_id', 'state', 'status', 'branch_id']);
+            $model = Corporate::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','company_name','email', 'web_site', 'lead_source_id', 'enquiry_type_id', 'branch_id', 'state', 'status', 'branch_id']);
         }else{
-            $model =  Corporate::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'company_name','email', 'web_site', 'lead_source_id', 'enquiry_type_id', 'branch_id', 'state', 'status', 'branch_id']);
+            $model =  Corporate::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','company_name','email', 'web_site', 'lead_source_id', 'enquiry_type_id', 'branch_id', 'state', 'status', 'branch_id']);
         }
         return  $model->with('corporateDetail')->newQuery();
 

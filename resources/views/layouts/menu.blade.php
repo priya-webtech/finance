@@ -235,12 +235,12 @@
 {{--                <p>Bank Accounts</p>--}}
 {{--            </a>--}}
 {{--        </li>--}}
-        <li class="nav-item">
-            <a href="{{ route('admin.trainerFreeSlabs.index') }}"
-               class="nav-link {{ Request::is('admin/trainerFreeSlabs*') ? 'active' : '' }}">
-                <p>Trainer Fee Slabs</p>
-            </a>
-        </li>
+{{--        <li class="nav-item">--}}
+{{--            <a href="{{ route('admin.trainerFreeSlabs.index') }}"--}}
+{{--               class="nav-link {{ Request::is('admin/trainerFreeSlabs*') ? 'active' : '' }}">--}}
+{{--                <p>Trainer Fee Slabs</p>--}}
+{{--            </a>--}}
+{{--        </li>--}}
     </ul>
 </li>
 

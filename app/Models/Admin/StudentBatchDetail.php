@@ -65,6 +65,9 @@ class StudentBatchDetail extends Model
     public function batch(){
         return $this->belongsTo(Batch::class,'batch_id');
     }
+    public function StudDetail(){
+        return $this->belongsTo(StudentDetail::class,'student_detail_id');
+    }
     public function trainer(){
         return $this->belongsTo(Trainer::class,'trainer_id');
     }

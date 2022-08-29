@@ -4,9 +4,9 @@
         <thead>
         <tr>
             <th>Title</th>
-            <th>Name</th>
-            <th>IFSC Code</th>
-            <th>Account No</th>
+{{--            <th>Name</th>--}}
+{{--            <th>IFSC Code</th>--}}
+{{--            <th>Account No</th>--}}
             <th>Balance</th>
               <th>Status</th>
             <th colspan="3">Action</th>
@@ -18,9 +18,9 @@
 {{--            @dd($modeOfPayment)--}}
             <tr>
                 <td>{{ $modeOfPayment->title }}</td>
-                <td>{{ $modeOfPayment->name }}</td>
-                <td>{{ $modeOfPayment->ifsc_code }}</td>
-                <td>{{ $modeOfPayment->account_no }}</td>
+{{--                <td>{{ $modeOfPayment->name }}</td>--}}
+{{--                <td>{{ $modeOfPayment->ifsc_code }}</td>--}}
+{{--                <td>{{ $modeOfPayment->account_no }}</td>--}}
                 <td>{{ $modeOfPayment->opening_balance }}</td>
                 <td><span class='badge @if($modeOfPayment->status == 1)badge-success @else badge-danger @endif'>{{ $modeOfPayment->status == 1 ? "Active" : "Block" }}</span></td>
                 <td width="120">

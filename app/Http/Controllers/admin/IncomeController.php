@@ -52,34 +52,31 @@ class IncomeController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $auth =Auth::user();
-
-          $inType = IncomeType::where('title','!=','Retail Training')->Where('title','!=','Corporate Training')->pluck('id')->toArray();
-         $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
-        if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $student = Student::with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-            $corporate = Corporate::with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-             $incomes = Income::whereIn('income_type_id',$inType)->get()->toArray();
-           $totalRevenue = Income::whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
+        $auth = Auth::user();
+        $inType = IncomeType::where('title', '!=', 'Retail Training')->Where('title', '!=', 'Corporate Training')->pluck('id')->toArray();
+        $columnManage = columnManage::where('table_name', 'income')->where('role_id', auth()->user()->role_id)->first();
+        if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
+            $student = Student::with('StudentIncome')->with('studDetail')->whereHas('StudentIncome')->get();
+            $corporate = Corporate::with('corporateIncome')->with('corporateDetail')->whereHas('corporateIncome')->get();
+            $incomes = Income::whereIn('income_type_id', $inType)->get();
+            $totalRevenue = Income::whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }else{
-            $student = Student::where('branch_id',$auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
-
-            $corporate = Corporate::where('branch_id',$auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
-            $incomes = Income::where('branch_id',$auth->branch_id)->whereIn('income_type_id',$inType)->get()->toArray();
-            $totalRevenue = Income::where('branch_id',$auth->branch_id)->whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
+            $student = Student::where('branch_id', $auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get()->toArray();
+            $corporate = Corporate::where('branch_id', $auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get()->toArray();
+            $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->get()->toArray();
+            $totalRevenue = Income::where('branch_id', $auth->branch_id)->whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }
 
-        $merge = array_merge($student, $corporate,$incomes);
-        $incomeType =  IncomeType::where('status',1)->pluck('title','id');
-        $user =  User::where('status',1)->pluck('name','id');
-        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
+        $data = $student->merge($corporate);
+        $merge =$data->merge($incomes);
+        $incomeType = IncomeType::where('status', 1)->pluck('title', 'id');
+        $user = User::where('status', 1)->pluck('name', 'id');
+        $modeOfPayment = ModeOfPayment::where('status', 1)->pluck('title', 'id');
 
         $field = [];
-        if($columnManage){
+        if ($columnManage) {
             $field = json_decode($columnManage->field_status);
         }
-
-
         return view('admin.incomes.index',compact('user','student','incomes','corporate','merge','incomeType','modeOfPayment','field','totalRevenue'));
     }
 
@@ -135,7 +132,7 @@ class IncomeController extends AppBaseController
         $columnManage = columnManage::where('table_name','income')->where('role_id',auth()->user()->role_id)->first();
 
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
-        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
+        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('title','id');
 
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
@@ -219,7 +216,7 @@ class IncomeController extends AppBaseController
 
 
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
-        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
+        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('title','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
@@ -232,12 +229,18 @@ class IncomeController extends AppBaseController
     public function store(CreateIncomeRequest $request)
     {
         $input = $request->all();
+
         $incomeType = IncomeType::where('id',$input['income_type_id'])->first();
         if($incomeType->title == 'Retail Training') {
             $this->validator($request->all())->validate();
             $student = Student::where('mobile_no',$input['mobile_no'])->first();
             if(empty($student)){
-                $input['status'] = 1;
+//                if (empty($studBatch['no_batch'])){
+//                    $status = "Ongoing";
+//                }else{
+//                    $status = "Not assigned";
+//                }
+
                 $student = Student::create($input);
             }
             foreach ($input['student'] as $studBatch){
@@ -246,7 +249,9 @@ class IncomeController extends AppBaseController
                 $studBatch['due_date'] = $studBatch['due_date'];
                 $studentDetail = $student->studDetail()->create($studBatch);
                 $totalPay = $studBatch['pay_amount'];
-                if (isset($studBatch['gst'])){
+
+                $bank = ModeOfPayment::where('id',$studBatch['mode_of_payment'])->first();
+                if ($bank->gst == 1){
                     $gst =  site_setting()->gst_per/100+1;
                     $data['gst'] = $studBatch['pay_amount'] - $studBatch['pay_amount']/$gst;
                     $input['paying_amount'] = $studBatch['pay_amount']/$gst;
@@ -254,7 +259,6 @@ class IncomeController extends AppBaseController
                     $data['gst'] = 0;
                     $input['paying_amount'] = $totalPay;
                 }
-                $bank = ModeOfPayment::where('id',$studBatch['mode_of_payment'])->first();
                 $old_balance = $bank->opening_balance;
                 $bank->opening_balance = $old_balance+$totalPay;
                 $bank->save();
@@ -262,12 +266,14 @@ class IncomeController extends AppBaseController
                 $input['course_id'] = $studBatch['course_id'];
                 $input['register_date'] = Carbon::now();
                 $input['registration_taken_by'] = $input['reg_taken_id'];
+                $input['status'] = 1;
                 $income = Income::create($input);
                 $val['student_id'] = $student->id;
                 $val['course_id'] = $studBatch['course_id'];
                 $val['gst'] = $data['gst'];
                 $val['student_detail_id'] = $studentDetail->id;
                 $income->incomeStudFees()->create($val);
+//                dd($studBatch['no_batch']);
                 if (empty($studBatch['no_batch'])){
                     $studentBatchDetail = $studentDetail->studBatchDetail()->createMany($studBatch['course']);
                 }
@@ -283,6 +289,7 @@ class IncomeController extends AppBaseController
                 $input['reg_for_month'] = $now->month.'/'.$now->year;
                 $corporate = Corporate::create($input);
             }
+
             foreach ($input['student'] as $studBatch){
                 $studBatch['branch_id'] = $input['branch_id'];
                 $studBatch['reg_taken_id'] = $input['reg_taken_id'];
@@ -290,7 +297,8 @@ class IncomeController extends AppBaseController
                 $studBatch['due_date'] = $studBatch['due_date'];
                 $corporateDetail = $corporate->corporateDetail()->create($studBatch);
                 $totalPay = $studBatch['pay_amount'];
-                if (isset($studBatch['gst'])){
+                $bank = ModeOfPayment::where('id',$studBatch['mode_of_payment'])->first();
+                if ($bank->gst == 1){
                     $gst =  site_setting()->gst_per/100+1;
                     $data['gst'] = $studBatch['pay_amount'] - $studBatch['pay_amount']/$gst;
                     $input['paying_amount'] = $studBatch['pay_amount']/$gst;
@@ -298,7 +306,6 @@ class IncomeController extends AppBaseController
                     $data['gst'] = 0;
                     $input['paying_amount'] = $totalPay;
                 }
-                $bank = ModeOfPayment::where('id',$studBatch['mode_of_payment'])->first();
                 $old_balance = $bank->opening_balance;
                 $bank->opening_balance = $old_balance+$totalPay;
                 $bank->save();
@@ -344,7 +351,9 @@ class IncomeController extends AppBaseController
                 'mode_of_payment' => 'required',
             ]);
             $totalPay = $input['paying_amount'];
-            if (isset($input['gst'])){
+
+            $bank = ModeOfPayment::where('id',$input['mode_of_payment'])->first();
+            if ($bank->gst == 1){
                 $gst =  site_setting()->gst_per/100+1;
                 $data['gst'] = $input['paying_amount'] - $input['paying_amount']/$gst;
                 $input['paying_amount'] = $input['paying_amount']/$gst;
@@ -353,7 +362,6 @@ class IncomeController extends AppBaseController
                 $input['gst'] = 0;
                 $input['paying_amount'] = $totalPay;
             }
-            $bank = ModeOfPayment::where('id',$input['mode_of_payment'])->first();
             $old_balance = $bank->opening_balance;
             $bank->opening_balance = $old_balance+$totalPay;
             $bank->save();
@@ -371,7 +379,8 @@ class IncomeController extends AppBaseController
             $input['status'] = 1;
             $franchise = Franchise::create($input);
             $totalPay = $input['paying_amount'];
-            if (isset($input['gst'])){
+            $bank = ModeOfPayment::where('id',$input['mode_of_payment'])->first();
+            if ($bank->gst == 1){
                 $gst =  site_setting()->gst_per/100+1;
                 $data['gst'] = $input['paying_amount'] - $input['paying_amount']/$gst;
                 $input['paying_amount'] = $input['paying_amount']/$gst;
@@ -380,7 +389,6 @@ class IncomeController extends AppBaseController
                 $input['gst'] = 0;
                 $input['paying_amount'] = $totalPay;
             }
-            $bank = ModeOfPayment::where('id',$input['mode_of_payment'])->first();
             $old_balance = $bank->opening_balance;
             $bank->opening_balance = $old_balance+$totalPay;
             $bank->save();
@@ -403,15 +411,33 @@ class IncomeController extends AppBaseController
      */
     public function show($id)
     {
-        $income = $this->incomeRepository->find($id);
-
-        if (empty($income)) {
-            Flash::error('Income not found');
-
-            return redirect(route('admin.incomes.index'));
+        $students = ' ';
+        $corporate = ' ';
+        $income = ' ';
+        if (\request('type') == 'corporate') {
+            $corporate = Corporate::findorfail($id);
+            $corporate['name'] = $corporate['company_name'];
+            $corporate['mobile_no'] = $corporate['contact_no'];
+            $corporate['enquiry_type'] = $corporate['enquiry_type_id'];
+            $corporate['income_type_id']= $corporate->corporateDetail[0]->corpoFeesColl->getIncome->income_type_id;
+            $branchcurrunt = $corporate->branch_id;
+        } else if(\request('type') == 'student') {
+            $students = Student::findorfail($id);
+            $students['income_type_id'] = $students->studDetail[0]->studFeesColl->getIncome->income_type_id;
+            $students['branch_id'] = $students->studDetail[0]->branch_id;
+            $branchcurrunt = $students->branch_id;
+        }else{
+            $income = Income::findorfail($id);
+            $income['total_pay'] =  $income->paying_amount+$income->gst;
+            $income['title'] =  $income->franchise->title ?? ' ';
         }
-
-        return view('admin.incomes.show')->with('income', $income);
+//        dd($income);
+//        $income = $this->incomeRepository->find($id);
+//        if (empty($income)) {
+//            Flash::error('Income not found');
+//            return redirect(route('admin.incomes.index'));
+//        }
+        return view('admin.incomes.show',compact('students','income','corporate'));
     }
 
     /**
@@ -423,21 +449,17 @@ class IncomeController extends AppBaseController
      */
     public function edit($id)
     {
-
         $students = ' ';
         $corporate = ' ';
         $income = ' ';
    if (\request('type') == 'corporate') {
-
-            $corporate = Corporate::findorfail($id);
+       $corporate = Corporate::findorfail($id);
        $corporate['name'] = $corporate['company_name'];
        $corporate['mobile_no'] = $corporate['contact_no'];
        $corporate['enquiry_type'] = $corporate['enquiry_type_id'];
        $corporate['income_type_id']= $corporate->corporateDetail[0]->corpoFeesColl->getIncome->income_type_id;
        $branchcurrunt = $corporate->branch_id;
-
    } else if(\request('type') == 'student') {
-
         $students = Student::findorfail($id);
         $students['income_type_id'] = $students->studDetail[0]->studFeesColl->getIncome->income_type_id;
         $students['branch_id'] = $students->studDetail[0]->branch_id;
@@ -447,15 +469,13 @@ class IncomeController extends AppBaseController
        $income['paying_amount'] =  $income->paying_amount+$income->gst;
        $income['title'] =  $income->franchise->title ?? ' ';
    }
-
-
         $auth = Auth::user();
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('id', '=', $auth->branch_id);
             }
         })->pluck('title', 'id');
-        $course = Course::where('branch_id', '=', $branchcurrunt)->where(function ($query) use ($auth) {
+        $course = Course::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('branch_id', '=', $auth->branch_id);
             }
@@ -472,20 +492,12 @@ class IncomeController extends AppBaseController
                 $query->where('branch_id', '=', $auth->branch_id);
             }
         })->pluck('trainer_name', 'id');
-
-      //  $course =  Course::where('status',1)->pluck('course_name','id');
         $incomeType =  IncomeType::where('status',1)->pluck('title','id');
-        //$student =  Student::where('status',1)->pluck('name','id');
-        //$batch =  Batch::where('status',1)->pluck('name','id');
-       // $branch = Branch::where('status',1)->pluck('title','id');
-       // $bankAccount = BankAccount::where('status',1)->pluck('name','id');
-        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('name','id');
-//        $corporate = Corporate::where('status',1)->pluck('company_name','id');
+        $modeOfPayment= ModeOfPayment::where('status',1)->pluck('title','id');
         $franchise = Franchise::where('status',1)->pluck('title','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
-       // $trainer = Trainer::where('status',1)->pluck('trainer_name','id');
         $path = asset('country.json');
         $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
         return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','country','incomeType','batch','modeOfPayment','corporate','franchise','income'));
@@ -693,10 +705,11 @@ class IncomeController extends AppBaseController
     public function countStud()
     {
        $batch_id =  \request('batch');
-       $tStud = Student::whereHas('studDetail', function ($q) use ($batch_id) {
-                    return $q->where('batch_id', $batch_id);
-            })->count();
-        return response()->json($tStud);
+       $checkGst = ModeOfPayment::findorfail($batch_id);
+//       $tStud = Student::whereHas('studDetail', function ($q) use ($batch_id) {
+//                    return $q->where('batch_id', $batch_id);
+//            })->count();
+        return response()->json($checkGst);
     }
 
     protected function validator(array $data)
@@ -729,11 +742,13 @@ class IncomeController extends AppBaseController
         $input = $request->all();
         $input['bank_Acc'];
         $input['amount'];
-       // dd('hello');
+
         $bankAcc = ModeOfPayment::findorfail($input['bank_Acc']);
         $allbank = ModeOfPayment::where('id','!=',$input['bank_Acc'])->get();
+
         $bankAcc['remain_balance'] = $bankAcc->opening_balance+$input['amount'];
         $verify = view('admin.expence_masters.verify',compact('bankAcc','allbank'))->render();
+
         return response()->json(["verify"=>$verify]);
 
     }

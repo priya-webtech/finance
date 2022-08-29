@@ -50,4 +50,12 @@
         <script>
             $('.alert-msg').text('This Month Total Revenue(without GST): ₹ ' + '{{$totalRevenue}}').css("color", 'green');
         </script>
+    <script>
+        $("#incomeInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#incomes-table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    </script>
 @endpush

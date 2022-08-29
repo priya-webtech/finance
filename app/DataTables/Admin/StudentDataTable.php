@@ -88,9 +88,9 @@ class StudentDataTable extends DataTable
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
            // $model = Student::query();
 
-            $model = Student::select([DB::raw('@rownum := @rownum + 1 AS rank'),'name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
+            $model = Student::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
         }else{
-            $model =  Student::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
+            $model =  Student::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
         }
         return  $model->newQuery();
     }
