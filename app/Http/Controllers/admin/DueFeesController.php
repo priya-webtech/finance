@@ -126,8 +126,6 @@ class DueFeesController extends Controller
 
     public function update(Request $request,$id,$type)
     {
-
-
         $input = $request->all();
         if ($type == 'Corporate') {
             $incomeType = IncomeType::where('title', 'Corporate Training')->first();
@@ -135,7 +133,9 @@ class DueFeesController extends Controller
             $incomeType = IncomeType::where('title', 'Retail Training')->first();
         }
         $totalPay = $input['pay_amount'];
-        if (isset($input['gst'])){
+        $input['gst'] = 0;
+        $bank = ModeOfPayment::where('id',$input['bank_acc_id'])->first();
+        if ($bank->gst == 1){
             $gst =  site_setting()->gst_per/100+1;
             $data['gst'] = $input['pay_amount'] - $input['pay_amount']/$gst;
             $input['paying_amount'] = $input['pay_amount']/$gst;
@@ -143,8 +143,6 @@ class DueFeesController extends Controller
             $data['gst'] = 0;
             $input['paying_amount'] = $totalPay;
         }
-        $input['gst'] = 0;
-        $bank = ModeOfPayment::where('id',$input['bank_acc_id'])->first();
         $old_balance = $bank->opening_balance;
         $bank->opening_balance = $old_balance+$totalPay;
         $bank->save();
