@@ -95,16 +95,15 @@ class DueFeesController extends Controller
 
         $auth = Auth::user();
         if ($type == 'Corporate'){
-
          $user =  CorporateDetail::findorfail($id);
          $editid = $user->corporate_id;
        //  dd($user);
         $userdetail =  CorporateDetail::with('course')->where('id',$id)->get();
 
         }elseif($type == 'Student'){
-         $user = StudentDetail::findorfail($id);
+          $user = StudentDetail::findorfail($id);
           $editid = $user->student_id;
-         $userdetail =  StudentDetail::with('course')->where('id',$id)->get();
+          $userdetail =  StudentDetail::with('course')->where('id',$id)->get();
         }
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
