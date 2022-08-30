@@ -18,22 +18,18 @@
                 <form action="{{route('pay-due-fees',['id' => $editid, 'type' => $type])}}" method="post">
                     @csrf
                 <div class="row">
-                    <!-- <div class="form-group col-sm-3">
-                        {!! Form::label('branch_id', 'Branch :') !!}
-                        {!! Form::select('branch_id', $branch,null, ['class' => 'form-control','placeholder'=>'Select Branch']) !!}
-                    </div> -->
-                   <!--  <div class="form-group col-sm-3">
-                        {!! Form::label('course_id', 'Course :') !!}
-                        {!! Form::select('course_id', $course,null, ['class' => 'form-control','placeholder'=>'Select Course']) !!}
-                    </div> -->
                     <input type="hidden" name="course_id" value="{{$user->course_id}}">
+                        <input type="hidden" name="branch_id" value="@if(isset($user->student)){{$user->student->branch_id}} @elseif(isset($user->corporate)) {{$user->corporate->branch_id}} @endif">
                     <div class="form-group col-sm-2">
                         {!! Form::label('bank_acc_id', 'Bank:') !!}
                         {!! Form::select('bank_acc_id',$bank,null, ['class' => 'form-control bank_acc_id','placeholder'=>'Select Bank','onclick'=>"modeOfPay(this, 51)",'id'=>"batch51"]) !!}
+                        <span class="error text-danger">{{ $errors->first('bank_acc_id') }}</span>
                     </div>
-                    <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-2">
                         {!! Form::label('pay_amount', 'Amount:') !!}
                         {!! Form::text('pay_amount',null, ['class' => 'form-control pay_amount','placeholder'=>'Enter Amount']) !!}
+                        <span class="error text-danger">{{ $errors->first('pay_amount') }}</span>
+                            <span class="msg text-danger"></span>
                     </div>
                         <div class="form-group col-sm-2 trainer gstinput">
                             {!! Form::label('gst', 'GST:') !!}
@@ -43,8 +39,7 @@
                             <span class="error text-danger">{{ $errors->first('gst') }}</span>
                         </div>
                     <div class="form-group col-sm-1"><br>
-                        {!! Form::submit('Save', ['class' => 'btn btn-primary', 'style'=>"margin-top: 7px;"]) !!}
-{{--                        <a href="{{ route('admin.students.index') }}" class="btn btn-default">Cancel</a>--}}
+                        {!! Form::submit('Save', ['class' => 'btn btn-primary', 'id'=>'fsubmit','style'=>"margin-top: 7px;"]) !!}
                     </div>
                 </div>
                 </form>
@@ -89,11 +84,6 @@
                       {!! Form::label('trainer_fees', 'Trainer Fees:') !!}
                       <p> @if(isset($userdetail[0]->studBatchDetail[0])){{$userdetail[0]->studBatchDetail[0]->trainer_fees }}@endif</p>
                   </div>
-{{--                  <div class="col-sm-3">--}}
-{{--                      {!! Form::label('pay_fees', '1st instalment amount:') !!}--}}
-{{--                      <p> @if(isset($userdetail[0]->StudentCoruseWisePayment[0])){{number_format($userdetail[0]->StudentCoruseWisePayment[0]->gst+$userdetail[0]->StudentCoruseWisePayment[0]->getIncome->paying_amount,2)}}@endif</p>--}}
-{{--                  </div>--}}
-
               </div>
               @elseif(isset($user->corporate))
                     <div class="row">
@@ -113,10 +103,6 @@
                         {!! Form::label('income_type_id', 'Income Type:') !!}
                         <p>{{getIncomeType($userdetail[0]->corpoFeesColl->getIncome->id)  }}</p>
                     </div>
-{{--                    <div class="col-sm-12">--}}
-{{--                        {!! Form::label('branch', 'Branch Name.:') !!}--}}
-{{--                        <p>{{ $userdetail[0]->branch->title }}</p>--}}
-{{--                    </div>--}}
                     <div class="col-sm-3">
                         {!! Form::label('branch', 'Course Name.:') !!}
                         <p>{{  $userdetail[0]->course->course_name }}</p>
@@ -129,11 +115,6 @@
                         {!! Form::label('trainer_name', 'Trainer Name:') !!}
                         <p> @if(isset( $userdetail[0]->corporateBatchDetail[0])){{ $userdetail[0]->corporateBatchDetail[0]->trainer->trainer_name }}@endif</p>
                     </div>
-                    <div class="col-sm-3">
-                        {!! Form::label('pay_fees', 'Pay Fees:') !!}
-                        <p> @if(isset( $userdetail[0]->coruseWisePayment[0])){{number_format( $userdetail[0]->coruseWisePayment[0]->gst+ $userdetail[0]->coruseWisePayment[0]->getIncome->paying_amount,2)}}@endif</p>
-                    </div>
-
                     </div>
               @endif
 
@@ -262,11 +243,16 @@
             var Text = "{{site_setting()->gst_per/100+1}}";
             var gstamt  = firstInstallment - firstInstallment/Text;
             $('#vehicle1').val(gstamt.toFixed(2));
-           {{--var checkamt = "{{$userdetail[0]->agreed_amount - $total}}";--}}
-           {{--if(firstInstallment > checkamt)--}}
-           {{--{--}}
-           {{--    alert("Enter Small lowest than Remain Amount");--}}
-           {{--}--}}
+           var checkamt = "{{$userdetail[0]->agreed_amount - $total}}";
+           // alert(firstInstallment);
+           if(parseInt(checkamt) < parseInt(firstInstallment))
+           {
+               $('#fsubmit').hide();
+               $('.msg').text("Amount must be less than or equal  remain amount");
+           }else{
+               $('#fsubmit').show();
+               $('.msg').text(" ");
+           }
 
         });
     </script>

@@ -126,6 +126,10 @@ class DueFeesController extends Controller
 
     public function update(Request $request,$id,$type)
     {
+        $validated = $request->validate([
+            'bank_acc_id' => 'required',
+            'pay_amount' => 'required',
+        ]);
         $input = $request->all();
         if ($type == 'Corporate') {
             $incomeType = IncomeType::where('title', 'Corporate Training')->first();

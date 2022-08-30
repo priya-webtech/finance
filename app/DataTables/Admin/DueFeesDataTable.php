@@ -78,6 +78,9 @@ class DueFeesDataTable extends DataTable
             //         return round($total_amount, 2);
             //     }
             // })
+//             ->addColumn('rank', function ($record){
+//
+//             })
             ->addColumn('due_fees', function ($record){
                 if($record->type == 'Student') {
                    $feesCollection = StudentFessCollection::where('student_id', $record->student_id);
@@ -132,8 +135,8 @@ class DueFeesDataTable extends DataTable
                }else{
                    return $record->due_date;
                }
-
            })
+            ->addIndexColumn()
             ->rawColumns(['agreed_amount','total_amount','due_fees','action','due_date']);
     }
 
@@ -248,7 +251,8 @@ class DueFeesDataTable extends DataTable
         $field = json_decode($columnManage->field_status);
         }
 
-        $result = ['id' => ['searchable' => false]] +
+        $result =
+            ['DT_RowIndex' => ['title'=>'SNo.','orderable'=> false, 'searchable'=>false]] +
 
         ((!empty($field) && $field->due_fees_col_1 == 1) ? ['name' => ['searchable' => false]] : [] )  +
         ((!empty($field) && $field->due_fees_col_2 == 1) ? ['mobile' => ['searchable' => false]] : [] ) +
