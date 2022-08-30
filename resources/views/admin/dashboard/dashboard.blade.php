@@ -294,7 +294,7 @@
                 <table class="table table-striped table-bordered" id="DueFeesTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>SNo.</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Course Name</th>
@@ -581,7 +581,8 @@
                                 }
                             },
                         columns: [
-                            {data: 'id', name: 'id'},
+                            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                            // {data: 'id', name: 'id'},
                             {data: 'name', name: 'name'},
                             {data: 'email', name: 'email'},
                             {data: 'course_name', name: 'course_name'},
