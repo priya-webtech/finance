@@ -104,6 +104,7 @@ class Student extends Model
     public function enquiryType(){
         return $this->belongsTo(EnquiryType::class,'enquiry_type');
     }
+
     public function branch(){
         return $this->belongsTo(Branch::class,'branch_id');
     }

@@ -47,7 +47,7 @@ class StudentController extends AppBaseController
         $columnManage = columnManage::where('table_name','student')->where('role_id',auth()->user()->role_id)->first();
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-        $students = Student::when(request('dates'), function ($q) {
+        $students = Student::with('studDetail')->when(request('dates'), function ($q) {
             $part = explode("-",request('dates'));
             $start = date('Y-m-d', strtotime($part[0]));
             $end = date('Y-m-d', strtotime($part[1]));
@@ -55,7 +55,7 @@ class StudentController extends AppBaseController
                 ->whereDate('created_at', '<=', $end);
         })->paginate(20);
         }elseif ($auth->hasRole('student_co-ordinator')){
-            $students = Student::when(request('dates'), function ($q) {
+            $students = Student::with('studDetail')->when(request('dates'), function ($q) {
                 $part = explode("-",request('dates'));
                 $start = date('Y-m-d', strtotime($part[0]));
                 $end = date('Y-m-d', strtotime($part[1]));
@@ -64,7 +64,7 @@ class StudentController extends AppBaseController
             })->where('branch_id',$auth->branch_id)->where('placement','yes')->paginate(20);
         }
         else{
-        $students = Student::when(request('dates'), function ($q) {
+        $students = Student::with('studDetail')->when(request('dates'), function ($q) {
             $part = explode("-",request('dates'));
             $start = date('Y-m-d', strtotime($part[0]));
             $end = date('Y-m-d', strtotime($part[1]));

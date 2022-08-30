@@ -43,6 +43,8 @@
 {{--        @if(!empty($field) && $field->student_col_2 == 1)<th>Email</th>@endif--}}
         @if(!empty($field) && $field->student_col_3 == 1)<th>Mobile No</th>@endif
             <th>Course</th>
+            <th>Agreed Course Fees</th>
+            <th>Trainer</th>
             <th>Join date</th>
 {{--        @if(!empty($field) && $field->student_col_4 == 1)<th>Enquiry Type</th>@endif--}}
 {{--        @if(!empty($field) && $field->student_col_5 == 1)<th>Student Type</th>@endif--}}
@@ -60,8 +62,11 @@
             @if(!empty($field) && $field->student_col_1 == 1)<td>{{ $student->name }}</td>@endif
 {{--            @if(!empty($field) && $field->student_col_2 == 1)<td>{{ $student->email }}</td>@endif--}}
             @if(!empty($field) && $field->student_col_3 == 1)<td>{{ $student->mobile_no }}</td>@endif
+            @if(!empty($field) && $field->student_col_4 == 1)<td>@if(isset($student->studDetail[0])){{ $student['studDetail'][0]['course']['course_name'] }}@endif</td>@endif
+                <td>{{ $student['studDetail'][0]['agreed_amount'] }}</td>
+                <td>@if(isset($record->studDetail[0]->studBatchDetail[0])){{ $student->studDetail[0]->studBatchDetail[0]->trainer->trainer_name }}@endif</td>
+               
                 <td>{{ date('d-m-Y', strtotime($student->created_at)) }}</td>
-            @if(!empty($field) && $field->student_col_4 == 1)<td>{{$student->enquiryType->title }}</td>@endif
             @if(!empty($field) && $field->student_col_5 == 1)<td>{{ $student->studentType->title }}</td>@endif
                 <td><span class='badge badge-success'>{{$student->status}}</span></td>
 {{--                @if(!empty($field) && $field->student_col_6 == 1)<td><span class='badge @if($student->status == 1)badge-success @else badge-danger @endif'>{{ $student->status == 1 ? "Active" : "Block" }}</span></td>@endif--}}

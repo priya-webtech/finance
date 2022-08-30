@@ -178,7 +178,7 @@
             </div>
             <div class="form-group col-sm-6 other">
                 {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
-                {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+                {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select mode_of_payment','placeholder'=>'Please Select Mode of Payment']) !!}
                 <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
             </div>
             <!-- Paying  Amount Field -->
@@ -201,11 +201,11 @@
                 {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
                 <span class="error text-danger">{{ $errors->first('register_date') }}</span>
             </div>
-{{--            <div class="form-group col-sm-6 other">--}}
-{{--                {!! Form::label('description', 'Description:') !!}--}}
-{{--                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}--}}
-{{--                <span class="error text-danger">{{ $errors->first('description') }}</span>--}}
-{{--            </div>--}}
+            <div class="form-group col-sm-6 other">
+                {!! Form::label('description', 'Description:') !!}
+                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+                <span class="error text-danger">{{ $errors->first('description') }}</span>
+            </div>
                 <!-- Test -->
                     <br>
                     <br>
@@ -220,11 +220,11 @@
                             </div>
                         </div>
                     </div>
-{{--                    <div class="form-group col-sm-12 reg-detail add-new-course">--}}
-{{--                        <button type="button" class="btn btn-success" id="addNew" ><span--}}
-{{--                                class="fa fa-plus"></span> Add Course--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
+                    <div class="form-group col-sm-12 reg-detail add-new-course">
+                        <button type="button" class="btn btn-success" id="addNew" ><span
+                                class="fa fa-plus"></span> Add Course
+                        </button>
+                    </div>
                     <br><br>
 
                     <div id="itemDetails" class="main0 row-course reg-detail">
@@ -310,11 +310,11 @@
                                         </div>
                                                         @if(!empty($studDetail->studBatchDetail))
 
-{{--                                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"--}}
-{{--                                                                    onclick="addnewrow({{$keys}})">--}}
-{{--                                                                Add New Row--}}
-{{--                                                            </button>--}}
-{{--                                                            <br><br>--}}
+                                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
+                                                                    onclick="addnewrow({{$keys}})">
+                                                                Add New Row
+                                                            </button>
+                                                            <br><br>
 {{--                            </div>--}}
                                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                                 <div class="row product">
@@ -506,11 +506,11 @@
                                         </div>
                                         @if(!empty($corpoDetail->corporateBatchDetail))
 
-{{--                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"--}}
-{{--                                                    onclick="addnewrow({{$keys}})">--}}
-{{--                                                Add New Row--}}
-{{--                                            </button>--}}
-{{--                                            <br><br>--}}
+                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
+                                                    onclick="addnewrow({{$keys}})">
+                                                Add New Row
+                                            </button>
+                                            <br><br>
 
                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                 <div class="row product">
@@ -666,7 +666,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Due date</label><br>
-                                        <input id="value" name="student[0][due_date]"
+                                        <input id="value" name="student[{{$keys}}][due_date]"
                                                class="form-control" type="date">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
@@ -803,6 +803,8 @@
         $(document).ready(function() {
             $("#income_type").trigger('change');
         });
+
+        
         function ChangeIncomeType() {
             var IncomeType = $('#income_type option:selected').text();
             if (IncomeType == 'Retail Training') {
