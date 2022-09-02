@@ -49,6 +49,7 @@ $auth = \Illuminate\Support\Facades\Auth::user();
 
 </div>
 
+ <?php if(request()->route()->getName() == 'admin.batches.edit'){ ?>
 @if ($auth->hasRole('super_admin')|| $auth->hasRole('admin') || $auth->hasRole('student_co-ordinator'))
     <div class="form-group col-sm-6">
         {!! Form::label('batch_status', 'Batch Status') !!}<span style="color:red;">*</span> :
@@ -56,6 +57,7 @@ $auth = \Illuminate\Support\Facades\Auth::user();
         <span class="error text-danger">{{ $errors->first('batch_status') }}</span>
     </div>
 @endif
+<?php } ?>
 
 <div class="form-group col-sm-6">
     {!! Form::label('trainer_payment_status', 'Trainer Payment status') !!}<span style="color:red;">*</span> :
