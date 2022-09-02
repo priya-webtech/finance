@@ -47,13 +47,11 @@ class UserController extends AppBaseController
         }else{
             $users = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->paginate(10);
         }
-
         $columnManage = columnManage::where('table_name','user')->where('role_id',auth()->user()->role_id)->first();
         $field = [];
         if($columnManage){
             $field = json_decode($columnManage->field_status);
         }
-
         return view('admin.users.index',compact('field'))->with('users', $users);
     }
 
@@ -104,7 +102,6 @@ class UserController extends AppBaseController
     {
       $auth = Auth::user();
         if(Auth::user()->role_id == 3){
-          
              $role = Role::where('name','!=','super_admin')->where('name','!=','admin')->where('name','!=','branch_manager')->pluck('name','id');
         }else{
              $role = Role::where('name','!=','super_admin')->pluck('name','id');
@@ -114,7 +111,6 @@ class UserController extends AppBaseController
                 $query->where('id', '=', $auth->branch_id);
             }
         })->pluck('title', 'id');
-//      $branch = Branch::where('status',1)->pluck('title','id');
       return view('admin.users.create',compact('role','branch'));
     }
 
@@ -190,7 +186,7 @@ class UserController extends AppBaseController
         }else{
              $role = Role::where('name','!=','super_admin')->pluck('name','id');
         }
-       
+
         $branch = Branch::where(function ($query) use ($auth) {
             if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
                 $query->where('id', '=', $auth->branch_id);
@@ -222,12 +218,14 @@ class UserController extends AppBaseController
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$users->id],
-            'password' => ['string', 'min:8', 'confirmed'],
         ]);
          $input = $request->all();
-         if($input['password'] == ' '){
+         if($input['password'] == null){
              $input['password'] =  $users->password;
          }else{
+             $request->validate([
+                 'password' => ['string', 'min:8', 'confirmed'],
+             ]);
              $input['password'] = Hash::make($input['password']);
          }
          $input['branch_id'] = $input['branch_id'];

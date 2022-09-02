@@ -265,7 +265,7 @@
 @push('third_party_scripts')
     @include('layouts.datatables_css')
     @include('layouts.datatables_js')
-
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
     <script>
         function ChangeType() {
             var Type = $('#type').val();
@@ -738,13 +738,14 @@
             if (!$.fn.dataTable.isDataTable('#StudentTable') || filter==true) {
                 var table = $('#StudentTable').DataTable({
                     // dom: 'Bfrtip',
+                    responsive: true,
                     processing: true,
                     serverSide: true,
                     retrieve: true,
                     "searchDelay" : 500,
-                    "responsive": {
-                        orthogonal: 'responsive'
-                    },
+                    // "responsive": {
+                    //     orthogonal: 'responsive'
+                    // },
                     // paging: false,
                     // order: [[0, 'asc']],
                     // buttons: [

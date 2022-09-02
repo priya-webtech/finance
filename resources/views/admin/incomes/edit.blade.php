@@ -13,15 +13,15 @@
 
     <div class="content px-3">
 
-{{--        @include('adminlte-templates::common.errors')--}}
+{{--   @include('adminlte-templates::common.errors')--}}
 
         <div class="card">
 @if($corporate != ' ')
-                {!! Form::model($corporate, ['route' => ['admin.incomes.update', $corporate->id], 'method' => 'patch']) !!}
+                {!! Form::model($corporate, ['route' => ['admin.incomes.update', $corporate->id], 'method' => 'patch','id'=>'edit-form']) !!}
 @elseif($students != ' ')
-                {!! Form::model($students, ['route' => ['admin.incomes.update', $students->id], 'method' => 'patch']) !!}
+                {!! Form::model($students, ['route' => ['admin.incomes.update', $students->id], 'method' => 'patch','id'=>'edit-form']) !!}
  @else
-                {!! Form::model($income, ['route' => ['admin.incomes.update', $income->id], 'method' => 'patch']) !!}
+                {!! Form::model($income, ['route' => ['admin.incomes.update', $income->id], 'method' => 'patch','id'=>'edit-form']) !!}
             @endif
     <div class="card-body">
         <div class="row">
@@ -38,8 +38,8 @@
                 </div>
             </div>
             <div class="form-group col-sm-6">
-                {!! Form::label('branch_id', 'Branch:') !!}
-                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Branch']) !!}
+                {!! Form::label('branch_id', 'Branch') !!}<span style="color:red;">*</span><span class="error-branch" style="color: red"></span> :
+                {!! Form::select('branch_id', $branch, null, ['class' => 'form-control custom-select changeincomebaranch','placeholder'=>'Please Select Branch']) !!}
                 <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
             </div>
             <!-- Income Type Id Field -->
@@ -52,20 +52,20 @@
 
             <!-- Mobile No Field -->
             <div class="form-group col-sm-6 both">
-                {!! Form::label('mobile_no', 'Mobile No:') !!}
+                {!! Form::label('mobile_no', 'Mobile No:') !!}<span class="error-mobile_no" style="color: red"></span>
                 {!! Form::text('mobile_no', null, ['class' => 'form-control','id'=>'mob']) !!}
                 <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
             </div>
             <!-- Name Field -->
 
             <div class="form-group col-sm-6 both">
-                {!! Form::label('name', 'Name:') !!}
+                {!! Form::label('name', 'Name:') !!}<span class="error-name" style="color: red"></span>
                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 <span class="error text-danger">{{ $errors->first('name') }}</span>
             </div>
             <!-- Email Field -->
             <div class="form-group col-sm-6 both">
-                {!! Form::label('email', 'Email:') !!}
+                {!! Form::label('email', 'Email:') !!}<span class="error-email" style="color: red"></span>
                 {!! Form::text('email', null, ['class' => 'form-control']) !!}
                 <span class="error text-danger">{{ $errors->first('email') }}</span>
             </div>
@@ -94,7 +94,7 @@
             </div>
             <!-- State Field -->
             <div class="form-group col-sm-6 both">
-                {!! Form::label('state', 'State:') !!}
+                {!! Form::label('state', 'State:') !!}<span class="error-state" style="color: red"></span>
                 {!! Form::select('state', $country, null,['class' => 'form-control', 'placeholder'=> '--Please Select State--']) !!}
                 <span class="error text-danger">{{ $errors->first('state') }}</span>
             </div>
@@ -178,7 +178,7 @@
             </div>
             <div class="form-group col-sm-6 other">
                 {!! Form::label('mode_of_payment', 'Mode of Payment:') !!}
-                {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment']) !!}
+                {!! Form::select('mode_of_payment', $modeOfPayment, null, ['class' => 'form-control custom-select','placeholder'=>'Please Select Mode of Payment','onchange'=>"modeOfPay(this, 51)",'id'=>"batch51"]) !!}
                 <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
             </div>
             <!-- Paying  Amount Field -->
@@ -187,14 +187,21 @@
                 {!! Form::text('paying_amount', null, ['class' => 'form-control']) !!}
                 <span class="error text-danger">{{ $errors->first('paying_amount') }}</span>
             </div>
-            <div class="form-group col-sm-3 other" style="margin-top: 37px;">
-                <input type="checkbox" id="vehicle1"
-                       name="gst" @if($income != ' ') {{$income->gst > 0 ? 'checked' : ' '}} @endif>
+{{--            <div class="col-sm-2 gstTextBox gst51" id="gstAmount"  style="display: none;">--}}
+{{--                <div class="form-group">--}}
+{{--                    <label>Gst</label><br>--}}
+{{--                    <input step=".01" name="gst_amount" id="topGst"--}}
+{{--                           class="form-control gst_amount" type="number">--}}
+{{--                </div>--}}
+{{--            </div>--}}
+            @if(isset($income->gst))
+            <div class="form-group col-sm-3 other gstTextBox gst51" id="gstAmount" @if($income->gst == 0.00)  style="display: none"  @endif >
                 {!! Form::label('gst', 'Gst') !!}
-
+                <input type="number"
+                       name="gst" class="form-control" value="{{$income->gst}}">
                 <span class="error text-danger">{{ $errors->first('gst') }}</span>
             </div>
-
+            @endif
             <!-- Register Date Field -->
             <div class="form-group col-sm-6 other">
                 {!! Form::label('register_date', 'Register Date:') !!}
@@ -252,7 +259,7 @@
                                             <div class="form-group">
                                                 <label>Mode of Payment</label><br>
                                                 <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
-                                                        aria-required="true" aria-invalid="false" onclick=modeOfPay(this)>
+                                                       id="batch{{$keys}}" aria-required="true" aria-invalid="false" onchange=modeOfPay(this,{{$keys}})>
                                                     <option value="">--Select Mode of Payment--</option>
 
                                                     @foreach ($modeOfPayment as $key=>$value)
@@ -266,7 +273,7 @@
                                             <div class="form-group">
                                                 <label>Agreed Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][agreed_amount]"
-                                                       class="form-control" type="text" value="{{$studDetail->agreed_amount}}">
+                                                       class="form-control agreed_amount" type="text" value="{{$studDetail->agreed_amount}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -274,7 +281,7 @@
                                             <div class="form-group">
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
-                                                       class="form-control" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
+                                                       class="form-control pay_amount" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -282,28 +289,29 @@
                                             <div class="form-group">
                                                 <label>Due date</label><br>
                                                 <input id="value" name="student[{{$keys}}][due_date]"
-                                                       class="form-control" type="date" value="{{$studDetail->due_date}}">
+                                                       class="form-control due_date" type="date" value="{{$studDetail->due_date}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <br>
-                                                <br>
 
+                                        <div class="col-sm-1 gst{{$keys}}"  @if($studDetail->studFeesColl->gst == 0) style="display: none"  @endif >
+                                            <div class="form-group">
+{{--                                                <br>--}}
+{{--                                                <br>--}}
+                                                <label>Gst</label>
                                                 <input id="value" step=".01" name="student[{{$keys}}][gst]"
-                                                       value="1" type="checkbox" {{$studDetail->studFeesColl->gst > 0 ? "checked" : " " }}>
-                                                       <label>Gst</label>
+                                                        type="text"  class="form-control" value="{{$studDetail->studFeesColl->gst > 0 ? $studDetail->studFeesColl->gst : " " }}">
+
                                                        <span class="error-is_required" style="color:red" ></span>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-
-                                                <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
-                                                       value="1" type="checkbox" {{count($studDetail->studBatchDetail) == 0 ? "checked" : " " }}>
+                                                <input id="nobAtch" step=".01" name="student[{{$keys}}][no_batch]"
+                                                      class="no-batch" value="1" type="checkbox" {{count($studDetail->studBatchDetail) == 0 ? "checked" : " " }} onclick="batchDisplay(this.checked, {{$keys}})">
                                                        <label>Batch Not Yet</label>
                                                        <span class="error-is_required" style="color:red"></span>
                                             </div>
@@ -316,6 +324,7 @@
 {{--                                                            </button>--}}
 {{--                                                            <br><br>--}}
 {{--                            </div>--}}
+                                            <span class="batch_table{{$keys}}">
                                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                                 <div class="row product">
                                                                     <div class="table-responsive">
@@ -349,7 +358,7 @@
                                                                                             @foreach ($batch as $key=>$value)
                                                                                                 <option value="{{ $key }}" {{ $key == $batchDetail->batch_id ? "selected" : " " }}>{{ $value }}</option>
                                                                                             @endforeach
-                                                                                        </select><span class="error-trainer"style="color: red"></span>
+                                                                                        </select><span class="error-batch"style="color: red"></span>
                                                                                     </td>
                                                                                     <td>
                                                                                         <select  name="student[{{$keys}}][course][{{ $loop->index }}][trainer_id]" class="form-control trainer"
@@ -395,10 +404,10 @@
                                                                                             @foreach ($batch as $key=>$value)
                                                                                                 <option value="{{ $key }}">{{ $value }}</option>
                                                                                             @endforeach
-                                                                                        </select><span class="error-trainer"style="color: red"></span>
+                                                                                        </select><span class="error-batch"style="color: red"></span>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select  name="student[0][course][0][trainer_id]"class="form-control trainer"
+                                                                                        <select  name="student[0][course][0][trainer_id]" class="form-control trainer"
                                                                                                  aria-required="true" aria-invalid="false" >
                                                                                             <option value="">--Select Trainer--</option>
 
@@ -422,6 +431,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                            </span>
                                                             <br>
                                                         @endif
 {{--                                                    @endforeach--}}
@@ -448,9 +458,8 @@
                                             <div class="form-group">
                                                 <label>Mode of Payment</label><br>
                                                 <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
-                                                        aria-required="true" aria-invalid="false" onclick=modeOfPay(this)>
+                                                        id="batch{{$keys}}" aria-required="true" aria-invalid="false" onclick=modeOfPay(this,{{$keys}})>
                                                     <option value="">--Select Mode of Payment--</option>
-
                                                     @foreach ($modeOfPayment as $key=>$value)
                                                         <option value="{{ $key }}" {{ $key == $corpoDetail->corpoFeesColl->getIncome->bank_acc_id ? "selected" : " " }}>{{ $value }}</option>
                                                     @endforeach
@@ -462,7 +471,7 @@
                                             <div class="form-group">
                                                 <label>Agreed Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][agreed_amount]"
-                                                       class="form-control" type="text" value="{{$corpoDetail->agreed_amount}}">
+                                                       class="form-control agreed_amount" type="text" value="{{$corpoDetail->agreed_amount}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -470,7 +479,7 @@
                                             <div class="form-group">
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
-                                                       class="form-control" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount + $corpoDetail->corpoFeesColl->gst}}">
+                                                       class="form-control pay_amount" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -478,27 +487,27 @@
                                             <div class="form-group">
                                                 <label>Due date</label><br>
                                                 <input id="value" name="student[{{$keys}}][due_date]"
-                                                       class="form-control" type="date" value="{{$corpoDetail->due_date}}">
+                                                       class="form-control due_date" type="date" value="{{$corpoDetail->due_date}}">
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <br>
-                                                <br>
 
+
+                                        <div class="col-sm-2 gst{{$keys}}" @if($corpoDetail->corpoFeesColl->gst == 0) style="display:none;"  @endif>
+                                            <div class="form-group">
+                                                <label>Gst</label>
                                                 <input id="value" step=".01" name="student[{{$keys}}][gst]"
-                                                       value="1" type="checkbox" {{$corpoDetail->corpoFeesColl->gst > 0 ? "checked" : " " }}>
-                                                       <label>Gst</label>
+                                                       type="number"  class="form-control" value="{{$corpoDetail->corpoFeesColl->gst}}">
                                                        <span class="error-is_required" style="color:red" ></span>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <br>
                                                 <br>
-                                                <input id="value" step=".01" name="student[{{$keys}}][no_batch]"
-                                                       value="1" type="checkbox" {{count($corpoDetail->corporateBatchDetail) == 0 ? "checked" : " " }}>
+                                                <input id="nobAtch" step=".01" name="student[{{$keys}}][no_batch]"
+                                                       class="no-batch"     value="1" type="checkbox" {{count($corpoDetail->corporateBatchDetail) == 0 ? "checked" : " " }}  onclick="batchDisplay(this.checked, {{$keys}})">
                                                 <label>Batch Not Yet</label>
 
                                                 <span class="error-is_required" style="color:red"></span>
@@ -511,7 +520,7 @@
 {{--                                                Add New Row--}}
 {{--                                            </button>--}}
 {{--                                            <br><br>--}}
-
+                                            <span class="batch_table{{$keys}}">
                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                 <div class="row product">
                                                     <div class="table-responsive">
@@ -545,7 +554,7 @@
                                                                                 @foreach ($batch as $key=>$value)
                                                                                     <option value="{{ $key }}" {{ $key == $batchDetail->batch_id ? "selected" : " " }}>{{ $value }}</option>
                                                                                 @endforeach
-                                                                            </select><span class="error-trainer"style="color: red"></span>
+                                                                            </select><span class="error-batch"style="color: red"></span>
                                                                         </td>
                                                                         <td>
                                                                             <select  name="student[{{$keys}}][course][{{ $loop->index }}][trainer_id]" class="form-control trainer"
@@ -585,7 +594,7 @@
                                                                             @foreach ($batch as $key=>$value)
                                                                                 <option value="{{ $key }}">{{ $value }}</option>
                                                                             @endforeach
-                                                                        </select><span class="error-trainer"style="color: red"></span>
+                                                                        </select><span class="error-batch"style="color: red"></span>
                                                                     </td>
                                                                     <td>
                                                                         <select  name="student[0][course][0][trainer_id]"class="form-control trainer"
@@ -612,7 +621,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            </span>
                                             <br>
                                         @endif
                                         {{--                                                    @endforeach--}}
@@ -649,7 +658,7 @@
                                     <div class="form-group">
                                         <label>Agreed Amount</label><br>
                                         <input id="value" step=".01" name="student[0][agreed_amount]"
-                                               class="form-control" type="text">
+                                               class="form-control agreed_amount" type="text">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -659,7 +668,7 @@
                                     <div class="form-group">
                                         <label>Pay Amount</label><br>
                                         <input id="value" step=".01" name="student[0][pay_amount]"
-                                               class="form-control" type="text">
+                                               class="form-control pay_amount" type="text">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -667,7 +676,7 @@
                                     <div class="form-group">
                                         <label>Due date</label><br>
                                         <input id="value" name="student[0][due_date]"
-                                               class="form-control" type="date">
+                                               class="form-control due_date" type="date">
                                         <span class="error-is_required" style="color:red"></span>
                                     </div>
                                 </div>
@@ -694,9 +703,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">
-                                Add Batch
-                            </button>
+{{--                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(0)">--}}
+{{--                                Add Batch--}}
+{{--                            </button>--}}
                             <br><br>
 
                             <div id="addNewTableRow" >
@@ -789,7 +798,7 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Save', ['class' => 'btn btn-primary','onclick'=>'checkText()']) !!}
                 <a href="{{ route('admin.incomes.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
@@ -802,6 +811,9 @@
     <script>
         $(document).ready(function() {
             $("#income_type").trigger('change');
+            $(".no-batch").trigger('onclick');
+             // $('#branch_id').trigger('change');
+            // $('.course').trigger('change');
         });
         function ChangeIncomeType() {
             var IncomeType = $('#income_type option:selected').text();
@@ -843,6 +855,14 @@
                 $('.other').hide();
             }
         }
+        function batchDisplay(value, index) {
+            if(value) {
+                $('.batch_table'+ index).hide();
+            } else {
+                $('.batch_table'+ index).show();
+
+            }
+        }
         $("#mob").keyup(function(){
             var mobile = $('#mob').val();
             var no_len = mobile.length;
@@ -861,16 +881,16 @@
                 });
             }
         });
-        function bath() {
-            var batch = $('#batch option:selected').val();
-            if(batch){
-                $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {
-                    if(data){
-                        $('.badge').text(data);
-                    }
-                });
-            }
-        }
+        {{--function bath() {--}}
+        {{--    var batch = $('#batch option:selected').val();--}}
+        {{--    if(batch){--}}
+        {{--        $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {--}}
+        {{--            if(data){--}}
+        {{--                $('.badge').text(data);--}}
+        {{--            }--}}
+        {{--        });--}}
+        {{--    }--}}
+        {{--}--}}
 
     </script>
     <script>
@@ -1144,6 +1164,7 @@
 
         }
         function changeBatch(el) {
+
             var batchRow = $(el).parents('.addrowbellow');
             var batchID = $(el).val();
 
@@ -1176,61 +1197,176 @@
 
         }
 
-        function modeOfPay(el) {
-            var batch = $('#batch option:selected').val();
+        function modeOfPay(el,index) {
+            var batch = $('#batch'+index+' option:selected').val();
+            // var batch = $('#batch option:selected').val();
             if(batch){
                 $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {
                     if(data){
-                        $('.badge').text(data);
+                        if(data['gst']==1){
+                            $('.gst'+index).show();
+                        }else{
+                            $('.gst'+index).hide();
+                        }
                     }
                 });
+            } else {
+                $('.gst'+index).hide();
             }
         }
-        // function checkText() {
-        //     alert('okay');
-        //     event.preventDefault();
-        //     var t = 0;
-        //     $(".product").each(function () {
-        //         var batch = $(this).find(".batch").val();
-        //         var trainer = $(this).find(".trainer").val();
-        //         var trainer_fees = $(this).find(".trainer_fees").val();
-        //
-        //
-        //         if (batch == "") {
-        //             t++;
-        //             $(this).find(".error-batch").text('*requied');
-        //
-        //         } else {
-        //             $(this).find(".error-batch").text('');
-        //         }
-        //         if (trainer == "") {
-        //             t++;
-        //             $(this).find(".error-trainer").text('*requied');
-        //
-        //         } else {
-        //             $(this).find(".error-trainer").text('');
-        //         }
-        //         if (trainer_fees == "") {
-        //             t++;
-        //             $(this).find(".error-trainer_fees").text('*requied');
-        //
-        //         } else {
-        //             $(this).find(".error-trainer_fees").text('');
-        //         }
-        //
-        //
-        //     });
-        //     if (t == 0) {
-        //         alert('success');
-        //         $('#create-form').submit();
-        //         $('#edit-form').submit();
-        //         return true;
-        //     } else {
-        //         alert('Enter Data Properly');
-        //         return false;
-        //     }
-        //
-        // }
+        $(".changeincomebaranch").change(function(el){
+
+            var branchID = $('#branch_id').val();
+            $(".course").html('');
+            if (branchID) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{route('get-incomecourse')}}",
+                    data: {'branchID': branchID},
+                    dataTypes: 'json',
+                    success: function (res) {
+                        if (res) {
+                            if(res != ''){
+                                $(".course").append('<option value="">Please Select Course</option>');
+                            }else{
+                                $(".course").append('<option value="">Not avalible Course</option>');
+                            }
+                            $.each(res, function (key, value) {
+                                $(".course").append('<option value="'+key+'">'+value+'</option>');
+
+                            });
+                        }
+                    }
+                });
+            } else {
+                //$(".batch").empty();
+            }
+
+        });
+        function checkText() {
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
+
+                event.preventDefault();
+                var t = 0;
+                var branch_id = $('#branch_id').val();
+                var mobile_no = $('#mob').val();
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var state = $('#state').val();
+                if (branch_id == "") {
+                    t++;
+                    $(".error-branch").text('required');
+                } else {
+                    $(".error-branch").text('');
+                }
+                if (mobile_no == "") {
+                    t++;
+                    $(".error-mobile_no").text('*required');
+                } else {
+                    $(".error-mobile_no").text('');
+                }
+                if (name == "") {
+                    t++;
+                    $(".error-name").text('*required');
+                } else {
+                    $(".error-name").text('');
+                }
+                if (email == "") {
+                    t++;
+                    $(".error-email").text('*required');
+                } else {
+                    $(".error-email").text('');
+                } if (state == "") {
+                    t++;
+                    $(".error-state").text('*required');
+                } else {
+                    $(".error-state").text('');
+                }
+                $(".parent").each(function () {
+                    var course = $(this).find(".course").val();
+                    var mode_of_payment = $(this).find(".mode_of_payment").val();
+                    var agreed_amount = $(this).find(".agreed_amount").val();
+                    var pay_amount = $(this).find(".pay_amount").val();
+                    var due_date = $(this).find(".due_date").val();
+                    if (course == "") {
+                        t++;
+                        $(this).find(".error-course").text('*required');
+                    } else {
+                        $(this).find(".error-course").text('');
+                    }
+                    if (mode_of_payment == "") {
+                        t++;
+                        $(this).find(".error-mode_of_payment").text('*required');
+
+                    } else {
+                        $(this).find(".error-mode_of_payment").text('');
+                    }
+                    if (agreed_amount == "") {
+                        t++;
+                        $(this).find(".error-agreed_amount").text('*required');
+
+                    } else {
+                        $(this).find(".error-agreed_amount").text('');
+                    }
+                    if (pay_amount == "") {
+                        t++;
+                        $(this).find(".error-pay_amount").text('*required');
+
+                    } else {
+                        $(this).find(".error-pay_amount").text('');
+                    }
+                    if (due_date == "") {
+                        t++;
+                        $(this).find(".error-due_date").text('*required');
+
+                    } else {
+                        $(this).find(".error-due_date").text('');
+                    }
+                    if($(this).find(".no-batch").prop('checked') == false) {
+                        $(this).find(".addrowbellow").each(function () {
+                            var batch = $(this).find(".batch").val();
+                            var trainer = $(this).find(".trainer").val();
+                            var trainer_fees = $(this).find(".trainer_fees").val();
+
+                            if (batch == "") {
+                                t++;
+                                $(this).find(".error-batch").text('*required');
+
+                            } else {
+                                $(this).find(".error-batch").text('');
+                            }
+                            if (trainer == "") {
+                                t++;
+                                $(this).find(".error-trainer").text('*required');
+
+                            } else {
+                                $(this).find(".error-trainer").text('');
+                            }
+
+                            if (IncomeType == 'Retail Training') {
+                                if (trainer_fees == "") {
+                                    t++;
+                                    $(this).find(".error-trainer_fees").text('*required');
+
+                                } else {
+                                    $(this).find(".error-trainer_fees").text('');
+                                }
+                            }
+                        });
+                    }
+                });
+                if (t == 0) {
+                    alert('success');
+                    // $('#create-form').submit();
+                     $('#edit-form').submit();
+                    return true;
+                } else {
+                    alert('Enter Data Properly');
+                    return false;
+                }
+            }
+        }
     </script>
 
 @endpush

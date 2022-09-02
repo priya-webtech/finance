@@ -27,11 +27,11 @@
     {!! Form::label('gst', 'Gst:') !!}
     <p>{{ $income->gst }}</p>
 </div>
-<!-- Gst Field -->
-<div class="col-sm-12">
-    {!! Form::label('totalPay', 'Total Pay:') !!}
-    <p>{{ $income->total_pay }}</p>
-</div>
+{{--<!-- Gst Field -->--}}
+{{--<div class="col-sm-12">--}}
+{{--    {!! Form::label('totalPay', 'Total Pay:') !!}--}}
+{{--    <p>{{ $income->total_pay }}</p>--}}
+{{--</div>--}}
 <!-- Register Date Field -->
 <div class="col-sm-12">
     {!! Form::label('register_date', 'Register Date:') !!}

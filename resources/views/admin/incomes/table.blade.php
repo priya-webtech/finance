@@ -73,7 +73,7 @@
                 <td>@if(isset($record->studDetail)){{$record->studDetail[0]->course->course_name}} @elseif(isset($record->corporateDetail)){{$record->corporateDetail[0]->course->course_name}} @else {{"N/A"}} @endif</td>
                 <td>@if(isset($record->studDetail[0]->studBatchDetail[0])){{$record->studDetail[0]->studBatchDetail[0]->trainer->trainer_name}} @elseif(isset($record->corporateDetail[0]->corporateBatchDetail[0])){{$record->corporateDetail[0]->corporateBatchDetail[0]->trainer->trainer_name}} @else {{"N/A"}} @endif</td>
                 <td>@if(isset($record->studDetail)){{$record->studDetail[0]->agreed_amount}} @elseif(isset($record->corporateDetail)){{$record->corporateDetail[0]->agreed_amount}} @else {{"N/A"}} @endif</td>
-                <td>@if(isset($record->studDetail[0]->StudentCoruseWisePayment[0])){{number_format($record->studDetail[0]->StudentCoruseWisePayment[0]->gst+$record->studDetail[0]->StudentCoruseWisePayment[0]->getIncome->paying_amount,2)}} @elseif(isset($record->corporateDetail[0]->coruseWisePayment[0])){{number_format($record->corporateDetail[0]->coruseWisePayment[0]->gst+$record->corporateDetail[0]->coruseWisePayment[0]->getIncome->paying_amount,2)}} @else {{"N/A"}} @endif</td>
+                <td>@if(isset($record->studDetail[0]->StudentCoruseWisePayment[0])){{number_format($record->studDetail[0]->StudentCoruseWisePayment[0]->getIncome->paying_amount,2)}} @elseif(isset($record->corporateDetail[0]->coruseWisePayment[0])){{number_format($record->corporateDetail[0]->coruseWisePayment[0]->getIncome->paying_amount,2)}} @else {{"N/A"}} @endif</td>
                 @if(!empty($field) && $field->income_col_3 == 1)
                     <td> @if(isset($record->StudentIncome)) {{ getIncomeType($record->StudentIncome[0]['income_id']) }} @elseif(isset($record->corporateIncome)) {{getIncomeType($record->corporateIncome[0]['income_id'])}} @else {{getIncomeType($record['id'])}} @endif </td>@endif
                 <td>{{ date('d/m/Y', strtotime($record['created_at'])) }}</td>
@@ -93,8 +93,6 @@
                                                 @endif
                                                 <i class="far fa-eye"></i>
                                             </a>
-
-
 
 {{--                            <a href="{{ route('admin.incomes.show', [$record->id]) }}?type=student"--}}
 {{--                               class='btn btn-default action-btn btn-sm'>--}}

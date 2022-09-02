@@ -27,13 +27,13 @@
                     </div>
                         <div class="form-group col-sm-2">
                         {!! Form::label('pay_amount', 'Amount:') !!}
-                        {!! Form::text('pay_amount',null, ['class' => 'form-control pay_amount','placeholder'=>'Enter Amount']) !!}
+                        {!! Form::text('paying_amount',null, ['class' => 'form-control pay_amount','placeholder'=>'Enter Amount']) !!}
                         <span class="error text-danger">{{ $errors->first('pay_amount') }}</span>
                             <span class="msg text-danger"></span>
                     </div>
                         <div class="form-group col-sm-2 trainer gstinput">
                             {!! Form::label('gst', 'GST:') !!}
-                            <input step=".01" name="gst" class="form-control gst" id="vehicle1" type="number" readonly>
+                            <input step=".01" name="gst" class="form-control gst" id="vehicle1" type="number">
 
                             <!-- <input type="checkbox" id="vehicle1" class="checkgst" name="gst"> -->
                             <span class="error text-danger">{{ $errors->first('gst') }}</span>
@@ -138,12 +138,12 @@
                             <tr class="table-success">
                                 <td width="120">{{date('d-m-Y', strtotime($data->getIncome->created_at))}}
                                 <td>{{$data->getIncome->bankAcc->title}}</td>
-                                <td>₹ {{$data->getIncome->paying_amount + $data->gst}}</td>
+                                <td>₹ {{$data->getIncome->paying_amount}}</td>
 
                                 </td>
                             </tr>
                             @php
-                                $t = $data->getIncome->paying_amount + $data->gst;
+                                $t = $data->getIncome->paying_amount;
                               $total +=$t;
                             @endphp
                               @endif
@@ -162,7 +162,7 @@
                           </tr>
                           <tr class="table-danger">
                               <td></td>
-                              <td>Remain Amount</td>
+                              <td>Payment Due</td>
                               <td>₹ {{$userdetail[0]->agreed_amount - $total}}</td>
 
                           </tr>
@@ -173,12 +173,12 @@
                                 <tr class="table-success">
                                     <td>{{date('d-m-Y', strtotime($data->getIncome->created_at))}}
                                     <td>{{$data->getIncome->bankAcc->title}}</td>
-                                    <td>₹ {{$data->getIncome->paying_amount + $data->gst}}</td>
+                                    <td>₹ {{$data->getIncome->paying_amount}}</td>
 
 
                                 </tr>
                                   @php
-                                      $t = $data->getIncome->paying_amount + $data->gst;
+                                      $t = $data->getIncome->paying_amount;
                                     $total +=$t;
                                   @endphp
                                 @endif
@@ -197,7 +197,7 @@
                             </tr>
                              <tr class="table-danger">
                                  <td></td>
-                             <td>Remain Amount</td>
+                             <td>Payment Due</td>
                              <td>₹ {{$userdetail[0]->agreed_amount - $total}}</td>
 
                              </tr>
@@ -240,9 +240,9 @@
         }
         $(".pay_amount").keyup(function(){
             var firstInstallment = $('.pay_amount').val();
-            var Text = "{{site_setting()->gst_per/100+1}}";
-            var gstamt  = firstInstallment - firstInstallment/Text;
-            $('#vehicle1').val(gstamt.toFixed(2));
+            {{--var Text = "{{site_setting()->gst_per/100+1}}";--}}
+            {{--var gstamt  = firstInstallment - firstInstallment/Text;--}}
+            {{--$('#vehicle1').val(gstamt.toFixed(2));--}}
            var checkamt = "{{$userdetail[0]->agreed_amount - $total}}";
            // alert(firstInstallment);
            if(parseInt(checkamt) < parseInt(firstInstallment))

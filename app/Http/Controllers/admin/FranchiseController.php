@@ -140,7 +140,6 @@ class FranchiseController extends AppBaseController
     public function destroy($id)
     {
         $franchise = $this->franchiseRepository->find($id);
-
         if (empty($franchise)) {
             Flash::error('Franchise not found');
 

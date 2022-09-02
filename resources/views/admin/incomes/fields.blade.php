@@ -448,7 +448,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
                     <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment mop"
@@ -472,8 +472,8 @@
             <div class="col-sm-2 gstTextBox gst0" id="gst_amount" style="display: none;">
                 <div class="form-group">
                     <label>Gst</label><br>
-                    <input step=".01" name="gst_amount"
-                           class="form-control gst_amount" id="bottomGst" type="number" readonly>
+                    <input step=".01" name="student[0][gst_amount]"
+                           class="form-control gst_amount" id="bottomGst" type="number">
                 </div>
             </div>
 {{--            <div class="col-sm-1 gst0" style="display: none;">--}}
@@ -1325,23 +1325,23 @@
             }
             $('#CD_Supplr').val(selected_checkbox.join(','));
         });
-        $(".pay_amount").keyup(function(){
-            var IncomeType = $('#income_type option:selected').text();
-            if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
-                var firstInstallment = $('.pa').val();
-                var Text = "{{site_setting()->gst_per/100+1}}";
-                var gstamt  = firstInstallment - firstInstallment/Text;
-                $('#bottomGst').val(gstamt.toFixed(2));
-            }else{
-                var firstInstallment = $('#paying_amount').val();
-                var Text = "{{site_setting()->gst_per/100+1}}";
-                var gstamt  = firstInstallment - firstInstallment/Text;
-                $('#topGst').val(gstamt.toFixed(2));
-            }
+        {{--$(".pay_amount").keyup(function(){--}}
+        {{--    var IncomeType = $('#income_type option:selected').text();--}}
+        {{--    if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {--}}
+        {{--        var firstInstallment = $('.pa').val();--}}
+        {{--        var Text = "{{site_setting()->gst_per/100+1}}";--}}
+        {{--        var gstamt  = firstInstallment - firstInstallment/Text;--}}
+        {{--        $('#bottomGst').val(gstamt.toFixed(2));--}}
+        {{--    }else{--}}
+        {{--        var firstInstallment = $('#paying_amount').val();--}}
+        {{--        var Text = "{{site_setting()->gst_per/100+1}}";--}}
+        {{--        var gstamt  = firstInstallment - firstInstallment/Text;--}}
+        {{--        $('#topGst').val(gstamt.toFixed(2));--}}
+        {{--    }--}}
 
 
            // alert();
-        });
+        // });
         // function HideModel() {
         //     $('.verifyModel').hide();
         // }
