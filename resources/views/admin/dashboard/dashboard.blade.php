@@ -29,7 +29,7 @@
                         @if($auth->hasRole('super_admin') || $auth->hasRole('admin') || $auth->hasRole('branch_manager'))
                      <div class="form-group col-sm-2">
                         {!! Form::label('type', 'Table:') !!}
-                        {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','cash'=>'Cash','bank'=>'Bank','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                        {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate','due-fees'=>'DueFees','expense'=>'Expense','revenue'=>'Revenue','trainer'=>'Trainer','batch'=>'Batch','transactions'=>'Transactions','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                      </div>
                         @elseif($auth->hasRole('counsellor'))
                             <div class="form-group col-sm-2">
@@ -190,8 +190,8 @@
                     </thead>
                 </table>
             </div>
-            <div class="" id="bank" style="display: none">
-                <table class="table table-bordered table-condensed" id="BankTable" width="100%" border=1>
+            <div class="" id="transactions" style="display: none">
+                <table class="table table-bordered table-condensed" id="TransactionsTable" width="100%" border=1>
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -275,7 +275,7 @@
                     $('#trainer').hide();
                     $('#batch').hide();
                     $('#cash').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('#student').show();
                     $('.dateFilter').show();
@@ -292,7 +292,7 @@
                     $('.incomeFilter').hide();
                     $('#batch').hide();
                     $('#cash').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('#corporate').show();
                     $('.dateFilter').show();
@@ -341,7 +341,7 @@
                     $('#income').hide();
                     $('#trainer').hide();
                     $('#batch').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('#cash').hide();
                     $('#expense').show();
@@ -390,7 +390,7 @@
                     $('#trainer').hide();
                     $('#batch').hide();
                     $('#income').show();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('#cash').hide();
                     $('.dateFilter').show();
@@ -436,7 +436,7 @@
                     $('#income').hide();
                     $('#trainer').show();
                     $('#batch').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('#cash').hide();
                     $('.incomeFilter').hide();
@@ -482,7 +482,7 @@
                     $('#expense').hide();
                     $('#income').hide();
                     $('#trainer').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('.incomeFilter').hide();
                     $('#cash').hide();
@@ -531,7 +531,7 @@
                     $('#expense').hide();
                     $('#income').hide();
                     $('#trainer').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#gst').hide();
                     $('.incomeFilter').hide();
                     $('#cash').hide();
@@ -571,7 +571,7 @@
                     }
                 }
 
-                else if(Type == 'bank'){
+                else if(Type == 'transactions'){
                     $('.student').hide();
                     $('#student').hide();
                     $('.batchFilter').hide();
@@ -583,13 +583,13 @@
                     $('#batch').hide();
                     $('.dateFilter').hide();
                     $('#cash').hide();
-                    $('#bank').show();
+                    $('#transactions').show();
                     $('#gst').hide();
                     $('.incomeFilter').hide();
                     $('#due-fees').hide();
                     var filter = true;
-                    if (!$.fn.dataTable.isDataTable('#BankTable') || filter == true) {
-                        var BankTable = $('#BankTable').DataTable({
+                    if (!$.fn.dataTable.isDataTable('#TransactionsTable') || filter == true) {
+                        var BankTable = $('#TransactionsTable').DataTable({
                             dom: 'Bfrtip',
                             processing: true,
                             serverSide: true,
@@ -629,7 +629,7 @@
                     $('#trainer').hide();
                     $('#batch').hide();
                     $('.dateFilter').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#cash').show();
                     $('#gst').hide();
                     $('.incomeFilter').hide();
@@ -677,7 +677,7 @@
                     $('#trainer').hide();
                     $('#batch').hide();
                     $('.dateFilter').hide();
-                    $('#bank').hide();
+                    $('#transactions').hide();
                     $('#cash').hide();
                     $('#gst').show();
                     $('#due-fees').hide();

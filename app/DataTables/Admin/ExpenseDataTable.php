@@ -111,7 +111,9 @@ class ExpenseDataTable extends DataTable
     {
         return [
             'id' => ['searchable' => false],
-           'title'
+           'title',
+           'total_expense'
+
 
         ];
     }

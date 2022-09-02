@@ -28,12 +28,12 @@ class StudentDataTable extends DataTable
                 return $record->leadSource->title;
             })
             ->editColumn('status', function ($record){
-                if ($record->status == 1){
+               /* if ($record->status == 1){
                   $status = "<span class='badge badge-success'>Active</span>";
                 }else{
                     $status = "<span class='badge badge-danger'>Block</span>";
-                }
-                return $status;
+                }*/
+                return $status = "<span class='badge badge-success'>".$record->status."</span>";
             })
             ->filter(function ($record){
                 $record->where(function ($q) {

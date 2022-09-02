@@ -143,7 +143,8 @@ class IncomeDataTable extends DataTable
     {
         return [
             'id' => ['searchable' => false],
-           'course_name'
+            'course_name',
+            'total_revenue'
 
         ];
     }
