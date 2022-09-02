@@ -85,7 +85,7 @@
 
                                 <td>{{$ex->expenceType->title}}</td>
                                 <td>{{"₹ ".number_format($ex->amount+$ex->tds,2)}}</td>
-                                <td></td>
+                                <td>{{$ex->remark}}</td>
                                 <td>{{$ex->bankAcc->title}}</td>
                                 <td>{{date_format($ex->date,"d-m-Y")}}</td>
                                 {{--                                <td width="120">--}}

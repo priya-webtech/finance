@@ -42,10 +42,16 @@
 
     @stack('page_css')
     <style type="text/css">
+        body {
+            /*overflow-y: hidden; !* Hide vertical scrollbar *!*/
+            /*overflow-x: hidden; !* Hide horizontal scrollbar *!*/
+        }
         .multiselect {
           width: 200px;
         }
-
+        .buttons-pdf{
+          display: none;
+        }
         .selectBox {
           position: relative;
         }

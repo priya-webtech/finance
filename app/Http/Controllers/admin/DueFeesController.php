@@ -128,7 +128,7 @@ class DueFeesController extends Controller
     {
         $validated = $request->validate([
             'bank_acc_id' => 'required',
-            'pay_amount' => 'required',
+            'paying_amount' => 'required',
         ]);
         $input = $request->all();
         if ($type == 'Corporate') {
@@ -136,17 +136,18 @@ class DueFeesController extends Controller
         }elseif ($type == 'Student'){
             $incomeType = IncomeType::where('title', 'Retail Training')->first();
         }
-        $totalPay = $input['pay_amount'];
+        $totalPay = $input['paying_amount'];
+        $data['gst'] = $input['gst'];
         $input['gst'] = 0;
         $bank = ModeOfPayment::where('id',$input['bank_acc_id'])->first();
-        if ($bank->gst == 1){
-            $gst =  site_setting()->gst_per/100+1;
-            $data['gst'] = $input['pay_amount'] - $input['pay_amount']/$gst;
-            $input['paying_amount'] = $input['pay_amount']/$gst;
-        }else{
-            $data['gst'] = 0;
-            $input['paying_amount'] = $totalPay;
-        }
+//        if ($bank->gst == 1){
+//            $gst =  site_setting()->gst_per/100+1;
+//            $data['gst'] = $input['pay_amount'] - $input['pay_amount']/$gst;
+//            $input['paying_amount'] = $input['pay_amount']/$gst;
+//        }else{
+//            $data['gst'] = 0;
+//            $input['paying_amount'] = $totalPay;
+//        }
         $old_balance = $bank->opening_balance;
         $bank->opening_balance = $old_balance+$totalPay;
         $bank->save();
@@ -160,11 +161,10 @@ class DueFeesController extends Controller
             $input->corporateStudFees()->create($data);
         }elseif($type == 'Student'){
             $data['student_id'] = $id;
-            $data['course_id'] =$input['course_id'];
+            $data['course_id'] = $input['course_id'];
             $input->incomeStudFees()->create($data);
         }
         return redirect()->route('due-fees');
-
     }
     public function corpodatatable(CorporateDueFeesDataTable $corporateDueFeesDataTable)
     {

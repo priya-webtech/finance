@@ -15,11 +15,13 @@
     }
     .modal {
         --gap: 15px;
+
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
+
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
@@ -27,6 +29,7 @@
         background: rgba(0, 0, 0, 0.5);
         font-family: sans-serif;
     }
+
     .modal__inner {
         background: #ffffff;
         width: 100%;
@@ -34,16 +37,19 @@
         overflow: hidden;
         border-radius: 4px;
     }
+
     .modal__top {
         display: flex;
         align-items: center;
         background-color: #eeeeee;
     }
+
     .modal__title {
         flex-grow: 1;
         padding: 0 var(--gap);
         font-size: 20px;
     }
+
     .modal__close {
         display: flex;
         align-items: center;
@@ -53,14 +59,17 @@
         border: none;
         outline: none;
     }
+
     .modal__content {
         padding: 0 var(--gap);
         line-height: 1.5;
     }
+
     .modal__bottom {
         text-align: right;
         padding: 0 var(--gap) var(--gap) var(--gap);
     }
+
     .modal__button {
         display: inline-block;
         padding: 6px 12px;
@@ -72,12 +81,15 @@
         cursor: pointer;
         font-size: 18px;
     }
+
     .modal__button:not(:last-child) {
         margin-right: var(--gap);
     }
+
     .modal__button:hover {
         background: #008066;
     }
+
 </style>
 <div class="container-fluid p-0">
     <div class="row pb-4">
@@ -436,7 +448,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
                     <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment mop"
@@ -460,8 +472,8 @@
             <div class="col-sm-2 gstTextBox gst0" id="gst_amount" style="display: none;">
                 <div class="form-group">
                     <label>Gst</label><br>
-                    <input step=".01" name="gst_amount"
-                           class="form-control gst_amount" id="bottomGst" type="number" readonly>
+                    <input step=".01" name="student[0][gst_amount]"
+                           class="form-control gst_amount" id="bottomGst" type="number">
                 </div>
             </div>
 {{--            <div class="col-sm-1 gst0" style="display: none;">--}}
@@ -631,6 +643,7 @@
                             }
                             $.each(res, function (key, value) {
                                 $(".changeincomecourse").append('<option value="'+key+'">'+value+'</option>');
+
                             });
                         }
                     }
@@ -638,7 +651,10 @@
             } else {
                 //$(".batch").empty();
             }
+
         });
+
+
         $(document).ready(function() {
             $("#income_type").trigger('change');
         });
@@ -700,6 +716,7 @@
                 $('.batch_table'+ index).hide();
             } else {
                 $('.batch_table'+ index).show();
+
             }
         }
         $("#mob").keyup(function(){
@@ -731,14 +748,20 @@
         {{--        });--}}
         {{--    }--}}
         {{--}--}}
+
     </script>
     <script>
+
         var mindex = 0;
         var subindx = 0;
         var option = " ";
         $("#addNew").click(function () {
+
+
             mindex += 1;
             // alert(mindex)
+
+
             $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course reg-detail">\n' +
                 '                    <div class="parent options[' + mindex + ']">\n' +
                 '                        <div class="row product">\n' +
@@ -751,6 +774,7 @@
                     $courses = '';
                     foreach ($course as $key=>$value)
                  {
+
                      $courses .= '<option value="' . $key . '">' . $value. "</option>";
                  }
                 @endphp
@@ -767,6 +791,7 @@
                     $mode = '';
                     foreach ($modeOfPayment as $key=>$value)
                  {
+
                      $mode .= '<option value="' . $key . '">' . $value. "</option>";
                  }
                 @endphp
@@ -780,6 +805,8 @@
             '<input id="value" step=".01" name="student[' + mindex + '][agreed_amount]" class="form-control agreed_amount" type="number">\n' +
             '</div>\n' +
             '</div>\n' +
+
+
             '<div class="col-sm-4"> \n' +
             '<div class="form-group"> \n' +
             '<label>Pay Amount</label><span class="error-pay_amount" style="color:red"></span><br> \n' +
@@ -798,6 +825,7 @@
             ' <br> \n' +
             ' <input id="value" step=".01" name="student[' + mindex + '][gst]" value="1" type="checkbox"> \n' +
             '<label>Gst</label> \n' +
+
                 '<span class="error-is_required" style="color:red"></span> \n' +
             '</div>\n' +
             '</div> \n' +
@@ -805,9 +833,11 @@
                 ' <div class="form-group"> \n' +
                 ' <br> \n' +
                 '<br> \n' +
+
                 '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox" onchange="batchDisplay(this.checked, '+mindex+')"> \n' +
                 '<label>Batch Not Yet</label> \n' +
                 '  <span class="error-is_required" style="color:red"></span> \n' +
+
                 '  </div> \n' +
                 ' </div> \n' +
                 '<div class="col-sm-2"> \n' +
@@ -843,8 +873,10 @@
                 '\n' +
                 '                                            <td>\n' +
                 '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-batch"style="color: red"></span>\n' +
+
                 @php
                     $option = '';
+
                 @endphp
                     '<?php echo $option; ?>\n' +
                 '</select>\n' +
@@ -857,6 +889,7 @@
                     $op = '';
                     foreach ($trainer as $key=>$value)
                  {
+
                      $op .= '<option value="' . $key . '">' . $value. "</option>";
                  }
                 @endphp
@@ -877,6 +910,7 @@
                 '                         \n' +
                 '                                                </td>\n' +
                 '                                        </tr>\n' +
+
                 '                                        <tr id="ltr' + mindex + '"></tr>\n' +
                 '                                        </tbody>\n' +
                 '                                    </table>\n' +
@@ -887,6 +921,7 @@
                 '                </div>\n' +
                 '                <br><br>');
             var IncomeType = $('#income_type option:selected').text();
+
              var branchID = $('#branch_id').val();
             $(".changeincomecourse").html('');
             if (branchID) {
@@ -904,6 +939,7 @@
                             }
                             $.each(res, function (key, value) {
                                 $(".changeincomecourse").append('<option value="'+key+'">'+value+'</option>');
+
                             });
                         }
                     }
@@ -911,9 +947,11 @@
             } else {
                 //$(".batch").empty();
             }
+
             function changeCourse(el) {
             var courseRow = $(el).parents('.row-course');
             var courseID = $(el).val();
+
             if (courseID) {
                 $.ajax({
                     type: 'GET',
@@ -928,15 +966,21 @@
                             $.each(res, function (key, value) {
                                 courseRow.find(".batch")
                                     .append('<option value="' + key + '">' + value + '</option>');
+
                             });
+
                             // $('.multiple').select2();
+
                         }
                     }
                 });
+
             } else {
                 $(".batch").empty();
             }
+
         }
+
             if(IncomeType == 'Corporate Training') {
                 $('.retail_col').hide();
             }else{
@@ -950,6 +994,7 @@
     {{-- Script File For Table Collection Form--}}
 
     <script>
+
         function addnewrow(mindex1) {
             subindx = $('.sub_' + mindex1).length;
             var html = '<tr id="tr' + mindex1 + '_' + subindx + '" class="addrowbellow sub_' + mindex1 + '">\n' +
@@ -983,6 +1028,7 @@
                 '           </button>\n' +
                 '        \n' +
                 '                                                </td>\n' +
+
                 '                                            </tr>';
             $('#ltr' + mindex1).before(html);
             var IncomeType = $('#income_type option:selected').text();
@@ -993,6 +1039,7 @@
             }
             $('.course').trigger('change');
         }
+
     </script>
     {{-- End Script File For Table Collection Form--}}
 
@@ -1004,12 +1051,15 @@
         function remove_course_item(gi){
             $(gi).closest('#itemDetails').remove();
         }
+
         $("#tr0_0").on('click', '.btn-delete', function () {
             $(this).closest('tr').remove();
         });
+
         function changeCourse(el) {
             var courseRow = $(el).parents('.row-course');
             var courseID = $(el).val();
+
             if (courseID) {
                 $.ajax({
                     type: 'GET',
@@ -1024,18 +1074,24 @@
                             $.each(res, function (key, value) {
                                 courseRow.find(".batch")
                                     .append('<option value="' + key + '">' + value + '</option>');
+
                             });
+
                             // $('.multiple').select2();
+
                         }
                     }
                 });
+
             } else {
                 $(".batch").empty();
             }
+
         }
         function changeBatch(el) {
             var batchRow = $(el).parents('.addrowbellow');
             var batchID = $(el).val();
+
             if (batchID) {
                 $.ajax({
                     type: 'GET',
@@ -1050,18 +1106,25 @@
                             $.each(res, function (key, value) {
                                 batchRow.find(".trainer")
                                     .append('<option value="' + key + '">' + value + '</option>');
+
                             });
+
                             // $('.multiple').select2();
+
                         }
                     }
                 });
+
             } else {
                 $(".batch").empty();
             }
+
         }
+
         function modeOfPay(el,index) {
             var batch = $('#batch'+index+' option:selected').val();
             $('.payamt'+index).attr("readonly", false);
+
             if(batch){
                 $.get("{{ route('count-batch-student') }}?batch= "+batch+"", function( data ) {
                     if(data){
@@ -1077,9 +1140,11 @@
                 $('.gst'+index).hide();
             }
         }
+
         function checkText() {
             var IncomeType = $('#income_type option:selected').text();
             if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
+
                 event.preventDefault();
                 var t = 0;
                 var branch_id = $('#branch_id').val();
@@ -1131,24 +1196,28 @@
                     if (mode_of_payment == "") {
                         t++;
                         $(this).find(".error-mode_of_payment").text('*required');
+
                     } else {
                         $(this).find(".error-mode_of_payment").text('');
                     }
                     if (agreed_amount == "") {
                         t++;
                         $(this).find(".error-agreed_amount").text('*required');
+
                     } else {
                         $(this).find(".error-agreed_amount").text('');
                     }
                     if (pay_amount == "") {
                         t++;
                         $(this).find(".error-pay_amount").text('*required');
+
                     } else {
                         $(this).find(".error-pay_amount").text('');
                     }
                     if (due_date == "") {
                         t++;
                         $(this).find(".error-due_date").text('*required');
+
                     } else {
                         $(this).find(".error-due_date").text('');
                     }
@@ -1157,22 +1226,27 @@
                             var batch = $(this).find(".batch").val();
                             var trainer = $(this).find(".trainer").val();
                             var trainer_fees = $(this).find(".trainer_fees").val();
+
                             if (batch == "") {
                                 t++;
                                 $(this).find(".error-batch").text('*required');
+
                             } else {
                                 $(this).find(".error-batch").text('');
                             }
                             if (trainer == "") {
                                 t++;
                                 $(this).find(".error-trainer").text('*required');
+
                             } else {
                                 $(this).find(".error-trainer").text('');
                             }
+
                             if (IncomeType == 'Retail Training') {
                                 if (trainer_fees == "") {
                                     t++;
                                     $(this).find(".error-trainer_fees").text('*required');
+
                                 } else {
                                     $(this).find(".error-trainer_fees").text('');
                                 }
@@ -1210,6 +1284,7 @@
         }
         function Verify() {
             event.preventDefault();
+
             var BankAccount = $('.mode_of_payment').val();
             var Amount =$('.pay_amount').val();
             $.ajax({
@@ -1223,6 +1298,7 @@
                         $('.modal__content').html(res.verify);
                         $('.modal').show();
                         $('.modal').css('display', 'flex');
+
                     }
                 }
             });
@@ -1249,21 +1325,23 @@
             }
             $('#CD_Supplr').val(selected_checkbox.join(','));
         });
-        $(".pay_amount").keyup(function(){
-            var IncomeType = $('#income_type option:selected').text();
-            if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {
-                var firstInstallment = $('.pa').val();
-                var Text = "{{site_setting()->gst_per/100+1}}";
-                var gstamt  = firstInstallment - firstInstallment/Text;
-                $('#bottomGst').val(gstamt.toFixed(2));
-            }else{
-                var firstInstallment = $('#paying_amount').val();
-                var Text = "{{site_setting()->gst_per/100+1}}";
-                var gstamt  = firstInstallment - firstInstallment/Text;
-                $('#topGst').val(gstamt.toFixed(2));
-            }
+        {{--$(".pay_amount").keyup(function(){--}}
+        {{--    var IncomeType = $('#income_type option:selected').text();--}}
+        {{--    if(IncomeType == 'Retail Training' || IncomeType == 'Corporate Training') {--}}
+        {{--        var firstInstallment = $('.pa').val();--}}
+        {{--        var Text = "{{site_setting()->gst_per/100+1}}";--}}
+        {{--        var gstamt  = firstInstallment - firstInstallment/Text;--}}
+        {{--        $('#bottomGst').val(gstamt.toFixed(2));--}}
+        {{--    }else{--}}
+        {{--        var firstInstallment = $('#paying_amount').val();--}}
+        {{--        var Text = "{{site_setting()->gst_per/100+1}}";--}}
+        {{--        var gstamt  = firstInstallment - firstInstallment/Text;--}}
+        {{--        $('#topGst').val(gstamt.toFixed(2));--}}
+        {{--    }--}}
+
+
            // alert();
-        });
+        // });
         // function HideModel() {
         //     $('.verifyModel').hide();
         // }
