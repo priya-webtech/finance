@@ -59,12 +59,14 @@ class IncomeController extends AppBaseController
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
             $student = Student::with('StudentIncome')->with('studDetail')->whereHas('StudentIncome')->get();
             $corporate = Corporate::with('corporateIncome')->with('corporateDetail')->whereHas('corporateIncome')->get();
-            $incomes = Income::whereIn('income_type_id', $inType)->get();
+           // $incomes = Income::whereIn('income_type_id', $inType)->get();
+            $incomes = Income::whereIn('income_type_id', $inType)->orderBy('id','desc')->get();
             $totalRevenue = Income::whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }else{
             $student = Student::where('branch_id', $auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get();
             $corporate = Corporate::where('branch_id', $auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get();
-            $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->get();
+           // $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->get();
+            $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->orderBy('id','desc')->get();
             $totalRevenue = Income::where('branch_id', $auth->branch_id)->whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }
 
@@ -248,6 +250,7 @@ class IncomeController extends AppBaseController
                 $input['register_date'] = Carbon::now();
                 $input['paying_amount'] = $studBatch['pay_amount'];
                 $input['registration_taken_by'] = $input['reg_taken_id'];
+                $input['comment'] = $input['comment'];
                 $input['status'] = 1;
                 $income = Income::create($input);
                 $val['student_id'] = $student->id;
@@ -285,6 +288,7 @@ class IncomeController extends AppBaseController
                 $bank->opening_balance = $old_balance+$totalPay;
                 $bank->save();
                 $input['bank_acc_id'] = $studBatch['mode_of_payment'];
+                $input['comment'] = $input['comment'];
                 $input['course_id'] = $studBatch['course_id'];
                 $input['register_date'] = Carbon::now();
                 $input['registration_taken_by'] = $input['reg_taken_id'];
@@ -317,6 +321,7 @@ class IncomeController extends AppBaseController
             $input['bank_acc_id'] = $input['mode_of_payment'];
             $input['registration_taken_by'] = $input['reg_taken_id'];
             $input['gst'] = $input['gst_amount'];
+            $input['comment'] = $input['comment'];
             $income = Income::create($input);
         }elseif ($incomeType->title == 'Franchise Royalty'){
             $validated = $request->validate([
@@ -389,12 +394,14 @@ class IncomeController extends AppBaseController
        $corporate = Corporate::findorfail($id);
        $corporate['name'] = $corporate['company_name'];
        $corporate['mobile_no'] = $corporate['contact_no'];
+       $corporate['comment'] =$corporate->corporateDetail[0]->corpoFeesColl->getIncome->comment;
        $corporate['enquiry_type'] = $corporate['enquiry_type_id'];
        $corporate['income_type_id']= $corporate->corporateDetail[0]->corpoFeesColl->getIncome->income_type_id;
        $branchcurrunt = $corporate->branch_id;
    } else if(\request('type') == 'student') {
         $students = Student::findorfail($id);
         $students['income_type_id'] = $students->studDetail[0]->studFeesColl->getIncome->income_type_id;
+        $students['comment'] = $students->studDetail[0]->studFeesColl->getIncome->comment;
         $students['branch_id'] = $students->studDetail[0]->branch_id;
         $branchcurrunt = $students->branch_id;
     }else{
@@ -476,9 +483,11 @@ class IncomeController extends AppBaseController
                 $val['gst'] = $studBatch['gst'] ?? 0;
                 $val['student_detail_id'] = $studentDetail->id;
                 if (isset($studBatch['in_id'])) {
+                    $input['comment'] = $input['comment'];
                     $income->update($input);
                     $income->incomeStudFees()->update($val);
                 }else{
+                    $input['comment'] = $input['comment'];
                     $income = Income::create($input);
                     $income->incomeStudFees()->create($val);
                 }
@@ -565,6 +574,7 @@ class IncomeController extends AppBaseController
             ]);
             $income = Income::findorfail($id);
             $totalPay = $input['paying_amount'];
+            $input['comment'] = $input['comment'];
             $old_amount = $income->paying_amount;
             $setBank = ModeOfPayment::where('id',$income->bank_acc_id)->first();
             $setBank->opening_balance =  $setBank->opening_balance - $old_amount;

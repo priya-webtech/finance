@@ -58,36 +58,40 @@
     <table class="table" id="expenceMasters-table">
         <thead>
         <tr>
-            <th>Category</th>
-            <th>Total</th>
-{{--        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_4 == 1)<th>Batch</th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_5 == 1)<th>Trainer</th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif--}}
-{{--        @if(!empty($field) && $field->expencemaster_col_8 == 1)<th>Date</th>@endif--}}
-{{--        <th>Remark</th>--}}
+           <!--  <th>Category</th>
+            <th>Total</th> -->
+        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif
+        @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif
+        {{-- @if(!empty($field) && $field->expencemaster_col_4 == 1)<th>Batch</th>@endif--}}
+        {{-- @if(!empty($field) && $field->expencemaster_col_5 == 1)<th>Trainer</th>@endif--}}
+        {{-- @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif--}}
+        @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif
+        <th>Remark</th>
             <th colspan="3">Action</th>
         </tr>
         </thead>
         <tbody>
         @foreach($expenceMasters as $expenceMaster)
+        @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
         <tr>
 
-                <td>{{$expenceMaster->title}}</td>
-                <td>{{$expenceMaster->expense->sum('amount','tds')}}</td>
+                <td>{{ $expenceMaster->expenceType->title }}</td>
+                <td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>
+                <td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>
+                <td>{{ $expenceMaster->amount }}</td>
+                <td>{{ $expenceMaster->remark }}</td>
                 <td>
                     @can('expence_view')
-                                            <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"
-                                               class='btn btn-default action-btn btn-sm'>
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                            @endcan
+                    <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"
+                       class='btn btn-default action-btn btn-sm'>
+                        <i class="far fa-eye"></i>
+                    </a>
+                    @endcan
                 </td>
 
         </tr>
+        @endif
         @endforeach
 {{--        @foreach($expenceMasters as $expenceMaster)--}}
 {{--          @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))--}}

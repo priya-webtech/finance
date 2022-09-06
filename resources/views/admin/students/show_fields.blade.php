@@ -90,7 +90,7 @@
                                 {{--                        <a href="{{ route('table.status', [ $studentDetail->id,"students", $studentDetail->status]) }}" class='btn @if($student->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>--}}
                                 {{--                            <i class="fa @if($student->status==1) fa-ban @else fa-check @endif"></i>--}}
                                 {{--                        </a>--}}
-                                <a href="{{ route('admin.students.show', [$studentDetail->id]) }}"
+                                <a data-target="#demo{{$studentDetail->id}}"
                                    class='btn btn-default action-btn btn-sm'>
                                     <i class="far fa-eye"></i>
                                 </a>
@@ -109,25 +109,50 @@
                         <td colspan="12" class="hiddenRow">
                             <div class="accordian-body collapse" id="demo{{$studentDetail->id}}">
 
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr class="info">
-                                        <th>Batch Name</th>
-                                        <th>Trainer Name</th>
-                                        <th>Trainer Fees</th>
+                                <table class="table" id="corporates-table">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                    <th>Date</th>
+                                    <th>Mode Of Payment</th>
+                                    <th>Amount</th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
-{{--                                    @dd($batchDetail->batchTrainerDetail)--}}
-                                   @foreach($studentDetail->studBatchDetail as $batchDetail)
+                                        @php $total =0; @endphp
+                                      @foreach($studentDetail->StudentCoruseWisePayment as $data)
+                                          @if($data->course_id == $studentDetail->course_id)
+                                        <tr class="table-success">
+                                            <td width="120">{{date('d-m-Y', strtotime($data->getIncome->created_at))}}
+                                            <td>{{$data->getIncome->bankAcc->title}}</td>
+                                            <td>₹ {{$data->getIncome->paying_amount}}</td>
 
-                                       <tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo10">
-                                        <td>{{$batchDetail->batch->name}}</td>
-                                        <td>{{$batchDetail->trainer->trainer_name}}</td>
-                                        <td>{{$batchDetail->trainer_fees ?? "N/A"}}</td>
-                                       </tr>
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $t = $data->getIncome->paying_amount;
+                                          $total +=$t;
+                                        @endphp
+                                          @endif
+                                      @endforeach
+                                        <tr class="table-warning">
+                                            <td></td>
+                                            <td>Agreed Amount:</td>
+                                            <td>₹ {{$student->studDetail[0]->agreed_amount}}</td>
 
-                                   @endforeach
+                                        </tr>
+                                      <tr class="table-info">
+                                          <td></td>
+                                          <td>Total Pay</td>
+                                          <td>₹ {{$total}}</td>
+
+                                      </tr>
+                                      <tr class="table-danger">
+                                          <td></td>
+                                          <td>Payment Due</td>
+                                          <td>₹ {{$student->studDetail[0]->agreed_amount - $total}}</td>
+
+                                      </tr>
                                     </tbody>
                                 </table>
                             </div>

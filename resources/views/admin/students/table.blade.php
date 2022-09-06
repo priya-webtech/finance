@@ -39,6 +39,7 @@
 
         <thead>
         <tr>
+            <th>Sno.</th>
         @if(!empty($field) && $field->student_col_1 == 1)<th>Name</th>@endif
 {{--        @if(!empty($field) && $field->student_col_2 == 1)<th>Email</th>@endif--}}
         @if(!empty($field) && $field->student_col_3 == 1)<th>Mobile No</th>@endif
@@ -55,10 +56,11 @@
         </thead>
         <tbody>
         @if(count($students) > 0)
+        @php $i=1; @endphp
         @foreach($students as $student)
 {{--        @if((isset($student['branch_id'])) && in_array($student['branch_id'], auth()->user()->branch_id))--}}
             <tr>
-
+                <th>{{$i++}}</th>
             @if(!empty($field) && $field->student_col_1 == 1)<td>{{ $student->name }}</td>@endif
 {{--            @if(!empty($field) && $field->student_col_2 == 1)<td>{{ $student->email }}</td>@endif--}}
             @if(!empty($field) && $field->student_col_3 == 1)<td>{{ $student->mobile_no }}</td>@endif

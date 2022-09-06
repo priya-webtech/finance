@@ -223,6 +223,11 @@
     {!! Form::select('reg_taken_id', $user, null,['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('registration_taken_by') }}</span>
 </div>
+<div class="form-group col-sm-6 comment">
+    {!! Form::label('comment', 'Comment:') !!}
+    {!! Form::textarea('comment', null, ['class' => 'form-control']) !!}
+    <span class="error text-danger">{{ $errors->first('comment') }}</span>
+</div>
 <div id="line"><hr  style="" /></div>
 <!-- Test -->
 {{--<br><br><br><br>--}}
@@ -508,7 +513,7 @@
 {{--                    <span class="error-is_required" style="color:red"></span>--}}
                     <input id="value" step=".01" name="student[0][no_batch]"
                             value="1" type="checkbox" class="no-batch" onclick="batchDisplay(this.checked, 0)">
-                           No Batch Assign
+                           Not Assigned to Any Batch
 
                     <span class="error-is_required" style="color:red"></span>
                 </div>
@@ -667,6 +672,7 @@
                 $('.corpo').hide();
                 $('.franchises').hide();
                 $('.retail_col').show();
+                $('.comment').hide();
                 $('.other').hide();
                 $('#gstAmount').hide();
             }else if(IncomeType == 'Corporate Training'){
@@ -677,6 +683,7 @@
                 $('.retail_col').hide();
                 $('.franchises').hide();
                 $('.other').hide();
+                $('.comment').show();
                 $('#gstAmount').hide();
             }else if(IncomeType == 'Franchise Royalty'){
                 $('.franchises').show();
@@ -684,6 +691,7 @@
                 $('.stud').hide();
                 $('.reg-detail').hide();
                 $('.both').hide();
+                $('.comment').show();
                 $('.other').show();
             }else if(IncomeType == 'Others' || IncomeType == 'Digital Marketing' || IncomeType == 'HR Consultancy'){
                 $('.other').show();
@@ -693,6 +701,12 @@
                 $('.stud').hide();
                 $('.reg-detail').hide();
                 $('.both').hide();
+
+                if(IncomeType == 'Others'){
+                    $('.comment').hide();
+                }else{
+                    $('.comment').show();
+                }
                 $('.other').show();
             }else if(IncomeType == 'Others'){
                 $('.other').show();
@@ -700,6 +714,7 @@
                 $('.reg-detail').hide();
                 $('.corpo').hide();
                 $('.stud').hide();
+                $('.comment').hide();
                 $('.both').hide();
             }else{
                 $('.franchises').hide();
@@ -708,10 +723,11 @@
                 $('.stud').hide();
                 $('.both').hide();
                 $('.other').hide();
+                $('.comment').hide();
             }
         }
         function batchDisplay(value, index) {
-            alert('okay');
+            //alert('okay');
             if(value) {
                 $('.batch_table'+ index).hide();
             } else {
@@ -1255,7 +1271,7 @@
                     }
                 });
                 if (t == 0) {
-                    alert('success');
+                    //alert('success');
                     var BankAccount = $('.mop').val();
                     var Amount =$('.pa').val();
                     $.ajax({
@@ -1265,7 +1281,7 @@
                         dataTypes: 'json',
                         success: function (res) {
                             if (res) {
-                                alert('okay');
+                                //alert('okay');
                                 $('.modal__content').html(res.verify);
                                 $('.modal').show();
                                 $('.modal').css('display', 'flex');
@@ -1276,7 +1292,7 @@
                    // $('#edit-form').submit();
                     return true;
                 } else {
-                    alert('Enter Data Properly');
+                   // alert('Enter Data Properly');
                     return false;
                 }
             }

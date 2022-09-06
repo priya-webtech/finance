@@ -44,7 +44,7 @@ class ExpenceMasterController extends AppBaseController
      */
     public function index(Request $request)
     {
-        //$expenceMasters = $this->expenceMasterRepository->paginate(10);
+        $expenceMasters = $this->expenceMasterRepository->paginate(10);
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('title','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');
@@ -56,8 +56,8 @@ class ExpenceMasterController extends AppBaseController
         if($columnManage){
             $field = json_decode($columnManage->field_status);
         }
-        $expenceMasters  = ExpenseTypes::paginate(10);
-        $expenceMasters=  ExpenseTypes::with('expense')->paginate(10);
+       // $expenceMasters  = ExpenseTypes::paginate(10);
+       // $expenceMasters=  ExpenseTypes::with('expense')->paginate(10);
         $currentMonthExpense =ExpenceMaster::whereMonth('created_at', Carbon::now()->month)->sum('amount','tds');
 
 

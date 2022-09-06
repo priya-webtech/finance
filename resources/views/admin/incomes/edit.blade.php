@@ -208,6 +208,12 @@
                 {!! Form::text('register_date', null, ['class' => 'form-control datepicker']) !!}
                 <span class="error text-danger">{{ $errors->first('register_date') }}</span>
             </div>
+             <div class="form-group col-sm-6 comment">
+                {!! Form::label('comment', 'Comment:') !!}
+                 {!! Form::textarea('comment', null, ['class' => 'form-control']) !!}
+             
+                <span class="error text-danger">{{ $errors->first('comment') }}</span>
+            </div>
 {{--            <div class="form-group col-sm-6 other">--}}
 {{--                {!! Form::label('description', 'Description:') !!}--}}
 {{--                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}--}}
@@ -282,6 +288,14 @@
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
                                                        class="form-control pay_amount" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Comment</label><br>
+                                                <textarea id="value" step=".01" name="income[{{$keys}}][comments]"
+                                                       class="form-control comment" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->comment}}">{{$corpoDetail->corpoFeesColl->getIncome->comment}}</textarea>
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -480,6 +494,14 @@
                                                 <label>Pay Amount</label><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
                                                        class="form-control pay_amount" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount}}">
+                                                <span class="error-is_required" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Comment</label><br>
+                                                <textarea id="value" step=".01" name="income[{{$keys}}][comments]"
+                                                       class="form-control comment" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->comment}}">{{$corpoDetail->corpoFeesColl->getIncome->comment}}</textarea>
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
@@ -824,6 +846,7 @@
                 $('.franchises').hide();
                 $('.reg-detail').show();
                 $('.other').hide();
+                $('.comment').hide();
             } else if (IncomeType == 'Corporate Training') {
                 $('.corpo').show();
                 $('.reg-detail').show();
@@ -831,6 +854,7 @@
                 $('.stud').hide();
                 $('.franchises').hide();
                 $('.other').hide();
+                $('.comment').show();
             } else if (IncomeType == 'Franchise Royalty') {
                 $('.franchises').show();
                 $('.other').show();
@@ -838,6 +862,7 @@
                 $('.corpo').hide();
                 $('.stud').hide();
                 $('.both').hide();
+                $('.comment').show();
             } else if (IncomeType == 'Others' || IncomeType == 'Digital Marketing' || IncomeType == 'HR Consultancy') {
 
                 $('.other').show();
@@ -846,6 +871,13 @@
                 $('.corpo').hide();
                 $('.stud').hide();
                 $('.both').hide();
+
+                if(IncomeType == 'Others'){
+                    $('.comment').hide();
+                }else{
+                    $('.comment').show();
+                }
+
             } else {
                 $('.franchises').hide();
                 $('.reg-detail').hide();
@@ -853,6 +885,7 @@
                 $('.stud').hide();
                 $('.both').hide();
                 $('.other').hide();
+                $('.comment').hide();
             }
         }
         function batchDisplay(value, index) {
@@ -1357,12 +1390,12 @@
                     }
                 });
                 if (t == 0) {
-                    alert('success');
+                   // alert('success');
                     // $('#create-form').submit();
                      $('#edit-form').submit();
                     return true;
                 } else {
-                    alert('Enter Data Properly');
+                   // alert('Enter Data Properly');
                     return false;
                 }
             }
