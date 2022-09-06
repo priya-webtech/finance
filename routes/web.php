@@ -63,6 +63,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('/due-fees', [App\Http\Controllers\Admin\DueFeesController::class, 'index'])->name('due-fees');
     Route::post('due_feescolums-due_feeses', ['as' => 'due_feesesdue_feescolums.due_feescolums', 'uses' => 'App\Http\Controllers\Admin\DueFeesController@due_feescolums']);
     Route::get('/due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'edit'])->name('due-fees-edit');
+    Route::get('/due-fees-view/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'view'])->name('due-fees-view');
     Route::post('/pay-due-fees/{id}/{type}', [App\Http\Controllers\Admin\DueFeesController::class, 'update'])->name('pay-due-fees');
     Route::get('/due-fees-corporate', [App\Http\Controllers\Admin\DueFeesController::class, 'corpodatatable'])->name('due-fees-corporate');
 
