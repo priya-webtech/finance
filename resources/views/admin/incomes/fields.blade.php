@@ -113,20 +113,20 @@
 
 <!-- Mobile No Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('mobile_no', 'Mobile No:') !!}<span class="error-mobile_no" style="color: red"></span>
+    {!! Form::label('mobile_no', 'Mobile No') !!}<span style="color:red;">*</span> :<span class="error-mobile_no" style="color: red"></span>
     {!! Form::text('mobile_no', null, ['class' => 'form-control','id'=>'mob']) !!}
     <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
 </div>
 <!-- Name Field -->
 
 <div class="form-group col-sm-6 both">
-    {!! Form::label('name', 'Student Name:') !!}<span class="error-name" style="color: red"></span>
+    {!! Form::label('name', 'Student Name') !!}<span style="color:red;">*</span> :<span class="error-name" style="color: red"></span>
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('name') }}</span>
 </div>
 <!-- Email Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('email', 'Student Email:') !!}<span class="error-email" style="color: red"></span>
+    {!! Form::label('email', 'Student Email') !!}<span style="color:red;">*</span> :<span class="error-email" style="color: red"></span>
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('email') }}</span>
 </div>
@@ -148,7 +148,7 @@
 </div>
 <!-- State Field -->
 <div class="form-group col-sm-6 both">
-    {!! Form::label('state', 'State:') !!}<span class="error-state" style="color: red"></span>
+    {!! Form::label('state', 'State') !!}<span style="color:red;">*</span> :<span class="error-state" style="color: red"></span>
     {!! Form::select('state', $country, null,['class' => 'form-control', 'placeholder'=> '--Please Select State--']) !!}
     <span class="error text-danger">{{ $errors->first('state') }}</span>
 </div>
@@ -423,7 +423,7 @@
             {{--            @else--}}
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="required">Course Enrolling for</label><span class="error-course"
+                    <label class="required">Course Enrolling for</label><span style="color:red;">*</span> :<span class="error-course"
                                                                               style="color: red"></span>
                     <select name="student[0][course_id]" class="form-control course changeincomecourse"
                             aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
@@ -438,7 +438,7 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Agreed Amount</label><span class="error-agreed_amount" style="color:red"></span><br>
+                    <label>Agreed Amount</label><span style="color:red;">*</span> :<span class="error-agreed_amount" style="color:red"></span><br>
                     <input id="value" step=".01" name="student[0][agreed_amount]"
                            class="form-control agreed_amount" type="number">
                     {{--                    <span class="error-agreed_amount" style="color:red"></span>--}}
@@ -447,7 +447,7 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Due date</label> <span class="error-due_date" style="color:red"></span><br>
+                    <label>Due date</label> <span style="color:red;">*</span> :<span class="error-due_date" style="color:red"></span><br>
                     <input id="value" name="student[0][due_date]"
                            class="form-control due_date" type="date">
                 </div>
@@ -455,7 +455,7 @@
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Mode of Payment</label> <span class="error-mode_of_payment" style="color:red"></span><br>
+                    <label>Mode of Payment</label> <span style="color:red;">*</span> :<span class="error-mode_of_payment" style="color:red"></span><br>
                     <select id="batch0" name="student[0][mode_of_payment]" class="form-control mode_of_payment mop"
                             aria-required="true" aria-invalid="false" onclick="modeOfPay(this, 0)">
                         <option value="">--Select Mode of Payment--</option>
@@ -468,7 +468,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label>1st instalment amount</label> <span class="error-pay_amount" style="color:red"></span><br>
+                    <label>1st instalment amount</label> <span style="color:red;">*</span> : <span class="error-pay_amount" style="color:red"></span><br>
                     <input id="value" step=".01" name="student[0][pay_amount]"
                            class="form-control pay_amount pa payamt0" type="number" readonly>
 
@@ -1176,24 +1176,24 @@
                 }
                 if (mobile_no == "") {
                     t++;
-                    $(".error-mobile_no").text('*required');
+                    $(".error-mobile_no").text('required');
                 } else {
                     $(".error-mobile_no").text('');
                 }
                 if (name == "") {
                     t++;
-                    $(".error-name").text('*required');
+                    $(".error-name").text('required');
                 } else {
                     $(".error-name").text('');
                 }
                 if (email == "") {
                     t++;
-                    $(".error-email").text('*required');
+                    $(".error-email").text('required');
                 } else {
                     $(".error-email").text('');
                 } if (state == "") {
                     t++;
-                    $(".error-state").text('*required');
+                    $(".error-state").text('required');
                 } else {
                     $(".error-state").text('');
                 }
@@ -1205,34 +1205,34 @@
                     var due_date = $(this).find(".due_date").val();
                     if (course == "") {
                         t++;
-                        $(this).find(".error-course").text('*required');
+                        $(this).find(".error-course").text('required');
                     } else {
                         $(this).find(".error-course").text('');
                     }
                     if (mode_of_payment == "") {
                         t++;
-                        $(this).find(".error-mode_of_payment").text('*required');
+                        $(this).find(".error-mode_of_payment").text('required');
 
                     } else {
                         $(this).find(".error-mode_of_payment").text('');
                     }
                     if (agreed_amount == "") {
                         t++;
-                        $(this).find(".error-agreed_amount").text('*required');
+                        $(this).find(".error-agreed_amount").text('required');
 
                     } else {
                         $(this).find(".error-agreed_amount").text('');
                     }
                     if (pay_amount == "") {
                         t++;
-                        $(this).find(".error-pay_amount").text('*required');
+                        $(this).find(".error-pay_amount").text('required');
 
                     } else {
                         $(this).find(".error-pay_amount").text('');
                     }
                     if (due_date == "") {
                         t++;
-                        $(this).find(".error-due_date").text('*required');
+                        $(this).find(".error-due_date").text('required');
 
                     } else {
                         $(this).find(".error-due_date").text('');
@@ -1245,14 +1245,14 @@
 
                             if (batch == "") {
                                 t++;
-                                $(this).find(".error-batch").text('*required');
+                                $(this).find(".error-batch").text('required');
 
                             } else {
                                 $(this).find(".error-batch").text('');
                             }
                             if (trainer == "") {
                                 t++;
-                                $(this).find(".error-trainer").text('*required');
+                                $(this).find(".error-trainer").text('required');
 
                             } else {
                                 $(this).find(".error-trainer").text('');
@@ -1261,7 +1261,7 @@
                             if (IncomeType == 'Retail Training') {
                                 if (trainer_fees == "") {
                                     t++;
-                                    $(this).find(".error-trainer_fees").text('*required');
+                                    $(this).find(".error-trainer_fees").text('required');
 
                                 } else {
                                     $(this).find(".error-trainer_fees").text('');

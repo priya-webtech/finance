@@ -44,7 +44,7 @@
             </div>
             <!-- Income Type Id Field -->
             <div class="form-group col-sm-6">
-                {!! Form::label('income_type_id', 'Income Type:') !!}
+                {!! Form::label('income_type_id', 'Income Type') !!}<span style="color:red;">*</span> :
                 {!! Form::select('income_type_id', $incomeType, null, ['class' => 'form-control custom-select','onchange'=>'ChangeIncomeType()','id'=>'income_type','placeholder'=>'Please Select Income Type']) !!}
                 <span class="error text-danger">{{ $errors->first('income_type_id') }}</span>
             </div>
@@ -52,7 +52,7 @@
 
             <!-- Mobile No Field -->
             <div class="form-group col-sm-6 both">
-                {!! Form::label('mobile_no', 'Mobile No:') !!}<span class="error-mobile_no" style="color: red"></span>
+                {!! Form::label('mobile_no', 'Mobile No') !!}<span style="color:red;">*</span> :<span class="error-mobile_no" style="color: red"></span>
                 {!! Form::text('mobile_no', null, ['class' => 'form-control','id'=>'mob']) !!}
                 <span class="error text-danger">{{ $errors->first('mobile_no') }}</span>
             </div>
@@ -250,7 +250,7 @@
 <br>                                    <input type="hidden" name="student[{{$keys}}][in_id]" value="{{$studDetail->studFeesColl->income_id}}" >
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
+                                                <label class="required">Course Name</label><span style="color:red;">*</span></th><span class="error-course" style="color: red"></span>
                                                 <select name="student[{{$keys}}][course_id]" class="form-control course"
                                                         aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                                                     <option value="">--Select Course--</option>
@@ -263,7 +263,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Mode of Payment</label><br>
+                                                <label>Mode of Payment</label><span style="color:red;">*</span></th><br>
                                                 <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
                                                        id="batch{{$keys}}" aria-required="true" aria-invalid="false" onchange=modeOfPay(this,{{$keys}})>
                                                     <option value="">--Select Mode of Payment--</option>
@@ -277,7 +277,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Agreed Amount</label><br>
+                                                <label>Agreed Amount</label><span style="color:red;">*</span></th><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][agreed_amount]"
                                                        class="form-control agreed_amount" type="text" value="{{$studDetail->agreed_amount}}">
                                                 <span class="error-is_required" style="color:red"></span>
@@ -285,7 +285,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Pay Amount</label><br>
+                                                <label>Pay Amount</label><span style="color:red;">*</span></th><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
                                                        class="form-control pay_amount" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}">
                                                 <span class="error-is_required" style="color:red"></span>
@@ -293,15 +293,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Comment</label><br>
-                                                <textarea id="value" step=".01" name="income[{{$keys}}][comments]"
-                                                       class="form-control comment" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->comment}}">{{$corpoDetail->corpoFeesColl->getIncome->comment}}</textarea>
-                                                <span class="error-is_required" style="color:red"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label>Due date</label><br>
+                                                <label>Due date</label><span style="color:red;">*</span></th><br>
                                                 <input id="value" name="student[{{$keys}}][due_date]"
                                                        class="form-control due_date" type="date" value="{{$studDetail->due_date}}">
                                                 <span class="error-is_required" style="color:red"></span>
@@ -346,8 +338,8 @@
                                                                             <thead>
                                                                             <tr>
                                                                                 <th></th>
-                                                                                <th style="width: 400px;">Batch Name</th>
-                                                                                <th style="width: 400px;">Trainer Name</th>
+                                                                                <th style="width: 400px;">Batch Name <span style="color:red;">*</span></th>
+                                                                                <th style="width: 400px;">Trainer Name <span style="color:red;">*</span></th>
                                                                                 <th style="width: 300px;">Fees</th>
                                                                                 <th></th>
                                                                             </tr>
@@ -457,7 +449,7 @@
                                         <br>                                    <input type="hidden" name="student[{{$keys}}][in_id]" value="{{$corpoDetail->corpoFeesColl->income_id}}" >
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="required">Course Name</label><span class="error-course" style="color: red"></span>
+                                                <label class="required">Course Name</label><span style="color:red;">*</span></th><span class="error-course" style="color: red"></span>
                                                 <select name="student[{{$keys}}][course_id]" class="form-control course"
                                                         aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
                                                     <option value="">--Select Course--</option>
@@ -470,7 +462,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Mode of Payment</label><br>
+                                                <label>Mode of Payment</label><span style="color:red;">*</span></th><br>
                                                 <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
                                                         id="batch{{$keys}}" aria-required="true" aria-invalid="false" onclick=modeOfPay(this,{{$keys}})>
                                                     <option value="">--Select Mode of Payment--</option>
@@ -483,7 +475,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Agreed Amount</label><br>
+                                                <label>Agreed Amount</label><span style="color:red;">*</span></th><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][agreed_amount]"
                                                        class="form-control agreed_amount" type="text" value="{{$corpoDetail->agreed_amount}}">
                                                 <span class="error-is_required" style="color:red"></span>
@@ -491,7 +483,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Pay Amount</label><br>
+                                                <label>Pay Amount</label><span style="color:red;">*</span></th><br>
                                                 <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
                                                        class="form-control pay_amount" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->paying_amount}}">
                                                 <span class="error-is_required" style="color:red"></span>
@@ -500,7 +492,7 @@
                                         
                                          <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Due date</label><br>
+                                                <label>Due date</label><span style="color:red;">*</span></th><br>
                                                 <input id="value" name="student[{{$keys}}][due_date]"
                                                        class="form-control due_date" type="date" value="{{$corpoDetail->due_date}}">
                                                 <span class="error-is_required" style="color:red"></span>
@@ -543,8 +535,8 @@
                                                             <thead>
                                                             <tr>
                                                                 <th></th>
-                                                                <th style="width: 400px;">Batch Name</th>
-                                                                <th style="width: 400px;">Trainer Name</th>
+                                                                <th style="width: 400px;">Batch Name <span style="color:red;">*</span></th>
+                                                                <th style="width: 400px;">Trainer Name <span style="color:red;">*</span></th>
 {{--                                                                <th style="width: 300px;">Fees</th>--}}
                                                                 <th></th>
                                                             </tr>
@@ -730,8 +722,8 @@
                                             <thead>
                                             <tr>
                                                 <th></th>
-                                                <th>Batch Name</th>
-                                                <th>Trainer Name</th>
+                                                <th>Batch Name <span style="color:red;">*</span></th>
+                                                <th>Trainer Name <span style="color:red;">*</span></th>
                                                 <th>Fees</th>
                                                 <th></th>
                                             </tr>
@@ -1021,8 +1013,8 @@
                 '                                        <thead>\n' +
                 '                                        <tr>\n' +
                 '                                            <th></th>\n' +
-                '                                            <th>Batch Name</th>\n' +
-                '                                            <th>Trainer Name</th>\n' +
+                '                                            <th>Batch Name <span style="color:red;">*</span></th>\n' +
+                '                                            <th>Trainer Name <span style="color:red;">*</span></th>\n' +
                 '                                            <th class="retail_col">Fees</th>\n' +
                 '                                            <th></th>\n' +
                 '                                        </tr>\n' +
@@ -1288,24 +1280,24 @@
                 }
                 if (mobile_no == "") {
                     t++;
-                    $(".error-mobile_no").text('*required');
+                    $(".error-mobile_no").text('required');
                 } else {
                     $(".error-mobile_no").text('');
                 }
                 if (name == "") {
                     t++;
-                    $(".error-name").text('*required');
+                    $(".error-name").text('required');
                 } else {
                     $(".error-name").text('');
                 }
                 if (email == "") {
                     t++;
-                    $(".error-email").text('*required');
+                    $(".error-email").text('required');
                 } else {
                     $(".error-email").text('');
                 } if (state == "") {
                     t++;
-                    $(".error-state").text('*required');
+                    $(".error-state").text('required');
                 } else {
                     $(".error-state").text('');
                 }
@@ -1317,34 +1309,34 @@
                     var due_date = $(this).find(".due_date").val();
                     if (course == "") {
                         t++;
-                        $(this).find(".error-course").text('*required');
+                        $(this).find(".error-course").text('required');
                     } else {
                         $(this).find(".error-course").text('');
                     }
                     if (mode_of_payment == "") {
                         t++;
-                        $(this).find(".error-mode_of_payment").text('*required');
+                        $(this).find(".error-mode_of_payment").text('required');
 
                     } else {
                         $(this).find(".error-mode_of_payment").text('');
                     }
                     if (agreed_amount == "") {
                         t++;
-                        $(this).find(".error-agreed_amount").text('*required');
+                        $(this).find(".error-agreed_amount").text('required');
 
                     } else {
                         $(this).find(".error-agreed_amount").text('');
                     }
                     if (pay_amount == "") {
                         t++;
-                        $(this).find(".error-pay_amount").text('*required');
+                        $(this).find(".error-pay_amount").text('required');
 
                     } else {
                         $(this).find(".error-pay_amount").text('');
                     }
                     if (due_date == "") {
                         t++;
-                        $(this).find(".error-due_date").text('*required');
+                        $(this).find(".error-due_date").text('required');
 
                     } else {
                         $(this).find(".error-due_date").text('');
@@ -1357,14 +1349,14 @@
 
                             if (batch == "") {
                                 t++;
-                                $(this).find(".error-batch").text('*required');
+                                $(this).find(".error-batch").text('required');
 
                             } else {
                                 $(this).find(".error-batch").text('');
                             }
                             if (trainer == "") {
                                 t++;
-                                $(this).find(".error-trainer").text('*required');
+                                $(this).find(".error-trainer").text('required');
 
                             } else {
                                 $(this).find(".error-trainer").text('');
@@ -1373,7 +1365,7 @@
                             if (IncomeType == 'Retail Training') {
                                 if (trainer_fees == "") {
                                     t++;
-                                    $(this).find(".error-trainer_fees").text('*required');
+                                    $(this).find(".error-trainer_fees").text('required');
 
                                 } else {
                                     $(this).find(".error-trainer_fees").text('');
