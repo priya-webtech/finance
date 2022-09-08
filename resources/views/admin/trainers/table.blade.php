@@ -25,7 +25,7 @@
     </div>
 
     <input type="hidden" name="trainer" value="trainer">
-    </form>
+    </form> 
 
     <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
   </div>
