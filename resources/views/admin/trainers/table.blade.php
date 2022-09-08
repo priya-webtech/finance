@@ -45,10 +45,20 @@
         <tbody>
         @if(count($trainers) > 0)
         @foreach($trainers as $trainer)
+        <?php $decode = json_decode($trainer['course_id']);?>
             <tr>
                 @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{ $trainer->trainer_name }}</td>@endif
                 @if(!empty($field) && $field->trainer_col_2 == 1)<td>{{ $trainer->branch->title }}</td>@endif
-                @if(!empty($field) && $field->trainer_col_6 == 1)<td>{{ $trainer->course->course_name }}</td>@endif
+                @if(!empty($field) && $field->trainer_col_6 == 1)
+                <td>@if(count($decode) > 0) @foreach($decode as $courseid)
+                    @foreach($course as $courserow)
+                    @if($courserow->id == $courseid)
+                    {{ $courserow->course_name }},  
+                    @endif
+                    @endforeach
+                    @endforeach  @endif
+                </td>
+                @endif
             <!--  <th><img alt="image" src="{{asset('storage/trainer/'.$trainer->profile_pic)}}" style="width: 106px;height: 80px;"></th> -->
 {{--                @if(!empty($field) && $field->trainer_col_4 == 1)<td><span class='badge @if($trainer->status == 1)badge-success @else badge-danger @endif'>{{ $trainer->status == 1 ? "Active" : "Block" }}</span></td>@endif--}}
                 <td width="120">

@@ -134,6 +134,7 @@ class TrainerController extends AppBaseController
     public function store(CreateTrainerRequest $request)
     {
         $input = $request->all();
+        $input['course_id'] = json_encode($input['course_id']);
         $input['status'] = 1;
         $input['created_by'] = Auth::id();
         $trainer = $this->trainerRepository->create($input);
