@@ -497,14 +497,7 @@
                                                 <span class="error-is_required" style="color:red"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label>Comment</label><br>
-                                                <textarea id="value" step=".01" name="income[{{$keys}}][comments]"
-                                                       class="form-control comment" type="text" value="{{$corpoDetail->corpoFeesColl->getIncome->comment}}">{{$corpoDetail->corpoFeesColl->getIncome->comment}}</textarea>
-                                                <span class="error-is_required" style="color:red"></span>
-                                            </div>
-                                        </div>
+                                        
                                          <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Due date</label><br>
