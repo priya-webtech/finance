@@ -11,7 +11,22 @@
     {!! Form::select('branch_id', $branch , null, ['class' => 'form-control changetrainerbranch','placeholder'=>'Please select Branch']) !!}
     <span class="error text-danger">{{ $errors->first('branch_id') }}</span>
 </div>
+
+<?php if(request()->route()->getName() == 'admin.trainers.create'){ ?>
 <div class="form-group col-sm-6">
+    {!! Form::label('course_id', 'Course Name') !!}<span style="color:red;">*</span> :
+    <select id="course_id" name="course_id[]" multiple class="form-control custom-select changecourse">
+        <option value="">--- Select ---</option>
+        @foreach ($course as $key => $value)
+            <option value="{{ $key }}">
+               {{ $value }}
+            </option>
+        @endforeach
+    </select>
+    <span class="error text-danger">{{ $errors->first('course_id') }}</span>
+</div>
+<?php }else{ ?>
+    <div class="form-group col-sm-6">
     {!! Form::label('course_id', 'Course Name') !!}<span style="color:red;">*</span> :
    <?php $check = json_decode($trainer->course_id);  ?>
     <select id="course_id" name="course_id[]" multiple class="form-control custom-select changecourse">
@@ -24,6 +39,8 @@
     </select>
     <span class="error text-danger">{{ $errors->first('course_id') }}</span>
 </div>
+
+<?php } ?>
 {{--<!-- Email Field -->--}}
 {{--<div class="form-group col-sm-6">--}}
 {{--    {!! Form::label('email', 'Email') !!}<span style="color:red;">*</span> :--}}
