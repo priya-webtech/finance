@@ -1,3 +1,4 @@
+<?php //dd($course); ?>
 <!-- Trainer Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('trainer_name', 'Trainer Name') !!}<span style="color:red;">*</span> :
@@ -12,7 +13,15 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('course_id', 'Course Name') !!}<span style="color:red;">*</span> :
-    {!! Form::select('course_id', $course, null, ['class' => 'form-control custom-select changecourse','placeholder'=>'Please Select Course']) !!}
+   <?php $check = json_decode($trainer->course_id);  ?>
+    <select id="course_id" name="course_id[]" multiple class="form-control custom-select changecourse">
+        <option value="">--- Select ---</option>
+        @foreach ($course as $key => $value)
+            <option value="{{ $key }}" {{ (in_array($key,$check)) ? 'selected' : ''}}>
+               {{ $value }}
+            </option>
+        @endforeach
+    </select>
     <span class="error text-danger">{{ $errors->first('course_id') }}</span>
 </div>
 {{--<!-- Email Field -->--}}
