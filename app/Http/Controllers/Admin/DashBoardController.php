@@ -66,7 +66,8 @@ class DashBoardController extends AppBaseController
             $incomeType = IncomeType::pluck('title', 'id');
             $course = Course::pluck('course_name', 'id');
             $path = asset('country.json');
-            $state = json_decode(file_get_contents(public_path() . "\country.json"), true);
+           // dd($path);
+            $state = json_decode(file_get_contents($path), true);
             return view('admin.dashboard.dashboard', compact('enquirytype', 'studentType', 'leadSources', 'state', 'batchMode', 'batchType', 'incomeType','course'));
         }elseif($auth->hasRole('internal_auditor')){
             $incomeType = IncomeType::pluck('title', 'id');
