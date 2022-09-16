@@ -219,7 +219,7 @@ class IncomeController extends AppBaseController
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $path = asset('country.json');
-        $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
+        $country = json_decode(file_get_contents($path), true);
         return view('admin.incomes.create',compact('course','incomeType','batch','branch','modeOfPayment','corporate','studentType','user','enquiryType','leadSources','trainer','country'));
     }
 
@@ -439,7 +439,7 @@ class IncomeController extends AppBaseController
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $path = asset('country.json');
-        $country = json_decode(file_get_contents(public_path() . "\country.json"), true);
+        $country = json_decode(file_get_contents($path), true);
         return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','country','incomeType','batch','modeOfPayment','corporate','franchise','income'));
     }
     public function update($id, UpdateIncomeRequest $request)
