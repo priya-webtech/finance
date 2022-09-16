@@ -70,7 +70,7 @@
                
                 <td>{{ date('d-m-Y', strtotime($student->created_at)) }}</td>
             @if(!empty($field) && $field->student_col_5 == 1)<td>{{ $student->studentType->title }}</td>@endif
-                <td><span class='badge badge-success'>{{$student->status}}</span></td>
+                <td><span class='badge @if(isset($student->studDetail[0]->studBatchDetail[0]))badge-success @else badge-danger @endif'>{{ (isset($student->studDetail[0]->studBatchDetail[0])) ? "assigned" : "Not assigned" }}</span></td>
 {{--                @if(!empty($field) && $field->student_col_6 == 1)<td><span class='badge @if($student->status == 1)badge-success @else badge-danger @endif'>{{ $student->status == 1 ? "Active" : "Block" }}</span></td>@endif--}}
                 <td width="120">
                     {!! Form::open(['route' => ['admin.students.destroy', $student->id], 'method' => 'delete']) !!}

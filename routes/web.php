@@ -213,6 +213,10 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::patch('modeOfPayments/{id}', ['as' => 'admin.modeOfPayments.update', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@update', 'middleware' => 'can:payments_edit']);
     Route::delete('modeOfPayments/{id}', ['as' => 'admin.modeOfPayments.destroy', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@destroy', 'middleware' => 'can:payments_delete']);
 
+
+    //Cash Ledger
+    Route::get('cashledger', ['as' => 'admin.cashledger.index', 'uses' => 'App\Http\Controllers\Admin\ModeOfPaymentController@CashLedger','middleware' => 'can:payments_view']);
+
     //Route::resource('branches', App\Http\Controllers\Admin\BranchController::class, ["as" => 'admin']);
     Route::get('branches', ['as' => 'admin.branches.index', 'uses' => 'App\Http\Controllers\Admin\BranchController@index','middleware' => 'can:branch_view']);
     Route::get('branches/create', ['as' => 'admin.branches.create', 'uses' => 'App\Http\Controllers\Admin\BranchController@create', 'middleware' => 'can:branch_create']);

@@ -35,6 +35,14 @@ class ModeOfPaymentController extends AppBaseController
             ->with('modeOfPayments', $modeOfPayments);
     }
 
+    public function CashLedger(Request $request)
+    {
+        $modeOfPayments = $this->modeOfPaymentRepository->paginate(10);
+
+        return view('admin.cash_ledger.index')
+            ->with('modeOfPayments', $modeOfPayments);
+    }
+
     /**
      * Show the form for creating a new ModeOfPayment.
      *

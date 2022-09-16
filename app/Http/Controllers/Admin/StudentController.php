@@ -53,7 +53,7 @@ class StudentController extends AppBaseController
             $end = date('Y-m-d', strtotime($part[1]));
             $q->whereDate('created_at', '>=', $start)
                 ->whereDate('created_at', '<=', $end);
-        })->paginate(20);
+        })->paginate(10);
         }elseif ($auth->hasRole('student_co-ordinator')){
             $students = Student::with('studDetail')->when(request('dates'), function ($q) {
                 $part = explode("-",request('dates'));
@@ -61,7 +61,7 @@ class StudentController extends AppBaseController
                 $end = date('Y-m-d', strtotime($part[1]));
                 $q->whereDate('created_at', '>=', $start)
                     ->whereDate('created_at', '<=', $end);
-            })->where('branch_id',$auth->branch_id)->where('placement','yes')->paginate(20);
+            })->where('branch_id',$auth->branch_id)->where('placement','yes')->paginate(10);
         }
         else{
         $students = Student::with('studDetail')->when(request('dates'), function ($q) {
@@ -70,7 +70,7 @@ class StudentController extends AppBaseController
             $end = date('Y-m-d', strtotime($part[1]));
             $q->whereDate('created_at', '>=', $start)
                 ->whereDate('created_at', '<=', $end);
-        })->where('branch_id',$auth->branch_id)->paginate(20);
+        })->where('branch_id',$auth->branch_id)->paginate(10);
         }
         $field = [];
         if($columnManage){

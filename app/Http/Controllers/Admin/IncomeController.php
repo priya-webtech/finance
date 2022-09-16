@@ -57,13 +57,13 @@ class IncomeController extends AppBaseController
         $inType = IncomeType::where('title', '!=', 'Retail Training')->Where('title', '!=', 'Corporate Training')->pluck('id')->toArray();
         $columnManage = columnManage::where('table_name', 'income')->where('role_id', auth()->user()->role_id)->first();
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $student = Student::with('StudentIncome')->with('studDetail')->whereHas('StudentIncome')->get();
+            $student = Student::with('StudentIncome')->with('studDetail')->whereHas('StudentIncome')->paginate(10);
             $corporate = Corporate::with('corporateIncome')->with('corporateDetail')->whereHas('corporateIncome')->get();
            // $incomes = Income::whereIn('income_type_id', $inType)->get();
             $incomes = Income::whereIn('income_type_id', $inType)->orderBy('id','desc')->get();
             $totalRevenue = Income::whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }else{
-            $student = Student::where('branch_id', $auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->get();
+            $student = Student::where('branch_id', $auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->paginate(10);
             $corporate = Corporate::where('branch_id', $auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get();
            // $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->get();
             $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->orderBy('id','desc')->get();
@@ -218,7 +218,7 @@ class IncomeController extends AppBaseController
         $studentType =  StudentType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
-        $path = asset('country.json');
+        $path = public_path('country.json');
         $country = json_decode(file_get_contents($path), true);
         return view('admin.incomes.create',compact('course','incomeType','batch','branch','modeOfPayment','corporate','studentType','user','enquiryType','leadSources','trainer','country'));
     }
@@ -438,7 +438,7 @@ class IncomeController extends AppBaseController
         $studentType =  StudentType::where('status',1)->pluck('title','id');
         $enquiryType = EnquiryType::where('status',1)->pluck('title','id');
         $leadSources = LeadSources::where('status',1)->pluck('title','id');
-        $path = asset('country.json');
+        $path = public_path('country.json');
         $country = json_decode(file_get_contents($path), true);
         return view('admin.incomes.edit',compact('course','trainer','students','leadSources','studentType','enquiryType','branch','country','incomeType','batch','modeOfPayment','corporate','franchise','income'));
     }

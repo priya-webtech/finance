@@ -56,8 +56,10 @@ class DashBoardController extends AppBaseController
      */
     public function index()
     {
+
          $auth =auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin') || $auth->hasRole('branch_manager') || $auth->hasRole('counsellor')) {
+
             $enquirytype = EnquiryType::pluck('title', 'id');
             $studentType = StudentType::pluck('title', 'id');
             $leadSources = LeadSources::pluck('title', 'id');
@@ -65,9 +67,11 @@ class DashBoardController extends AppBaseController
             $batchMode = BatchMode::pluck('title', 'id');
             $incomeType = IncomeType::pluck('title', 'id');
             $course = Course::pluck('course_name', 'id');
-            $path = asset('country.json');
-           // dd($path);
+            $path = public_path('country.json');
+                      // dd($path);
             $state = json_decode(file_get_contents($path), true);
+          // dd($path);
+
             return view('admin.dashboard.dashboard', compact('enquirytype', 'studentType', 'leadSources', 'state', 'batchMode', 'batchType', 'incomeType','course'));
         }elseif($auth->hasRole('internal_auditor')){
             $incomeType = IncomeType::pluck('title', 'id');

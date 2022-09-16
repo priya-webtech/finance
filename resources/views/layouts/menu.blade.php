@@ -7,6 +7,15 @@
         <p>Dashboard</p>
     </a>
 </li>
+@can('user_view')
+<li class="nav-item">
+    <a href="{{ route('admin.cashledger.index') }}"
+       class="nav-link {{ Request::is('admin/cashledger*') ? 'active' : '' }}">
+        <i class="fa fa-university" aria-hidden="true"></i>
+        <p>&nbsp;&nbsp;Cash Ledger</p>
+    </a>
+</li>
+@endcan
 @can('history_view')
 <li class="nav-item">
     <a href="{{route('history')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/history*') ? 'active' : ''}} ">
@@ -23,6 +32,7 @@
     </a>
 </li>
 @endif
+
 @can('user_view')
 <li class="nav-item">
     <a href="{{ route('admin.users.index') }}"
