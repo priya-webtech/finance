@@ -66,7 +66,7 @@
             @if(!empty($field) && $field->student_col_3 == 1)<td>{{ $student->mobile_no }}</td>@endif
             @if(!empty($field) && $field->student_col_4 == 1)<td>@if(isset($student->studDetail[0])){{ $student['studDetail'][0]['course']['course_name'] }}@endif</td>@endif
                 <td>{{ $student['studDetail'][0]['agreed_amount'] }}</td>
-                <td>@if(isset($record->studDetail[0]->studBatchDetail[0])){{ $student->studDetail[0]->studBatchDetail[0]->trainer->trainer_name }}@endif</td>
+                <td>@if(isset($student->studDetail[0]->studBatchDetail[0])){{ $student->studDetail[0]->studBatchDetail[0]->trainer->trainer_name }} @else N/A @endif</td>
                
                 <td>{{ date('d-m-Y', strtotime($student->created_at)) }}</td>
             @if(!empty($field) && $field->student_col_5 == 1)<td>{{ $student->studentType->title }}</td>@endif

@@ -11,9 +11,12 @@ use App\Models\Admin\EnquiryType;
 use App\Models\Admin\LeadSources;
 use App\Models\Admin\StudentType;
 use App\Models\Admin\Student;
+use App\Models\Admin\Course;
+use App\Models\Admin\ModeOfPayment;
 use App\Models\Admin\StudentDetail;
 use App\Models\Admin\Trainer;
 use App\Models\Admin\columnManage;
+use App\Models\Admin\Income;
 use App\Models\User;
 use App\Repositories\Admin\StudentRepository;
 use App\Http\Controllers\AppBaseController;
@@ -225,13 +228,31 @@ class StudentController extends AppBaseController
                 $query->where('role_id', '=', 6);
             }
         })->pluck('name', 'id');
+        $student['income_type_id'] = $student->studDetail[0]->studFeesColl->getIncome->income_type_id;
+        $student['comment'] = $student->studDetail[0]->studFeesColl->getIncome->comment;
+        $student['branch_id'] = $student->studDetail[0]->branch_id;
+        $branchcurrunt = $student->branch_id;
         // $user = User::where('role_id',6)->pluck('name','id');
         //  $batch =  Batch::where('status',1)->pluck('name','id');
         $leadSource =  LeadSources::where('status',1)->pluck('title','id');
         $enquiryType =  EnquiryType::where('status',1)->pluck('title','id');
         $studentType =  StudentType::where('status',1)->pluck('title','id');
 
-        return view('admin.students.edit',compact('branch','batch','leadSource','enquiryType','studentType','student','user'));
+        $course = Course::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('course_name','id');
+
+         $modeOfPayment= ModeOfPayment::where('status',1)->pluck('title','id');
+
+         $trainer = Trainer::where(function ($query) use ($auth) {
+            if ($auth->hasRole('branch_manager') || $auth->hasRole('counsellor') || $auth->hasRole('internal_auditor') || $auth->hasRole('student_co-ordinator')) {
+                $query->where('branch_id', '=', $auth->branch_id);
+            }
+        })->pluck('trainer_name', 'id');
+
+        return view('admin.students.edit',compact('branch','batch','leadSource','enquiryType','studentType','student','user','course','modeOfPayment','trainer'));
     }
 
     /**
@@ -246,11 +267,51 @@ class StudentController extends AppBaseController
     {
 
         $student = $this->studentRepository->find($id);
-
+        $input = $request->all();
         if (empty($student)) {
             Flash::error('Student not found');
             return redirect(route('admin.students.index'));
         }
+
+            foreach ($input['student'] as $studBatch){
+
+                $studBatch['branch_id'] = $input['branch_id'];
+                $studBatch['reg_taken_id'] = Auth::id();
+                if (isset($studBatch['studDetail_id'])){
+                    $studentDetail = StudentDetail::findorfail($studBatch['studDetail_id']);
+                    $studentDetail->update($studBatch);
+                }else{
+                    $studentDetail = $student->studDetail()->create($studBatch);
+                }
+              
+                if (isset($studBatch['in_id'])){
+                     $income = Income::findorfail($studBatch['in_id']);
+                     $old_amount = $income->paying_amount;
+                     $setBank = ModeOfPayment::where('id',$income->bank_acc_id)->first();
+                    
+                     $setBank->save();
+                }
+          
+         
+                $val['student_id'] = $student->id;
+                $val['course_id'] = $studBatch['course_id'];
+                $val['gst'] = $studBatch['gst'] ?? 0;
+                $val['student_detail_id'] = $studentDetail->id;
+                if (isset($studBatch['in_id'])) {
+
+                    $income->incomeStudFees()->update($val);
+                }else{
+                   
+                    $income = Income::create($input);
+                    $income->incomeStudFees()->create($val);
+                }
+
+                if (empty($studBatch['no_batch'])) {
+                    $studentDetail->studBatchDetail()->delete();
+                    $studentDetail->studBatchDetail()->createMany($studBatch['course']);
+                }
+            
+            }
         $student = $this->studentRepository->update($request->all(), $id);
 
         Flash::success('Student updated successfully.');

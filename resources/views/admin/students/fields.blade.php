@@ -108,6 +108,197 @@
     {!! Form::select('status',['Ongoing'=>'Ongoing','Not assigned'=>'Not assigned','Completed'=>'Completed','Placed'=>'Placed'], null, ['class' => 'form-control','placeholder'=>'select status']) !!}
     <span class="error text-danger">{{ $errors->first('status') }}</span>
 </div>
+
+  @if(!empty($student->studDetail))
+    @foreach($student->studDetail as $keys=>$studDetail)
+<br> <input type="hidden" name="student[{{$keys}}][studDetail_id]" value="{{$studDetail->id}}" >
+<br> <input type="hidden" name="student[{{$keys}}][in_id]" value="{{$studDetail->studFeesColl->income_id}}" >
+<div class="col-sm-4">
+<div class="form-group">
+    <label class="required">Course Name</label><span style="color:red;">*</span></th><span class="error-course" style="color: red"></span>
+    <select name="student[{{$keys}}][course_id]" class="form-control course"
+            aria-required="true" aria-invalid="false" onchange="changeCourse(this)">
+        <option value="">--Select Course--</option>
+
+        @foreach ($course as $key=>$value)
+            <option value="{{ $key }}" {{ $key == $studDetail->course_id ? "selected" : " " }}>{{ $value }}</option>
+        @endforeach
+    </select>
+</div>
+</div>
+<div class="col-sm-4">
+<div class="form-group">
+    <label>Mode of Payment</label><span style="color:red;">*</span></th><br>
+    <select name="student[{{$keys}}][mode_of_payment]" class="form-control mode_of_payment"
+           id="batch{{$keys}}" aria-required="true" aria-invalid="false" onchange=modeOfPay(this,{{$keys}}) disabled>
+        <option value="">--Select Mode of Payment--</option>
+
+        @foreach ($modeOfPayment as $key=>$value)
+            <option value="{{ $key }}" {{ $key == $studDetail->studFeesColl->getIncome->bank_acc_id ? "selected" : " " }}>{{ $value }}</option>
+        @endforeach
+    </select>
+    <span class="error-mode_of_payment" style="color:red"></span>
+</div>
+</div>
+<div class="col-sm-4">
+<div class="form-group">
+    <label>Agreed Amount</label><span style="color:red;">*</span></th><br>
+    <input id="value" step=".01" name="student[{{$keys}}][agreed_amount]"
+           class="form-control agreed_amount" type="text" value="{{$studDetail->agreed_amount}}" disabled>
+    <span class="error-is_required" style="color:red"></span>
+</div>
+</div>
+<div class="col-sm-4">
+<div class="form-group">
+    <label>Pay Amount</label><span style="color:red;">*</span></th><br>
+    <input id="value" step=".01" name="student[{{$keys}}][pay_amount]"
+           class="form-control pay_amount" type="text" value="{{$studDetail->studFeesColl->getIncome->paying_amount + $studDetail->studFeesColl->gst}}" disabled>
+    <span class="error-is_required" style="color:red"></span>
+</div>
+</div>
+<div class="col-sm-4">
+<div class="form-group">
+    <label>Due date</label><span style="color:red;">*</span></th><br>
+    <input id="value" name="student[{{$keys}}][due_date]"
+           class="form-control due_date" type="date" value="{{$studDetail->due_date}}" disabled>
+    <span class="error-is_required" style="color:red"></span>
+</div>
+</div>
+
+<div class="col-sm-1 gst{{$keys}}"  @if($studDetail->studFeesColl->gst == 0) style="display: none"  @endif >
+<div class="form-group">
+    <label>Gst</label>
+    <input id="value" step=".01" name="student[{{$keys}}][gst]"
+            type="text"  class="form-control" value="{{$studDetail->studFeesColl->gst > 0 ? $studDetail->studFeesColl->gst : " " }}" disabled>
+
+           <span class="error-is_required" style="color:red" ></span>
+</div>
+</div>
+
+<div class="col-sm-2">
+    <div class="form-group">
+        <br>
+        <br>
+        <input id="nobAtch" step=".01" name="student[{{$keys}}][no_batch]"
+              class="no-batch" value="1" type="checkbox" {{count($studDetail->studBatchDetail) == 0 ? "checked" : " " }} onclick="batchDisplay(this.checked, {{$keys}})">
+               <label>Batch Not Yet</label>
+               <span class="error-is_required" style="color:red"></span>
+    </div>
+</div>
+
+@if(!empty($studDetail->studBatchDetail))
+ <span class="batch_table{{$keys}}">
+    <div id="addNewTableRow" style="margin-left: 17px;">
+        <div class="row product">
+            <div class="table-responsive">
+                <table class="options table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="width: 400px;">Batch Name <span style="color:red;">*</span></th>
+                        <th style="width: 400px;">Trainer Name <span style="color:red;">*</span></th>
+                        <th style="width: 300px;">Fees</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    @if(count($studDetail->studBatchDetail)>0)
+                    @foreach($studDetail->studBatchDetail as $batchDetail)
+                        <tr id="tr{{$keys}}_{{$loop->index}}" class="addrowbellow sub_{{$keys}}" >
+                            <td class="text-center drag-td"><span class="drag-icon"> <i
+                                        class="fa"></i> <i
+                                        class="fa"></i> </span>
+                            </td>
+
+                            <td>
+                                <select  name="student[{{$keys}}][course][{{ $loop->index }}][batch_id]" class="form-control batch"
+                                         aria-required="true" aria-invalid="false" onchange="changeBatch(this)" >
+                                    <option value="">--Select Batch--</option>
+
+                                    @foreach ($batch as $key=>$value)
+                                        <option value="{{ $key }}" {{ $key == $batchDetail->batch_id ? "selected" : " " }}>{{ $value }}</option>
+                                    @endforeach
+                                </select><span class="error-batch"style="color: red"></span>
+                            </td>
+                            <td>
+                                <select  name="student[{{$keys}}][course][{{ $loop->index }}][trainer_id]" class="form-control trainer"
+                                         aria-required="true" aria-invalid="false" >
+                                    <option value="">--Select Trainer--</option>
+
+                                    @foreach ($trainer as $key=>$value)
+                                        <option value="{{ $key }}" {{ $key == $batchDetail->trainer_id ? "selected" : " " }}>{{ $value }}</option>
+                                    @endforeach
+                                </select><span class="error-trainer"style="color: red"></span>
+
+                            </td>
+                            <td>
+                                <input id="price" step=".01" name="student[{{$keys}}][course][{{ $loop->index }}][trainer_fees]"
+                                       value="{{ $batchDetail->trainer_fees }}"
+                                       class="form-control input-sm trainer_fees" type="text"
+                                       placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>
+                            </td>
+                            <td>
+                                <button type="button"
+                                        class="btn btn-sm btn-delete"  onclick="return remove_item(this);">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        @php
+                            $hello =$loop->count-1;
+                        @endphp
+                        @if($loop->index==$hello)
+                            <tr id="ltr{{$keys}}"></tr>
+                        @endif
+                    @endforeach
+                        @else
+                        <tr id="tr0_0" class="addrowbellow sub_0">
+                            <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i
+                                        class="fa"></i> </span>
+                            </td>
+                            <td>
+                                <select  name="student[0][course][0][batch_id]"class="form-control batch"
+                                         aria-required="true" aria-invalid="false" onchange="changeBatch(this)" >
+                                    <option value="">--Select Batch--</option>
+
+                                    @foreach ($batch as $key=>$value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select><span class="error-batch"style="color: red"></span>
+                            </td>
+                            <td>
+                                <select  name="student[0][course][0][trainer_id]" class="form-control trainer"
+                                         aria-required="true" aria-invalid="false" >
+                                    <option value="">--Select Trainer--</option>
+
+                                    @foreach ($trainer as $key=>$value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select><span class="error-trainer"style="color: red"></span>
+                            </td>
+                            <td>
+                                <input id="price" step=".01" name="student[0][course][0][trainer_fees]"
+                                       value=""
+                                       class="form-control input-sm trainer_fees" type="text"
+                                       placeholder="Enter Price" ><span class="error-trainer_fees"style="color: red"></span>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr id="ltr0"></tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</span>                                           
+@endif
+@endforeach
+@endif
+
+
 @else
 
     <!-- Name Field -->
@@ -212,6 +403,20 @@
 @endif
 @push('third_party_scripts')
     <script>
+
+    function remove_item(mi) {
+            $(mi).closest('.addrowbellow').remove();
+            // $('#tr'+mi+'_'+si).remove();
+        }
+
+    function batchDisplay(value, index) {
+            if(value) {
+                $('.batch_table'+ index).hide();
+            } else {
+                $('.batch_table'+ index).show();
+
+            }
+        }
     $('.co-originator').attr("disabled", true);
     </script>
 @endpush
