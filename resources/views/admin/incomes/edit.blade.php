@@ -324,12 +324,11 @@
                                         </div>
                                                         @if(!empty($studDetail->studBatchDetail))
 
-{{--                                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"--}}
-{{--                                                                    onclick="addnewrow({{$keys}})">--}}
-{{--                                                                Add New Row--}}
-{{--                                                            </button>--}}
-{{--                                                            <br><br>--}}
-{{--                            </div>--}}
+                                                       <!--  <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;" onclick="addnewrow({{$keys}})">
+                                                                Add New Row
+                                                            </button>
+                                                            <br><br> -->
+                            </div>
                                             <span class="batch_table{{$keys}}">
                                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                                 <div class="row product">
@@ -522,11 +521,11 @@
                                         </div>
                                         @if(!empty($corpoDetail->corporateBatchDetail))
 
-{{--                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"--}}
-{{--                                                    onclick="addnewrow({{$keys}})">--}}
-{{--                                                Add New Row--}}
-{{--                                            </button>--}}
-{{--                                            <br><br>--}}
+                                            <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;"
+                                                    onclick="addnewrow({{$keys}})">
+                                                Add New Row
+                                            </button>
+                                            <br><br>
                                             <span class="batch_table{{$keys}}">
                                             <div id="addNewTableRow" style="margin-left: 17px;">
                                                 <div class="row product">

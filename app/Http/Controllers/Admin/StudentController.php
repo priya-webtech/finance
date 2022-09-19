@@ -298,17 +298,25 @@ class StudentController extends AppBaseController
                 $val['gst'] = $studBatch['gst'] ?? 0;
                 $val['student_detail_id'] = $studentDetail->id;
                 if (isset($studBatch['in_id'])) {
-
+                   
+                    $income->update($input);
                     $income->incomeStudFees()->update($val);
                 }else{
-                   
                     $income = Income::create($input);
                     $income->incomeStudFees()->create($val);
                 }
 
                 if (empty($studBatch['no_batch'])) {
-                    $studentDetail->studBatchDetail()->delete();
-                    $studentDetail->studBatchDetail()->createMany($studBatch['course']);
+//                    foreach ($studBatch['course'] as $couse){
+//                        if (isset($couse['bat_id'])){
+//                        $studentBatchDetail = StudentBatchDetail::findorfail($couse['bat_id']);
+//                        $studentBatchDetail->update($couse);
+//                        }else {
+//                    dd($studBatch['course']);
+                            $studentDetail->studBatchDetail()->delete();
+                            $studentDetail->studBatchDetail()->createMany($studBatch['course']);
+//                        }
+//                    }
                 }
             
             }

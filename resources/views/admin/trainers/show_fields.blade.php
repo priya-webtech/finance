@@ -39,4 +39,34 @@
     {!! Form::label('updated_at', 'Updated At:') !!}
     <p>{{ $trainer->updated_at }}</p>
 </div>
+    <table class="table" id="corporates-table">
+        <thead class="thead-dark">
+        <tr>
+        <th>Course Name</th>
+        <th>Batch Name</th>
+        <th>Student Count</th>
+        <th>Total</th>
+        <th>Pay amount</th>
+        <th>Final Amount</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($studentbatch as $row)
+            <tr class="table-success">
+                <td width="120">{{$row->batch->course->course_name}}</td>
+                <td width="120">{{$row->batch->name}}
+                <td>{{$studentcount}}</td>
+                <td>${{$studentfees}}</td>
+                <td>${{$ExpenceMaster}}</td>
+                <td>${{ $studentfees - $ExpenceMaster }}</td>
+          
+               
+
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+
 

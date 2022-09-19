@@ -105,7 +105,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('status', 'Status:') !!}
-    {!! Form::select('status',['Ongoing'=>'Ongoing','Not assigned'=>'Not assigned','Completed'=>'Completed','Placed'=>'Placed'], null, ['class' => 'form-control','placeholder'=>'select status']) !!}
+    {!! Form::select('status',['1'=>'Ongoing','2'=>'Not assigned','3'=>'Completed','4'=>'Placed'], null, ['class' => 'form-control','placeholder'=>'select status']) !!}
     <span class="error text-danger">{{ $errors->first('status') }}</span>
 </div>
 
@@ -185,6 +185,11 @@
                <span class="error-is_required" style="color:red"></span>
     </div>
 </div>
+
+<!-- <button type="button" class="btn btn-success addNewRow" id="addNewRow" style="margin: auto;" onclick="addnewrow({{$keys}})">
+    Add New Row
+</button>
+<br><br> -->
 
 @if(!empty($studDetail->studBatchDetail))
  <span class="batch_table{{$keys}}">
@@ -403,6 +408,219 @@
 @endif
 @push('third_party_scripts')
     <script>
+    var mindex = 0;
+        var subindx = 0;
+        var option = " ";
+        $("#addNew").click(function () {
+            mindex += 1;
+            // alert(mindex)
+            $('#lmain').before('<div id="itemDetails" class="main' + mindex + ' row-course reg-detail">\n' +
+                '                    <div class="parent options[' + mindex + ']">\n' +
+                '                        <div class="row product">\n' +
+                '                            <div class="col-sm-4">\n' +
+                '                                <div class="form-group">\n' +
+                '                                    <label class="required">Course Name</label><span class="error-course"style="color: red"></span>\n' +
+                '<select  name="student[' + mindex + '][course_id]" type="text" class="form-control course" aria-required="true" aria-invalid="false" onchange="changeCourse(this)">\n' +
+                '<option value="">--Select Course--</option>\n' +
+                @php
+                    $courses = '';
+                    foreach ($course as $key=>$value)
+                 {
+
+                     $courses .= '<option value="' . $key . '">' . $value. "</option>";
+                 }
+                @endphp
+                    '<?php echo $courses; ?>\n' +
+                '</select>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '<div class="col-sm-4">\n' +
+                '<div class="form-group">\n' +
+                '<label>Mode of Payment</label><br>\n' +
+                '<select  name="student[' + mindex + '][mode_of_payment]" type="text" class="form-control mode_of_payment" onclick=modeOfPay(this) aria-required="true" aria-invalid="false">\n' +
+                '<option value="">--Select Mode of Payment--</option>\n' +
+                @php
+                    $mode = '';
+                    foreach ($modeOfPayment as $key=>$value)
+                 {
+
+                     $mode .= '<option value="' . $key . '">' . $value. "</option>";
+                 }
+                @endphp
+                    '<?php echo $mode; ?>\n' +
+                '</select>\n' +
+                '<span class="error-is_required" style="color:red"></span>\n' +
+                '</div> \n' +
+                ' </div> \n' +
+                ' <div class="col-sm-4">\n' +
+                ' <div class="form-group">\n' +
+                '<label>Agreed Amount</label><br>\n' +
+                '<input id="value" step=".01" name="student[' + mindex + '][agreed_amount]" class="form-control agreed_amount" type="text">\n' +
+                ' <span class="error-is_required" style="color:red"></span>\n' +
+                '</div>\n' +
+                '</div>\n' +
+
+                '<div class="col-sm-4"> \n' +
+                '<div class="form-group"> \n' +
+                '<label>Pay Amount</label><br> \n' +
+                '<input id="value" step=".01" name="student[' + mindex + '][pay_amount]" class="form-control pay_amount" type="text"> \n' +
+                '<span class="error-is_required" style="color:red"></span> \n' +
+                '</div> \n' +
+                '</div> \n' +
+
+                '<div class="col-sm-4"> \n' +
+                '<div class="form-group"> \n' +
+                '<label>Due Date</label><br> \n' +
+                '<input id="value" name="student[' + mindex + '][due_date]" class="form-control due_date" type="date"> \n' +
+                '<span class="error-is_required" style="color:red"></span> \n' +
+                '</div> \n' +
+                '</div> \n' +
+                '<div class="col-sm-1"> \n' +
+                ' <div class="form-group"> \n' +
+                ' <br> \n' +
+                ' <br> \n' +
+
+                ' <input id="value" step=".01" name="student[' + mindex + '][gst]" value="1" type="checkbox"> \n' +
+                '<label>Gst</label> \n' +
+                '<span class="error-is_required" style="color:red"></span> \n' +
+                '</div>\n' +
+                '</div> \n' +
+                '<div class="col-sm-2"> \n' +
+                ' <div class="form-group"> \n' +
+                ' <br> \n' +
+                '<br> \n' +
+
+                '<input id="value" step=".01" name="student[' + mindex + '][no_batch]" value="1" type="checkbox"> \n' +
+                '<label>Batch Not Yet</label> \n' +
+                '  <span class="error-is_required" style="color:red"></span> \n' +
+                '  </div> \n' +
+                ' </div> \n' +
+
+                '                            <br><br>\n' +
+                '                        </div>\n' +
+                '                        <button type="button" class="btn btn-success addNewRow" id="addNewRow" onclick="addnewrow(' + mindex + ')">Add New Row</button>\n' +
+                '                        <br><br>\n' +
+                '\n' +
+                '                        <div id="addNewTableRow" class="batch-row">\n' +
+                '                            <div class="row product">\n' +
+                '                                <div class="table-responsive">\n' +
+                '                                    <table class="options table table-bordered table-striped">\n' +
+                '                                        <thead>\n' +
+                '                                        <tr>\n' +
+                '                                            <th></th>\n' +
+                '                                            <th>Batch Name <span style="color:red;">*</span></th>\n' +
+                '                                            <th>Trainer Name <span style="color:red;">*</span></th>\n' +
+                '                                            <th class="retail_col">Fees</th>\n' +
+                '                                            <th></th>\n' +
+                '                                        </tr>\n' +
+                '                                        </thead>\n' +
+                '\n' +
+                '                                        <tbody>\n' +
+                '                                        <tr id="tr' + mindex + '_0" class="addrowbellow sub_' + mindex + '">\n' +
+                '                                            <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i\n' +
+                '                                                        class="fa"></i> </span>\n' +
+                '                                            </td>\n' +
+                '\n' +
+                '                                            <td>\n' +
+                '<select  name="student[' + mindex + '][course][0][batch_id]" type="text" class="form-control batch" aria-required="true" aria-invalid="false"  onchange="changeBatch(this)"><span class="error-trainer"style="color: red"></span>\n' +
+                '<option value="">--Select Batch--</option>\n' +
+                @php
+                    $option = '';
+                    foreach ($batch as $key=>$value)
+                 {
+
+                     $option .= '<option value="' . $key . '">' . $value. "</option>";
+                 }
+                @endphp
+                    '<?php echo $option; ?>\n' +
+                '</select>\n' +
+                '                                            </td>\n' +
+                '                                            <td>\n' +
+                '<select  name="student[' + mindex + '][course][0][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false" required ><span class="error-trainer"style="color: red"></span>\n' +
+                '<option value="">--Select Trainer --</option>\n' +
+                @php
+                    $op = '';
+                    foreach ($trainer as $key=>$value)
+                 {
+
+                     $op .= '<option value="' . $key . '">' . $value. "</option>";
+                 }
+                @endphp
+                    '<?php echo $op; ?>\n' +
+                '</select>\n' +
+                '                                            </td>\n' +
+                '                                            <td class="retail_col"><input id="price" step=".01" name="student[' + mindex + '][course][0][trainer_fees]"\n' +
+                '                                                       value=""\n' +
+                '                                                       class="form-control input-sm trainer_fees" type="text"\n' +
+                '                                                       placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
+                '                                            </td>\n' +
+                '                   <td>\n' +
+                '                       <button type="button" class="btn btn-sm" \n' +
+                '                           onclick="return remove_item(this);">\n' +
+                '                          <span class="fa fa-trash"></span>\n' +
+                '                      </button>\n' +
+                '                         \n' +
+                '                                                </td>\n' +
+                '                                        </tr>\n' +
+
+                '                                        <tr id="ltr' + mindex + '"></tr>\n' +
+                '                                        </tbody>\n' +
+                '                                    </table>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '                <br><br>');
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Corporate Training') {
+                $('.retail_col').hide();
+            }else{
+                $('.retail_col').show();
+            }
+        });
+    function addnewrow(mindex1) {
+            subindx = $('.sub_' + mindex1).length;
+// alert(mindex1);
+            var html = '<tr id="tr' + mindex1 + '_' + subindx + '" class="addrowbellow sub_' + mindex1 + '">\n' +
+                '                                                <td class="text-center drag-td"><span class="drag-icon"> <i class="fa"></i> <i\n' +
+                '                                                            class="fa"></i> </span>\n' +
+                '                                                </td>\n' +
+                '\n' +
+                '                                                <td>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][batch_id]" type="text" class="form-control batch" onchange="changeBatch(this)" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
+                '<option value="">--Select Batch--</option>\n' +
+                    '<?php echo $option; ?>\n' +
+                '</select>\n' +
+                '                                                </td>\n' +
+                '                                                <td>\n' +
+                '<select  name="student[' + mindex1 + '][course][' + subindx + '][trainer_id]" type="text" class="form-control trainer" aria-required="true" aria-invalid="false"><span class="error-trainer"style="color: red"></span>\n' +
+                '<option value="">--Select Trainer--</option>\n' +
+                    '<?php echo $op; ?>\n' +
+                '</select>\n' +
+                '                                                </td>\n' +
+                '                                                <td class="retail_col"><input id="price" step=".01" name="student[' + mindex1 + '][course][' + subindx + '][trainer_fees]"\n' +
+                '                                                           value=""\n' +
+                '                                                           class="form-control input-sm trainer_fees" type="text"\n' +
+                '                                                           placeholder="Enter Price"><span class="error-trainer_fees"style="color: red"></span>\n' +
+                '                                                </td>\n' +
+                '<td>\n' +
+                '         <button type="button" class="btn btn-sm" \n' +
+                '                    onclick="return remove_item(this);">\n' +
+                '              <span class="fa fa-trash"></span>\n' +
+                '           </button>\n' +
+                '        \n' +
+                '                                                </td>\n' +
+
+                '                                            </tr>';
+            $('#ltr' + mindex1).before(html);
+            var IncomeType = $('#income_type option:selected').text();
+            if(IncomeType == 'Corporate Training') {
+                $('.retail_col').hide();
+            }else{
+                $('.retail_col').show();
+            }
+        }
 
     function remove_item(mi) {
             $(mi).closest('.addrowbellow').remove();

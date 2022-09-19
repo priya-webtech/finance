@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreateTrainerRequest;
 use App\Http\Requests\Admin\UpdateTrainerRequest;
 use App\Models\Admin\Batch;
+use App\Models\Admin\StudentBatchDetail;
 use App\Models\Admin\columnManage;
 use App\Models\Admin\Branch;
 use App\Models\Admin\Trainer;
 use App\Models\Admin\Course;
+use App\Models\Admin\ExpenceMaster;
 use App\Models\User;
 use App\Repositories\Admin\TrainerRepository;
 use App\Http\Controllers\AppBaseController;
@@ -154,6 +156,10 @@ class TrainerController extends AppBaseController
     public function show($id)
     {
         $trainer = $this->trainerRepository->find($id);
+        $studentcount = StudentBatchDetail::where('trainer_id', $id)->count();
+        $studentbatch = StudentBatchDetail::where('trainer_id', $id)->distinct()->get('batch_id');
+        $studentfees = StudentBatchDetail::where('trainer_id', $id)->distinct()->sum('trainer_fees');;
+        $ExpenceMaster = ExpenceMaster::where('trainer_id', $id)->distinct()->sum('amount');;
 
         if (empty($trainer)) {
             Flash::error('Trainer not found');
@@ -161,7 +167,7 @@ class TrainerController extends AppBaseController
             return redirect(route('admin.trainers.index'));
         }
 
-        return view('admin.trainers.show')->with('trainer', $trainer);
+        return view('admin.trainers.show',compact('trainer','studentbatch','studentcount','studentfees','ExpenceMaster'));
     }
 
     /**
