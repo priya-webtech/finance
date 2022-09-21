@@ -26,6 +26,7 @@
     <table class="table" id="courses-table">
         <thead>
         <tr>
+            @if(!empty($field) && $field->course_col_1 == 1)<th>Sno.</th>@endif
             @if(!empty($field) && $field->course_col_1 == 1)<th>Course Name</th>@endif
 
 {{--        <th>Description</th>--}}
@@ -35,10 +36,11 @@
         </thead>
         <tbody>
         @if(count($courses) >0 )
-        @foreach($courses as $course)
+        @foreach($courses as $key=>$course)
 
 
             <tr>
+               <th>{{$key + $courses->firstItem()}}</th>
                @if(!empty($field) && $field->course_col_1 == 1) <td>{{ $course->course_name }}</td>@endif
 
 {{--            <td>{{ $course->description }}</td>--}}

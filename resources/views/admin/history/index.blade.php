@@ -27,6 +27,7 @@
                     <table class="table" id="franchises-table">
                         <thead>
                         <tr>
+                            <th>Sno.</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Course</th>
@@ -37,8 +38,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($income as $data)
+                        @foreach($income as $key=>$data)
                             <tr>
+                                <td>{{$key + $income->firstItem()}}</td>
                                 <td>@if($data->incomeStudFees){{$data->incomeStudFees->student->name}}@elseif($data->corporateStudFees){{$data->corporateStudFees->corporate->company_name}}@elseif($data->franchise) {{$data->franchise->title}} @else - @endif</td>
                                 <td>{{$data->incomeType->title ?? " "}}</td>
                                 <td>{{$data->course->course_name ?? " "}}</td>

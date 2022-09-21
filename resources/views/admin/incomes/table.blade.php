@@ -50,6 +50,7 @@
     <table class="table" id="incomes-table">
         <thead>
         <tr>
+            <th>Sno.</th>
             @if(!empty($field) && $field->income_col_1 == 1)
                 <th>Name</th>@endif
             <th>Mobile No.</th>
@@ -65,8 +66,9 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($merge as $record)
+        @foreach($merge as $key=>$record)
             <tr>
+                <td>{{$key + 1}}</td>
                 @if(!empty($field) && $field->income_col_1 == 1)
                 <td>@if(isset($record['name'])) {{ $record['name'] }} @elseif(isset($record['company_name'])) {{$record['company_name']}} @else {{"N/A"}} @endif </td>@endif
                 <td>@if(isset($record['mobile_no'])) {{ $record['mobile_no'] }} @elseif(isset($record['contact_no'])) {{$record['contact_no']}} @else {{"N/A"}} @endif </td>

@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('student-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'StudentDataTable'])->name('student-data-table');
     Route::get('corporate-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'CorporateDataTable'])->name('corporate-data-table');
     Route::get('expense-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'ExpenseDataTable'])->name('expense-data-table');
+    Route::get('user-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'UserDataTable'])->name('user-data-table');
     Route::get('income-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'IncomeDataTable'])->name('income-data-table');
     Route::get('trainer-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'TrainerDataTable'])->name('trainer-data-table');
     Route::get('batch-data-table', [App\Http\Controllers\Admin\DashBoardController::class, 'BatchDataTable'])->name('batch-data-table');

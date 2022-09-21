@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Models\Role;
+use App\Models\Admin\Branch;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -43,5 +44,8 @@ class User extends Authenticatable
 
     public function role(){
         return $this->belongsTo(Role::class,'role_id');
+    }
+    public function branch(){
+        return $this->belongsTo(Branch::class,'branch_id');
     }
 }

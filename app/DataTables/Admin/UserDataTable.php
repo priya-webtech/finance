@@ -2,53 +2,45 @@
 
 namespace App\DataTables\Admin;
 
+use App\Models\Admin\Batch;
+use App\Models\User;
 use App\Models\Admin\Carcompany;
+use App\Models\Admin\CorporateFessCollection;
+use App\Models\Admin\ExpenceMaster;
+use App\Models\Admin\ExpenseTypes;
+use App\Models\Admin\Income;
+use App\Models\Admin\IncomeType;
 use App\Models\Admin\Student;
+use App\Models\Admin\StudentFessCollection;
+use App\Models\Admin\Trainer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class StudentDataTable extends DataTable
+class UserDataTable extends DataTable
 {
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
+
+            ->editColumn('role_id', function ($record){
+                return $record->role->name;
+            })
             ->editColumn('branch_id', function ($record){
                 return $record->branch->title;
             })
-            ->editColumn('student_type', function ($record){
-                return $record->studentType->title;
-            })
-            ->editColumn('enquiry_type', function ($record){
-                return $record->enquiryType->title;
-            })
-            ->editColumn('lead_source_id', function ($record){
-                return $record->leadSource->title;
-            })
             ->editColumn('status', function ($record){
-               /* if ($record->status == 1){
-                  $status = "<span class='badge badge-success'>Active</span>";
+                if ($record->status == 1){
+                  $status = "Active";
                 }else{
-                    $status = "<span class='badge badge-danger'>Block</span>";
-                }*/
-                return $status = "<span class='badge badge-success'>".$record->status."</span>";
+                    $status = "Block";
+                }
+                return $status;
             })
             ->filter(function ($record){
                 $record->where(function ($q) {
-                    if (request('enquiry_type')) {
-                     $q->where('enquiry_type', request('enquiry_type'));
-                    }
-                    if (request('student_type')) {
-                        $q->where('student_type', request('student_type'));
-                    }
-                     if (request('lead_source')) {
-                         $q->where('lead_source_id', request('lead_source'));
-                     }
-                    if (request('state')){
-                        $q->where('state', request('state'));
-                    }
                     if (request('dates')){
                         $part = explode("-",request('dates'));
                         $start = date('Y-m-d', strtotime($part[0]));
@@ -56,23 +48,15 @@ class StudentDataTable extends DataTable
                             $q->whereDate('created_at', '>=', $start)
                                 ->whereDate('created_at', '<=', $end);
                     }
+                    if (request('role_id')){
+                        $q->where('role_id',request('role_id'));
+                    }
+                    if (request('branch_id')){
+                        $q->where('branch_id',request('branch_id'));
+                    }
                 });
-               if (request('status')){
-                   if (request('status') == 'assigned'){
-                       $record->whereHas('studDetail', function($q) {
-                           $q->whereHas('studBatchDetail');
-                       });
-                   }elseif (request('status') == 'unassigned'){
-
-                       $record->whereHas('studDetail', function($q) {
-                           $q->doesntHave('studBatchDetail');
-
-                       });
-                   }
-               }
             })
-            ->addColumn('slno','row_num',1)
-            ->rawColumns(['action','status']);
+            ->rawColumns(['action']);
     }
 
     /**
@@ -81,16 +65,17 @@ class StudentDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query()
+    public function query(User $model)
     {
         $auth = Auth::user();
         DB::statement(DB::raw('set @rownum=0'));
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-           // $model = Student::query();
 
-            $model = Student::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
+           $model = User::where('role_id','!=',0)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'name', 'mobile_no', 'email', 'status', 'role_id','branch_id']);
+
         }else{
-            $model =  Student::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
+            $model = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'name', 'mobile_no', 'email', 'status', 'role_id', 'branch_id']);
+
         }
         return  $model->newQuery();
     }
@@ -130,18 +115,12 @@ class StudentDataTable extends DataTable
         return [
             'id' => ['searchable' => false],
             'name',
-            'mobile_no',
             'email',
-            'student_type',
-            'enquiry_type',
-            'lead_source_id',
+            'role_id',
+            'mobile_no',
             'branch_id',
-            'state',
             'status',
-            'branch_id',
-            'remark',
-            'placement'
-            //'type' => ['searchable' => false],
+
         ];
     }
 
@@ -152,6 +131,6 @@ class StudentDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'students_datatable_' . time();
+        return 'users_datatable_' . time();
     }
 }

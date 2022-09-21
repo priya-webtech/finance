@@ -127,7 +127,7 @@
         <i class="fa fa-cog" aria-hidden="true"></i>
         <p>
             Settings
-            <i class="fas fa-angle-left right"></i>
+            <i class="fas fa-angle-right right"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">

@@ -12,7 +12,9 @@ use App\DataTables\Admin\GstDataTable;
 use App\DataTables\Admin\IncomeDataTable;
 use App\DataTables\Admin\StudentDataTable;
 use App\DataTables\Admin\TrainerDataTable;
+use App\DataTables\Admin\UserDataTable;
 use App\Http\Requests\Admin;
+use Spatie\Permission\Models\Role;
 use App\Models\Admin\BatchMode;
 use App\Models\Admin\BatchType;
 use App\Models\Admin\EnquiryType;
@@ -67,12 +69,14 @@ class DashBoardController extends AppBaseController
             $batchMode = BatchMode::pluck('title', 'id');
             $incomeType = IncomeType::pluck('title', 'id');
             $course = Course::pluck('course_name', 'id');
+            $role = Role::pluck('name', 'id');
+            $branch = Branch::pluck('title', 'id');
             $path = public_path('country.json');
                       // dd($path);
             $state = json_decode(file_get_contents($path), true);
           // dd($path);
 
-            return view('admin.dashboard.dashboard', compact('enquirytype', 'studentType', 'leadSources', 'state', 'batchMode', 'batchType', 'incomeType','course'));
+            return view('admin.dashboard.dashboard', compact('enquirytype', 'studentType', 'leadSources', 'state', 'batchMode', 'batchType', 'incomeType','course','role','branch'));
         }elseif($auth->hasRole('internal_auditor')){
             $incomeType = IncomeType::pluck('title', 'id');
             return view('admin.dashboard.dashboard-internal-auditor',compact('incomeType'));
@@ -128,6 +132,11 @@ class DashBoardController extends AppBaseController
         return $batchDataTable->render('admin.students.datatable');
     }
 
+    public function UserDataTable(UserDataTable $UserDataTable)
+    {
+        return $UserDataTable->render('admin.students.datatable');
+    }
+
     public function BankDataTable(BankDataTable $bankDataTable)
     {
         return $bankDataTable->render('admin.students.datatable');
@@ -150,11 +159,11 @@ class DashBoardController extends AppBaseController
     {
         $auth  = Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $income = Income::paginate(10);
-            $expense = ExpenceMaster::paginate(10);
+            $income = Income::orderBy('id', 'DESC')->paginate(10);
+            $expense = ExpenceMaster::orderBy('id', 'DESC')->paginate(10);
         }else{
-            $income = Income::where('branch_id',$auth->branch_id)->paginate(10);
-            $expense = ExpenceMaster::where('branch_id',$auth->branch_id)->paginate(10);
+            $income = Income::where('branch_id',$auth->branch_id)->orderBy('id', 'DESC')->paginate(10);
+            $expense = ExpenceMaster::where('branch_id',$auth->branch_id)->orderBy('id', 'DESC')->paginate(10);
         }
         return view('admin.history.index',compact('expense','income'));
     }

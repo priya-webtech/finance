@@ -35,6 +35,7 @@
     <table class="table" id="trainers-table">
         <thead>
         <tr>
+            @if(!empty($field) && $field->trainer_col_1 == 1)<th>Sno.</th>@endif
             @if(!empty($field) && $field->trainer_col_1 == 1)<th>Trainer Name</th>@endif
             @if(!empty($field) && $field->trainer_col_2 == 1)<th>Branch</th>@endif
             @if(!empty($field) && $field->trainer_col_6 == 1)<th>Course Name</th>@endif
@@ -44,9 +45,10 @@
         </thead>
         <tbody>
         @if(count($trainers) > 0)
-        @foreach($trainers as $trainer)
+        @foreach($trainers as $key => $trainer)
         <?php $decode = json_decode($trainer['course_id']);?>
             <tr>
+                @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{$key + $trainers->firstItem()}}</td>@endif
                 @if(!empty($field) && $field->trainer_col_1 == 1)<td>{{ $trainer->trainer_name }}</td>@endif
                 @if(!empty($field) && $field->trainer_col_2 == 1)<td>{{ $trainer->branch->title }}</td>@endif
                 @if(!empty($field) && $field->trainer_col_6 == 1)

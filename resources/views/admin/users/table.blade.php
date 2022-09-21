@@ -33,6 +33,7 @@
     <table class="table" id="students-table">
         <thead>
         <tr>
+        @if(!empty($field) && $field->user_col_1 == 1)<th>Sno.</th>@endif
         @if(!empty($field) && $field->user_col_1 == 1)<th>Name</th>@endif
         @if(!empty($field) && $field->user_col_2 == 1)<th>Email</th>@endif
         @if(!empty($field) && $field->user_col_3 == 1)<th>Role</th>@endif
@@ -43,8 +44,9 @@
         </thead>
         <tbody>
         @if(count($users) > 0)
-        @foreach($users as $user)
+        @foreach($users as $key=>$user)
             <tr>
+            @if(!empty($field) && $field->user_col_1 == 1)<td>{{$key + $users->firstItem()}}</td>@endif
             @if(!empty($field) && $field->user_col_1 == 1)<td>{{ $user->name }}</td>@endif
             @if(!empty($field) && $field->user_col_2 == 1)<td>{{ $user->email }}</td>@endif
             @if(!empty($field) && $field->user_col_3 == 1)<td>{{ $user->role->name }}</td>@endif

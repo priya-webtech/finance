@@ -57,10 +57,10 @@
         <tbody>
         @if(count($students) > 0)
         @php $i=1; @endphp
-        @foreach($students as $student)
+        @foreach($students as $key => $student)
 {{--        @if((isset($student['branch_id'])) && in_array($student['branch_id'], auth()->user()->branch_id))--}}
             <tr>
-                <th>{{$i++}}</th>
+                <th>{{$key + $students->firstItem()}}</th>
             @if(!empty($field) && $field->student_col_1 == 1)<td>{{ $student->name }}</td>@endif
 {{--            @if(!empty($field) && $field->student_col_2 == 1)<td>{{ $student->email }}</td>@endif--}}
             @if(!empty($field) && $field->student_col_3 == 1)<td>{{ $student->mobile_no }}</td>@endif

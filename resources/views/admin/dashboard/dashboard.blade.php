@@ -29,17 +29,17 @@
                         @if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
                             <div class="form-group col-sm-2">
                                 {!! Form::label('type', 'Select category:') !!}
-                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','expense'=>'Expenses','revenue'=>'All Revenues','trainer'=>'Trainer','batch'=>'Batches','transactions'=>'Transactions','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                                {!! Form::select('type',['student'=>'Retail Student','user'=>'User','corporate'=>'Corporate training','due-fees'=>'Due Fees','expense'=>'Expenses','revenue'=>'All Revenues','trainer'=>'Trainer','batch'=>'Batches','transactions'=>'Transactions','gst'=>"GST"], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                             @elseif($auth->hasRole('branch_manager'))
                             <div class="form-group col-sm-2">
                                 {!! Form::label('type', 'Select category:') !!}
-                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','expense'=>'Expenses','revenue'=>'All Revenues','trainer'=>'Trainer','batch'=>'Batches'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                                {!! Form::select('type',['student'=>'Retail Student','user'=>'User' ,'corporate'=>'Corporate training','due-fees'=>'Due Fees','expense'=>'Expenses','revenue'=>'All Revenues','trainer'=>'Trainer','batch'=>'Batches'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                         @elseif($auth->hasRole('counsellor'))
                             <div class="form-group col-sm-2">
                                 {!! Form::label('type', 'Select category:') !!}
-                                {!! Form::select('type',['student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','batch'=>'Batches'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
+                                {!! Form::select('type',['user'=>'User' ,'student'=>'Retail Student','corporate'=>'Corporate training','due-fees'=>'Due Fees','batch'=>'Batches'], null, ['class' => 'form-control','onchange'=>'ChangeType()']) !!}
                             </div>
                         @endif
                         <div class="form-group col-sm-2 status">
@@ -62,6 +62,16 @@
                             {!! Form::label('state', 'State:') !!}
                             {!! Form::select('state',$state, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
                         </div>
+
+                        <div class="form-group col-sm-2 userFilter" style="display: none">
+                            {!! Form::label('role_id', 'Role:') !!}
+                            {!! Form::select('role_id',$role, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
+                        </div>
+                        <div class="form-group col-sm-2 userFilter" style="display: none">
+                            {!! Form::label('branch_id', 'Branch:') !!}
+                            {!! Form::select('branch_id',$branch, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
+                        </div>
+
                         <div class="form-group col-sm-2 batchFilter" style="display: none">
                             {!! Form::label('batch_mode', 'Batch Mode:') !!}
                             {!! Form::select('batch_mode',$batchMode, null, ['class' => 'form-control filter','placeholder'=>'Select']) !!}
@@ -102,22 +112,43 @@
     <div class="content px-3">
         <div class="clearfix"></div>
         <div class="card">
+            <div class="user" id="user">
+                <table class="table table-striped table-bordered" id="UserTable" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>SNo.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Mobile No</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                       <!--  <th>Trainer Name</th>
+                        <th>State</th>
+                        <th>Placement</th>
+                        <th>Reg. date</th> -->
+                    </tr>
+                    </thead>
+                </table>
+            </div>
             <div class="" id="student">
                 <table class="table table-striped table-bordered" id="StudentTable" style="width:100%">
                     <thead>
                     <tr>
                         <th>SNo.</th>
                         <th>Name</th>
-                        <th>Email</th>
                         <th>Mobile No</th>
+                        <th>Course</th>
+                        <th>Agreed Course Fees</th>
                         <th>Placement</th>
                         <th>Student Type</th>
                         <th>Enquiry Type</th>
                         <th>lead Source</th>
                         <th>Branch</th>
+                       <!--  <th>Trainer Name</th>
                         <th>State</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Placement</th>
+                        <th>Reg. date</th> -->
                     </tr>
                     </thead>
                 </table>
@@ -282,6 +313,8 @@
                 $('#cash').hide();
                 $('#transactions').hide();
                 $('#gst').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#student').show();
                 $('.dateFilter').show();
                 $('.incomeFilter').hide();
@@ -294,6 +327,8 @@
                 $('#income').hide();
                 $('.status').show();
                 $('#trainer').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('.incomeFilter').hide();
                 $('#batch').hide();
                 $('#cash').hide();
@@ -303,6 +338,7 @@
                 $('.dateFilter').show();
                 $('#due-fees').hide();
                 var filter = true;
+
                 if (!$.fn.dataTable.isDataTable('#CorporateTable') || filter == true) {
                     let CorpoTable = $('#CorporateTable').DataTable({
                         // dom: 'Bfrtip',
@@ -337,6 +373,64 @@
                 }
 
             }
+            else if(Type == 'user'){
+                $('.student').hide();
+                $('.batchFilter').hide();
+                $('#student').hide();
+                $('.status').hide();
+                $('#corporate').hide();
+                $('#income').hide();
+                $('#trainer').hide();
+                $('#batch').hide();
+                $('#transactions').hide();
+                $('#gst').hide();
+                $('#cash').hide();
+                $('#expense').hide();
+                $('#user').show();
+                $('.userFilter').show();
+                $('.dateFilter').show();
+                $('.incomeFilter').hide();
+                $('#due-fees').hide();
+                var filter = true;
+                // var dates = $('#reportrange').val();
+                // alert(dates);
+                if (!$.fn.dataTable.isDataTable('#UserTable') || filter == true) {
+                    var ExpTable = $('#UserTable').DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        retrieve: true,
+                        "searchDelay" : 500,
+                        "responsive": {
+                            orthogonal: 'responsive'
+                        },
+                        // order: [[0, 'desc']],
+                        ajax:
+                            {
+                                // "url": 'expense-data-table',
+                                "url":"{{ route('user-data-table') }}",
+                                "data": function (d) {
+                                    d.dates = $('#reportrange').val();
+                                    d.role_id = $('#role_id').val();
+                                    d.branch_id = $('#branch_id').val();
+                                    // d.status = $('#status').val();
+                                }
+                            },
+                        columns: [
+                            {data: 'rank', name: 'rank'},
+                            {data: 'name', name: 'name'},
+                            {data: 'email', name: 'email'},
+                            {data: 'role_id', name: 'role_id'},
+                            {data: 'mobile_no', name: 'mobile_no'},
+                            {data: 'branch_id', name: 'branch_id'},
+                            {data: 'status', name: 'status'},
+                        ],
+                        order: [[0, 'asc']]
+                    });
+                    ExpTable.draw();
+                }
+
+            }
             else if(Type == 'expense'){
                 $('.student').hide();
                 $('.batchFilter').hide();
@@ -347,6 +441,8 @@
                 $('#trainer').hide();
                 $('#batch').hide();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#gst').hide();
                 $('#cash').hide();
                 $('#expense').show();
@@ -399,6 +495,8 @@
                 $('#batch').hide();
                 $('#income').show();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#gst').hide();
                 $('#cash').hide();
                 $('.dateFilter').show();
@@ -449,6 +547,8 @@
                 $('#trainer').show();
                 $('#batch').hide();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#gst').hide();
                 $('#cash').hide();
                 $('.incomeFilter').hide();
@@ -496,6 +596,8 @@
                 $('#income').hide();
                 $('#trainer').hide();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#gst').hide();
                 $('.incomeFilter').hide();
                 $('#cash').hide();
@@ -546,6 +648,8 @@
                 $('#income').hide();
                 $('#trainer').hide();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#gst').hide();
                 $('.incomeFilter').hide();
                 $('#cash').hide();
@@ -647,6 +751,8 @@
                 $('#batch').hide();
                 $('.dateFilter').hide();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#cash').show();
                 $('#gst').hide();
                 $('.incomeFilter').hide();
@@ -691,12 +797,14 @@
                 $('.batchFilter').hide();
                 $('#corporate').hide();
                 $('.status').hide();
-                $('#expense').hide();
+                $('#`').hide();
                 $('#income').hide();
                 $('#trainer').hide();
                 $('#batch').hide();
                 $('.dateFilter').hide();
                 $('#transactions').hide();
+                $('#user').hide();
+                $('.userFilter').hide();
                 $('#cash').hide();
                 $('#gst').show();
                 $('#due-fees').hide();
@@ -771,16 +879,16 @@
                     columns: [
                         {data: 'rank', name: 'rank'},
                         {data: 'name', name: 'name'},
-                        {data: 'email', name: 'email'},
                         {data: 'mobile_no', name: 'mobile_no'},
+                        {data: 'email', name: 'email'},
                         {data: 'placement', name: 'placement'},
                         {data: 'student_type', name: 'student_type'},
                         {data: 'enquiry_type', name: 'enquiry_type'},
                         {data: 'lead_source_id', name: 'lead_source_id'},
                         {data: 'branch_id', name: 'branch_id'},
                         {data: 'state', name: 'state'},
-                        {data: 'status', name: 'status'},
-                        {data: 'action', name: 'action'},
+                        /*{data: 'status', name: 'status'},
+                        {data: 'action', name: 'action'},*/
                     ],
                     order: [[0, 'asc']]
                 });

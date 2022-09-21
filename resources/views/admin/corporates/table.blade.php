@@ -55,6 +55,7 @@
     <table class="table" id="corporates-table">
         <thead>
         <tr>
+        @if(!empty($field) && $field->corporat_col_1 == 1)<th>Sno.</th>@endif
         @if(!empty($field) && $field->corporat_col_1 == 1)<th>Company Name</th>@endif
         @if(!empty($field) && $field->corporat_col_2 == 1)<th>Contact No</th>@endif
         @if(!empty($field) && $field->corporat_col_3 == 1)<th>Email</th>@endif
@@ -68,8 +69,9 @@
         </thead>
         <tbody>
         @if(count($corporates) >0)
-        @foreach($corporates as $corporate)
+        @foreach($corporates as $key=>$corporate)
             <tr>
+            @if(!empty($field) && $field->corporat_col_1 == 1)<td>{{$key + $corporates->firstItem()}}</td>@endif
             @if(!empty($field) && $field->corporat_col_1 == 1)<td>{{ $corporate->company_name }}</td>@endif
             @if(!empty($field) && $field->corporat_col_2 == 1)<td>{{ $corporate->contact_no }}</td>@endif
             @if(!empty($field) && $field->corporat_col_3 == 1)<td>{{ $corporate->email }}</td>@endif

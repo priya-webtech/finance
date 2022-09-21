@@ -60,6 +60,7 @@
         <tr>
            <!--  <th>Category</th>
             <th>Total</th> -->
+        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Sno.</th>@endif
         @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif
         @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif
         @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif
@@ -72,10 +73,10 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($expenceMasters as $expenceMaster)
+        @foreach($expenceMasters as $key=>$expenceMaster)
         @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
         <tr>
-
+                <td>{{$key + $expenceMasters->firstItem()}}</td>
                 <td>{{ $expenceMaster->expenceType->title }}</td>
                 <td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>
                 <td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>
