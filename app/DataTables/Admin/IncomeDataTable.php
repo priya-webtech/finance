@@ -24,10 +24,6 @@ class IncomeDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
             ->addColumn('total_revenue', function ($record){
-              // $income = Income::where('course_id',$record->id);
-//                Income::where(function ($query) use ($record) {
-//                    $query->where('course_id', '=', $record->id);
-//                })->get();
                 $income = Income::where('course_id', '=', $record->id)->when(request('dates'), function ($q) {
                              $part = explode("-",request('dates'));
                              $start = date('Y-m-d', strtotime($part[0]));
@@ -39,52 +35,6 @@ class IncomeDataTable extends DataTable
                 $studentGst = StudentFessCollection::whereIn('income_id',$income->pluck('id'))->sum('gst');
                 $corporateGst = CorporateFessCollection::whereIn('income_id',$income->pluck('id'))->sum('gst');
                 return "₹ ".number_format($amount+$studentGst+$corporateGst,2);
-//                $total = 0;
-//                if ($record->title == "Retail Training"){
-//                    $auth = Auth::user();
-//                    if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-//                     $income = Income::where('income_type_id',$record->id)
-//                         ->when(request('dates'), function ($q) {
-//                             $part = explode("-",request('dates'));
-//                             $start = date('Y-m-d', strtotime($part[0]));
-//                             $end = date('Y-m-d', strtotime($part[1]));
-//                             $q->whereDate('created_at', '>=', $start)
-//                                 ->whereDate('created_at', '<=', $end);
-//                         });
-//                        }else{
-//                        $income = Income::where('branch_id',$auth->branch_id)->where('income_type_id',$record->id)
-//                            ->when(request('dates'), function ($q) {
-//                                $part = explode("-",request('dates'));
-//                                $start = date('Y-m-d', strtotime($part[0]));
-//                                $end = date('Y-m-d', strtotime($part[1]));
-//                                $q->whereDate('created_at', '>=', $start)
-//                                    ->whereDate('created_at', '<=', $end);
-//                            });
-//                    }
-//                     $ids = $income->pluck('id')->toArray();
-//                     $gst = StudentFessCollection::whereIn('income_id',$ids)->sum('gst');
-//                     return "₹ ".$gst  +$income->sum('paying_amount');
-//                }else if ($record->title == "Corporate Training"){
-//                    $auth = Auth::user();
-//                    if ($auth->hasRole('super_admin') || $auth->hasRole('admin')) {
-//                        $income = Income::where('income_type_id', $record->id);
-//                    }else{
-//                        $income = Income::where('branch_id',$auth->branch_id)->where('income_type_id', $record->id);
-//                    }
-//                    $ids = $income->pluck('id')->toArray();
-//                    $gst = CorporateFessCollection::whereIn('income_id',$ids)->sum('gst');
-//                    return  "₹ ".$gst  +$income->sum('paying_amount');
-//                }else{
-//                    $auth = Auth::user();
-//                    if ($auth->hasRole('super_admin') || $auth->hasRole('admin')) {
-//                        $income = Income::where('income_type_id', $record->id);
-//                    }else{
-//                        $income = Income::where('branch_id',$auth->branch_id)->where('income_type_id',$record->id);
-//                    }
-////                 $income =  Income::where('income_type_id',$record->id);
-//                $amount = $income->sum('paying_amount');
-//                return "₹ ".$amount+$income->sum('gst');
-//                }
             })
 
             ->filter(function ($record){

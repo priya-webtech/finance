@@ -24,14 +24,7 @@
     </a>
 </li>
 @endcan
-@if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
-<li class="nav-item ">
-    <a href="{{route('role.permission.list')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/role-permission*') ? 'active' : ''}}">
-        <i class="nav-icon fas fa-lock"></i>
-        <p>Role-Permission</p>
-    </a>
-</li>
-@endif
+
 
 @can('user_view')
 <li class="nav-item">
@@ -127,10 +120,19 @@
         <i class="fa fa-cog" aria-hidden="true"></i>
         <p>
             Settings
-            <i class="fas fa-angle-right right"></i>
+            <i class="fas"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">
+
+        @if($auth->hasRole('super_admin') || $auth->hasRole('admin'))
+        <li class="nav-item ">
+            <a href="{{route('role.permission.list')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('admin/role-permission*') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-lock"></i>
+                <p>Role-Permission</p>
+            </a>
+        </li>
+        @endif
 
         <li class="nav-item">
             <a href="{{ route('admin.leadSources.index') }}"

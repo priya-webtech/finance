@@ -112,34 +112,14 @@
     <div class="content px-3">
         <div class="clearfix"></div>
         <div class="card">
-            <div class="user" id="user">
-                <table class="table table-striped table-bordered" id="UserTable" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>SNo.</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Mobile No</th>
-                        <th>Branch</th>
-                        <th>Status</th>
-                       <!--  <th>Trainer Name</th>
-                        <th>State</th>
-                        <th>Placement</th>
-                        <th>Reg. date</th> -->
-                    </tr>
-                    </thead>
-                </table>
-            </div>
             <div class="" id="student">
                 <table class="table table-striped table-bordered" id="StudentTable" style="width:100%">
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         <th>Name</th>
                         <th>Mobile No</th>
-                        <th>Course</th>
-                        <th>Agreed Course Fees</th>
+                        <th>Email</th>
                         <th>Placement</th>
                         <th>Student Type</th>
                         <th>Enquiry Type</th>
@@ -157,7 +137,7 @@
                 <table class="table table-striped table-bordered" id="CorporateTable">
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Web Site</th>
@@ -187,7 +167,7 @@
                 <table class="table table-striped table-bordered" id="IncomeTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         <th>Category Name</th>
                         <th>Total Revenue</th>
                         <th>Action</th>
@@ -199,7 +179,7 @@
                 <table class="table table-striped table-bordered" id="TrainerTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         <th>Course Name</th>
                         <th>Trainer Name</th>
                         <th>Fees</th>
@@ -215,7 +195,7 @@
                 <table class="table table-striped table-bordered" id="BatchTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         <th>Course Name</th>
                         <th>Batch Mode</th>
                         <th>Trainer</th>
@@ -228,11 +208,27 @@
                 </table>
             </div>
 
+             <div class="user" id="user" style="display: none">
+                <table class="table table-striped table-bordered" id="UserTable" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Mobile No</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
             <div class="" id="transactions" style="display: none">
                 <table class="table table-striped table-bordered" id="TransactionsTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         {{--                        <th>Mode</th>--}}
                         <th>Name</th>
 {{--                        <th>Ifsc Code</th>--}}
@@ -248,7 +244,7 @@
                 <table class="table table-striped table-bordered" id="CashTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         {{--                        <th>Mode</th>--}}
                         <th>Name</th>
                         {{--                        <th>Ifsc Code</th>--}}
@@ -276,7 +272,7 @@
                 <table class="table table-striped table-bordered" id="DueFeesTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>SNo.</th>
+                        <th>S.No</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Course Name</th>
@@ -392,8 +388,6 @@
                 $('.incomeFilter').hide();
                 $('#due-fees').hide();
                 var filter = true;
-                // var dates = $('#reportrange').val();
-                // alert(dates);
                 if (!$.fn.dataTable.isDataTable('#UserTable') || filter == true) {
                     var ExpTable = $('#UserTable').DataTable({
                         responsive: true,
@@ -404,10 +398,9 @@
                         "responsive": {
                             orthogonal: 'responsive'
                         },
-                        // order: [[0, 'desc']],
+                     
                         ajax:
                             {
-                                // "url": 'expense-data-table',
                                 "url":"{{ route('user-data-table') }}",
                                 "data": function (d) {
                                     d.dates = $('#reportrange').val();
@@ -822,7 +815,6 @@
                             {
                                 "url": 'gst-data-table',
                                 "data": function (d) {
-                                    // d.balance_type = $('#type').val();
                                 }
                             },
                         columns: [
@@ -852,18 +844,7 @@
                     serverSide: true,
                     retrieve: true,
                     "searchDelay" : 500,
-                    // "responsive": {
-                    //     orthogonal: 'responsive'
-                    // },
-                    // paging: false,
-                    // order: [[0, 'asc']],
-                    // buttons: [
-                    //     'csv', 'excel', 'pdf', 'print', 'reset', 'reload'
-                    // ],
-                    // ajax: 'student-data-table',
-                    // data: function (d) {
-                    //    d.lead_source = $('#lead_source').val();
-                    // },
+
                     ajax:
                         {
                             "url": 'student-data-table',
@@ -886,7 +867,7 @@
                         {data: 'enquiry_type', name: 'enquiry_type'},
                         {data: 'lead_source_id', name: 'lead_source_id'},
                         {data: 'branch_id', name: 'branch_id'},
-                        {data: 'state', name: 'state'},
+                       /* {data: 'state', name: 'state'},*/
                         /*{data: 'status', name: 'status'},
                         {data: 'action', name: 'action'},*/
                     ],

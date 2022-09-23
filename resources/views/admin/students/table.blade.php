@@ -1,36 +1,3 @@
-<div class="table-responsive">
-{{--  <div class="custom-filter">--}}
-{{--    <form data-action="{{ route('admin.studentesstudentcolums.studentcolums') }}" method="post" style="margin-top: 20px;" id="batchform">--}}
-{{--    @csrf--}}
-
-{{--    <div class="multiselect">--}}
-{{--        <div class="selectBox" onclick="showCheckboxes()">--}}
-{{--          <select>--}}
-{{--            <option>Select an option</option>--}}
-{{--          </select>--}}
-{{--          <div class="overSelect"></div>--}}
-{{--        </div>--}}
-{{--        <div id="checkboxes">--}}
-{{--          <label for="one">--}}
-{{--            <input type="checkbox" class="studenthidecol"  name="student_col_1" @if(!empty($field) && $field->student_col_1 == 1) Checked @endif/>&nbsp;Name&nbsp;--}}
-{{--          <label for="two">--}}
-{{--            <input type="checkbox" class="studenthidecol" name="student_col_2" @if(!empty($field) && $field->student_col_2 == 1) Checked @endif/>&nbsp;Email--}}
-{{--          <label for="three">--}}
-{{--            <input type="checkbox" class="studenthidecol" name="student_col_3" @if(!empty($field) && $field->student_col_3 == 1) Checked @endif/>&nbsp;Mobile No--}}
-{{--          <label for="four">--}}
-{{--            <input type="checkbox" class="studenthidecol" name="student_col_4" @if(!empty($field) && $field->student_col_4 == 1) Checked @endif/>&nbsp;Enquiry Type--}}
-{{--          <label for="five">--}}
-{{--            <input type="checkbox" class="studenthidecol" name="student_col_6" @if(!empty($field) && $field->student_col_6 == 1) Checked @endif/>&nbsp;Student Type--}}
-{{--          <label for="seven">--}}
-{{--           <input type="checkbox" class="studenthidecol" name="student_col_7" @if(!empty($field) && $field->student_col_7 == 1) Checked @endif/>&nbsp;Status--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--    <input type="hidden" name="student" value="student">--}}
-{{--    </form>--}}
-
-{{--    <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">--}}
-{{--  </div>--}}
     <div class="row float-right">
         <input id="studentInput" type="text" class="form-control" placeholder="Search..">
     </div>
@@ -39,7 +6,7 @@
 
         <thead>
         <tr>
-            <th>Sno.</th>
+            <th>S.No</th>
         @if(!empty($field) && $field->student_col_1 == 1)<th>Name</th>@endif
 {{--        @if(!empty($field) && $field->student_col_2 == 1)<th>Email</th>@endif--}}
         @if(!empty($field) && $field->student_col_3 == 1)<th>Mobile No</th>@endif
@@ -70,7 +37,7 @@
                
                 <td>{{ date('d-m-Y', strtotime($student->created_at)) }}</td>
             @if(!empty($field) && $field->student_col_5 == 1)<td>{{ $student->studentType->title }}</td>@endif
-                <td><span class='badge @if(isset($student->studDetail[0]->studBatchDetail[0]))badge-success @else badge-danger @endif'>{{ (isset($student->studDetail[0]->studBatchDetail[0])) ? "assigned" : "Not assigned" }}</span></td>
+                <td><span class='badge @if(isset($student->studDetail[0]->studBatchDetail[0]))badge-success @else badge-danger @endif'>{{ (isset($student->studDetail[0]->studBatchDetail[0])) ? "Assigned" : "Not assigned" }}</span></td>
 {{--                @if(!empty($field) && $field->student_col_6 == 1)<td><span class='badge @if($student->status == 1)badge-success @else badge-danger @endif'>{{ $student->status == 1 ? "Active" : "Block" }}</span></td>@endif--}}
                 <td width="120">
                     {!! Form::open(['route' => ['admin.students.destroy', $student->id], 'method' => 'delete']) !!}

@@ -52,10 +52,13 @@
     <a href="{{ route('admin.corporates.index') }}">clear</a>
     </form>
   </div>
+   <div class="row float-right">
+        <input id="corporatesInput" type="text" class="form-control" placeholder="Search..">
+    </div>
     <table class="table" id="corporates-table">
         <thead>
         <tr>
-        @if(!empty($field) && $field->corporat_col_1 == 1)<th>Sno.</th>@endif
+        @if(!empty($field) && $field->corporat_col_1 == 1)<th>S.No</th>@endif
         @if(!empty($field) && $field->corporat_col_1 == 1)<th>Company Name</th>@endif
         @if(!empty($field) && $field->corporat_col_2 == 1)<th>Contact No</th>@endif
         @if(!empty($field) && $field->corporat_col_3 == 1)<th>Email</th>@endif

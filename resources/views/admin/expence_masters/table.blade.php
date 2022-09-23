@@ -55,12 +55,15 @@
     <a href="{{ route('admin.expenceMasters.index') }}">clear</a>
     </form>
   </div>
+   <div class="row float-right">
+        <input id="expenceMastersInput" type="text" class="form-control" placeholder="Search..">
+    </div>
     <table class="table" id="expenceMasters-table">
         <thead>
         <tr>
            <!--  <th>Category</th>
             <th>Total</th> -->
-        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Sno.</th>@endif
+        @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>S.No</th>@endif
         @if(!empty($field) && $field->expencemaster_col_1 == 1)<th>Expence Type </th>@endif
         @if(!empty($field) && $field->expencemaster_col_2 == 1)<th>Branch</th>@endif
         @if(!empty($field) && $field->expencemaster_col_3 == 1)<th>Bank Ac </th>@endif

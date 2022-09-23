@@ -50,7 +50,7 @@
     <table class="table" id="incomes-table">
         <thead>
         <tr>
-            <th>Sno.</th>
+            <th>S.No</th>
             @if(!empty($field) && $field->income_col_1 == 1)
                 <th>Name</th>@endif
             <th>Mobile No.</th>

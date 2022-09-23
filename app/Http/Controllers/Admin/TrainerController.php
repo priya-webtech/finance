@@ -41,9 +41,21 @@ class TrainerController extends AppBaseController
     {
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $trainers = Trainer::paginate(10);
+            $trainers = Trainer::when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         }else{
-            $trainers = Trainer::where('branch_id',$auth->branch_id)->paginate(10);
+            $trainers = Trainer::where('branch_id',$auth->branch_id)->when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         }
         $course = Course::get();
 

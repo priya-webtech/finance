@@ -30,10 +30,13 @@
     <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
 
 </div>
-    <table class="table" id="students-table">
+    <div class="row float-right">
+        <input id="UserInput" type="text" class="form-control" placeholder="Search..">
+    </div>
+    <table class="table" id="user-table">
         <thead>
         <tr>
-        @if(!empty($field) && $field->user_col_1 == 1)<th>Sno.</th>@endif
+        @if(!empty($field) && $field->user_col_1 == 1)<th>S.No</th>@endif
         @if(!empty($field) && $field->user_col_1 == 1)<th>Name</th>@endif
         @if(!empty($field) && $field->user_col_2 == 1)<th>Email</th>@endif
         @if(!empty($field) && $field->user_col_3 == 1)<th>Role</th>@endif

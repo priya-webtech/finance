@@ -35,7 +35,7 @@
     <table class="table" id="trainers-table">
         <thead>
         <tr>
-            @if(!empty($field) && $field->trainer_col_1 == 1)<th>Sno.</th>@endif
+            @if(!empty($field) && $field->trainer_col_1 == 1)<th>S.No</th>@endif
             @if(!empty($field) && $field->trainer_col_1 == 1)<th>Trainer Name</th>@endif
             @if(!empty($field) && $field->trainer_col_2 == 1)<th>Branch</th>@endif
             @if(!empty($field) && $field->trainer_col_6 == 1)<th>Course Name</th>@endif

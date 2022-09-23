@@ -44,7 +44,13 @@ class ExpenceMasterController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $expenceMasters = $this->expenceMasterRepository->paginate(10);
+        $expenceMasters = ExpenceMaster::when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         $columnManage = columnManage::where('table_name','expencemaster')->where('role_id',auth()->user()->role_id)->first();
         $bankAccounts  = ModeOfPayment::where('status',1)->pluck('title','id');
         $expenseTypes  = ExpenseTypes::where('status',1)->pluck('title','id');

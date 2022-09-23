@@ -27,7 +27,7 @@
                     <table class="table" id="franchises-table">
                         <thead>
                         <tr>
-                            <th>Sno.</th>
+                            <th>S.No</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Course</th>

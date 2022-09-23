@@ -20,10 +20,8 @@
                         <div class="col-sm-4 dateFilter">
                             <div style="max-width:400px;margin:auto">
                                 <div class="input-icons">
-{{--                                    <label class="form-label fs-5 fw-bold">Date:</label>--}}
-{{--                                    <i class="icon glyphicon glyphicon-calendar fa fa-calendar"> </i>&nbsp;--}}
+
                                     <input class="input-field form-control reportrange filter" id="reportrange" name="dates"  value=""  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" >
-{{--                                    <span></span> <b class="caret"></b>--}}
                                 </div></div>
                         </div>
                         <div class="col-sm-2">

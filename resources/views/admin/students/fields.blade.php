@@ -103,11 +103,11 @@
     {!! Form::select('placement',['yes'=>'YES','no'=>'NO'], null, ['class' => 'form-control']) !!}
     <span class="error text-danger">{{ $errors->first('placement') }}</span>
 </div>
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('status', 'Status:') !!}
     {!! Form::select('status',['1'=>'Ongoing','2'=>'Not assigned','3'=>'Completed','4'=>'Placed'], null, ['class' => 'form-control','placeholder'=>'select status']) !!}
     <span class="error text-danger">{{ $errors->first('status') }}</span>
-</div>
+</div> -->
 
   @if(!empty($student->studDetail))
     @foreach($student->studDetail as $keys=>$studDetail)

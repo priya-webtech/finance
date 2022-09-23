@@ -43,9 +43,21 @@ class UserController extends AppBaseController
     {
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $users = User::where('role_id','!=',0)->paginate(10);
+            $users = User::where('role_id','!=',0)->when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         }else{
-            $users = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->paginate(10);
+            $users = User::where('role_id','!=',0)->where('branch_id',$auth->branch_id)->when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         }
         $columnManage = columnManage::where('table_name','user')->where('role_id',auth()->user()->role_id)->first();
         $field = [];

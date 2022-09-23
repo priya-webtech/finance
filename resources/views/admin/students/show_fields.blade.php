@@ -1,59 +1,3 @@
-{{--<div class="table-responsive">--}}
-{{--    <table class="table" id="students-table">--}}
-{{--        <thead>--}}
-{{--        <tr>--}}
-{{--            <th>Course</th>--}}
-{{--            <th>Lead Source</th>--}}
-{{--            <th>Branch</th>--}}
-{{--            <th>Reg Taken</th>--}}
-{{--            <th>Batch</th>--}}
-{{--            <th>Agreed Amount</th>--}}
-{{--            <th>Placement</th>--}}
-{{--            <th>Reg For Month</th>--}}
-{{--            <th colspan="3">Action</th>--}}
-{{--        </tr>--}}
-{{--        </thead>--}}
-{{--        <tbody>--}}
-
-{{--        @foreach($student->studDetail as $studentDetail)--}}
-{{--            <tr>--}}
-
-{{--                <td>{{ $studentDetail->course->course_name  }}</td>--}}
-{{--                <td>{{ $studentDetail->leadSource->title  }}</td>--}}
-{{--                <td>{{ $studentDetail->branch->title  }}</td>--}}
-{{--                <td>{{$studentDetail->user->name  }}</td>--}}
-{{--                <td>{{ $studentDetail->batch->name  }}</td>--}}
-{{--                <td>{{ $studentDetail->agreed_amount  }}</td>--}}
-{{--                <td>{{ $studentDetail->placement  }}</td>--}}
-{{--                <td>{{ $studentDetail->reg_for_month  }}</td>--}}
-{{--                <td><span class='badge @if($student->status == 1)badge-success @else badge-danger @endif'>{{ $student->status == 1 ? "Active" : "Block" }}</span></td>--}}
-{{--                <td width="120">--}}
-{{--                    {!! Form::open(['route' => ['admin.students.destroy', $studentDetail->id], 'method' => 'delete']) !!}--}}
-{{--                    <div class='btn-group'>--}}
-{{--                        <a href="{{ route('table.status', [ $studentDetail->id,"students", $studentDetail->status]) }}" class='btn @if($student->status==1) btn-warning @else btn-success @endif action-btn btn-sm'>--}}
-{{--                            <i class="fa @if($student->status==1) fa-ban @else fa-check @endif"></i>--}}
-{{--                        </a>--}}
-{{--                        <a href="{{ route('admin.students.show', [$studentDetail->id]) }}"--}}
-{{--                           class='btn btn-default action-btn btn-sm'>--}}
-{{--                            <i class="far fa-eye"></i>--}}
-{{--                        </a>--}}
-
-{{--                        <a href="{{ route('admin.students.edit', [$studentDetail->id]) }}"--}}
-{{--                           class='btn btn-primary action-btn btn-sm'>--}}
-{{--                            <i class="far fa-edit"></i>--}}
-{{--                        </a>--}}
-{{--                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger action-btn btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}--}}
-{{--                    </div>--}}
-{{--                    {!! Form::close() !!}--}}
-{{--                </td>--}}
-{{--            </tr>--}}
-{{--        @endforeach--}}
-{{--        </tbody>--}}
-{{--    </table>--}}
-{{--</div>--}}
-
-
-
 <div class="container">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -61,29 +5,29 @@
                 <table class="table table-condensed table-striped">
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th>S.No</th>
                         <th>Course</th>
                         <th>Lead Source</th>
                         <th>Branch</th>
                         <th>Reg Taken</th>
                         <th>Agreed Amount</th>
-                        <th>Placement</th>
-                        <th>Reg For Month</th>
+                        <!-- <th>Placement</th>
+                        <th>Reg For Month</th> -->
                         <th colspan="3">Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @foreach($student->studDetail as $studentDetail)
+                    @foreach($student->studDetail as $key=>$studentDetail)
                     <tr data-toggle="collapse" data-target="#demo{{$studentDetail->id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class="far fa-eye"></i></button></td>
+                        <td>{{$key + 1}}</td>
                         <td>{{ $studentDetail->course->course_name  }}</td>
                         <td>{{ $studentDetail->leadSource->title ?? 'N/A'  }}</td>
                         <td>{{ $studentDetail->branch->title  }}</td>
                         <td>{{$studentDetail->user->name  }}</td>
                         <td>{{ $studentDetail->agreed_amount  }}</td>
-                        <td>{{ $studentDetail->placement  }}</td>
-                        <td>{{ $studentDetail->reg_for_month  }}</td>
+                       <!--  <td>{{ $studentDetail->placement  }}</td>
+                        <td>{{ $studentDetail->reg_for_month  }}</td> -->
                         <td width="120">
                             {!! Form::open(['route' => ['admin.students.destroy', $studentDetail->id], 'method' => 'delete']) !!}
                             <div class='btn-group'>

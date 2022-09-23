@@ -64,12 +64,15 @@
     </div>
     </form>
 </div>
+    <div class="row float-right">
+        <input id="batchesInput" type="text" class="form-control" placeholder="Search..">
+    </div>
     <table class="table" id="batches-table">
         <thead>
 
 
         <tr>
-            <th>SNo.</th>
+            <th>S.No</th>
         @if(!empty($field) && $field->batch_col_1 == 1)<th>Course Name</th>@endif
         @if(!empty($field) && $field->batch_col_2 == 1)<th>Batch Mode</th>@endif
         @if(!empty($field) && $field->batch_col_3 == 1)<th>Batch Type</th>@endif
@@ -77,7 +80,6 @@
         @if(!empty($field) && $field->batch_col_5 == 1)<th>Name</th>@endif
         @if(!empty($field) && $field->batch_col_6 == 1)<th>Start</th>@endif
         @if(!empty($field) && $field->batch_col_7 == 1)<th>Status</th>@endif
-        @if(!empty($field) && $field->batch_col_8 == 1) <th>Batch Status</th>@endif
         <th colspan="3">Action</th>
         </tr>
         </thead>
@@ -91,8 +93,7 @@
             @if(!empty($field) && $field->batch_col_4 == 1)<td>{{ $batch->trainer->trainer_name }}</td>@endif
             @if(!empty($field) && $field->batch_col_5 == 1)<td>{{ $batch->name }}</td>@endif
             @if(!empty($field) && $field->batch_col_6 == 1)<td>{!! htmlspecialchars_decode(date('F Y', strtotime("01-".$batch->start))) !!}</td>@endif
-            @if(!empty($field) && $field->batch_col_7 == 1)<td><span class='badge @if($batch->status == 1)badge-success @else badge-danger @endif'>{{ $batch->status == 1 ? "Active" : "Block" }}</span></td>@endif
-            @if(!empty($field) && $field->batch_col_8 == 1)<td>{{ $batch->batch_status }}</td>@endif
+            @if(!empty($field) && $field->batch_col_8 == 1)<td><span class='badge @if($batch->status == "open")badge-danger @else badge-success @endif'>{{ ($batch->batch_status == "open") ? 'Open' : 'Close' ; }}</span></td>@endif
                 <td width="120">
                     {!! Form::open(['route' => ['admin.batches.destroy', $batch->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -23,10 +23,13 @@
 
     <input type="submit" class="btn btn-danger btn-sm batchsubmit" value="Save">
     </div>
+    <div class="row float-right">
+        <input id="coursesInput" type="text" class="form-control" placeholder="Search..">
+    </div>
     <table class="table" id="courses-table">
         <thead>
         <tr>
-            @if(!empty($field) && $field->course_col_1 == 1)<th>Sno.</th>@endif
+            @if(!empty($field) && $field->course_col_1 == 1)<th>S.No</th>@endif
             @if(!empty($field) && $field->course_col_1 == 1)<th>Course Name</th>@endif
 
 {{--        <th>Description</th>--}}

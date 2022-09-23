@@ -38,9 +38,21 @@ class CourseController extends AppBaseController
         $courses = $this->courseRepository->paginate(10);
         $auth =Auth::user();
         if($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $courses = Course::paginate(10);
+            $courses = Course::when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         }elseif ($auth->hasRole('branch_manager')){
-            $courses = Course::where('branch_id',$auth->branch_id)->paginate(10);
+            $courses = Course::where('branch_id',$auth->branch_id)->when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
         }
 
          $field = [];

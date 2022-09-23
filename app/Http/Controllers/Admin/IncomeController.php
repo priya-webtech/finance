@@ -57,13 +57,25 @@ class IncomeController extends AppBaseController
         $inType = IncomeType::where('title', '!=', 'Retail Training')->Where('title', '!=', 'Corporate Training')->pluck('id')->toArray();
         $columnManage = columnManage::where('table_name', 'income')->where('role_id', auth()->user()->role_id)->first();
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-            $student = Student::with('StudentIncome')->with('studDetail')->whereHas('StudentIncome')->paginate(10);
+            $student = Student::with('StudentIncome')->with('studDetail')->whereHas('StudentIncome')->when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
             $corporate = Corporate::with('corporateIncome')->with('corporateDetail')->whereHas('corporateIncome')->get();
            // $incomes = Income::whereIn('income_type_id', $inType)->get();
             $incomes = Income::whereIn('income_type_id', $inType)->orderBy('id','desc')->get();
             $totalRevenue = Income::whereMonth('created_at', Carbon::now()->month)->sum('paying_amount');
         }else{
-            $student = Student::where('branch_id', $auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->paginate(10);
+            $student = Student::where('branch_id', $auth->branch_id)->with('StudentIncome')->whereHas('StudentIncome')->when(request('dates'), function ($q) {
+            $part = explode("-",request('dates'));
+            $start = date('Y-m-d', strtotime($part[0]));
+            $end = date('Y-m-d', strtotime($part[1]));
+            $q->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end);
+        })->paginate(10);
             $corporate = Corporate::where('branch_id', $auth->branch_id)->with('corporateIncome')->whereHas('corporateIncome')->get();
            // $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->get();
             $incomes = Income::where('branch_id', $auth->branch_id)->whereIn('income_type_id', $inType)->orderBy('id','desc')->get();

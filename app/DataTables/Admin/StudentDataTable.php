@@ -130,15 +130,14 @@ class StudentDataTable extends DataTable
         return [
             'id' => ['searchable' => false],
             'name',
-            'mobile_no',
             'email',
+            'mobile_no',
             'student_type',
             'enquiry_type',
             'lead_source_id',
             'branch_id',
             'state',
             'status',
-            'branch_id',
             'remark',
             'placement'
             //'type' => ['searchable' => false],
