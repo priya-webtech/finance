@@ -40,6 +40,7 @@
                         </div>
                     </div>
                     </form>
+                    <button onclick="exportexcel()">Export to Excel</button>  
                 </div>
             </div>
         </div>
@@ -67,8 +68,18 @@
 
 @endsection
 @push('third_party_scripts')
+
     <script>
         $('.alert-msg').text('This Month Total Expense: ₹ ' + '{{$currentMonthExpense}}').css("color", 'red');
+    </script>
+    <script type="text/javascript">  
+            function exportexcel() {  
+                $("#expenceMasters-table").table2excel({  
+                    name: "Table2Excel",  
+                    filename: "excelexpence",  
+                    fileext: ".xls"  
+                });  
+            }  
     </script>
      <script>
         $("#expenceMastersInput").on("keyup", function() {
