@@ -74,7 +74,8 @@
     </script>
     <script type="text/javascript">  
             function exportexcel() {  
-                $("#expenceMasters-table").table2excel({  
+                $("#expenceMasters-table").remove("#noExl").table2excel({ 
+                    exclude: "#noExl",  
                     name: "Table2Excel",  
                     filename: "excelexpence",  
                     fileext: ".xls"  

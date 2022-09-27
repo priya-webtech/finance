@@ -228,14 +228,11 @@
                 <table class="table table-striped table-bordered" id="TransactionsTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>S.No</th>
-                        {{--                        <th>Mode</th>--}}
+                        <th>Date</th>
                         <th>Name</th>
-{{--                        <th>Ifsc Code</th>--}}
-{{--                        <th>Account No.</th>--}}
-                        <th>Balance</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Type(Income or expsense)</th>
+                        <th>Bank Name</th>
+                        <th>Amount</th>
                     </tr>
                     </thead>
                 </table>
@@ -337,13 +334,16 @@
 
                 if (!$.fn.dataTable.isDataTable('#CorporateTable') || filter == true) {
                     let CorpoTable = $('#CorporateTable').DataTable({
-                        // dom: 'Bfrtip',
+                        dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
                         ordering: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'corporate-data-table',
@@ -390,10 +390,16 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#UserTable') || filter == true) {
                     var ExpTable = $('#UserTable').DataTable({
+                        dom: 'Bfrtip',
                         responsive: true,
                         processing: true,
                         serverSide: true,
                         retrieve: true,
+
+                        buttons: [
+                            'excel',
+                        ],
+
                         "searchDelay" : 500,
                         "responsive": {
                             orthogonal: 'responsive'
@@ -447,6 +453,7 @@
                 // alert(dates);
                 if (!$.fn.dataTable.isDataTable('#ExpenseTable') || filter == true) {
                     var ExpTable = $('#ExpenseTable').DataTable({
+                        dom: 'Bfrtip',
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -456,6 +463,11 @@
                             orthogonal: 'responsive'
                         },
                         // order: [[0, 'desc']],
+
+                        buttons: [
+                            'excel',
+                        ],
+
                         ajax:
                             {
                                 // "url": 'expense-data-table',
@@ -550,13 +562,16 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#TrainerTable') || filter == true) {
                     let TrainerTable = $('#TrainerTable').DataTable({
-                        // dom: 'Bfrtip',
+                        dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
                         ordering: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'trainer-data-table',
@@ -600,12 +615,15 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#DueFeesTable') || filter == true) {
                     var DueFeesTable = $('#DueFeesTable').DataTable({
-                        // dom: 'Bfrtip',
+                         dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'due-fees-data-table',
@@ -653,13 +671,16 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#BatchTable') || filter == true) {
                     var BatchTable = $('#BatchTable').DataTable({
-                        // dom: 'Bfrtip',
+                        dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
                         ordering: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'batch-data-table',
@@ -694,6 +715,7 @@
                 $('#income').hide();
                 $('#trainer').hide();
                 $('#batch').hide();
+                $('#user').hide();
                 $('.dateFilter').hide();
                 $('#cash').hide();
                 $('#transactions').show();
@@ -703,13 +725,16 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#TransactionsTable') || filter == true) {
                     var BankTable = $('#TransactionsTable').DataTable({
-                        // dom: 'Bfrtip',
+                        dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
                         ordering: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'bank-data-table',
@@ -719,14 +744,16 @@
                             },
 
                         columns: [
-                            {data: 'rank', name: 'rank'},
+                            //  {data: 'rank', name: 'rank'},
                             // {data: 'title', name: 'title'},
-                            {data: 'title', name: 'title'},
-                            // {data: 'ifsc_code', name: 'ifsc_code'},
-                            // {data: 'account_no', name: 'account_no'},
-                            {data: 'opening_balance', name: 'opening_balance'},
-                            {data: 'status', name: 'status'},
-                            {data: 'action', name: 'action'},
+                            {data: 'created_at', name: 'created_at'},
+                            {data: 'id', name: 'id'},
+                            {data: 'type', name: 'type'},
+                            {data: 'income_bankk', name: 'income_bankk'},
+                            {data: 'ExpenceMaster_amount', name: 'ExpenceMaster_amount'},
+                            
+
+                            
                         ],
                     });
                     // BankTable.draw();
@@ -753,13 +780,16 @@
                 var filter = true;
                 if (!$.fn.dataTable.isDataTable('#CashTable') || filter == true) {
                     $('#CashTable').DataTable({
-                        // dom: 'Bfrtip',
+                        dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
                         ordering: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'cash-data-table',
@@ -805,12 +835,15 @@
                 if (!$.fn.dataTable.isDataTable('#GstTable') || filter == true) {
 
                     var GstTable = $('#GstTable').DataTable({
-                        // dom: 'Bfrtip',
+                        dom: 'Bfrtip',
                         processing: true,
                         serverSide: true,
                         stateSave: true,
                         retrieve: true,
                         paging: false,
+                        buttons: [
+                            'excel',
+                        ],
                         ajax:
                             {
                                 "url": 'gst-data-table',
@@ -838,12 +871,15 @@
             var  filter = true;
             if (!$.fn.dataTable.isDataTable('#StudentTable') || filter==true) {
                 var table = $('#StudentTable').DataTable({
-                    // dom: 'Bfrtip',
+                    dom: 'Bfrtip',
                     responsive: true,
                     processing: true,
                     serverSide: true,
                     retrieve: true,
                     "searchDelay" : 500,
+                    buttons: [
+                            'excel',
+                        ],
 
                     ajax:
                         {

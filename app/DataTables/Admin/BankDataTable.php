@@ -22,13 +22,50 @@ class BankDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
-            ->editColumn('status', function ($record) {
-                if ($record->status == 1){
-                    $status = "<span class='badge badge-success'>Active</span>";
+         ->addColumn('income_bankk', function ($record){
+
+                if($record->type == 'expence_masters'){
+                   $modetitle = ModeOfPayment::where('id', $record->ExpenceMaster_bankk)->first();
+                   return $modetitle->title;
                 }else{
-                    $status = "<span class='badge badge-danger'>Block</span>";
+                     $modetitle = ModeOfPayment::where('id', $record->ExpenceMaster_bankk)->first();
+                   return $modetitle->title;
+                }  
+            })
+            ->editColumn('id', function ($record) {
+               
+                if($record->type == 'expence_masters'){
+                   return 'N/A';
+                }else{
+                     $modetitle = StudentFessCollection::where('income_id', $record->id)->first();
+                     if(!empty($modetitle->student_id)){
+                          $studenttitle = Student::where('id', $modetitle->student_id)->first();
+                         // dd($studenttitle->name);
+                          return $studenttitle->name;
+                      }else{
+                         return 'N/A';
+                      }
                 }
-                return $status;
+            })
+            ->editColumn('created_at', function ($record) {
+             //   dd($record->created_at);
+                if($record->type == 'expence_masters'){
+                    $new_date =  date('d/m/Y',strtotime($record->created_at));
+                    return $new_date;
+                }else{
+                    $new_date =  date('d/m/Y',strtotime($record->created_at));
+                    return $new_date;
+                }
+            })
+            ->editColumn('type', function ($record) {
+             //   dd($record->created_at);
+                if($record->type == 'expence_masters'){
+                    $type =  'Expence';
+                    return $type;
+                }else{
+                    $type = 'Income';
+                    return $type;
+                }
             })
 //            ->filter(function ($record){
 //                $record->where(function ($q) {
@@ -63,8 +100,24 @@ class BankDataTable extends DataTable
             $model = ModeOfPayment::where('title','!=','Cash')->select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status','opening_balance']);
         }*/
 
-        DB::statement(DB::raw('set @rownum=0'));
-            $model = ModeOfPayment::select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status','opening_balance']);
+      //  DB::statement(DB::raw('set @rownum=0'));
+        //    $model = ModeOfPayment::select([DB::raw('@rownum := @rownum + 1 AS rank'), 'title', 'status','opening_balance']);
+
+      /*  $model = Income::join('expence_masters', 'incomes.bank_acc_id', '=', 'expence_masters.bank_ac_id')
+                ->select([DB::raw('@rownum := @rownum + 1 AS rank'),'incomes.bank_acc_id as income_bankk','incomes.paying_amount as income_amount', 'incomes.created_at as income_date', 'expence_masters.bank_ac_id as ExpenceMaster_bankk', 'expence_masters.amount as ExpenceMaster_amount', 'expence_masters.created_at as ExpenceMaster_date'])->orderByRaw('COALESCE(incomes.created_at, expence_masters.created_at)');*/
+
+       /* $first = DB::table('expence_masters');
+        $model = DB::table('incomes')->union($first)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'incomes.bank_acc_id as income_bankk','incomes.paying_amount as income_amount', 'incomes.created_at as income_date', 'expence_masters.bank_ac_id as ExpenceMaster_bankk', 'expence_masters.amount as ExpenceMaster_amount', 'expence_masters.created_at as ExpenceMaster_date']);*/
+/*
+        $first = DB::table('expence_masters')->select('bank_ac_id as ExpenceMaster_bankk', 'amount as ExpenceMaster_amount', 'created_at as ExpenceMaster_date');
+
+        $model  = Income::select('bank_acc_id as income_bankk', 'paying_amount as income_amount', 'created_at as income_date')->unionAll($first);*/
+
+        $photos = ExpenceMaster::select('bank_ac_id as ExpenceMaster_bankk', 'amount as ExpenceMaster_amount', 'created_at', 'type','id');
+        $videos = Income::select('bank_acc_id as income_bankk', 'paying_amount as income_amount', 'created_at','type','id');
+        $model = $photos->union($videos)->orderBy('created_at', 'desc');
+
+
         return  $model->newQuery();
     }
 
@@ -102,13 +155,12 @@ class BankDataTable extends DataTable
     {
         return [
             'id' => ['searchable' => false],
-            'title',
-            'status',
-//            'name',
-//            'ifsc_code',
-//            'account_no',
-//            'other_detail',
-            'opening_balance',
+            'income_bankk',
+            'income_amount',
+            'income_date',
+            'ExpenceMaster_bankk',
+            'ExpenceMaster_amount',
+            'created_at',
 
         ];
     }

@@ -84,4 +84,9 @@ class ExpenceMaster extends Model
     public function trainer(){
         return $this->belongsTo(Trainer::class,'trainer_id');
     }
+
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = 'expence_masters';
+    }
 }

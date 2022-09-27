@@ -127,4 +127,10 @@ class Income extends Model
     public function user(){
         return $this->belongsTo(User::class,'registration_taken_by');
     }
+
+    public function expenceMaster()
+    {
+        return $this->belongsToMany('App\Models\Admin\User', 'items')->withPivot(['status','quantity']);
+    }
+
 }

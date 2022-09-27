@@ -15,7 +15,7 @@
 <?php if(request()->route()->getName() == 'admin.trainers.create'){ ?>
 <div class="form-group col-sm-6">
     {!! Form::label('course_id', 'Course Name') !!}<span style="color:red;">*</span> :
-    <select id="course_id" name="course_id[]" multiple class="form-control custom-select changecourse">
+    <select id="id_SelectElement" name="course_id[]" multiple class="form-control custom-select changecourse select2">
         <option value="">--- Select ---</option>
         @foreach ($course as $key => $value)
             <option value="{{ $key }}">
@@ -29,7 +29,7 @@
     <div class="form-group col-sm-6">
     {!! Form::label('course_id', 'Course Name') !!}<span style="color:red;">*</span> :
    <?php $check = json_decode($trainer->course_id);  ?>
-    <select id="course_id" name="course_id[]" multiple class="form-control custom-select changecourse">
+    <select id="id_SelectElement" name="course_id[]" multiple class="form-control custom-select changecourse select2">
         <option value="">--- Select ---</option>
         @foreach ($course as $key => $value)
             <option value="{{ $key }}" {{ (in_array($key,$check)) ? 'selected' : ''}}>
@@ -62,6 +62,8 @@
 </div> -->
 @push('third_party_scripts')
 <script type="text/javascript">
+
+
 
     <?php if(request()->route()->getName() == 'admin.trainers.create'){ ?>
     $(document).ready(function(){
@@ -99,6 +101,12 @@
             }
 
         });
+
+
+$('.select2[multiple]').select2({
+    width: '100%',
+    closeOnSelect: false
+})
 </script>
 @endpush
 

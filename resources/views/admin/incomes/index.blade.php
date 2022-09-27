@@ -76,13 +76,15 @@
 
     <script type="text/javascript">  
             function exportexcel() {  
-                $("#incomes-table").table2excel({  
+                $("#incomes-table").remove("#noExl").table2excel({ 
+                    exclude: "#noExl", 
                     name: "Table2Excel",  
                     filename: "excelincome",  
                     fileext: ".xls"  
                 });  
             }  
     </script>
+
         <script>
             $('.alert-msg').text('This Month Total Revenue(without GST): ₹ ' + '{{$totalRevenue}}').css("color", 'green');
         </script>

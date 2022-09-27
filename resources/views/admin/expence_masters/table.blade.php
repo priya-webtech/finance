@@ -72,7 +72,7 @@
         {{-- @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif--}}
         @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif
         <th>Remark</th>
-            <th colspan="3">Action</th>
+            <th colspan="3" id="noExl">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -85,7 +85,7 @@
                 <td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>
                 <td>{{ $expenceMaster->amount }}</td>
                 <td>{{ $expenceMaster->remark }}</td>
-                <td>
+                <td id="noExl">
                     @can('expence_view')
                     <a href="{{ route('admin.expenceMasters.show', [$expenceMaster->id]) }}"
                        class='btn btn-default action-btn btn-sm'>

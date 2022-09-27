@@ -62,7 +62,7 @@
             @if(!empty($field) && $field->income_col_3 == 1)
              <th>Income Type</th>@endif
             <th>Reg Date</th>
-            <th colspan="3">Action</th>
+            <th colspan="3"  id="noExl">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -79,7 +79,7 @@
                 @if(!empty($field) && $field->income_col_3 == 1)
                     <td> @if(isset($record->StudentIncome)) {{ getIncomeType($record->StudentIncome[0]['income_id']) }} @elseif(isset($record->corporateIncome)) {{getIncomeType($record->corporateIncome[0]['income_id'])}} @else {{getIncomeType($record['id'])}} @endif </td>@endif
                 <td>{{ date('d/m/Y', strtotime($record['created_at'])) }}</td>
-                <td width="120">
+                <td width="120" id="noExl">
                     {!! Form::open(['route' => ['admin.incomes.destroy', $record->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         @can('incomes_view')
