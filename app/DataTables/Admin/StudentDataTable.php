@@ -4,6 +4,8 @@ namespace App\DataTables\Admin;
 
 use App\Models\Admin\Carcompany;
 use App\Models\Admin\Student;
+use App\Models\Admin\StudentDetail;
+use App\Models\Admin\StudentBatchDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
@@ -28,13 +30,35 @@ class StudentDataTable extends DataTable
                 return $record->leadSource->title;
             })
             ->editColumn('status', function ($record){
-               /* if ($record->status == 1){
-                  $status = "<span class='badge badge-success'>Active</span>";
-                }else{
-                    $status = "<span class='badge badge-danger'>Block</span>";
-                }*/
                 return $status = "<span class='badge badge-success'>".$record->status."</span>";
             })
+            ->editColumn('course', function ($record){
+
+                 $student_detail = StudentDetail::where('student_id',$record->id)->first();
+                return $student_detail->course->course_name;
+               
+            })
+            ->editColumn('agreed_amount', function ($record){
+
+                 $student_detail = StudentDetail::where('student_id',$record->id)->first();
+                return $student_detail->agreed_amount;
+            })
+            ->editColumn('trainer_name', function ($record){
+
+                 $student_detail = StudentDetail::where('student_id',$record->id)->first();
+                 $student_batch_detail = StudentBatchDetail::where('student_detail_id',$student_detail->id)->first();
+
+                 if($student_batch_detail){
+                     return $student_batch_detail->trainer->trainer_name;
+                 }else{
+                     return 'N/A';
+                 }
+            })
+            ->editColumn('created_at', function ($record){
+                return $record->created_at;
+                 
+            })
+
             ->filter(function ($record){
                 $record->where(function ($q) {
                     if (request('enquiry_type')) {
@@ -72,7 +96,7 @@ class StudentDataTable extends DataTable
                }
             })
             ->addColumn('slno','row_num',1)
-            ->rawColumns(['action','status']);
+            ->rawColumns(['action','status','course','agreed_amount','trainer_name']);
     }
 
     /**
@@ -88,9 +112,9 @@ class StudentDataTable extends DataTable
         if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
            // $model = Student::query();
 
-            $model = Student::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
+            $model = Student::select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status','created_at']);
         }else{
-            $model =  Student::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status']);
+            $model =  Student::where('branch_id',$auth->branch_id)->select([DB::raw('@rownum := @rownum + 1 AS rank'),'id','name','email','mobile_no', 'placement', 'student_type', 'enquiry_type','lead_source_id','branch_id','state','status','created_at']);
         }
         return  $model->newQuery();
     }
@@ -136,10 +160,12 @@ class StudentDataTable extends DataTable
             'enquiry_type',
             'lead_source_id',
             'branch_id',
+            'agreedcourse',
             'state',
             'status',
             'remark',
-            'placement'
+            'placement',
+            'created_at'
             //'type' => ['searchable' => false],
         ];
     }

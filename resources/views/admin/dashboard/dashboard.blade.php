@@ -125,6 +125,12 @@
                         <th>Enquiry Type</th>
                         <th>lead Source</th>
                         <th>Branch</th>
+                        <th>Course</th>
+                        <th>Agreed course fees</th>
+                        <th>Trainer name</th>
+                        <th>State</th>
+                        <th>Reg date</th>
+                        <th>Status</th>
                        <!--  <th>Trainer Name</th>
                         <th>State</th>
                         <th>Placement</th>
@@ -903,6 +909,12 @@
                         {data: 'enquiry_type', name: 'enquiry_type'},
                         {data: 'lead_source_id', name: 'lead_source_id'},
                         {data: 'branch_id', name: 'branch_id'},
+                        {data: 'course', name: 'course'},
+                        {data: 'agreed_amount', name: 'agreed_amount'},
+                        {data: 'trainer_name', name: 'trainer_name'},
+                        {data: 'state', name: 'state'},
+                        {data: 'created_at', name: 'created_at'},
+                        {data: 'status', name: 'status'},
                        /* {data: 'state', name: 'state'},*/
                         /*{data: 'status', name: 'status'},
                         {data: 'action', name: 'action'},*/
