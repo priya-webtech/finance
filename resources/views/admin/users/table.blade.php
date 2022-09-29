@@ -84,7 +84,9 @@
                 </td>
             </tr>
         @endforeach
-            @endif
+        @else
+        <tr><td colspan="6" class="text-center">No record found</td></tr>
+        @endif
         </tbody>
     </table>
 </div>

@@ -76,6 +76,7 @@
         </tr>
         </thead>
         <tbody>
+        @if(count($expenceMasters) >0 )
         @foreach($expenceMasters as $key=>$expenceMaster)
         @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))
         <tr>
@@ -97,6 +98,9 @@
         </tr>
         @endif
         @endforeach
+        @else
+        <tr><td colspan="6" class="text-center">No record found</td></tr>
+        @endif
 {{--        @foreach($expenceMasters as $expenceMaster)--}}
 {{--          @if((isset(auth()->user()->branch_id) && $expenceMaster['branch_id'] == auth()->user()->branch_id) || (auth()->user()->branch_id == '' && auth()->user()->role_id == 0))--}}
 {{--            <tr>--}}

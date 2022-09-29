@@ -84,6 +84,7 @@
         </tr>
         </thead>
         <tbody>
+        @if(count($batches) > 0)
         @foreach($batches as $batch)
             <tr>
                 <td>{{ $loop->iteration }}</td>
@@ -122,6 +123,9 @@
                 </td>
             </tr>
         @endforeach
+        @else
+        <tr><td colspan="6" class="text-center">No record found</td></tr>
+         @endif
         </tbody>
     </table>
 </div>
