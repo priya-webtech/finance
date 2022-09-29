@@ -71,6 +71,7 @@
         {{-- @if(!empty($field) && $field->expencemaster_col_4 == 1)<th>Batch</th>@endif--}}
         {{-- @if(!empty($field) && $field->expencemaster_col_5 == 1)<th>Trainer</th>@endif--}}
         {{-- @if(!empty($field) && $field->expencemaster_col_6 == 1)<th>Student</th>@endif--}}
+        @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>TDS</th>@endif
         @if(!empty($field) && $field->expencemaster_col_7 == 1)<th>Amount</th>@endif
         <th>Remark</th>
             <th colspan="3" id="noExl">Action</th>
@@ -86,6 +87,7 @@
                 <td>{{ $expenceMaster->expenceType->title }}</td>
                 <td>{{ $expenceMaster->branch->title  ?? 'N/A' }}</td>
                 <td>{{ $expenceMaster->bankAcc->name ?? 'N/A'  }}</td>
+                <td>{{ $expenceMaster->tds ?? 'N/A'  }}</td>
                 <td>{{ $expenceMaster->amount }}</td>
                 <td>{{ $expenceMaster->remark }}</td>
                 <td id="noExl">

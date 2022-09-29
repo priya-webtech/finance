@@ -161,10 +161,14 @@
                 <table class="table table-striped table-bordered" id="ExpenseTable" width="100%" border=1>
                     <thead>
                     <tr>
-                        <th>Sno</th>
-                        <th>Category Name</th>
-                        <th>Total Expense</th>
-                        <th>Action</th>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Expence Type</th>
+                        <th>Branch</th>
+                        <th>Bank Ac</th>
+                        <th>TDS</th>
+                        <th>Amount</th>
+                        <th>Remark</th>
                     </tr>
                     </thead>
                 </table>
@@ -485,9 +489,13 @@
                             },
                         columns: [
                             {data: 'rank', name: 'rank'},
-                            {data: 'title', name: 'title'},
-                            {data: 'total_expense', name: 'total_expense'},
-                            {data: 'action', name: 'action'},
+                            {data: 'trainer_id', name: 'trainer_id'},
+                            {data: 'expence_type_id', name: 'expence_type_id'},
+                            {data: 'branch_id', name: 'branch_id'},
+                            {data: 'bank_ac_id', name: 'bank_ac_id'},
+                            {data: 'tds', name: 'tds'},
+                            {data: 'amount', name: 'amount'},
+                            {data: 'remark', name: 'remark'},
                         ],
                         order: [[0, 'asc']]
                     });

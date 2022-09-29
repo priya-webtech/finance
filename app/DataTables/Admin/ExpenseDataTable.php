@@ -18,34 +18,30 @@ class ExpenseDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable->addColumn('action', ' ')
-            ->addColumn('total_expense', function ($record){
-                $auth = Auth::user();
-                if ($auth->hasRole('super_admin') || $auth->hasRole('admin')){
-                    $expense =  ExpenceMaster::where('expence_type_id',$record->id)
-                        ->when(request('dates'), function ($q) {
-                            $part = explode("-",request('dates'));
-                            $start = date('Y-m-d', strtotime($part[0]));
-                            $end = date('Y-m-d', strtotime($part[1]));
-                            $q->whereDate('date', '>=', $start)
-                                ->whereDate('date', '<=', $end);
-                        });
-                    $amount = $expense->sum('amount');
+            ->addColumn('expence_type_id', function ($record){
+               return $record->expenceType->title;
+            })
+            ->addColumn('branch_id', function ($record){
+               $branch = ($record->branch->title) ? $record->branch->title : 'N/A';
+               return $branch;
+            })
+            ->addColumn('bank_ac_id', function ($record){
 
-                    return "₹ ".$amount+$expense->sum('tds');
-                }else{
-                    $expense =  ExpenceMaster::where('branch_id',$auth->branch_id)->where('expence_type_id',$record->id)
-                        ->when(request('dates'), function ($q) {
-                            $part = explode("-",request('dates'));
-                            $start = date('Y-m-d', strtotime($part[0]));
-                            $end = date('Y-m-d', strtotime($part[1]));
-                            $q->whereDate('date', '>=', $start)
-                                ->whereDate('date', '<=', $end);
-                        });
-                    $amount = $expense->sum('amount');
+               $bannk_acc = ($record->bankAcc->name) ? $record->bankAcc->name : 'N/A';
+               return $bannk_acc;
+            })
+            ->addColumn('trainer_id', function ($record){
 
-                    return "₹ ".$amount+$expense->sum('tds');
-                }
-
+               $trainer = (!empty($record->trainer->trainer_name)) ? $record->trainer->trainer_name : 'N/A';
+               return $trainer;
+            })
+            ->addColumn('tds', function ($record){
+               $tds = (!empty($record->tds)) ? $record->tds : 'N/A';
+               return $tds;
+            })
+            ->addColumn('remark', function ($record){
+               $remark = (!empty($record->remark)) ? $record->remark : 'N/A';
+               return $remark;
             })
 //            ->filter(function ($record){
 //                $record->where(function ($q) {
@@ -61,7 +57,7 @@ class ExpenseDataTable extends DataTable
 //                });
 //            })
 //            ->addColumn('slno','row_num',1)
-            ->rawColumns(['action','total_expense']);
+            ->rawColumns(['action','expence_type_id','branch_id','bank_ac_id','trainer_id']);
     }
 
     /**
@@ -70,11 +66,11 @@ class ExpenseDataTable extends DataTable
      * @param \App\Models\Carcompany $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ExpenseTypes $model)
+    public function query(ExpenceMaster $model)
     {
         DB::statement(DB::raw('set @rownum=0'));
 //        $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title']);
-        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'title','id'])->newQuery();
+        return  $model->select([DB::raw('@rownum := @rownum + 1 AS rank'),'remark','amount','tds','expence_type_id','branch_id','bank_ac_id','trainer_id'])->newQuery();
     }
 
     /**
@@ -111,8 +107,10 @@ class ExpenseDataTable extends DataTable
     {
         return [
             'id' => ['searchable' => false],
-           'title',
-           'total_expense'
+           'remark',
+           'amount',
+           'tds',
+
 
 
         ];

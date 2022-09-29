@@ -211,6 +211,7 @@ class ExpenceMasterController extends AppBaseController
 //        ]);
 
         $input = $request->all();
+
         $expenceType = ExpenseTypes::findorfail($input['expence_type_id']);
         $bankAc = $input['bank_ac_id'];
         $ReqDebitAmount = $input['amount'];
@@ -218,6 +219,7 @@ class ExpenceMasterController extends AppBaseController
         $remainAmount = $Bank->opening_balance - $ReqDebitAmount;
         $Bank->opening_balance = $remainAmount;
         $Bank->save();
+
         if ($expenceType->title != "Trainer Fees") {
             $input['batch_id'] = null;
             $input['trainer_id'] = null;
